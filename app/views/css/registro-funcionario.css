@@ -1,0 +1,238 @@
+
+.contenedor-funcionario {
+    width: 90%;
+    max-width: 790px;
+    margin: 25px auto;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+
+/* .grupo {
+    width: 100%;
+    display: block;
+}
+#grupo_1{
+    margin: -12px 3px 4px 0px;
+}
+
+.fila_funcionarios {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -20px;
+   
+}
+
+
+.input-caja label{
+    color: var(--color-texto);
+    font-size: 15px;
+}
+
+.input-caja {
+    width: 40%;
+}
+
+.input-caja input {
+    width: 100%;
+    height: 23%;
+    background-color:var(--background-inputs);
+}
+#tipo_vehiculo_funcionario ,
+ #tipo_contrato_funcionario,
+ #cargo_funcionario,
+ #tipo_doc_funcionario{
+    background-color:var(--background-inputs) ;
+    color:var(--color-placeholder) ;
+}
+
+h3 {
+    text-align: center;
+    margin: 2px 10px 12px 9px;
+}
+
+
+
+
+
+#btn_anterior,
+#btn_anterior_2,
+#btn_continuar,
+#btn_continuar_2,
+.contenedor_btn_continuar,
+.contenedor_btn_continuar_anterior {
+    display: none;
+}
+
+
+.btn_envia_form {
+    width: 30%;
+    height: 2.4em;
+    background: var( --color-secundario);
+    border: 1px solid #f5f0f0;
+    border-radius: 10px;
+    font-size: 24px;
+    color: #F3F3F3;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.btn_enviar_form:hover {
+    background: #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-caja input,
+.input-caja select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+} */
+
+/* Estilos móviles */
+/* @media(max-width: 767px) {
+    
+
+    .grupo {
+        padding: 70px 0px;
+        box-sizing: border-box;
+        margin: 40px 0px 0px 0px ;
+    }
+
+    .fila_funcionarios{
+        flex-direction: column;
+        width: 100%;
+        
+        align-items: center;
+        margin-bottom: -20px;
+        
+    }
+
+    .input-caja {
+        width: 100%;
+        max-width: 100%;
+        font-size: 19px;
+        margin-bottom: 0px;
+    }
+
+    .input-caja label {
+        display: block;
+        margin-bottom: 2px;
+        text-align: start;
+    }
+
+    .input-caja input,
+    .input-caja select {
+        width: 100%;
+        height: 8vh;
+        font-size: 20px;
+        padding: 10px;
+        margin-bottom: 45px;
+        box-sizing: border-box;
+    }
+
+    .btn_enviar_form,
+    
+    #btn_continuar_2,
+    #btn_envia_form {
+        width: 75%;
+        height: 60px;
+        font-size: 20px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 15px;
+        box-sizing: border-box;
+        background-color: var(--color-secundario);
+        border-radius: 10px;
+        color: var(--color-primario);
+        border: #F3F3F3;
+    }
+    
+    #btn_continuar_1{
+        width: 100%;
+    }
+    #btn_anterior,
+    #btn_anterior_2{
+        width: 25%;
+        height: 60px;
+        background-color: var(--background-inputs);
+    }
+
+    .icono-atras{
+        width: 20px;
+        height: 20px;
+        color: #000000;
+        
+    }
+
+
+
+
+    .contenedor_btn,
+    .contenedor_btn_continuar,
+    .contenedor_btn_continuar_anterior {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+        padding: 0 15px;
+        box-sizing: border-box;
+        margin: 50% 0 2px 0;
+    }
+    label{
+        font-size: 16px;
+    }
+    #telefono_funcionario h3{
+        margin-bottom: 12%;
+
+    }
+    
+
+    #grupo_2,
+    #grupo_3 {
+        display: none;
+    }
+
+    #btn_anterior,
+    #btn_anterior_2 {
+        display: flex;
+    }
+
+    .contenedor_btn_continuar,
+    .contenedor_btn_continuar_anterior {
+        display: flex;
+    }
+
+    h3 {
+        margin: 2px 8px 8px -5px;
+        font-size: 18px;
+        text-align: center;
+        width: 100%;
+    }
+
+    #grupo_3 .input-caja {
+        width: 100%;
+    }
+    #btn_enviar_media{
+        margin-top: 146px;
+    }
+    #btn_a_s{
+        margin-top: 210px;
+    }
+    #grupo_2, #grupo_3{
+        margin: 1px 1px 1px 1px;
+    }
+}
+ */

@@ -1,0 +1,25 @@
+#btn_guardar_form{
+   
+    width: 300px;
+}
+#rol_usuario,#tipo_documento,#tipo_doc_funcionario,#tipo_contrato_funcionario,#cargo_funcionario{
+    background-color: var(--background-inputs);
+}
+#contenedor_campos{
+    margin: 12px 280px 0px 280px;
+}
+#fila_edit_cargo_credenciales{justify-content: space-between;}
+
+
+@media(max-width:767px){
+   .grupo_formularios_editar{
+    width: 350px;
+    margin: 66px 0px 183px -26px;
+   }
+   #btn_enviar_media_editar{
+    justify-items: end;
+   }
+/* #telefono_visitantelb,#telefono_visitante,#num_documento_visitantelb,#num_documento_visitante{
+    margin-left:120px ;
+} */
+}

@@ -1,0 +1,118 @@
+
+#gran_padre{   
+    background: url('../img/fondo-login.png') left center / cover no-repeat;
+    width: 100%;
+    margin: 0;
+    height: 100vh;
+    padding: 0;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+    section#cont_login{
+
+        width: clamp(338px, 88.9%, 518px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2em 0 2em 0;
+        background: rgba(105, 105, 105, 0.06);
+        border: 1px solid #FFFFFF;
+        backdrop-filter: blur(50px);
+        border-radius: 30px;
+        justify-content: space-between;
+
+    }
+
+        header#cont_logo{
+            display: flex;
+            width: 272px;
+           
+            margin-bottom: 20px;
+        }
+            #cont_logo figure#logo{
+                display: flex;
+                align-items: center;
+                border: none;
+                border-right: solid 2px rgb(146, 146,146);
+                padding-right: 14px;
+                margin: 0px 14px 0px 0px;
+                
+            }
+                
+                #cont_logo figure#logo img{
+                    width:81px;
+                }
+                
+                #cont_logo div#cont_title h1#title_logo{
+                    margin: 0;
+                    padding: 0;
+                    font-weight: 700;
+                    font-size: clamp(40px, 64%, 60px);
+                    color: var(--color-secundario);
+                }
+                #cont_logo div#cont_title h3#subtitle_logo{
+                    margin: 0;
+                    width: 160px;
+                    font-size: 16px;
+                    color: rgb(146, 146,146);
+                }
+        div#contenedor_formulario{
+            width: clamp(272px, 80%, 480px);
+        }
+            #contenedor_formulario form{
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+            }   
+            #caja_02 {
+                display: none;
+            }
+               @keyframes slideIn2 {
+                    from {
+                        transform: translateX(10%);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                
+                #caja_02 {
+                    animation: slideIn2 0.5s ease-out;
+                }
+                    #contenedor_formulario form#forma_acceso .label-input{
+                        color: var(--color-primario);
+                        font-size: 20px;
+                        padding-left:12px;
+                        margin-bottom: 5px;
+                    }
+                    #contenedor_formulario form#forma_acceso .campo{
+                        width: 100%;
+                        height: 60px;
+                        background: var(--background-inputs);
+                        border: none;
+                        font-size: 24px;
+                        border-radius: 13px;
+                        padding-left: 10px;
+                        margin: 5px 0 0 0;
+                    }
+                    #contenedor_formulario form#forma_acceso .campo::placeholder{
+                        font-size: 24px;
+                        color: var(--color-placeholder);
+                    }        
+                    #contenedor_formulario form#forma_acceso button {
+                        background-color: var(--color-secundario);
+                        color: var(--color-primario);
+                        font-size: 20px;
+                        width: 271px;
+                        height: 60px;
+                        margin-top: 38px;
+                        border: none;
+                        border-radius: 21px;
+                        
+                    }

@@ -1,0 +1,326 @@
+
+:root{
+    --color-barra-lateral:rgb(255,255,255);
+
+    --color-texto:rgb(0,0,0);
+    --color-texto-menu:rgb(134,136,144);
+
+    --color-menu-hover:rgb(238,238,238);
+    --color-menu-hover-texto:rgb(0,0,0);
+
+    --color-boton:rgb(0,0,0);
+    --color-boton-texto:rgb(255,255,255);
+
+    --color-linea:rgb(180,180,180);
+
+    --color-switch-base :rgb(201,202,206);
+    --color-switch-circulo:rgb(241,241,241);
+
+    --color-scroll:rgb(192,192,192);
+    --color-scroll-hover:rgb(134,134,134);
+
+    
+    --main-color: #001629;
+    --color-primario: #F3F4F4;
+    --color-secundario: #01B401;
+    --color-terciario: #007832;
+    --color-texto: #414042;
+    --color-btn-cancelar: #c9c9c9;
+    --color-placeholder: #4A4A4A;
+    --background-inputs: #D1D3D4;
+    --color-transparente: #04060700;
+}
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+
+/*-----------------Menu*/
+.menu{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--color-transparente);
+    color: var(--color-boton-texto);
+    right: 15px;
+    top: 15px;
+    z-index: 100;
+}
+
+
+/*----------------Barra Lateral*/
+.barra-lateral{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 250px;
+    height: 100vh;
+    overflow: hidden;
+    padding: 0px 15px;
+    background-color: var(--main-color);
+    transition: width 0.5s ease,background-color 0.3s ease,left 0.5s ease;
+    z-index: 50;
+}
+
+.mini-barra-lateral{
+    width: 80px;
+    height: 100vh;
+}
+
+.mini-barra-lateral ion-icon{
+    font-size: 30px !important;
+}
+
+.mini-barra-lateral .sub-menu ul{
+    display: none !important;
+}
+
+
+.mini-barra-lateral.sub-menu .sub-menu-list{
+    display: none;
+}
+.barra-lateral span{
+    width: 100px;
+    white-space: nowrap;
+    font-size: 18px;
+    text-align: left;
+    opacity: 1;
+    transition: opacity 0.5s ease,width 0.5s ease;
+}
+.barra-lateral span.oculto{
+    opacity: 0;
+    width: 0;
+}
+
+/*------------> Nombre de la página */
+.barra-lateral .nombre-pagina{
+    width: 100%;
+    height: 75px;
+    color: var(--color-primario);
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.barra-lateral .nombre-pagina figure{ 
+    display: flex;
+    justify-content: center;
+}
+.barra-lateral .nombre-pagina img{
+    width:clamp(50px, 50%, 72px);
+    margin-top: 1px ;
+    cursor: pointer;
+}
+.barra-lateral .nombre-pagina span{
+    margin-left: 5px;
+    font-size: 25px;
+}
+
+
+
+/*--------------> Menu Navegación*/
+.barra-lateral .navegacion{
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    margin-top: 25px;
+}
+.barra-lateral .navegacion::-webkit-scrollbar{
+    width: 5px;
+}
+.barra-lateral .navegacion::-webkit-scrollbar-thumb{
+    background-color: var(--color-scroll);
+    border-radius: 5px;
+}
+.barra-lateral .navegacion::-webkit-scrollbar-thumb:hover{
+    background-color: var(--color-scroll-hover);
+}
+.barra-lateral .navegacion li{  
+    list-style: none;
+    display: flex;
+    margin-bottom: 5px;
+}
+.barra-lateral .navegacion a{
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    color: var(--color-primario);
+}
+.barra-lateral .navegacion a:hover{
+    background-color: var(--color-secundario);
+    color: var(--color-primario);
+}
+.barra-lateral .navegacion ion-icon{
+    min-width: 46px;
+    margin-right: 3px;
+    font-size: 20px;
+}
+
+/*-----------------> Linea*/
+.barra-lateral .linea{
+    width: 100%;
+    height: 1px;
+    margin-top: 15px;
+    background-color: var(--color-primario);
+}
+
+
+
+/*---------------> Usuario*/
+.barra-lateral .usuario{
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+
+.barra-lateral .usuario ion-icon{
+    color: var(--color-primario);
+    font-size: 40px;
+}
+.barra-lateral .usuario ion-icon:hover{
+    color: var(--color-secundario);
+    font-size: 50px;
+}
+
+.sub-menu{
+    display: flex;
+    flex-direction: column;
+}
+.sub-menu  ul a{
+    border-radius: 0px 10px 10px 0 !important;
+}
+
+.sub-menu-list{
+    display: none;
+    margin-left: 5px;
+    border: none;
+    border-left: 2px solid var(--color-secundario);
+}
+
+/*-------------main*/
+
+.inbox{
+    background-color: var(--color-secundario);
+    color: var(--color-menu-hover-texto);
+}
+.desactivado{
+    background-color: var(--color-transparente);
+    color: var(--color-primario);
+}
+
+ .menu #cont_info_usuario-mobil {
+    color: var(--color-primario);
+    display: flex;
+    margin-right: 15px;
+}
+#cont_nombre_vista_menu h1{
+    font-size: 26px;
+    margin: 0;
+}
+#cont_info_usuario-mobil #cont_contador_multitud{
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border: 2px solid;
+    border-radius: 50px;
+    margin-right: 20px;
+}
+     .menu #cont_contador_multitud ion-icon{
+        font-size: 37px;
+        font-weight: normal;
+        margin-left: 10px;
+    }
+     .menu #cont_contador_multitud p{
+        font-size: 20px;
+        margin-right: 10px;
+        margin-left: 5px;
+    }
+ .menu #cont_info_usuario-mobil #cont_icon_notificaciones-mobil{
+    border: 2px solid;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    
+}
+
+
+     .menu #cont_icon_notificaciones-mobil {
+        position: relative;
+        display: inline-block;
+    }
+    
+     .menu #notification_count {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: var(--color-secundario);
+        color: white;
+        border-radius: 50%;
+        padding: 3px 6px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+
+     .menu #cont_info_usuario-mobil ion-icon{
+        font-size: 30px;
+        
+    }
+
+
+
+
+/*------------------> Responsive*/
+@media (max-height: 660px){
+    .barra-lateral .nombre-pagina{
+        margin-bottom: 5px;
+    }
+}
+@media (max-width: 1080px){
+    .barra-lateral{
+        position: fixed;
+        left: -250px;
+    }
+    .max-barra-lateral{
+        left: 0;
+    }
+    .menu{
+        display: flex;
+        justify-content: space-between;
+        padding-left: 12px;
+        position: sticky;
+        top: 0;
+        background: var(--main-color);
+    }
+    .menu ion-icon:nth-child(2){
+        display: none;
+    }
+    main{
+        margin-left: 0;
+    }
+    main.min-main{
+        margin-left: 0;
+    }
+    
+}

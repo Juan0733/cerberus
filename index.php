@@ -72,7 +72,7 @@
         include "./app/views/inc/modales/modales.php";
         include "./app/views/inc/scripts.php";
     ?>
-    
+
 
 </body>
 </html>

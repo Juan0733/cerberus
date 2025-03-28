@@ -1,5 +1,18 @@
 <?php
 
+
+	/* -------------Nombre Sesion y APP---------------- */
+		const APP_SESSION_NAME="POSGURAPP";
+		const APP_NOMBRE = "Cerberus";
+		const NOMBRE_BDD = 'gurapp_clientes_bdd';
+	/*--------------Constantes------------------- */
+
+	/*--------------Variables-------------------- */
+	$url_variable = './';
+
+/* -------------Zona Horaria----------------- */
+	date_default_timezone_set("America/Bogota");
+
 	const APP_URL_BASE = "../";
 	const APP_URL_BASE_LOGIN = "";
 	$URL_CONST = ""; 

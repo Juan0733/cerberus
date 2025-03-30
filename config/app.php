@@ -1,30 +1,16 @@
 <?php
 
+ /* -------------Nombre Sesion y APP---------------- */
+	const APP_NOMBRE = "Cerberus";
+	const APP_SESSION_NAME = "POS";
 
-	/* -------------Nombre Sesion y APP---------------- */
-		const APP_SESSION_NAME="POSGURAPP";
-		const APP_NOMBRE = "Cerberus";
-		const NOMBRE_BDD = 'gurapp_clientes_bdd';
-	/*--------------Constantes------------------- */
-
-	/*--------------Variables-------------------- */
-	$url_variable = './';
+/*--------------Variables-------------------- */
+	$urlBaseVariable = './';
 
 /* -------------Zona Horaria----------------- */
 	date_default_timezone_set("America/Bogota");
 
-	const APP_URL_BASE = "../";
-	const APP_URL_BASE_LOGIN = "";
-	$URL_CONST = ""; 
-	
-	
-	$APP_URL_BASE_VARIABLE = "../";
-
-
-	
-	const APP_NOMBRE = "Cerberus";
-	const APP_SESSION_NAME = "POS";
-
+/* -------------Constantes------------------ */
 	const TIPOS_DOCUMENTOS = [
 		"TI" => 'Tarjeta de identidad',
 		"CC" => 'Cedula de ciudadania',
@@ -51,5 +37,3 @@
 		"VS" => 'Visitante'
 	];
 
-/*----------  Zona horaria  ----------*/
-	date_default_timezone_set("America/Bogota");

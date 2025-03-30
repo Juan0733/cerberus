@@ -32,7 +32,7 @@
             <div class="nombre-pagina">
                 <article id="logo_sena">
                     <figure id="marca">
-                        <img src="<?php echo $APP_URL_BASE_VARIABLE; ?>app/views/img/logo-sena-verde-png-sin-fondo.webp" alt="">
+                        <img src="<?php echo $urlBaseVariable; ?>app/views/img/logo-sena-verde-png-sin-fondo.webp" alt="">
                     </figure>
                 </article>
             </div>
@@ -47,7 +47,7 @@
             ?>
             <ul>
                 <li>          
-                    <a class="<?php echo ($titulo == 'Principal') ? 'inbox' : ''; ?>" href="<?php echo $APP_URL_BASE_VARIABLE; ?>panel-principal-jv/">
+                    <a class="<?php echo ($titulo == 'Principal') ? 'inbox' : ''; ?>" href="<?php echo $urlBaseVariable; ?>panel-principal-jv/">
                         <ion-icon name="grid-outline"></ion-icon>
                         <span class="links_nombre">Inicio</span>
                     </a>
@@ -55,7 +55,7 @@
                 <?php foreach ($opcMenu as $clave => $opcion) { ?>
                     <li class="<?php echo $opcion['CLASE']; ?>">
                        
-                        <a href="<?php echo $clave != "SUBMENU" ? $APP_URL_BASE_VARIABLE.$opcion['URL'] : "#"; ?>" class="<?php echo $opcion['CLASE02']; ?> <?php 
+                        <a href="<?php echo $clave != "SUBMENU" ? $urlBaseVariable.$opcion['URL'] : "#"; ?>" class="<?php echo $opcion['CLASE02']; ?> <?php 
                             if ($clave == 'SUBMENU' && isset($opcion['OPC'])) {
                                 foreach ($opcion['OPC'] as $subClave => $opcSub) {
                                     echo ($titulo ==  $opcSub['titulo'] ) ? 'inbox' : ''; 
@@ -83,7 +83,7 @@
                             <ul class="<?php echo $opcion['CLASE03']; ?>">
                                 <?php foreach ($opcion['OPC'] as $subClave => $opcSub) { ?>
                                     <li>
-                                        <a href="<?php echo $APP_URL_BASE_VARIABLE.$opcSub['url'];?>">
+                                        <a href="<?php echo $urlBaseVariable.$opcSub['url'];?>">
                                             <ion-icon name="<?php echo $opcSub['icon']; ?>"></ion-icon>
                                             <span class="links_nombre"><?php echo $opcSub['titulo']; ?></span>
                                         </a>
@@ -99,10 +99,10 @@
         <div>
             <div class="linea"></div>
             <div class="usuario">
-                <ion-icon name="exit-outline" onclick="cerrarSesion('<?php echo APP_URL_BASE;?>')"></ion-icon>
+                <ion-icon name="exit-outline" onclick="cerrarSesion('<?php echo $urlBaseVariable;?>')"></ion-icon>
             </div>
         </div>
 
     </div> 
     
-<script src="<?php echo $APP_URL_BASE_VARIABLE; ?>app/views/js/menu-lateral.js"></script>
+<script src="<?php echo $urlBaseVariable; ?>app/views/js/menu-lateral.js"></script>

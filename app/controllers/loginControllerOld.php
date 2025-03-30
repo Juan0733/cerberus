@@ -141,7 +141,7 @@
 									exit();
 								}else {
 									if(headers_sent()){
-										$mensaje=[
+										$mensaje = [
 											"titulo"=>"OK",
 											"url"=>"".APP_URL_BASE_LOGIN."panel-principal-".strtolower($_SESSION['datos_usuario']['rol_usuario'])."/",
 											"cod_error"=> "250",

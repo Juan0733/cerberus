@@ -12,18 +12,22 @@
     }else{
         $url=["login"];
     }
-    $URL_CONST=$url;
+   
 
-    
+    if (count($url) == 1){
+        $urlBaseVariable = '';
+    }elseif(count($url) == 2){
+        $urlBaseVariable = '../';
+    }elseif(count($url) > 2){
+        $urlBaseVariable = '../../';
+    }
 
-    use app\controllers\loginController;
+    use app\models\UsuariosModel;
     use app\controllers\viewsController;
     $viewsController= new viewsController();
-    if (count($url) > 2) {
-        $APP_URL_BASE_VARIABLE = "../../";
-    }
     
-    $insLogin = new loginController();
+    
+    $insLogin = new UsuariosModel();
     $vista=$viewsController->obtenerVistasControlador($url[0]);?>
 
 <!DOCTYPE html>
@@ -40,7 +44,7 @@
                 
                 if(isset($_SESSION['datos_usuario']['num_identificacion'])){
                     if (!isset($_POST['psw_usuario'])) {
-                        $insLogin->cerrarSesionControlador($vista);
+                        $insLogin->cerrarSesion($vista, $urlBaseVariable);
                     }
                 }
                 include "app/views/content/".$vista."-view.php";
@@ -50,7 +54,7 @@
         <?php
                 # Cerrar sesion #
                 if((!isset($_SESSION['datos_usuario']['num_identificacion']) || $_SESSION['datos_usuario']['num_identificacion']=="") ){
-                    $insLogin->cerrarSesionControlador('login');
+                    $insLogin->cerrarSesion('login', $urlBaseVariable);
                     exit();
                 }
                 $opcMenu =  $viewsController->obtenerMenuUsuario($_SESSION['datos_usuario']['rol_usuario']);

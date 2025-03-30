@@ -1,4 +1,5 @@
-
+    
+    <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
     <main id="gran_padre" name="gran_padre">
         <section id="cont_login">
             <header id="cont_logo" name="cont_logo">
@@ -34,7 +35,7 @@
 
         </section>
     </main>
-    <link rel="stylesheet" href="app/views/css/all.css">
-    <script src="<?php echo APP_URL_BASE_LOGIN; ?>app/views/js/formulario-login.js"></script>
-    <script src="<?php echo APP_URL_BASE_LOGIN; ?>app/views/js/sweetalert2.all.min.js" ></script>
+    <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/all.css">
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/moduloLogin/formulario-login.js"></script>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/sweetalert2.all.min.js" ></script>
 

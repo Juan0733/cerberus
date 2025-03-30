@@ -124,5 +124,5 @@
     
   </script>
 </div>
-<script src="<?php echo APP_URL_BASE; ?>app/views/js/panel-ppal.js"></script>
+<script src="<?php echo $urlBaseVariable; ?>app/views/js/panel-ppal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 

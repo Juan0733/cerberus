@@ -2,17 +2,17 @@
 <?php
 if ($url[0] != 'login' && $url[0] != 'registro-visitante') {
     ?>
-    <script src="<?php echo $APP_URL_BASE_VARIABLE; ?>app/views/js/main.js"></script>
-    <script src="<?php echo $APP_URL_BASE_VARIABLE; ?>app/views/js/alerta-formularios.js"></script>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/main.js"></script>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/alerta-formularios.js"></script>
    
 <?php
 }elseif (strpos($url[0], 'agenda') !== false) {?>
 
-    <link rel="stylesheet" href="<?php echo $APP_URL_BASE_VARIABLE; ?>app/views/css/agendas.css"> 
+    <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/agendas.css"> 
 
 <?php } elseif ($url[0] == 'registro-aprendiz') {?>
     
-    <script src="<?php echo APP_URL_BASE; ?>app/views/js/registro-aprendiz.js"></script>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/registro-aprendiz.js"></script>
     <script>filtroPrograma()</script>
 
 <?php } elseif (1==1) {

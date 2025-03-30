@@ -205,12 +205,14 @@
 			return $dato;
 		}
 
-		protected function verificarDatos($filtro,$cadena){
-			if(preg_match("/^".$filtro."$/", $cadena)){
-				return false;
-            }else{
-                return true;
-            }
+		public function verificarDatos($datos){
+			foreach ($datos as $dato) {
+				if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
+					return false;
+				}else{
+					return true;
+				}
+			}
 		}
 
 		protected function cambioVisitante($num_identificacion, $rol) {

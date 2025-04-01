@@ -1,4 +1,4 @@
-import {validarUsuarioLogin, validarContrasenaLogin} from '../apis/usuarios-api.js'
+import {validarUsuarioLogin, validarContrasenaLogin} from '../fetchs/usuarios-fetch.js'
 
 let tablaOrigen;
 let urlBase;

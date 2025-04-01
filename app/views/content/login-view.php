@@ -13,7 +13,7 @@
                     </div>
             </header>
             <div id="contenedor_formulario">
-                <form  action="app/ajax/login-fetch.php" method="post" id="forma_acceso" enctype="application/x-www-form-urlencoded">
+                <form  action="" method="post" id="forma_acceso" enctype="application/x-www-form-urlencoded">
 
                     <div id="caja_01" class="rotado">
                         <label for="" class="label-input">Numero de identificacion</label>

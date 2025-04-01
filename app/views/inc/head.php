@@ -2,6 +2,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <?php
 if ($url[0] != 'login' && $url[0] != 'registro-visitante') {
 
@@ -81,4 +82,5 @@ if ($url[0] == 'panel-principal-jv') { ?>
 
 <link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">
 <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/all_editar.css">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <title> SENA CAB | <?php echo APP_NOMBRE;?></title>

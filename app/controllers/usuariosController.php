@@ -4,7 +4,8 @@
 	require_once "../../autoload.php";
 
 	use app\models\UsuariosModel;
-	
+	header('Content-Type: application/json; charset=utf-8');
+
 	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] != "") {
 		
 		$insUsuario = new UsuariosModel();
@@ -104,8 +105,16 @@
 			echo json_encode($insUsuario->validarContrasenaLogin($datosLogin));
 		}
     	
-	}elseif($_SERVER['REQUEST_METHOD'] == 'GET'){
+	}elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['accion']) && $_GET['accion'] != '' ){
 		
+		$insUsuario = new UsuariosModel();
+		$accion = $insUsuario->limpiarDatos($_GET['accion']);
+
+		if($accion == 'conteoTotalUsuarios'){
+			echo json_encode($insUsuario->conteoTotalUsuarios());
+		}elseif ($accion == 'conteoTiposUsuarios') {
+			echo  json_encode($insUsuario->conteoTiposUsuarios());
+		}
 	}else{
 		echo "no post". $_SERVER['REQUEST_METHOD'];
 	}

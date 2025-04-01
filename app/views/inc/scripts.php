@@ -2,7 +2,7 @@
 <?php
 if ($url[0] != 'login' && $url[0] != 'registro-visitante') {
     ?>
-    <script src="<?php echo $urlBaseVariable; ?>app/views/js/main.js"></script>
+    <!--  -->
     <script src="<?php echo $urlBaseVariable; ?>app/views/js/alerta-formularios.js"></script>
    
 <?php
@@ -20,12 +20,12 @@ if ($url[0] != 'login' && $url[0] != 'registro-visitante') {
     }
 
 ?>
-<script src="../app/views/js/registro-visitante.js"></script>
-<script src="../app/views/js/sweetalert2.all.min.js"></script>
+<!-- <script src="../app/views/js/registro-visitante.js"></script>
+<script src="../app/views/js/sweetalert2.all.min.js"></script> -->
 
 
 
 <!-- <script src="app/view/js/registro-vigilantes.js"></script> -->
 
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
 <!-- <script src="app/view/js/registro-vigilantes.js"></script> -->

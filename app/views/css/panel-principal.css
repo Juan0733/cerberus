@@ -173,23 +173,9 @@
                     background: var(--background-inputs);
                 }
 
-                    #barra_01{
-                         height: 100%;
-                        background-color: var(--color-secundario);
-                    }
-                    #barra_02{
-                        width: 91%;
+                    div.caja .card .cantidad-barra .barra{
                         height: 100%;
-                        background-color: var(--color-secundario);
-                    }
-                    #barra_03{
-                        width: 11%;
-                        height: 100%;
-                        background-color: var(--color-secundario);
-                    }
-                    #barra_04{
-                        width: 61%;
-                        height: 100%;
+                        width: 0%;
                         background-color: var(--color-secundario);
                     }
                 

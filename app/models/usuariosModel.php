@@ -119,4 +119,134 @@
 			}
 		}
 
+        public function conteoTotalUsuarios(){
+            $tablas = ['vigilantes', 'visitantes', 'funcionarios', 'aprendices'];
+            $totalUsuarios = 0;
+    
+            foreach($tablas as $tabla){
+                $sentenciaBuscar = "SELECT num_identificacion FROM ".$tabla." WHERE permanencia = 'DENTRO';";
+    
+                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+                if (!$respuestaSentencia) {
+                    $respuesta = [
+                        "tipo"=>"ERROR",
+                        "titulo" => 'Error de Conexión',
+                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                        "icono" => "warning",
+                        "cod_error"=> "350"
+                    ];
+                    return $respuesta;
+                }
+
+                $totalUsuarios += $respuestaSentencia->num_rows;
+            }
+
+            $respuesta = [
+                'tipo' => "OK",
+                'titulo'=> "Conteo Éxitoso",
+                'mensaje' => "El conteo de usuarios fue realizado con éxito.",
+                'total_usuarios' => $totalUsuarios
+            ];
+
+            return $respuesta;
+        }
+
+        public function conteoTiposUsuarios(){
+            $tablas = ['aprendices', 'funcionarios', 'visitantes', 'vigilantes'];
+            $usuarios = [];
+            $totalUsuarios = 0;
+
+            foreach($tablas as $tabla){
+                if($tabla == 'funcionarios'){
+                    // Cuando se realiza el conteo en la tabla de funcionarios, se cuentan en grupos separados los funcionarios brigadistas y los funcionarios comunes
+                    $sentenciaBuscar = "SELECT num_identificacion FROM ".$tabla." WHERE permanencia = 'DENTRO' AND brigadista = 'NO';";
+
+                    $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+                    if (!$respuestaSentencia) {
+                        $respuesta = [
+                            "tipo"=>"ERROR",
+                            "titulo" => 'Error de Conexión',
+                            "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                            "icono" => "warning",
+                            "cod_error"=> "350"
+                        ];
+                        return $respuesta;
+                    }
+
+                    $cantidad = $respuestaSentencia->num_rows;
+                    $usuarios[] = [
+                        'tipo_usuario' => "funcionarios_comunes",
+                        'cantidad' => $cantidad
+                    ];
+
+                    $totalUsuarios += $cantidad;
+
+                    $sentenciaBuscar = "SELECT num_identificacion FROM ".$tabla." WHERE permanencia = 'DENTRO' AND brigadista = 'SI';";
+
+                    $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+                    if (!$respuestaSentencia) {
+                        $respuesta = [
+                            "tipo"=>"ERROR",
+                            "titulo" => 'Error de Conexión',
+                            "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                            "icono" => "warning",
+                            "cod_error"=> "350"
+                        ];
+                        return $respuesta;
+                    }
+
+                    $cantidad = $respuestaSentencia->num_rows;
+                    $usuarios[] = [
+                        'tipo_usuario' => "funcionarios_brigadistas",
+                        'cantidad' => $cantidad
+                    ];
+
+                    $totalUsuarios += $cantidad;
+                }else{
+                    $sentenciaBuscar = "SELECT num_identificacion FROM ".$tabla." WHERE permanencia = 'DENTRO';";
+
+                    $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+                    if (!$respuestaSentencia) {
+                        $respuesta = [
+                            "tipo"=>"ERROR",
+                            "titulo" => 'Error de Conexión',
+                            "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                            "icono" => "warning",
+                            "cod_error"=> "350"
+                        ];
+                        return $respuesta;
+                    }
+
+                    $cantidad = $respuestaSentencia->num_rows;
+                    $usuarios[] = [
+                        'tipo_usuario' => $tabla,
+                        'cantidad' => $cantidad
+                    ];
+
+                    $totalUsuarios += $cantidad;
+                }
+            }
+
+            foreach ($usuarios as &$usuario) {
+                // Se calcula el porcentaje de cada grupo de usuarios que se encuentran dentro del sena sobre el total general de usuarios.
+                if($usuario['cantidad'] < 1){
+                    $porcentaje = 0;
+                }else{
+                    $porcentaje = $usuario['cantidad']*100/$totalUsuarios;
+                }
+
+                $usuario['porcentaje'] = $porcentaje;
+            }
+
+            $respuesta = [
+                'tipo' => "OK",
+                'titulo'=> "Conteo Éxitoso",
+                'mensaje' => "El conteo de usuarios fue realizado con éxito.",
+                'usuarios' => $usuarios
+            ];
+
+            return $respuesta;
+        }
 	}
+
+    

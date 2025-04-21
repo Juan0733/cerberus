@@ -1,31 +1,16 @@
+<?php if($url[0] != 'login'&& $url[0] != '404'): ?>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/general/alerta-formularios.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/menu-lateral.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteo-multitud.js"></script>
+<?php endif; ?>
 
-<?php
-if ($url[0] != 'login' && $url[0] != 'registro-visitante') {
-    ?>
-    <!--  -->
-    <script src="<?php echo $urlBaseVariable; ?>app/views/js/alerta-formularios.js"></script>
-   
-<?php
-}elseif (strpos($url[0], 'agenda') !== false) {?>
-
-    <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/agendas.css"> 
-
-<?php } elseif ($url[0] == 'registro-aprendiz') {?>
-    
-    <script src="<?php echo $urlBaseVariable; ?>app/views/js/registro-aprendiz.js"></script>
-    <script>filtroPrograma()</script>
-
-<?php } elseif (1==1) {
-    #pass
-    }
-
-?>
-<!-- <script src="../app/views/js/registro-visitante.js"></script>
-<script src="../app/views/js/sweetalert2.all.min.js"></script> -->
+<?php if($url[0] == 'login'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/moduloLogin/formulario-login.js"></script>
+<?php elseif($url[0] == 'panel-principal'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/moduloPrincipal/principal.js"></script>
+<?php endif; ?>
 
 
-
-<!-- <script src="app/view/js/registro-vigilantes.js"></script> -->
-
-
-<!-- <script src="app/view/js/registro-vigilantes.js"></script> -->
+<script src="<?php echo $urlBaseVariable; ?>app/views/js/general/sweetalert2.all.min.js" ></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

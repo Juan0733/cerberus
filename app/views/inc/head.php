@@ -1,86 +1,17 @@
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<?php
-if ($url[0] != 'login' && $url[0] != 'registro-visitante') {
-
-   /*  if ($url[1] != "") {
-        ?>
-            <link rel="stylesheet" href="../../app/views/css/all.css">
-
-            <link rel="stylesheet" href="../../app/views/css/menu-lateral-estilo.css">
-
-            <link rel="stylesheet" href="../../app/views/css/all_formularios.css">
-            <link rel="stylesheet" href="../../app/views/css/estilos-modales.css"> 
-        <?php
-    }else{
- */
-        ?>    
-        <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/all.css">
-
-        <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/menu-lateral-estilo.css">
-
-        <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/all_formularios.css">
-        <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/estilos-modales.css"> 
-        <?php
-   /*  } */
-    ?>
-
-
-<?php }else {
-    ?>
-        <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/login-estilo.css">
-
-        <link rel="stylesheet" href="app/views/css/all.css">
-        <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/registro-visitante.css">
-
-    <?php
-}
-
-if ($url[0] == 'panel-principal-jv') { ?>
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/panel-principal.css">
-
-<?php }elseif ($url[0] == 'listado-visitantes') {?>
-
-
-<?php }elseif ($url[0] == 'listado-funcionario') {?>
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/listado-funcionario.css">
-
-<?php }elseif ($url[0] == 'registro-funcionario') {?>
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/registro-funcionario.css">
-
-<?php }elseif ($url[0] == 'editar-funcionario') {?>
-
-    <link rel="stylesheet" href="../<?php echo  $urlBaseVariable; ?>app/views/css/editar-funcionario.css">
-
-<?php }elseif ($url[0] == 'lista-vigilantes') {?>
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/lista-vigilantes.css"> 
-
-<?php }elseif ($url[0] == 'informes') {?>
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/panel-principal.css">
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/informes.css">
+<link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/all.css">
+<?php if($url[0] != 'login' && $url[0] != '404'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/menu-lateral-estilo.css">
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/all-formularios.css">
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/estilos-modales.css"> 
+<?php endif; ?>
     
-<?php }elseif (strpos($url[0], 'agenda') !== false) {?>
-
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/agendas.css"> 
-
-<?php }elseif ($url[0] == 'editar-visitante') {?>
-
-<link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/agendas.css"> 
-
-<?php }
-
-?>
+<?php if($url[0] == 'login'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/login-estilo.css">
+<?php elseif($url[0] == '404'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/404-estilo.css">
+<?php elseif($url[0] == 'panel-principal'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/panel-principal.css">
+<?php endif; ?>
 
 <link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">
-<link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/all_editar.css">
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <title> SENA CAB | <?php echo APP_NOMBRE;?></title>

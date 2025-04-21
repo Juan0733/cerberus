@@ -234,6 +234,7 @@
                 flex-direction: column;
                 margin-left: 43px;
                 width: 62%;
+                overflow-x: scroll;
             }
             #contenedor_cartas_multitudes .caja{
                 display: flex;

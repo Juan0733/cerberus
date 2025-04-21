@@ -28,14 +28,12 @@
                         <input type="password" class="campo" name="psw_usuario" id="psw_usuario" pattern="[a-zA-Z0-9]{6,15}" placeholder="Contraseña">
                     </div>
                     
-                    <button type="buttom" >ENTRAR</button>
+                    <button type="submit">ENTRAR</button>
                 </form>
 
             </div>
 
         </section>
     </main>
-    <link rel="stylesheet" href="<?php echo $urlBaseVariable; ?>app/views/css/all.css">
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/moduloLogin/formulario-login.js"></script>
-    <script src="<?php echo $urlBaseVariable; ?>app/views/js/sweetalert2.all.min.js" ></script>
+    
 

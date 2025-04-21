@@ -7,6 +7,7 @@ function eventoFormulario(){
     const formularioLogin = document.getElementById('forma_acceso');
 
     formularioLogin.addEventListener('submit', (e)=>{
+        console.log('submit')
         e.preventDefault();
         
         let data = new FormData();

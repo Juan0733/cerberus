@@ -104,5 +104,3 @@
         </div>
 
     </div> 
-    
-<script src="<?php echo $urlBaseVariable; ?>app/views/js/menu-lateral.js"></script>

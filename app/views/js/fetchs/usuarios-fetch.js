@@ -1,6 +1,6 @@
 async function validarUsuarioLogin(datos, urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/usuariosController.php', {
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php', {
             method: 'POST',
             body: datos
         });
@@ -17,7 +17,7 @@ export{validarUsuarioLogin}
 
 async function validarContrasenaLogin(datos, urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/usuariosController.php', {
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php', {
             method: 'POST',
             body: datos
         });
@@ -34,7 +34,7 @@ export{validarContrasenaLogin}
 
 async function conteoTotalUsuarios(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/usuariosController.php?accion='+encodeURI('conteoTotalUsuarios'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?accion='+encodeURI('conteoTotalUsuarios'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -47,9 +47,9 @@ async function conteoTotalUsuarios(urlBase) {
 }
 export{conteoTotalUsuarios}
 
-async function conteoTiposUsuarios(urlBase) {
+async function conteoTipoUsuario(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/usuariosController.php?accion='+encodeURI('conteoTiposUsuarios'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?accion='+encodeURI('conteoTipoUsuario'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -60,4 +60,4 @@ async function conteoTiposUsuarios(urlBase) {
     } catch (error) {
     }
 }
-export{conteoTiposUsuarios}
+export{conteoTipoUsuario}

@@ -1,61 +1,61 @@
 <?php
 
-	namespace app\models; 
-	use app\models\MainModel;
-	
-	class VehiculoModel extends MainModel {
+namespace app\models; 
+use app\models\MainModel;
 
-        public function conteoTipoVehiculo(){
-            $tiposVehiculo = ["carros", "motos"];
-            $vehiculos = [];
-            $totalVehiculos = 0;
+class VehiculoModel extends MainModel {
 
-            foreach($tiposVehiculo as $tipo) {
-                if($tipo == "carros"){
-                    $sentenciaBuscar = "SELECT contador_vehiculo FROM vehiculos_personas WHERE tipo_vehiculo <> 'MT' AND permanencia = 'DENTRO';";
-                }else{
-                    $sentenciaBuscar = "SELECT contador_vehiculo FROM vehiculos_personas WHERE tipo_vehiculo = 'MT' AND permanencia = 'DENTRO';";
-                }
+    public function conteoTipoVehiculo(){
+        $tiposVehiculo = ["carros", "motos"];
+        $vehiculos = [];
+        $totalVehiculos = 0;
 
-                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-                if (!$respuestaSentencia) {
-                    $respuesta = [
-                        "tipo"=>"ERROR",
-                        "titulo" => 'Error de Conexión',
-                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                        "icono" => "warning",
-                        "cod_error"=> "350"
-                    ];
-                    return $respuesta;    
-                }
+        foreach($tiposVehiculo as $tipo) {
+            if($tipo == "carros"){
+                $sentenciaBuscar = "SELECT contador FROM vehiculos WHERE tipo_vehiculo <> 'MT' AND ubicacion = 'DENTRO';";
+            }else{
+                $sentenciaBuscar = "SELECT contador FROM vehiculos WHERE tipo_vehiculo = 'MT' AND ubicacion = 'DENTRO';";
+            }
 
-                $cantidad = $respuestaSentencia->num_rows;
-                $vehiculos[] = [
-                    'tipo_vehiculo' => $tipo,
-                    'cantidad' => $cantidad
+            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+            if (!$respuestaSentencia) {
+                $respuesta = [
+                    "tipo"=>"ERROR",
+                    "titulo" => 'Error de Conexión',
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                    "icono" => "warning",
+                    "cod_error"=> "350"
                 ];
-                $totalVehiculos += $cantidad;
+                return $respuesta;    
             }
 
-            foreach ($vehiculos as &$vehiculo) {
-                // Se calcula el porcentaje de cada tipo de vehiculo que se encuentran dentro del sena sobre el total general de vehiculos.
-                if($vehiculo['cantidad'] < 1){
-                    $porcentaje = 0;
-                }else{
-                    $porcentaje = $vehiculo['cantidad']*100/$totalVehiculos;
-                }
-
-                $vehiculo['porcentaje'] = $porcentaje;
-            }
-
-            $respuesta = [
-                'tipo' => "OK",
-                'titulo'=> "Conteo Éxitoso",
-                'mensaje' => "El conteo de vehiculos fue realizado con éxito.",
-                'vehiculos' => $vehiculos
+            $cantidad = $respuestaSentencia->num_rows;
+            $vehiculos[] = [
+                'tipo_vehiculo' => $tipo,
+                'cantidad' => $cantidad
             ];
-            return $respuesta;
+            $totalVehiculos += $cantidad;
         }
 
-		
-	}
+        foreach ($vehiculos as &$vehiculo) {
+            // Se calcula el porcentaje de cada tipo de vehiculo que se encuentran dentro del sena sobre el total general de vehiculos.
+            if($vehiculo['cantidad'] < 1){
+                $porcentaje = 0;
+            }else{
+                $porcentaje = $vehiculo['cantidad']*100/$totalVehiculos;
+            }
+
+            $vehiculo['porcentaje'] = $porcentaje;
+        }
+
+        $respuesta = [
+            'tipo' => "OK",
+            'titulo'=> "Conteo Éxitoso",
+            'mensaje' => "El conteo de vehiculos fue realizado con éxito.",
+            'vehiculos' => $vehiculos
+        ];
+        return $respuesta;
+    }
+
+    
+}

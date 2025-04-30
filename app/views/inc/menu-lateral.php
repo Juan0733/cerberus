@@ -7,7 +7,7 @@
         </div>
         
         <div id="cont_nombre_vista_menu">
-                <h1>
+            <h1>
                 <?php
                         $titulo = str_replace("-", " ", $url[0]);
                         $titulo = ucwords(strtolower($titulo));
@@ -15,7 +15,7 @@
                         $titulo = implode(" ", array_slice($palabras, 0, 2));
                         echo $titulo;
                 ?>
-                </h1>
+            </h1>
         </div>
         <div id="cont_info_usuario-mobil">
             
@@ -42,16 +42,8 @@
             <?php 
                 $titulo = str_replace("-", " ", $url[0]);
                 $titulo = ucwords(strtolower($titulo));
-                $palabras = explode(" ", $titulo);
-                $titulo = implode(" ", array_slice($palabras, 1, 1));
             ?>
             <ul>
-                <li>          
-                    <a class="<?php echo ($titulo == 'Principal') ? 'inbox' : ''; ?>" href="<?php echo $urlBaseVariable; ?>panel-principal-jv/">
-                        <ion-icon name="grid-outline"></ion-icon>
-                        <span class="links_nombre">Inicio</span>
-                    </a>
-                </li>
                 <?php foreach ($opcMenu as $clave => $opcion) { ?>
                     <li class="<?php echo $opcion['CLASE']; ?>">
                        
@@ -69,7 +61,7 @@
                                 if ($opcion['TITULO'] == 'Usuarios' ) {
                                     echo "";
                                 }else {
-                                    echo ($titulo == $opcion['TITULO'] ) ? 'inbox' : ''; 
+                                    echo ($titulo == $opcion['TITULO']) ? 'inbox' : ''; 
                                 }
                             }
                             

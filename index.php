@@ -32,6 +32,7 @@ $vista = $insView->obtenerVista($url[0]);
 if($vista == "app/views/content/404-view.php"){
    $url[0] = "404";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +43,7 @@ if($vista == "app/views/content/404-view.php"){
     <?php require_once "app/views/inc/head.php"; ?>
 </head>
 <body>
-    <?php if($vista == 'app/views/content/registro-visitante-view.php' || $vista == 'app/views/content/404-view.php' || $vista == 'app/views/content/login-view.php'): ?>
+    <?php if($url[0] == 'registro-visitante' || $url[0] == '404' || $url[0] == 'login'): ?>
 
         <?php include $vista; ?>
 
@@ -50,7 +51,7 @@ if($vista == "app/views/content/404-view.php"){
        
         <main class="cuerpo-contenedor" id="cuerpo">
             <?php
-                $opcMenu =  $insView->obtenerMenuUsuario();
+                $opcMenu =  $insView->obtenerMenuOpciones();
                 include "./app/views/inc/menu-lateral.php";
             ?>      
             <section class="full-width pageContent scroll" id="contenedor_pagina">

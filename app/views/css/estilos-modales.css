@@ -772,6 +772,7 @@ div#contenedor_modal_regis_nv{
     #contenedor_modal_regis_nv .contenedor_de_cajas{
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
     
     #contenedor_modal_regis_nv .contenedor_campos_no_obl{

@@ -22,9 +22,7 @@ class VehiculoModel extends MainModel {
                 $respuesta = [
                     "tipo"=>"ERROR",
                     "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning",
-                    "cod_error"=> "350"
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
                 ];
                 return $respuesta;    
             }

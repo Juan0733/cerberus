@@ -15,6 +15,7 @@ class ViewModel{
 
 			if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes') {// --JEFE DE VIGILANTES--
 				$listaBlanca[] = "inicio";
+				$listaBlanca[] = "entradas";
 			}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
 
 

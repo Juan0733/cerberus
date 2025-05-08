@@ -60,14 +60,11 @@ main#cuerpo{
         box-shadow: none !important;
         background-color: rgb(165, 165, 165) !important;
     }
+
+    .alerta-contenedor .swal2-timer-progress-bar {
+        background-color: #2db910 !important; /* Cambia el color a tu preferencia */
+      }
     
-    .alerta-contenedor .swal2-icon{
-        border-color: rgb(45, 185, 16) !important;
-    }
-    .alerta-contenedor .swal2-icon-content{
-        
-        color: rgb(45, 185, 16) !important;
-    }
     
     main#cuerpo section#contenedor_pagina{
         display: flex;
@@ -496,7 +493,7 @@ main#cuerpo{
                     /* Estilos Formularios */
 
                 
-                    #form_entr {
+                    #formulario_peatonal {
                         display: none;
                         width: 100%;
                         flex-direction: column;
@@ -546,7 +543,7 @@ main#cuerpo{
                             }
                         }
                         
-                        #form_entr{
+                        #formulario_peatonal{
                             animation: slideIn2 0.5s ease-out;
                         }
                     #form_entr_vehi {
@@ -1027,7 +1024,7 @@ main#cuerpo{
                     /* Estilos Formularios */
 
                 
-                    #form_entr {
+                    #formulario_peatonal {
                         display: none;
                         padding: 0 40px;
                         width: 100%;
@@ -1080,7 +1077,7 @@ main#cuerpo{
                             }
                         }
                         
-                        #form_entr{
+                        #formulario_peatonal{
                             animation: slideIn2 0.5s ease-out;
                         }
                     #form_entr_vehi {

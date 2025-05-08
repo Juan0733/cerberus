@@ -3,16 +3,132 @@ namespace app\models;
 use app\models\MainModel;
 
 class UsuarioModel extends MainModel{
+
+    public function consultarUsuario($usuario){
+        $tablas = ['vigilantes', 'visitantes', 'funcionarios', 'aprendices'];
+        foreach($tablas as $tabla){
+            if($tabla == 'aprendices'){
+                $sentenciaBuscar = "SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fecha_fin_ficha, ubicacion FROM ".$tabla." INNER JOIN fichas ON fk_ficha = numero_ficha WHERE numero_documento = '".$usuario."';";
+            }else{
+                $sentenciaBuscar = "SELECT * FROM ".$tabla." WHERE numero_documento = '".$usuario."';";
+            }
+            
+            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+            if (!$respuestaSentencia) {
+                $respuesta = [
+                    "tipo"=>"ERROR",
+                    "titulo" => 'Error de Conexión',
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                    "icono" => "warning",
+                ];
+                return $respuesta;
+            }
+
+            if ($respuestaSentencia->num_rows > 0) {
+                $datosUsuario = $respuestaSentencia->fetch_assoc();
+                $datosUsuario['grupo'] = $tabla;
+                $respuesta = [
+                    'tipo' => 'OK',
+                    'usuario' => $datosUsuario
+                ];
+                return $respuesta;
+            }
+        }
+        
+        $respuesta = [
+            'tipo' => 'ERROR',
+            'titulo' => 'Usuario No Encontrado',
+            'mensaje' => 'Lo sentimos, parece que el usuario con numero de documento '.$usuario.', no se encuentra registrado en el sistema.',
+            "icono" => "warning"
+        ];
+        return $respuesta;
+       
+    }
+
+    public function actualizarUbicacionUsuario($usuario, $tablaOrigen, $ubicacion){
+        $sentenciaActualizar = "UPDATE $tablaOrigen SET ubicacion = '$ubicacion' WHERE numero_documento = '$usuario';";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaActualizar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                "icono" => "warning",
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Ubicación Actualizada',
+            "mensaje"=> 'La ubicación del usuario fue actualizada correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function cambiarGrupoUsuario($tablaOrigen, $tablaDestino, $datosUsuario){
+        $sentenciaEliminar = "DELETE FROM $tablaOrigen WHERE numero_documento = '".$datosUsuario['numero_documento']."' ;";
+        
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaEliminar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                "icono" => "warning",
+            ];
+            return $respuesta;
+        }
+
+        $fechaRegistro = date('Y-m-d H:s:i');
+
+        if($tablaDestino == 'aprendices'){
+            $sentenciaInsertar = "INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, fecha_registro) VALUES('".$datosUsuario['tipo_documento']."', '".$datosUsuario['numero_documento']."', '".$datosUsuario['nombres']."', '".$datosUsuario['apellidos']."', '".$datosUsuario['telefono']."', '".$datosUsuario['correo_electronico']."', '".$datosUsuario['numero_ficha']."', '$fechaRegistro')";
+
+        }elseif($tablaDestino == 'funcionarios'){
+            if($datosUsuario['rol'] == 'subdirector' || $datosUsuario['rol'] == 'coordinador' || $datosUsuario['rol'] == 'bienestar aprendiz'){
+                $sentenciaInsertar = "INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, tipo_contrato, fecha_fin_contrato, contrasena, fecha_registro, estado) VALUES('".$datosUsuario['tipo_documento']."', '".$datosUsuario['numero_documento']."', '".$datosUsuario['nombres']."', '".$datosUsuario['apellidos']."', '".$datosUsuario['telefono']."', '".$datosUsuario['correo_electronico']."', '".$datosUsuario['rol']."', '".$datosUsuario['tipo_contrato']."', '".$datosUsuario['fecha_fin_contrato']."', MD5('".$datosUsuario['contrasena']."'), '$fechaRegistro', 'ACTIVO')";
+            }else{
+                $sentenciaInsertar = "INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, tipo_contrato, fecha_fin_contrato, fecha_registro) VALUES('".$datosUsuario['tipo_documento']."', '".$datosUsuario['numero_documento']."', '".$datosUsuario['nombres']."', '".$datosUsuario['apellidos']."', '".$datosUsuario['telefono']."', '".$datosUsuario['correo_electronico']."', '".$datosUsuario['rol']."', '".$datosUsuario['tipo_contrato']."', '".$datosUsuario['fecha_fin_contrato']."', '$fechaRegistro')";
+            }
+           
+        }elseif($tablaDestino == 'visitantes'){
+            $sentenciaInsertar = "INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, fecha_registro) VALUES('".$datosUsuario['tipo_documento']."', '".$datosUsuario['numero_documento']."', '".$datosUsuario['nombres']."', '".$datosUsuario['apellidos']."', '".$datosUsuario['telefono']."', '".$datosUsuario['correo_electronico']."', '".$datosUsuario['motivo_ingreso']."', '$fechaRegistro')";
+
+        }elseif($tablaDestino == 'vigilantes'){
+            $sentenciaInsertar = "INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, fecha_registro) VALUES('".$datosUsuario['tipo_documento']."', '".$datosUsuario['numero_documento']."', '".$datosUsuario['nombres']."', '".$datosUsuario['apellidos']."', '".$datosUsuario['telefono']."', '".$datosUsuario['correo_electronico']."', '".$datosUsuario['rol']."', MD5('".$datosUsuario['contrasena']."'), '$fechaRegistro')";
+        }
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                "icono" => "warning",
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Cambio Éxitoso',
+            "mensaje"=> 'El usuario fue cambiado de grupo exitosamente.',
+            "icono" => "success",
+        ];
+        return $respuesta;
+    }
     
     public function validarUsuarioLogin($usuario){
         $tablas = ['vigilantes', 'funcionarios'];
 
         foreach ($tablas as $tabla) {
             if($tabla == 'vigilantes'){
-                $sentenciaBuscar = "SELECT `numero_identificacion` FROM `$tabla` WHERE  numero_identificacion = '$usuario' AND estado_usuario = 'ACTIVO';";
+                $sentenciaBuscar = "SELECT `numero_documento` FROM `$tabla` WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO';";
 
             }elseif($tabla == 'funcionarios'){
-                $sentenciaBuscar = "SELECT `numero_identificacion` FROM `$tabla` WHERE  numero_identificacion = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector' OR rol = 'bienestar aprendiz');";
+                $sentenciaBuscar = "SELECT `numero_documento` FROM `$tabla` WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector' OR rol = 'bienestar aprendiz');";
             }
             
             $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
@@ -22,8 +138,8 @@ class UsuarioModel extends MainModel{
                     "tipo"=> "ERROR",
                     "titulo" => 'Error de Conexión',
                     "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning",
-                    "cod_error"=> "350"
+                    "icono" => "warning"
+                    
                 ];
                 return $respuesta;
             }
@@ -50,12 +166,12 @@ class UsuarioModel extends MainModel{
 
 
     public function validarContrasenaLogin($datosLogin){
-        $sentenciaBuscar = "SELECT * FROM ".$datosLogin['tabla']." WHERE  numero_identificacion = '".$datosLogin['usuario']."' AND contrasena = MD5('".$datosLogin['contrasena']."') AND estado_usuario = 'ACTIVO';";
+        $sentenciaBuscar = "SELECT * FROM ".$datosLogin['tabla']." WHERE  numero_documento = '".$datosLogin['usuario']."' AND contrasena = MD5('".$datosLogin['contrasena']."') AND estado_usuario = 'ACTIVO';";
                     
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
         if (!$respuestaSentencia) {
             $respuesta = [
-                "tipo"=>"ERROR",
+                "tipo" => "ERROR",
                 "titulo" => 'Error de Conexión',
                 "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
                 "icono" => "warning",
@@ -66,17 +182,16 @@ class UsuarioModel extends MainModel{
 
         if ($respuestaSentencia->num_rows < 1) {
             $respuesta = [
-                "tipo"=>"ERROR",
+                "tipo" => "ERROR",
                 "titulo" => 'Acceso Denegado',
                 "mensaje"=> 'Lo sentimos, parece que tu contraseña es incorrecta.',
                 "icono" => "warning",
-                "cod_error"=> "350"
             ];
             return $respuesta;
         }
 
         $datosUsuario = $respuestaSentencia->fetch_assoc();
-
+        $datosUsuario['puerta'] = 'peatonal';
         // Se valida nuevamente que el rol del usuario tenga acceso al sistema
         if($datosUsuario['rol'] == 'bienestar aprendiz'){
             $panelAcceso = 'estadias/';
@@ -112,7 +227,7 @@ class UsuarioModel extends MainModel{
         $totalUsuarios = 0;
 
         foreach($tablas as $tabla){
-            $sentenciaBuscar = "SELECT numero_identificacion FROM ".$tabla." WHERE ubicacion = 'DENTRO';";
+            $sentenciaBuscar = "SELECT numero_documento FROM ".$tabla." WHERE ubicacion = 'DENTRO';";
 
             $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
             if (!$respuestaSentencia) {
@@ -120,8 +235,7 @@ class UsuarioModel extends MainModel{
                     "tipo"=>"ERROR",
                     "titulo" => 'Error de Conexión',
                     "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning",
-                    "cod_error"=> "350"
+                    "icono" => "warning"
                 ];
                 return $respuesta;
             }
@@ -147,7 +261,7 @@ class UsuarioModel extends MainModel{
         foreach($tablas as $tabla){
             if($tabla == 'funcionarios'){
                 // Cuando se realiza el conteo en la tabla de funcionarios, se cuentan en grupos separados los funcionarios brigadistas y los funcionarios comunes
-                $sentenciaBuscar = "SELECT numero_identificacion FROM ".$tabla." WHERE ubicacion = 'DENTRO' AND brigadista = 'NO';";
+                $sentenciaBuscar = "SELECT numero_documento FROM ".$tabla." WHERE ubicacion = 'DENTRO' AND brigadista = 'NO';";
 
                 $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
                 if (!$respuestaSentencia) {
@@ -155,8 +269,7 @@ class UsuarioModel extends MainModel{
                         "tipo"=>"ERROR",
                         "titulo" => 'Error de Conexión',
                         "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                        "icono" => "warning",
-                        "cod_error"=> "350"
+                        "icono" => "warning"
                     ];
                     return $respuesta;
                 }
@@ -169,7 +282,7 @@ class UsuarioModel extends MainModel{
 
                 $totalUsuarios += $cantidad;
 
-                $sentenciaBuscar = "SELECT numero_identificacion FROM ".$tabla." WHERE ubicacion = 'DENTRO' AND brigadista = 'SI';";
+                $sentenciaBuscar = "SELECT numero_documento FROM ".$tabla." WHERE ubicacion = 'DENTRO' AND brigadista = 'SI';";
 
                 $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
                 if (!$respuestaSentencia) {
@@ -178,7 +291,6 @@ class UsuarioModel extends MainModel{
                         "titulo" => 'Error de Conexión',
                         "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
                         "icono" => "warning",
-                        "cod_error"=> "350"
                     ];
                     return $respuesta;
                 }
@@ -191,7 +303,7 @@ class UsuarioModel extends MainModel{
 
                 $totalUsuarios += $cantidad;
             }else{
-                $sentenciaBuscar = "SELECT numero_identificacion FROM ".$tabla." WHERE ubicacion = 'DENTRO';";
+                $sentenciaBuscar = "SELECT numero_documento FROM ".$tabla." WHERE ubicacion = 'DENTRO';";
 
                 $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
                 if (!$respuestaSentencia) {
@@ -200,7 +312,6 @@ class UsuarioModel extends MainModel{
                         "titulo" => 'Error de Conexión',
                         "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
                         "icono" => "warning",
-                        "cod_error"=> "350"
                     ];
                     return $respuesta;
                 }
@@ -236,36 +347,3 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 }
-
-   
-// class ClaseA {
-//     public function metodoA() {
-//         return "Método de ClaseA";
-//     }
-// }
-
-// class ClaseB {
-//     public function metodoB() {
-//         return "Método de ClaseB";
-//     }
-// }
-
-// class ClasePrincipal {
-//     private $objA;
-//     private $objB;
-
-//     public function __construct() {
-//         $this->objA = new ClaseA();
-//         $this->objB = new ClaseB();
-//     }
-
-//     public function usarMetodos() {
-//         echo $this->objA->metodoA() . "<br>";
-//         echo $this->objB->metodoB() . "<br>";
-//     }
-// }
-
-// // Uso
-// $clasePrincipal = new ClasePrincipal();
-// $clasePrincipal->usarMetodos();
-// 

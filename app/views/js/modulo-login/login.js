@@ -19,7 +19,7 @@ function eventoFormulario(){
         if(caja01.style.display != 'none' && caja02.style.display != 'block'){
 
             data.append('usuario', usuario.value);
-            data.append('accion', 'validarUsuario');    
+            data.append('operacion', 'validar_usuario');    
             validarUsuarioLogin(data, urlBase).then((datos)=>{
                 if(datos.tipo == 'OK'){
                     caja01.style.display = 'none';
@@ -27,7 +27,7 @@ function eventoFormulario(){
                     caja02.focus();
                     tablaOrigen = datos.tabla;
                 }else if(datos.tipo == 'ERROR'){
-                    manejoAlertasLogin(datos);
+                    alertaError(datos);
                 };
 
             });
@@ -35,12 +35,12 @@ function eventoFormulario(){
             data.append('usuario', usuario.value);
             data.append('contrasena', contrasena.value);
             data.append('tabla', tablaOrigen);
-            data.append('accion', 'validarContrasena');
+            data.append('operacion', 'validar_contrasena');
             validarContrasenaLogin(data, urlBase).then((datos)=>{
                 if(datos.tipo == 'OK'){
-                    window.location.href = datos.ruta;
+                    window.location.replace(datos.ruta);
                 }else if(datos.tipo == 'ERROR'){
-                    manejoAlertasLogin(datos);
+                    alertaError(datos);
                 };
             });
         };
@@ -48,21 +48,20 @@ function eventoFormulario(){
     });
 };
 
-function manejoAlertasLogin(respuesta){
-   
-    if(respuesta.tipo =="ERROR"){
-        Swal.fire({
-            icon: respuesta.icono,
-            title: respuesta.titulo,
-            text: respuesta.mensaje,
-            confirmButtonText: 'Aceptar',
-            customClass: {
-                popup: 'alerta-contenedor',
-                confirmButton: 'btn-confirmar'
-            }
-        });
-    };
-};
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     urlBase = document.getElementById('url_base').value;

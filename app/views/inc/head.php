@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/all.css">
 <?php if($url[0] != 'login' && $url[0] != '404'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/menu-lateral-estilo.css">
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/all-formularios.css">
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/estilos-modales.css"> 
 <?php endif; ?>
     

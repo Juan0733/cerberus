@@ -9,7 +9,7 @@ if(file_exists(__DIR__."/../../config/server.php")){
 
 class MainModel{
 	protected function conectar(){
-		mysqli_report(MYSQLI_REPORT_OFF);
+		// mysqli_report(MYSQLI_REPORT_OFF);
 		
 		try {
 			$enlace_conexion = new mysqli("localhost", "root", "", "cerberus");
@@ -36,35 +36,6 @@ class MainModel{
 			return $sql;
 		}
 	}
-	
-	public function limpiarDatos($dato){
-
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
-
-	public function verificarDatos($datos){
-		foreach ($datos as $dato) {
-			if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
-				return false;
-			}else{
-				return true;
-			}
-		}
-	}
-
 }
 
 

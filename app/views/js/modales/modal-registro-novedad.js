@@ -1,9 +1,10 @@
-import {registrarVisitante} from '../fetchs/visitantes-fetch.js';
+import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
+let botonCerrarModal;
 
-async function modalRegistroNovedad(tipoNovedad, documento, urlBase) {
+async function modalRegistroNovedad(novedad, documento, urlBase) {
     try {
         const response = await fetch(urlBase+'app/views/inc/modales/modal-novedad-usuario.php');
 
@@ -18,13 +19,13 @@ async function modalRegistroNovedad(tipoNovedad, documento, urlBase) {
         contenedorModales.appendChild(modal);
 
         
-        let inputDocumento = document.getElementById('documento_causante'); 
-        let inputTipoNovedad = document.getElementById('tipo_novedad');
+        let documentoCausante = document.getElementById('documento_causante'); 
+        let tipoNovedad = document.getElementById('tipo_novedad');
 
-        inputDocumento.value = documento;
-        inputDocumento.setAttribute('readonly', '');
-        inputTipoNovedad.value = tipoNovedad;
-        inputTipoNovedad.setAttribute('readonly', '');
+        documentoCausante.value = documento;
+        documentoCausante.setAttribute('readonly', '');
+        tipoNovedad.value = novedad;
+        tipoNovedad.setAttribute('readonly', '');
         
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
@@ -34,12 +35,17 @@ async function modalRegistroNovedad(tipoNovedad, documento, urlBase) {
             contenedorModales.classList.add('mostrar');
         } 
        
-        // eventoBotonCerrarModal();
-        // eventoFormularioVisitante(urlBase);
+        eventoBotonCerrarModal();
+        eventoFormularioNovedad(urlBase);
 
            
     } catch (error) {
-        console.error('Error al cargar el modal:', error);
+        let respuesta = {
+            titulo: 'Error Modal',
+            mensaje: 'Error al cargar el modal de registro de novedad'
+        }
+        
+        alertaError(respuesta);
     }
     
 }
@@ -47,41 +53,41 @@ export { modalRegistroNovedad };
 
 function cerrarModal(){
    
-    modalesExistentes[modalesExistentes.length-1].remove();
-    if(modalesExistentes.length > 0) {
-        modalesExistentes[modalesExistentes.length-1].style.display = 'block';
-    }else{
-        contenedorModales.classList.remove('mostrar');
-    }
+   
 }
 
 function eventoBotonCerrarModal(){
-    document.getElementById('cerrar_modal_novedad').addEventListener('click', ()=>{
-        cerrarModal();
+    botonCerrarModal = document.getElementById('cerrar_modal_novedad');
+
+    botonCerrarModal.addEventListener('click', ()=>{
+        modalesExistentes[modalesExistentes.length-1].remove();
+        if(modalesExistentes.length > 0) {
+            modalesExistentes[modalesExistentes.length-1].style.display = 'block';
+        }else{
+            contenedorModales.classList.remove('mostrar');
+        }
     });
 
-    document.getElementById('btn-cancelar').addEventListener('click', ()=>{
-        cerrarModal();
+    document.getElementById('btn_cancelar_novedad').addEventListener('click', ()=>{
+        botonCerrarModal.click();
     });
 }
 
-
-
-function eventoFormularioVisitante(UrlBase){
-    let formularioVisitante = document.getElementById('forma_acceso_04');
-    formularioVisitante.addEventListener('submit', (e)=>{
+function eventoFormularioNovedad(UrlBase){
+    let formularioNovedad = document.getElementById('forma_acceso_05');
+    formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
-        let formData = new FormData(formularioVisitante);
-        formData.append('operacion', 'registrar_visitante');
+        let formData = new FormData(formularioNovedad);
+        formData.append('operacion', 'registrar_novedad_usuario');
 
-        registrarVisitante(formData, UrlBase).then(respuesta=>{
+        registrarNovedadUsuario(formData, UrlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
                 alertaError(respuesta);
                 
             }else if(respuesta.tipo == "OK"){
                 console.log(respuesta);
                 alertaExito(respuesta);
-                cerrarModal();
+                botonCerrarModal.click();
             }
         });
     })
@@ -104,7 +110,6 @@ function alertaExito(respuesta){
         }
     })
 }
-
 
 function alertaError(respuesta){
     Swal.fire({

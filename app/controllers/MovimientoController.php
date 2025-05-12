@@ -4,55 +4,24 @@ require_once "../views/inc/session_start.php";
 require_once "../../autoload.php";
 
 use app\models\MovimientoModel;
+use app\services\MovimientoService;
 
 header('Content-Type: application/json; charset=utf-8');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST['operacion'] != "") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 	
 	$objetoMovimiento = new MovimientoModel();
-    $operacion = $objetoMovimiento->limpiarDatos($_POST['operacion']);
+    $objetoServicio = new MovimientoService();
+
+    $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
 
     if ($operacion == 'registrar_entrada_peatonal') {
-        if (!isset($_POST['documento_peaton'], $_POST['observacion']) || $_POST['documento_peaton'] == '') {
-            $respuesta = [
-                "tipo" => "ERROR",
-                "titulo" => 'Campos Obligatorios',
-                "mensaje" => 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
-            ];
+        $respuesta = $objetoServicio->sanitizarDatosMovimientoPeatonal();
+        if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();
         }
-
-        $numeroDocumento = $objetoMovimiento->limpiarDatos($_POST['documento_peaton']);
-        $observacion = $objetoMovimiento->limpiarDatos($_POST['observacion']);
-
-        $datos = [
-            [
-                'filtro' => "[A-Za-z0-9]{6,15}",
-                'cadena' => $numeroDocumento
-            ],
-            [
-                'filtro' => "[A-Za-z0-9 ]{0,100}",
-                'cadena' => $observacion
-            ]
-        ];
-
-        if (!$objetoMovimiento->verificarDatos($datos)) {
-            $respuesta = [
-                "tipo" => "ERROR",
-                'titulo' => "Formato Inválido",
-                'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
-            ];
-            echo json_encode($respuesta);
-            exit();
-        }
-
-        $datosEntrada = [
-            'numero_documento' => $numeroDocumento,
-            'observacion' => $observacion
-        ];
-
-        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($datosEntrada));
+        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['datos_entrada']));
         
     } else {
         $respuesta = [
@@ -62,5 +31,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         ];
         echo json_encode($respuesta);
         exit();
+    }
+}elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
+    $objetoMovimiento = new MovimientoModel();
+    $objetoServicio = new MovimientoService();
+
+    $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    if($operacion == 'validar_usuario_apto_entrada'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(empty($respuesta['parametros'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+        
+        echo json_encode($objetoMovimiento->validarUsuarioAptoEntrada($respuesta['parametros']['numero_documento']));
     }
 }

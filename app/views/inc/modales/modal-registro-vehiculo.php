@@ -38,7 +38,7 @@
 
             <div id="cont_btn_form_regis_visi">
                 
-                <button type="button" id="btn-cancelar" class="btn-cancelar-03" onclick="closeModal(this)">
+                <button type="button" id="btn_cancelar_vehiculo" class="btn-cancelar-03" onclick="closeModal(this)">
                     Cancelar
                 </button><!-- 
                 <button type="button" id="btn-siguiente" onclick="motrarCampos()">Siguiente</button> -->

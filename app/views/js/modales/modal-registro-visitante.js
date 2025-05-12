@@ -2,10 +2,11 @@ import {registrarVisitante} from '../fetchs/visitantes-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
+let botonCerrarModal;
 
 async function modalRegistroVisitante(urlBase, documento=false) {
     try {
-        const response = await fetch(urlBase+'app/views/inc/modales/modal-registro-visitante.php');
+        const response = await fetch(urlBase+'app/views/inc/modales/modal-visitante.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -18,9 +19,9 @@ async function modalRegistroVisitante(urlBase, documento=false) {
         contenedorModales.appendChild(modal);
 
         if(documento){
-            let inputDocumento = document.getElementById('documento_visitante'); 
-            inputDocumento.value = documento;
-            inputDocumento.setAttribute('readonly', '');
+            let documentoVisitante = document.getElementById('documento_visitante'); 
+            documentoVisitante.value = documento;
+            documentoVisitante.setAttribute('readonly', '');
         }
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
@@ -35,7 +36,12 @@ async function modalRegistroVisitante(urlBase, documento=false) {
 
            
     } catch (error) {
-        console.error('Error al cargar el modal:', error);
+        let respuesta = {
+            titulo: 'Error Modal',
+            mensaje: 'Error al cargar el modal de registro de visitante'
+        }
+
+        alertaError(respuesta);
     }
     
 }
@@ -43,21 +49,23 @@ export { modalRegistroVisitante };
 
 function cerrarModal(){
    
-    modalesExistentes[modalesExistentes.length-1].remove();
-    if(modalesExistentes.length > 0) {
-        modalesExistentes[modalesExistentes.length-1].style.display = 'block';
-    }else{
-        contenedorModales.classList.remove('mostrar');
-    }
+    
 }
 
 function eventoBotonCerrarModal(){
-    document.getElementById('cerrar_modal_visitante').addEventListener('click', ()=>{
-        cerrarModal();
+    botonCerrarModal = document.getElementById('cerrar_modal_visitante');
+
+    botonCerrarModal.addEventListener('click', ()=>{
+        modalesExistentes[modalesExistentes.length-1].remove();
+        if(modalesExistentes.length > 0) {
+            modalesExistentes[modalesExistentes.length-1].style.display = 'block';
+        }else{
+            contenedorModales.classList.remove('mostrar');
+        }
     });
 
-    document.getElementById('btn-cancelar').addEventListener('click', ()=>{
-        cerrarModal();
+    document.getElementById('btn_cancelar_visitante').addEventListener('click', ()=>{
+        botonCerrarModal.click();
     });
 }
 
@@ -77,7 +85,7 @@ function eventoFormularioVisitante(UrlBase){
             }else if(respuesta.tipo == "OK"){
                 console.log(respuesta);
                 alertaExito(respuesta);
-                cerrarModal();
+                botonCerrarModal.click();
             }
         });
     })

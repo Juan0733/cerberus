@@ -67,9 +67,7 @@
                                 id="descripcion" 
                                 placeholder="Ej: Salio sin ser registrado por la puerta de ganaderia" 
                                 tabindex="4" 
-                                required 
-                                min="<?= $fechaMinimaFormatted ?>" 
-                                max="<?= $fechaMaximaFormatted ?>"
+                                required
                             >
                         </div>
                     </div>
@@ -81,11 +79,11 @@
                     
                     </button>
                     
-                    <button type="button" id="btn-cancelar" class="btn-cancelar-05" onclick="closeModal(this)">
+                    <button type="button" id="btn_cancelar_novedad" class="btn-cancelar-05" onclick="closeModal(this)">
                         Cancelar
                     </button><!-- 
                     <button type="button" id="btn-siguiente" onclick="motrarCampos()">Siguiente</button> -->
-                    <button type="button" id="btn_registrarme" class="btn_registrarme-05"  onclick="enviaFormulario('05')">Registrar</button>
+                    <button type="submit" id="btn_registrarme" class="btn_registrarme-05"  onclick="enviaFormulario('05')">Registrar</button>
                 </div>
             </form>
 

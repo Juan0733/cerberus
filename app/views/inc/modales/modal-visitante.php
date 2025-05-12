@@ -23,7 +23,7 @@
 
                         <div class="input-caja-registro">
                             <label for="correo_electronico" class="label-input">Correo electronico</label>
-                            <input class="campo validacion-campo-04" type="email" name="correo_electronico" id="correo_electronico" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{11,64}" maxlength="64" minlength="11" placeholder="Ej: miCorreo@ejemplo.com" title="Lo que acabas de digitar no parece un correo electronico." tabindex="3" date="Correo electronico" required>
+                            <input class="campo validacion-campo-04" type="email" name="correo_electronico" id="correo_electronico" pattern="[a-zA-Z0-9\._%+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,10}" maxlength="64" minlength="11" placeholder="Ej: miCorreo@ejemplo.com" title="Lo que acabas de digitar no parece un correo electronico." tabindex="3" date="Correo electronico" required>
                         </div>
 
                         <div class="input-caja-registro">
@@ -72,7 +72,7 @@
                     
                     </button>
                     
-                    <button type="button" id="btn-cancelar" class="btn-cancelar-04">
+                    <button type="button" id="btn_cancelar_visitante" class="btn-cancelar-04">
                         Cancelar
                     </button>
                     <button type="button" id="btn-siguiente" class="btn-siguiente-04" onclick="motrarCampos('04')">Siguiente</button>

@@ -5,10 +5,10 @@ import {modalRegistroNovedad} from '../modales/modal-registro-novedad.js';
 let documentoPeaton;
 let formularioPeatonal;
 let botonPeatonal;
+let botonVehicular;
 let urlBase;
 
 function mostrarFormularioPeatonal(){
-    const botonVehicular = document.getElementById("btn_vehicular");
     if (botonVehicular.style.display == "none") {
         if (window.innerWidth >= 780) {
             botonVehicular.style.display = "flex";
@@ -41,10 +41,15 @@ function eventoBotonPeatonal() {
 function eventoInputDocumento() {
     documentoPeaton.addEventListener('change', function() {
         if (documentoPeaton.value.length>15) {
-            let documentoFormateado = inputDocumento.value.replace(/\D/g, '');
-            documentoPeaton.value = documentoFormateado[0]
+            let documentoFormateado = documentoPeaton.value.replace(/\D/g, '').slice(0, 10);
+            documentoPeaton.value = documentoFormateado;
         }
     });
+}
+
+function limpiarFormularioPeatonal(){ 
+    formularioPeatonal.reset();
+    documentoPeaton.focus();
 }
 
 function eventoFormularioPeatonal() {
@@ -63,6 +68,7 @@ function eventoFormularioPeatonal() {
                 }
             }else if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
+                limpiarFormularioPeatonal();
             }
         });
     })
@@ -130,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
     urlBase = document.getElementById("url_base").value;
     documentoPeaton = document.getElementById("documento_peaton");
     botonPeatonal = document.getElementById("btn_peatonal");
+    botonVehicular = document.getElementById("btn_vehicular");
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     eventoBotonPeatonal();
     eventoFormularioPeatonal();

@@ -546,7 +546,7 @@ main#cuerpo{
                         #formulario_peatonal{
                             animation: slideIn2 0.5s ease-out;
                         }
-                    #form_entr_vehi {
+                    #formulario_vehicular {
                         display: none;
                         width: 100%;
                         flex-direction: column;
@@ -567,14 +567,14 @@ main#cuerpo{
                             margin: 12px 0;
                         }
                         
-                        #form_entr_vehi{
+                        #formulario_vehicular{
                             animation: slideIn2 0.5s ease-out;
                         }
                         .contenedor-card-ptn-vhl{
                             animation: slideIn2 0.5s ease-out;
 
                         }
-                            #form_entr_vehi .cont_cajas{
+                            #formulario_vehicular .cont_cajas{
                                                             
                                 display: flex;
                                 flex-direction: column;
@@ -1037,7 +1037,7 @@ main#cuerpo{
                         font-size: 39px;
                     }
                         
-                    .input-caja-num-doc{
+                    #caja_placa_vehiculo{
                         margin-right: 10px !important;
                     }
                         .cont_cajas_ptn{       
@@ -1080,7 +1080,7 @@ main#cuerpo{
                         #formulario_peatonal{
                             animation: slideIn2 0.5s ease-out;
                         }
-                    #form_entr_vehi {
+                    #formulario_vehicular {
                         display: none;
                         padding: 0 40px;
                         width: 100%;
@@ -1100,10 +1100,10 @@ main#cuerpo{
                         .num_identificacion_vehiculo{
                             margin-right: 10px;
                         }
-                        #form_entr_vehi{
+                        #formulario_vehicular{
                             animation: slideIn2 0.5s ease-out;
                         }
-                            #form_entr_vehi .cont_cajas{
+                            #formulario_vehicular .cont_cajas{
                                                             
                                 display: flex;
                                 flex-direction: row;

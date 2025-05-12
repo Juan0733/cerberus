@@ -3,8 +3,9 @@ import {registrarVisitante} from '../fetchs/visitantes-fetch.js';
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let funcionCallback;
 
-async function modalRegistroVisitante(urlBase, documento=false) {
+async function modalRegistroVisitante(urlBase, documento=false, funcion=false) {
     try {
         const response = await fetch(urlBase+'app/views/inc/modales/modal-visitante.php');
 
@@ -22,6 +23,10 @@ async function modalRegistroVisitante(urlBase, documento=false) {
             let documentoVisitante = document.getElementById('documento_visitante'); 
             documentoVisitante.value = documento;
             documentoVisitante.setAttribute('readonly', '');
+        }
+
+        if(funcion){
+            funcionCallback = funcion;
         }
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
@@ -46,11 +51,6 @@ async function modalRegistroVisitante(urlBase, documento=false) {
     
 }
 export { modalRegistroVisitante };
-
-function cerrarModal(){
-   
-    
-}
 
 function eventoBotonCerrarModal(){
     botonCerrarModal = document.getElementById('cerrar_modal_visitante');
@@ -83,9 +83,12 @@ function eventoFormularioVisitante(UrlBase){
                 alertaError(respuesta);
                 
             }else if(respuesta.tipo == "OK"){
-                console.log(respuesta);
                 alertaExito(respuesta);
                 botonCerrarModal.click();
+
+                if(funcionCallback){
+                    funcionCallback(respuesta);
+                }
             }
         });
     })

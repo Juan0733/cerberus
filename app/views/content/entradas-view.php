@@ -2,7 +2,6 @@
 <div class="contenedor-reportes " id="panel_entrada">
     <div class="contenedor-card-ptn-vhl">
         <div class="cont-btn-volver">
-
             <button type="button" class="btn-ent-sal-volver">
                 <ion-icon name="chevron-back-outline"></ion-icon>
             </button>
@@ -17,11 +16,11 @@
                 <div class="cont_cajas_ptn">
                     <div class="input-caja">
                         <label for="documento_peaton">Numero de documento</label>
-                        <input type="tel" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[0-9 ]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 10 numeros" placeholder="Ej: 123456" tabindex="4" required>
+                        <input type="tel" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="4" required>
                     </div>
                     <div class="input-caja">
-                        <label for="observaciones">Observacion</label>
-                        <textarea class="campo" inputmode="numeric" name="observacion" id="observacion" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 10 numeros" placeholder="Escribe aquí..." tabindex="4" ></textarea>
+                        <label for="observacion_peatonal">Observacion</label>
+                        <textarea class="campo" inputmode="numeric" name="observacion_peatonal" id="observacion_peatonal" pattern="[A-Za-z0-9 ]{0,100}" title="Debes digitar solo numeros y letras, maximo 100 caracteres" placeholder="Escribe aquí..." tabindex="4" ></textarea>
                     </div>
                 </div>
                 <button type="submit" class="btn-eviar-reporte">Registrar</button>
@@ -39,14 +38,14 @@
                 <div class="cont_cajas">
                     <div class="input-caja " id="caja_placa_vehiculo">
                         <label for="placa_vehiculo">Placa de vehiculo</label>
-                        <input type="tel" class="campo"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Z0-9]{6,7}" title="Debes digitar solo numeros y letras mayusculas maximo 7 caracteres." placeholder="Ej: ABC123" tabindex="1" list="placa_lista" required>
+                        <input type="tel" class="campo"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{6,7}" title="Debes digitar solo numeros y letras, maximo 6 caracteres." placeholder="Ej: ABC123" tabindex="1" list="placa_lista" required>
                         <datalist id="placa_lista">
                         </datalist>
                     </div>
 
                     <div class="input-caja">
                         <label for="documento_propietario">Numero de documento</label>
-                        <input type="tel" class="campo" inputmode="numeric" id="documento_propietario" name="documento_propietario"  pattern="[0-9 ]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 10 numeros" placeholder="Ej: 123456" tabindex="2"> <!-- se pasa como paremtro el estado en el cual debe de estar el vehiculo para poder ser llamado -->
+                        <input type="tel" class="campo" inputmode="numeric" id="documento_propietario" name="documento_propietario"  pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="2"> <!-- se pasa como paremtro el estado en el cual debe de estar el vehiculo para poder ser llamado -->
                     </div>  
                 </div>
                 <div class="cont_cajas">
@@ -55,7 +54,7 @@
                             <label for="documento_pasajero">Doc. Pasajero</label>
                             <div class="cont-input-buscar">
                                 
-                                <input type="tel" class="campo" inputmode="numeric" name="num_identificacion_pasajero" id="num_identificacion_pasajero" pattern="[0-9 ]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 10 numeros" placeholder="Ej: 123456" tabindex="3">
+                                <input type="tel" class="campo" inputmode="numeric" name="num_identificacion_pasajero" id="num_identificacion_pasajero" pattern="[A-za-z0-9]{6,15}" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="3">
                                 
                         
                                 <button type="submit"   class="agregar-persona">
@@ -86,7 +85,7 @@
                 <div class="cont_cajas">
                     <div class="input-caja">
                         <label for="observaciones_vehicular">Observacion</label>
-                        <textarea class="campo" inputmode="numeric" name="observaciones_vehicular" id="observaciones_vehicular" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 10 numeros" placeholder="Escribe aquí..." tabindex="4" ></textarea>
+                        <textarea class="campo" inputmode="numeric" name="observaciones_vehicular" id="observaciones_vehicular" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y letras, maximo 100 caracteres" placeholder="Escribe aquí..." tabindex="4" ></textarea>
                     </div>
 
                 </div>

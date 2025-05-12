@@ -51,11 +51,6 @@ async function modalRegistroNovedad(novedad, documento, urlBase) {
 }
 export { modalRegistroNovedad };
 
-function cerrarModal(){
-   
-   
-}
-
 function eventoBotonCerrarModal(){
     botonCerrarModal = document.getElementById('cerrar_modal_novedad');
 

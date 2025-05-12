@@ -4,7 +4,7 @@ namespace app\services;
 class MovimientoService{
 
     public function sanitizarDatosMovimientoPeatonal(){
-        if (!isset($_POST['documento_peaton'], $_POST['observacion']) || $_POST['documento_peaton'] == '') {
+        if (!isset($_POST['documento_peaton'], $_POST['observacion_peatonal']) || $_POST['documento_peaton'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',

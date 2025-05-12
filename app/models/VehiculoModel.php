@@ -16,12 +16,17 @@ class VehiculoModel extends MainModel {
             return $respuesta;
         }
 
+        $respuesta = $this->validarLimiteVehiculos($datosVehiculo['propietario']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
         $sentenciaInsertar = "
-            INSERT INTO vehiculos(numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, fk_usuario_sistema) 
-            VALUES ('".$datosVehiculo['numero_placa']."', '".$datosVehiculo['tipo_vehiculo']."', '".$datosVehiculo['propietario']."', '$fechaRegistro', '$usuarioSistema')";
+            INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, fk_usuario_sistema) 
+            VALUES ('".$datosVehiculo['numero_placa']."', '".$datosVehiculo['tipo_vehiculo']."', '".$datosVehiculo['propietario']."', '$fechaRegistro', '$usuarioSistema');";
         
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if (!$respuestaSentencia) {
@@ -41,12 +46,17 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
-    public function consultarVehiculo($placa){
+    public function consultarVehiculos($parametros){
         $sentenciaBuscar = "
-            SELECT numero_placa, tipo, ubicacion
+            SELECT numero_placa, tipo_vehiculo, ubicacion
             FROM vehiculos 
-            WHERE numero_placa = '$placa'
-            GROUP BY numero_placa, tipo, ubicacion;";
+            WHERE 1=1";
+
+        if(isset($parametros['numero_documento'])){
+            $sentenciaBuscar .= " AND fk_usuario LIKE '".$parametros['numero_documento']."%'";
+        }
+
+        $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
         if (!$respuestaSentencia) {
@@ -61,9 +71,44 @@ class VehiculoModel extends MainModel {
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Vehiculo No encontrado',
+                "titulo" => 'Vehículos No Encontrados',
+                "mensaje"=> 'Lo sentimos, parece que no se encontraron vehiculos registrados en el sistema.'
+            ];
+            return $respuesta;
+        }
+
+        $vehiculos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $respuesta = [
+            "tipo"=>"OK",
+            "vehiculos" => $vehiculos
+        ];
+        return $respuesta;
+    }
+
+    public function consultarVehiculo($placa){
+        $sentenciaBuscar = "
+            SELECT numero_placa, tipo_vehiculo, ubicacion
+            FROM vehiculos 
+            WHERE numero_placa = '$placa'
+            GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+        if (!$respuestaSentencia) {
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;    
+        }
+
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Vehículo No Encontrado',
                 "mensaje"=> 'Lo sentimos, parece que el vehiculo de placas '.$placa.' no se encuentra registrado en el sistema.'
             ];
+            return $respuesta;
         }
 
         $datosVehiculo = $respuestaSentencia->fetch_assoc();
@@ -71,6 +116,7 @@ class VehiculoModel extends MainModel {
             "tipo"=>"OK",
             "vehiculo" => $datosVehiculo
         ];
+        return $respuesta;
     }
 
     public function consultarPropietariosVehiculo($placa){
@@ -112,6 +158,66 @@ class VehiculoModel extends MainModel {
             "tipo"=>"OK",
             "propietarios" => $propietarios
         ];
+    }
+
+    public function validarLimiteVehiculos($documento){
+        $parametros = [
+            'numero_documento' => $documento
+        ];
+        $respuesta = $this->consultarVehiculos($parametros);
+        if($respuesta['tipo'] == 'ERROR'){
+            if($respuesta['titulo'] == 'Vehículos No Encontrados'){
+                $respuesta = [
+                    "tipo"=>"OK",
+                    "titulo" => 'Limite De Vehículos',
+                    "mensaje"=> 'El usuario es apto para registrar un nuevo vehiculo.'
+                ];
+                return $respuesta;
+            }elseif($respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+            }
+        }
+
+        $vehiculos = $respuesta['vehiculos'];
+        if(count($vehiculos) == 5){
+            $vehiculoAleatorio = rand(0, 4);
+            $respuesta = $this->eliminarPropiedadVehiculo($documento, $vehiculos[$vehiculoAleatorio]['numero_placa']);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Limite De Vehículos',
+            "mensaje"=> 'El usuario es apto para registrar un nuevo vehiculo.'
+        ];
+
+        return $respuesta;
+    }
+
+    public function eliminarPropiedadVehiculo($propietario, $placa){
+        $sentenciaEliminar = "
+            DELETE 
+            FROM vehiculos 
+            WHERE fk_usuario = '$propietario' AND numero_placa = '$placa';";
+        
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaEliminar);
+        if (!$respuestaSentencia) {
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;    
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Eliminación Éxitosa',
+            "mensaje"=> 'La propiedad del vehiculo fue eliminada correctamente.'
+        ];
+        return $respuesta;
     }
 
     public function conteoTipoVehiculo(){

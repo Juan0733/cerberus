@@ -5,9 +5,12 @@
 <?php endif; ?>
 
 <?php if($url[0] == 'login'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/moduloLogin/formulario-login.js"></script>
-<?php elseif($url[0] == 'panel-principal'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/moduloPrincipal/principal.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-login/login.js"></script>
+<?php elseif($url[0] == 'inicio'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-inicio/inicio.js"></script>
+<?php elseif($url[0] == 'entradas'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-entradas/entrada-peatonal.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-entradas/entrada-vehicular.js"></script>
 <?php endif; ?>
 
 

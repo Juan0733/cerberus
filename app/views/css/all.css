@@ -42,7 +42,14 @@ main#cuerpo{
 
 
 
-
+    .input-ok{
+        border: solid 3px var(--color-secundario) !important;
+        background-color: #c6ffc6 !important;
+    }
+    .input-error{
+        border: solid 3px red !important;
+        background-color: #ffc6c6 !important;
+    }
     .alerta-contenedor{
         border-radius: 20px;
         background: var(--main-color);
@@ -60,14 +67,11 @@ main#cuerpo{
         box-shadow: none !important;
         background-color: rgb(165, 165, 165) !important;
     }
+
+    .alerta-contenedor .swal2-timer-progress-bar {
+        background-color: #2db910 !important; /* Cambia el color a tu preferencia */
+      }
     
-    .alerta-contenedor .swal2-icon{
-        border-color: rgb(45, 185, 16) !important;
-    }
-    .alerta-contenedor .swal2-icon-content{
-        
-        color: rgb(45, 185, 16) !important;
-    }
     
     main#cuerpo section#contenedor_pagina{
         display: flex;
@@ -496,7 +500,7 @@ main#cuerpo{
                     /* Estilos Formularios */
 
                 
-                    #form_entr {
+                    #formulario_peatonal {
                         display: none;
                         width: 100%;
                         flex-direction: column;
@@ -546,10 +550,10 @@ main#cuerpo{
                             }
                         }
                         
-                        #form_entr{
+                        #formulario_peatonal{
                             animation: slideIn2 0.5s ease-out;
                         }
-                    #form_entr_vehi {
+                    #formulario_vehicular {
                         display: none;
                         width: 100%;
                         flex-direction: column;
@@ -570,14 +574,14 @@ main#cuerpo{
                             margin: 12px 0;
                         }
                         
-                        #form_entr_vehi{
+                        #formulario_vehicular{
                             animation: slideIn2 0.5s ease-out;
                         }
                         .contenedor-card-ptn-vhl{
                             animation: slideIn2 0.5s ease-out;
 
                         }
-                            #form_entr_vehi .cont_cajas{
+                            #formulario_vehicular .cont_cajas{
                                                             
                                 display: flex;
                                 flex-direction: column;
@@ -1027,7 +1031,7 @@ main#cuerpo{
                     /* Estilos Formularios */
 
                 
-                    #form_entr {
+                    #formulario_peatonal {
                         display: none;
                         padding: 0 40px;
                         width: 100%;
@@ -1040,7 +1044,7 @@ main#cuerpo{
                         font-size: 39px;
                     }
                         
-                    .input-caja-num-doc{
+                    #caja_placa_vehiculo{
                         margin-right: 10px !important;
                     }
                         .cont_cajas_ptn{       
@@ -1080,10 +1084,10 @@ main#cuerpo{
                             }
                         }
                         
-                        #form_entr{
+                        #formulario_peatonal{
                             animation: slideIn2 0.5s ease-out;
                         }
-                    #form_entr_vehi {
+                    #formulario_vehicular {
                         display: none;
                         padding: 0 40px;
                         width: 100%;
@@ -1103,10 +1107,10 @@ main#cuerpo{
                         .num_identificacion_vehiculo{
                             margin-right: 10px;
                         }
-                        #form_entr_vehi{
+                        #formulario_vehicular{
                             animation: slideIn2 0.5s ease-out;
                         }
-                            #form_entr_vehi .cont_cajas{
+                            #formulario_vehicular .cont_cajas{
                                                             
                                 display: flex;
                                 flex-direction: row;

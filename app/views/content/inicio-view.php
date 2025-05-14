@@ -78,7 +78,7 @@
                     <p class="subtitle" id="subtitle_barra_funcionarios_comunes"></p>
                 </div>
 
-                <div class="card activada"><!-- Card Funcionarios Brigadistas -->
+                <div id="card_brigadistas" class="card activada"><!-- Card Funcionarios Brigadistas -->
                     <p class="fecha-card"><?php echo $fecha;?></p>
                     <div class="titulo-card">
                         <ion-icon name="people-outline"></ion-icon>

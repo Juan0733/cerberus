@@ -195,7 +195,7 @@ div#contenedor_modal_regis_vh{
                             justify-content: center;
                             width: 100%;
                         }
-                        form#forma_acceso_03 div#cont_btn_form_regis_visi #btn-cancelar {
+                        form#forma_acceso_03 div#cont_btn_form_regis_visi #btn_cancelar_vehiculo {
                             background-color: var(--color-btn-cancelar);
                             color: var(--color-placeholder);
                             align-items: center;
@@ -337,7 +337,7 @@ div#contenedor_modal_regis_vs{
                             justify-content: center;
                             width: 100%;
                         }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn-cancelar {
+                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_cancelar_visitante {
                             background-color: var(--color-btn-cancelar);
                             color: var(--color-placeholder);
                             align-items: center;
@@ -484,7 +484,7 @@ div#contenedor_modal_regis_nv{
                             justify-content: center;
                             width: 100%;
                         }
-                        form#forma_acceso_05 div#cont_btn_form_regis_visi #btn-cancelar {
+                        form#forma_acceso_05 div#cont_btn_form_regis_visi #btn_cancelar_novedad {
                             background-color: var(--color-btn-cancelar);
                             color: var(--color-placeholder);
                             align-items: center;
@@ -772,6 +772,7 @@ div#contenedor_modal_regis_nv{
     #contenedor_modal_regis_nv .contenedor_de_cajas{
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
     
     #contenedor_modal_regis_nv .contenedor_campos_no_obl{

@@ -1,5 +1,7 @@
 import {conteoTipoUsuario} from '../fetchs/usuarios-fetch.js'
 import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js'
+import {modalFuncionariosBrigadistas} from '../modales/modal-funcionarios-brigadistas.js'
+
 
 let urlBase;
 
@@ -7,7 +9,6 @@ function dibujarConteoUsuarios(){
     
     conteoTipoUsuario(urlBase).then(datos => {
         if(datos.tipo == 'OK'){
-            console.log(datos.usuarios)
             datos.usuarios.forEach(usuario => {
                 if(usuario.tipo_usuario == 'aprendices'){
                     document.getElementById('conteo_aprendices').innerHTML = usuario.cantidad+" Aprendices en el CAB";
@@ -39,7 +40,6 @@ function dibujarConteoUsuarios(){
 
 function dibujarConteoVehiculos(){
     conteoTipoVehiculo(urlBase).then(datos => {
-        console.log(datos)
         if(datos.tipo == 'OK'){
             datos.vehiculos.forEach(vehiculo => {
                 if(vehiculo.tipo_vehiculo == 'carros'){
@@ -56,10 +56,17 @@ function dibujarConteoVehiculos(){
     })
 }
 
+function eventoCardBrigadistas(){
+    document.getElementById('card_brigadistas').addEventListener('click', ()=>{
+        modalFuncionariosBrigadistas(urlBase);
+    })
+}
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
     urlBase = document.getElementById('url_base').value;
+    eventoCardBrigadistas();
     dibujarConteoUsuarios();
     dibujarConteoVehiculos();
 

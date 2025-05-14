@@ -1,0 +1,208 @@
+<?php
+namespace app\models;
+use DateTime;
+
+class MovimientoModel extends MainModel{
+    private $objetoUsuario;
+    private $objetoVehiculo;
+
+    public function __construct() {
+        $this->objetoUsuario = new UsuarioModel();
+        $this->objetoVehiculo = new VehiculoModel();
+
+    }
+
+    public function registrarEntradaPeatonal($datosEntrada){
+        $respuesta = $this->validarUsuarioAptoEntrada($datosEntrada['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $tipoMovimiento = 'ENTRADA';
+        $grupoUsuario = $respuesta['usuario']['grupo'];
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        
+        $sentenciaInsertar = "
+            INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
+            VALUES ('$tipoMovimiento', '".$datosEntrada['numero_documento']."', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
+        
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosEntrada['numero_documento'], $grupoUsuario, 'DENTRO');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Registro Éxitoso',
+            "mensaje"=> 'La entrada peatonal fue registrada correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function registrarEntradaVehicular($datosEntrada){
+        $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
+        if($respuesta['tipo'] == 'ERROR'){
+            if($respuesta['titulo'] == 'Error de Conexión' || $respuesta['titulo'] == 'Datos No encontrados'){
+                return $respuesta;
+            }elseif($respuesta['titulo'] == 'Propietario Incorrecto'){
+                $tipoVehiculo = $respuesta['tipo_vehiculo'];
+                $datosVehiculo = [
+                    'tipo_vehiculo' => $tipoVehiculo,
+                    'numero_placa' => $datosEntrada['numero_placa'],
+                    'propietario' => $datosEntrada['propietario']
+                ];
+
+                $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+            }
+        }
+
+        $tipoMovimiento = 'ENTRADA';
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+
+        $sentenciaInsertar = "
+            INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
+            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', '".$datosEntrada['observacion']."');";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosEntrada['propietario'], $datosEntrada['grupo_propietario'], 'DENTRO');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        foreach($datosEntrada['pasajeros'] as $pasajero){
+            $sentenciaInsertar = "
+                INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
+                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', '".$datosEntrada['observacion']."')";
+            
+            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+            if(!$respuestaSentencia){
+                $respuesta = [
+                    "tipo"=>"ERROR", 
+                    "titulo" => 'Error de Conexión',
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($pasajero['documento_pasajero'], $pasajero['grupo_pasajero'], 'DENTRO');
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Registro Éxitoso',
+            "mensaje"=> 'La entrada vehicular fue registrada correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function validarUsuarioAptoEntrada($usuario){
+        $respuesta = $this->objetoUsuario->consultarUsuario($usuario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $datosUsuario = $respuesta['usuario'];
+        if($datosUsuario['ubicacion'] == 'DENTRO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Salida No Registrada',
+                'mensaje' => 'Parece que a este usuario no se le registro una salida, porque el sistema indica que aún se encuentra dentro del CAB.'
+            ];
+            return $respuesta;
+        }
+        
+        if($datosUsuario['grupo'] == 'aprendices'){
+            $fechaActual = new DateTime();
+            $fechaFinFicha = new DateTime($datosUsuario['fecha_fin_ficha']);
+            if($fechaFinFicha < $fechaActual){
+                $datosUsuario['motivo_ingreso'] = 'La ficha del aprendiz ha finalizado';
+                $respuesta = $this->objetoUsuario->cambiarGrupoUsuario('aprendices', 'visitantes', $datosUsuario);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $datosUsuario['grupo'] = 'visitantes';
+            }
+
+        }elseif($datosUsuario['grupo'] == 'funcionarios' && $datosUsuario['tipo_contrato'] == 'contratista'){
+            $fechaActual = new DateTime();
+            $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
+            if($fechaFinContrato < $fechaActual){
+                $datosUsuario['motivo_ingreso'] = 'El contrato del funcionario ha finalizado';
+                $this->objetoUsuario->cambiarGrupoUsuario('funcionarios', 'visitantes', $datosUsuario);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $datosUsuario['grupo'] = 'visitantes';
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Apto',
+            'mensaje' => 'El usuario es apto, para registrar su ingreso al CAB.',
+            'usuario' => $datosUsuario,
+        ];
+        return $respuesta;
+    }
+
+    public function validarPropiedadVehiculo($placa, $usuario){
+        $respuesta = $this->objetoVehiculo->consultarPropietariosVehiculo($placa);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+        
+        $propietarios = $respuesta['propietarios'];
+        foreach($propietarios as $propietario){
+            if($propietario['numero_documento'] == $usuario){
+                $respuesta = [
+                    'tipo' => 'OK',
+                    'titulo' => 'Propietario Correcto',
+                    'mensaje' => 'El propietario del vehiculo coincide con el usuario que intenta realizar el movimiento.'
+                ];
+                return $respuesta;
+            }
+        }
+
+        //Se anexa el tipo de vehiculo a la respuesta para complementar los datos del vehiculo y hacer su registro en caso de tratarse de una entrada vehicular
+        $tipoVehiculo = $propietarios[0]['tipo_vehiculo'];
+
+        $respuesta = [
+            'tipo' => 'ERROR',
+            'titulo' => 'Propietario Incorrecto',
+            'mensaje' => 'El propietario del vehiculo no coincide con el usuario que intenta realizar el movimiento.',
+            'tipo_vehiculo' => $tipoVehiculo
+        ];
+        return $respuesta;
+    }
+}

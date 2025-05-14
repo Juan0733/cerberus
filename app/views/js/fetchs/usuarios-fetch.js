@@ -11,6 +11,7 @@ async function validarUsuarioLogin(datos, urlBase) {
 
         return data;
     } catch (error) {
+        console.error('Hubo un error:', error);
     }
 }
 export{validarUsuarioLogin}
@@ -28,13 +29,14 @@ async function validarContrasenaLogin(datos, urlBase) {
 
         return data;
     } catch (error) {
+        console.error('Hubo un error:', error);
     }
 }
 export{validarContrasenaLogin}
 
 async function conteoTotalUsuarios(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?accion='+encodeURI('conteoTotalUsuarios'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('conteo_total_usuarios'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -43,13 +45,14 @@ async function conteoTotalUsuarios(urlBase) {
         return data;
         
     } catch (error) {
+        console.error('Hubo un error:', error);
     }
 }
 export{conteoTotalUsuarios}
 
 async function conteoTipoUsuario(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?accion='+encodeURI('conteoTipoUsuario'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('conteo_tipo_usuario'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -58,6 +61,7 @@ async function conteoTipoUsuario(urlBase) {
         return data;
         
     } catch (error) {
+        console.error('Hubo un error:', error);
     }
 }
 export{conteoTipoUsuario}

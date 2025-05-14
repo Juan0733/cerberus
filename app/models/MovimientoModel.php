@@ -19,7 +19,7 @@ class MovimientoModel extends MainModel{
         }
 
         $tipoMovimiento = 'ENTRADA';
-        $grupoUsuario = $respuesta['grupo_usuario'];
+        $grupoUsuario = $respuesta['usuario']['grupo'];
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
@@ -78,7 +78,7 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."')";
+            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', '".$datosEntrada['observacion']."');";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){
@@ -97,8 +97,8 @@ class MovimientoModel extends MainModel{
 
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
-                INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
-                VALUES ('$tipoMovimiento', '".$pasajero['numero_documento']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_usuario']."')";
+                INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
+                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', '".$datosEntrada['observacion']."')";
             
             $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
             if(!$respuestaSentencia){
@@ -110,7 +110,7 @@ class MovimientoModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($pasajero['numero_documento'], $datosEntrada['grupo_usuario'], 'DENTRO');
+            $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($pasajero['documento_pasajero'], $pasajero['grupo_pasajero'], 'DENTRO');
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
@@ -167,13 +167,11 @@ class MovimientoModel extends MainModel{
             }
         }
 
-        $grupoUsuario = $datosUsuario['grupo'];
-
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Usuario Apto',
             'mensaje' => 'El usuario es apto, para registrar su ingreso al CAB.',
-            'grupo_usuario' => $grupoUsuario,
+            'usuario' => $datosUsuario,
         ];
         return $respuesta;
     }
@@ -183,7 +181,7 @@ class MovimientoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
-
+        
         $propietarios = $respuesta['propietarios'];
         foreach($propietarios as $propietario){
             if($propietario['numero_documento'] == $usuario){

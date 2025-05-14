@@ -21,16 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             echo json_encode($respuesta);
             exit();
         }
-        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['datos_entrada']));
+        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['dato_entrada']));
         
-    } else {
-        $respuesta = [
-            "tipo" => "ERROR",
-            "titulo" => 'Operación no válida',
-            "mensaje" => 'La operación solicitada no es válida.',
-        ];
-        echo json_encode($respuesta);
-        exit();
+    }elseif($operacion == 'registrar_entrada_vehicular') {
+        $respuesta = $objetoServicio->sanitizarDatosMovimientoVehicular();
+        if($respuesta['tipo'] == 'ERROR'){
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoMovimiento->registrarEntradaVehicular($respuesta['datos_entrada']));
     }
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $objetoMovimiento = new MovimientoModel();

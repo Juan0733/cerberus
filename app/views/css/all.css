@@ -42,7 +42,14 @@ main#cuerpo{
 
 
 
-
+    .input-ok{
+        border: solid 3px var(--color-secundario) !important;
+        background-color: #c6ffc6 !important;
+    }
+    .input-error{
+        border: solid 3px red !important;
+        background-color: #ffc6c6 !important;
+    }
     .alerta-contenedor{
         border-radius: 20px;
         background: var(--main-color);

@@ -4,10 +4,11 @@ let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
+let urlBase;
 
-async function modalRegistroVisitante(urlBase, documento=false, funcion=false) {
+async function modalRegistroVisitante(url, documento=false, callback=false) {
     try {
-        const response = await fetch(urlBase+'app/views/inc/modales/modal-visitante.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-visitante.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -25,9 +26,11 @@ async function modalRegistroVisitante(urlBase, documento=false, funcion=false) {
             documentoVisitante.setAttribute('readonly', '');
         }
 
-        if(funcion){
-            funcionCallback = funcion;
+        if(callback){
+            funcionCallback = callback;
         }
+
+        urlBase = url;
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if (modalesExistentes.length > 1) {
@@ -37,7 +40,7 @@ async function modalRegistroVisitante(urlBase, documento=false, funcion=false) {
         } 
        
         eventoBotonCerrarModal();
-        eventoFormularioVisitante(urlBase);
+        eventoFormularioVisitante();
 
            
     } catch (error) {
@@ -71,14 +74,14 @@ function eventoBotonCerrarModal(){
 
 
 
-function eventoFormularioVisitante(UrlBase){
+function eventoFormularioVisitante(){
     let formularioVisitante = document.getElementById('forma_acceso_04');
     formularioVisitante.addEventListener('submit', (e)=>{
         e.preventDefault();
         let formData = new FormData(formularioVisitante);
         formData.append('operacion', 'registrar_visitante');
 
-        registrarVisitante(formData, UrlBase).then(respuesta=>{
+        registrarVisitante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
                 alertaError(respuesta);
                 

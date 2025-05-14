@@ -8,7 +8,7 @@ let botonCerrarModal;
 let funcionCallback;
 let urlBase;
 
-async function modalRegistroVehiculo(placa, funcion, url) {
+async function modalRegistroVehiculo(url, placa, callback ) {
     try {
         const response = await fetch(url+'app/views/inc/modales/modal-vehiculo.php');
 
@@ -28,7 +28,7 @@ async function modalRegistroVehiculo(placa, funcion, url) {
         numeroPlaca.setAttribute('readonly', '');
 
         documentoPropietario = document.getElementById('propietario');
-        funcionCallback = funcion;
+        funcionCallback = callback;
         urlBase = url;
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');

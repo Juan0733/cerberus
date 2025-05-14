@@ -123,16 +123,16 @@ class VehiculoModel extends MainModel {
         $sentenciaBuscar = "
             SELECT 
                 veh.tipo_vehiculo,
-                COALESCE(fun.documento, vis.documento, vig.documento, apr.documento) AS numero_documento,  
+                COALESCE(fun.numero_documento, vis.numero_documento, vig.numero_documento, apr.numero_documento) AS numero_documento,  
                 COALESCE(fun.nombres, vis.nombres, vig.nombres, apr.nombres) AS nombres,
                 COALESCE(fun.apellidos, vis.apellidos, vig.apellidos, apr.apellidos) AS apellidos,
-                COALESCE(fun.cargo, vis.telefono, vig.telefono, apr.telefono) AS telefono,
-                COALESCE(fun.correo_electronico, vis.correo_electronico, vig.correo_electronico, apr.correo_electronio) AS correo_electronico
+                COALESCE(fun.telefono, vis.telefono, vig.telefono, apr.telefono) AS telefono,
+                COALESCE(fun.correo_electronico, vis.correo_electronico, vig.correo_electronico, apr.correo_electronico) AS correo_electronico
             FROM vehiculos veh
-            LEFT JOIN funcionarios fun ON veh.documento = fun.documento
-            LEFT JOIN visitantes vis ON veh.documento = vis.documento
-            LEFT JOIN vigilantes vig ON veh.documento = vig.documento
-            LEFT JOIN aprendices apr ON veh.documento = apr.documento
+            LEFT JOIN funcionarios fun ON veh.fk_usuario = fun.numero_documento
+            LEFT JOIN visitantes vis ON veh.fk_usuario = vis.numero_documento
+            LEFT JOIN vigilantes vig ON veh.fk_usuario = vig.numero_documento
+            LEFT JOIN aprendices apr ON veh.fk_usuario = apr.numero_documento
             WHERE veh.numero_placa = '$placa'";
         
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
@@ -158,6 +158,7 @@ class VehiculoModel extends MainModel {
             "tipo"=>"OK",
             "propietarios" => $propietarios
         ];
+        return $respuesta;
     }
 
     public function validarLimiteVehiculos($documento){

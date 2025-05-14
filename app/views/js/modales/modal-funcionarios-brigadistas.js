@@ -2,8 +2,9 @@ import {consultarFuncionarios} from '../fetchs/funcionarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
+let urlBase;
 
-async function modalFuncionariosBrigadistas(urlBase) {
+async function modalFuncionariosBrigadistas(url) {
     try {
         const response = await fetch(urlBase+'app/views/inc/modales/modal-funcionarios-brigadistas.php');
 
@@ -17,13 +18,14 @@ async function modalFuncionariosBrigadistas(urlBase) {
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        urlBase = url;
          
         eventoBotonCerrarModal();
 
         if(window.innerWidth > 1024){
-            dibujarTablaBrigadistas(urlBase);
+            dibujarTablaBrigadistas();
         }else{
-            dibujarCardBrigadistas(urlBase);
+            dibujarCardBrigadistas();
         }
 
            
@@ -46,7 +48,7 @@ function eventoBotonCerrarModal(){
     });
 }
 
-function dibujarTablaBrigadistas(urlBase){
+function dibujarTablaBrigadistas(){
     
     consultarFuncionarios('SI', 'DENTRO', '', urlBase).then(respuesta=>{
         document.getElementById('cont_info_modales').innerHTML = `
@@ -99,7 +101,7 @@ function dibujarTablaBrigadistas(urlBase){
     })
 }
 
-function dibujarCardBrigadistas(urlBase){
+function dibujarCardBrigadistas(){
     consultarFuncionarios('SI', 'DENTRO', '', urlBase).then(respuesta=>{
         const contenedor = document.getElementById('cont_info_modales');
         if(respuesta.tipo == 'OK'){

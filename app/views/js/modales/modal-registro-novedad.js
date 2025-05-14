@@ -3,10 +3,12 @@ import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let funcionCallback;
+let urlBase;
 
-async function modalRegistroNovedad(novedad, documento, urlBase) {
+async function modalRegistroNovedad(url, novedad, documento, callback=false) {
     try {
-        const response = await fetch(urlBase+'app/views/inc/modales/modal-novedad-usuario.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -26,7 +28,12 @@ async function modalRegistroNovedad(novedad, documento, urlBase) {
         documentoCausante.setAttribute('readonly', '');
         tipoNovedad.value = novedad;
         tipoNovedad.setAttribute('readonly', '');
-        
+
+        if(callback){
+            funcionCallback = callback;
+        }
+
+        urlBase = url;
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if (modalesExistentes.length > 1) {
@@ -36,7 +43,7 @@ async function modalRegistroNovedad(novedad, documento, urlBase) {
         } 
        
         eventoBotonCerrarModal();
-        eventoFormularioNovedad(urlBase);
+        eventoFormularioNovedad();
 
            
     } catch (error) {
@@ -68,21 +75,23 @@ function eventoBotonCerrarModal(){
     });
 }
 
-function eventoFormularioNovedad(UrlBase){
+function eventoFormularioNovedad(){
     let formularioNovedad = document.getElementById('forma_acceso_05');
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_usuario');
 
-        registrarNovedadUsuario(formData, UrlBase).then(respuesta=>{
+        registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
                 alertaError(respuesta);
                 
             }else if(respuesta.tipo == "OK"){
-                console.log(respuesta);
                 alertaExito(respuesta);
                 botonCerrarModal.click();
+                if(funcionCallback){
+                    funcionCallback();
+                }
             }
         });
     })

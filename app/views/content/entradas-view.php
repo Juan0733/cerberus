@@ -2,7 +2,7 @@
 
 <div class="contenedor-reportes " id="panel_entrada">
     <div class="contenedor-card-ptn-vhl">
-        <div class="cont-btn-volver">
+        <div id="btn_volver_peatonal_vehicular" class="cont-btn-volver">
             <button type="button" class="btn-ent-sal-volver">
                 <ion-icon name="chevron-back-outline"></ion-icon>
             </button>
@@ -16,7 +16,7 @@
                 <h1 class="titulo-formulario">Entrada Peatonal</h1>
                 <div class="cont_cajas_ptn">
                     <div class="input-caja">
-                        <label for="documento_peaton">Numero de documento</label>
+                        <label for="documento_peaton">Numero documento</label>
                         <input type="tel" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="4" required>
                     </div>
                     <div class="input-caja">
@@ -38,13 +38,13 @@
                 <h1 class="titulo-formulario">Entrada Vehicular</h1>
                 <div class="cont_cajas">
                     <div class="input-caja " id="caja_placa_vehiculo">
-                        <label for="placa_vehiculo">Placa del vehículo</label>
-                        <input type="tel" style="text-transform: uppercase;" class="campo"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo numeros y letras, maximo 6 caracteres." minlength="5" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
+                        <label for="placa_vehiculo">Placa vehículo</label>
+                        <input type="tel" class="campo input-placa"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo numeros y letras, maximo 6 caracteres." minlength="5" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
                         <span id="estado_vehiculo"></span>
                     </div>
 
                     <div class="input-caja">
-                        <label for="documento_propietario">Propietario del vehículo</label>
+                        <label for="documento_propietario">Propietario vehículo</label>
                         <input type="tel" class="campo" inputmode="numeric" id="documento_propietario" name="documento_propietario" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> <!-- se pasa como paremtro el estado en el cual debe de estar el vehiculo para poder ser llamado -->
                         <span id="estado_propietario"></span>
                     </div>  

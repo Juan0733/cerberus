@@ -38,6 +38,10 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
         }else{
             contenedorModales.classList.add('mostrar');
         } 
+
+        setTimeout(()=>{
+            document.getElementById('nombres').focus();
+        }, 250)
        
         eventoBotonCerrarModal();
         eventoFormularioVisitante();

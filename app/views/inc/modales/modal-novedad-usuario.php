@@ -15,12 +15,12 @@
 
                         <div class="input-caja-registro">
                             <label for="tipo_novedad" class="label-input">Tipo novedad</label>
-                            <input type="tel" class="campo validacion-campo-05" inputmode="numeric" name="tipo_novedad" id="tipo_novedad">
+                            <input type="tel" class="campo validacion-campo-05" inputmode="numeric" name="tipo_novedad" id="tipo_novedad" tabindex="4">
                         </div>
                         
                         <div class="input-caja-registro">
                             <label for="documento_causante" class="label-input">Identificación Causante</label>
-                            <input type="tel" class="campo validacion-campo-05" inputmode="numeric" name="documento_causante" id="documento_causante" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 15 numeros" placeholder="Ej: 123456" date="Numero de documento" tabindex="1" >
+                            <input type="tel" class="campo validacion-campo-05" inputmode="numeric" name="documento_causante" id="documento_causante" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 15 numeros" placeholder="Ej: 123456" date="Numero de documento" tabindex="5" >
                             
                         </div>
                         <?php
@@ -41,7 +41,7 @@
                                 id="fecha_suceso" 
                                 placeholder="Selecciona una fecha" 
                                 title="Selecciona la fecha del suceso." 
-                                tabindex="3" 
+                                tabindex="6" 
                                 required 
                                 min="<?= $fechaMinimaFormatted ?>" 
                                 max="<?= $fechaMaximaFormatted ?>"
@@ -50,7 +50,7 @@
 
                         <div class="input-caja-registro">
                             <label for="puerta_suceso" class="label-input">Puerta del suceso</label>
-                            <select class="campo validacion-campo-05"  name="puerta_suceso" id="puerta_suceso">
+                            <select class="campo validacion-campo-05"  name="puerta_suceso" id="puerta_suceso" tabindex="7">
                                 <option value="" disabled selected>Selecciona una puerta</option>
                                 <option value="ganaderia">Puerta de ganaderia</option>
                                 <option value="principal">Puerta principal</option>
@@ -66,7 +66,7 @@
                                 name="descripcion" 
                                 id="descripcion" 
                                 placeholder="Ej: Salio sin ser registrado por la puerta de ganaderia" 
-                                tabindex="4" 
+                                tabindex="8" 
                                 required
                             >
                         </div>
@@ -83,7 +83,7 @@
                         Cancelar
                     </button><!-- 
                     <button type="button" id="btn-siguiente" onclick="motrarCampos()">Siguiente</button> -->
-                    <button type="submit" id="btn_registrarme" class="btn_registrarme-05"  onclick="enviaFormulario('05')">Registrar</button>
+                    <button type="submit" id="btn_registrarme" class="btn_registrarme-05">Registrar</button>
                 </div>
             </form>
 

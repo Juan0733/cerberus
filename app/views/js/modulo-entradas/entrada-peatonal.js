@@ -3,42 +3,42 @@ import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedad} from '../modales/modal-registro-novedad.js';
 
 let documentoPeaton;
-let formularioPeatonal;
 let botonPeatonal;
 let botonVehicular;
+let formularioPeatonal;
+let formularioVehicular;
+let botonVolver;
 let urlBase;
 
-function mostrarFormularioPeatonal(){
-    if (botonVehicular.style.display == "none") {
-        if (window.innerWidth >= 780) {
-            botonVehicular.style.display = "flex";
-        }
-        
-        botonPeatonal.style.display = "none";
-        formularioPeatonal.style.display = "flex";
-        document.getElementById('formulario_vehicular').style.display = "none";
-        documentoPeaton.focus();
+function eventoAbrirFormularioPeatonal(){
+    botonPeatonal.addEventListener("click", ()=>{
+        formularioPeatonal.reset();
+        if (botonVehicular.style.display == "none") {
+            if (window.innerWidth >= 780) {
+                botonVehicular.style.display = "flex";
+            }
+            
+            botonPeatonal.style.display = "none";
+            formularioPeatonal.style.display = "flex";
+            formularioVehicular.style.display = "none";
+            documentoPeaton.focus();
 
-    }else{
-        if (window.innerWidth <= 779) {
-            botonVehicular.style.display = "none";
-            document.querySelector('.cont-btn-volver').style.display = 'flex';
+        }else{
+            if (window.innerWidth <= 779) {
+                botonVehicular.style.display = "none";
+                document.querySelector('.cont-btn-volver').style.display = 'flex';
+            }
+            
+            botonVehicular.style.background = 'red !important';
+            botonPeatonal.style.display = "none";
+            formularioPeatonal.style.display = "flex";
+            documentoPeaton.focus();
         }
-        
-        botonVehicular.style.background = 'red !important';
-        botonPeatonal.style.display = "none";
-        formularioPeatonal.style.display = "flex";
-        documentoPeaton.focus();
-    }
+    })
+    
 }
 
-function eventoBotonPeatonal() {
-    botonPeatonal.addEventListener('click', function() {
-        mostrarFormularioPeatonal();
-    });
-}
-
-function eventoInputDocumento() {
+function eventoInputPeaton() {
     documentoPeaton.addEventListener('change', function() {
         if (documentoPeaton.value.length>15) {
             let documentoFormateado = documentoPeaton.value.replace(/\D/g, '').slice(0, 10);
@@ -47,12 +47,8 @@ function eventoInputDocumento() {
     });
 }
 
-function limpiarFormularioPeatonal(){ 
-    formularioPeatonal.reset();
-    documentoPeaton.focus();
-}
 
-function eventoFormularioPeatonal() {
+function eventoRegistrarEntradaPeatonal() {
     formularioPeatonal.addEventListener('submit', (e)=>{
         e.preventDefault();
 
@@ -62,16 +58,29 @@ function eventoFormularioPeatonal() {
         registrarEntradaPeatonal(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
                 if(respuesta.titulo == "Salida No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
+                    respuesta.documento = documentoPeaton.value;
                     alertaAdvertencia(respuesta);
                 }else{
                     alertaError(respuesta);
                 }
             }else if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
-                limpiarFormularioPeatonal();
+                formularioPeatonal.reset();
+                documentoPeaton.focus();
             }
         });
     })
+}
+
+function eventoCerrarFormularioPeatonal(){
+    botonVolver.addEventListener('click', ()=>{
+        formularioPeatonal.style.display = 'none';
+        formularioVehicular.style.display = 'none';
+        botonVolver.style.display = 'none';
+        botonPeatonal.style = 'flex';
+        botonVehicular.style = 'flex';
+    })
+
 }
 
 function alertaExito(respuesta){
@@ -123,10 +132,10 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Salida No Registrada"){
-                modalRegistroNovedad('Salida no registrada',  documentoPeaton.value, urlBase);
+                modalRegistroNovedad(urlBase, 'Salida no registrada',  respuesta.documento);
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
-                modalRegistroVisitante(urlBase, documentoPeaton.value);
+                modalRegistroVisitante(urlBase, respuesta.documento);
             }
         } 
     });
@@ -138,9 +147,12 @@ document.addEventListener("DOMContentLoaded", function() {
     botonPeatonal = document.getElementById("btn_peatonal");
     botonVehicular = document.getElementById("btn_vehicular");
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
-    eventoBotonPeatonal();
-    eventoFormularioPeatonal();
-    eventoInputDocumento();
+    formularioVehicular = document.getElementById('formulario_vehicular');
+    botonVolver = document.getElementById('btn_volver_peatonal_vehicular');
+    eventoAbrirFormularioPeatonal();
+    eventoInputPeaton();
+    eventoRegistrarEntradaPeatonal();
+    eventoCerrarFormularioPeatonal();
 });
 
 

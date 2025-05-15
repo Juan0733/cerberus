@@ -139,6 +139,7 @@ class MovimientoService{
         }
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
+        $placaVehiculo = strtoupper($placaVehiculo);
 
         $datosEntrada = [
             'propietario' => $documentoPropietario,

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             echo json_encode($respuesta);
             exit();
         }
-        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['dato_entrada']));
+        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['datos_entrada']));
         
     }elseif($operacion == 'registrar_entrada_vehicular') {
         $respuesta = $objetoServicio->sanitizarDatosMovimientoVehicular();

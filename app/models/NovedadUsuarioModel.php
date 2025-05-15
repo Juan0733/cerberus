@@ -35,9 +35,9 @@ class NovedadUsuarioModel extends MainModel{
 
         $tablaUsuario = $respuesta['usuario']['grupo'];
 
-        if($datosNovedad['tipo_novedad'] == 'Salida no registrada'){
+        if($datosNovedad['tipo_novedad'] == 'SALIDA NO REGISTRADA'){
             $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, 'FUERA');
-        }elseif($datosNovedad['tipo_novedad'] == 'Entrada no registrada'){
+        }elseif($datosNovedad['tipo_novedad'] == 'ENTRADA NO REGISTRADA'){
             $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, 'DENTRO');
         }
 

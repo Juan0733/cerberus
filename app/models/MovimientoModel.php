@@ -95,6 +95,11 @@ class MovimientoModel extends MainModel{
             return $respuesta;
         }
 
+        $respuesta = $this->objetoVehiculo->actualizarUbicacionVehiculo($datosEntrada['numero_placa'], 'DENTRO');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
@@ -135,7 +140,7 @@ class MovimientoModel extends MainModel{
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Salida No Registrada',
-                'mensaje' => 'Parece que a este usuario no se le registro una salida, porque el sistema indica que aún se encuentra dentro del CAB.'
+                'mensaje' => 'Parece que el usuario con número de documento '.$usuario.', no se le registro una salida, porque el sistema indica que aún se encuentra dentro del CAB.'
             ];
             return $respuesta;
         }

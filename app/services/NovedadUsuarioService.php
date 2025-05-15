@@ -53,6 +53,8 @@ class NovedadUsuarioService{
 			}
         }
 
+        $tipoNovedad = strtoupper($tipoNovedad);
+
         $datosNovedad = [
             'numero_documento' => $numeroDocumento,
             'tipo_novedad' => $tipoNovedad,

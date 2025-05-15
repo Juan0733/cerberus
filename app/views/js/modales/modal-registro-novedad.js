@@ -34,13 +34,9 @@ async function modalRegistroNovedad(url, novedad, documento, callback=false) {
         }
 
         urlBase = url;
-        
+
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if (modalesExistentes.length > 1) {
-            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
-        }else{
-            contenedorModales.classList.add('mostrar');
-        } 
+        contenedorModales.classList.add('mostrar');
        
         eventoBotonCerrarModal();
         eventoFormularioNovedad();

@@ -6,7 +6,7 @@ let urlBase;
 
 async function modalFuncionariosBrigadistas(url) {
     try {
-        const response = await fetch(urlBase+'app/views/inc/modales/modal-funcionarios-brigadistas.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-funcionarios-brigadistas.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -20,7 +20,7 @@ async function modalFuncionariosBrigadistas(url) {
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         urlBase = url;
          
-        eventoBotonCerrarModal();
+        eventoCerrarModal();
 
         if(window.innerWidth > 1024){
             dibujarTablaBrigadistas();
@@ -41,7 +41,7 @@ async function modalFuncionariosBrigadistas(url) {
 }
 export { modalFuncionariosBrigadistas };
 
-function eventoBotonCerrarModal(){
+function eventoCerrarModal(){
     document.getElementById('cerrar_modal_brigadista').addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');

@@ -50,6 +50,12 @@ main#cuerpo{
         border: solid 3px red !important;
         background-color: #ffc6c6 !important;
     }
+    .input-placa{
+        text-transform: uppercase;
+    }
+    .input-placa::placeholder{
+        text-transform: none;
+    }
     .alerta-contenedor{
         border-radius: 20px;
         background: var(--main-color);

@@ -94,7 +94,7 @@
 /* Estilos Modal registrar Vehiculos */
 
 div#contenedor_modal_regis_vh{
-    width: clamp(272px, 100%, 480px);
+    width: clamp(272px, 100%, 730px);
     animation: slideIn 0.5s ease-out;
 }
     #contenedor_modal_regis_vh form{
@@ -106,17 +106,10 @@ div#contenedor_modal_regis_vh{
         width: 100%;
     }
     
-    #contenedor_modal_regis_vh .contenedor_campos_no_obl{
-        display: none;
-    }
-    #contenedor_modal_regis_vh form #btn_registrarme{
-        display: none;
-    }
-    #contenedor_modal_regis_vh form #btn_atras{
-        display: none;
-    }
-    #contenedor_modal_regis_vh #caja_02_registro {
-        display: none;
+    #contenedor_modal_regis_vh .contenedor_de_cajas{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
     }
        @keyframes slideIn {
             from {
@@ -160,10 +153,6 @@ div#contenedor_modal_regis_vh{
                 border-radius: 13px;
                 padding-left: 10px;
                 margin: 5px 0 0px 0;
-            }
-            #contenedor_modal_regis_vh form#forma_acceso_03 .campo:focus{
-                outline: none; 
-                border: none;
             }
             
             #contenedor_modal_regis_vh form#forma_acceso_03 .formatoInvalidado{
@@ -303,11 +292,6 @@ div#contenedor_modal_regis_vs{
                 padding-left: 10px;
                 margin: 5px 0 0px 0;
             }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .campo:focus{
-                outline: none; 
-                border: none;
-            }
-            
             #contenedor_modal_regis_vs form#forma_acceso_04 .formatoInvalidado{
                 width: 100%;
                 height: 60px;
@@ -331,7 +315,7 @@ div#contenedor_modal_regis_vs{
                         display: flex;
                         width: 100%;
                     }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn-siguiente {
+                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_siguiente {
                             
                             align-items: center;
                             justify-content: center;
@@ -352,7 +336,7 @@ div#contenedor_modal_regis_vs{
                             color: rgb(85, 85, 85);
                             font-size: 47px;
                         }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_registrarme {
+                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_registrar{
                             width: 100%;
                             display: none;
                             align-items: center;
@@ -392,11 +376,6 @@ div#contenedor_modal_regis_nv{
         width: 100%;
     }
     
-    .contenedor_campos_no_obl{
-        display: block;
-        width: 100%;
-        padding: 0 20px;
-    }
     #contenedor_modal_regis_nv form #btn_registrarme{
         display: flex;
     }
@@ -450,11 +429,6 @@ div#contenedor_modal_regis_nv{
                 padding-left: 10px;
                 margin: 5px 0 0px 0;
             }
-            #contenedor_modal_regis_nv form#forma_acceso_05 .campo:focus{
-                outline: none; 
-                border: none;
-            }
-            
             #contenedor_modal_regis_nv form#forma_acceso_05 .formatoInvalidado{
                 width: 100%;
                 height: 60px;
@@ -598,7 +572,7 @@ div#contenedor_modal_regis_nv{
 
 
 
-    /* Estilos Modal registrar Visitante */
+/* Estilos Modal registrar Visitante */
 
 div#contenedor_modal_regis_vs{
     width: clamp(272px, 100%, 730px);
@@ -612,7 +586,7 @@ div#contenedor_modal_regis_vs{
         align-items: center;
         width: 100%;
     }
-    #contenedor_modal_regis_vs form #btn_registrarme{
+    #contenedor_modal_regis_vs form #btn_registrar{
         display: block;
     }
     #contenedor_modal_regis_vs form #btn_atras{
@@ -688,12 +662,7 @@ div#contenedor_modal_regis_vs{
                 border-radius: 13px;
                 padding-left: 10px;
                 margin: 5px 0 0px 0;
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .campo:focus{
-                outline: none; 
-                border: none;
-            }
-            
+            } 
             #contenedor_modal_regis_vs form#forma_acceso_04 .formatoInvalidado{
                 width: 100%;
                 height: 60px;
@@ -772,17 +741,7 @@ div#contenedor_modal_regis_nv{
     #contenedor_modal_regis_nv .contenedor_de_cajas{
         display: flex;
         flex-direction: column;
-        width: 100%;
-    }
-    
-    #contenedor_modal_regis_nv .contenedor_campos_no_obl{
-        display: block;
-        width: 100%;
-        padding: 0 20px;
-    }
-    #contenedor_modal_regis_nv .contenedor_campos_no_obl_mobile{
-        display: flex;
-        width: 100%;
+        width: 90%;
     }
     #contenedor_modal_regis_nv form #btn_registrarme{
         display: flex;
@@ -836,10 +795,6 @@ div#contenedor_modal_regis_nv{
                 border-radius: 13px;
                 padding-left: 10px;
                 margin: 5px 0 0px 0;
-            }
-            #contenedor_modal_regis_nv form#forma_acceso_05 .campo:focus{
-                outline: none; 
-                border: none;
             }
             
             #contenedor_modal_regis_nv form#forma_acceso_05 .formatoInvalidado{

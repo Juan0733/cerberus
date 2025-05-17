@@ -8,7 +8,7 @@ use app\services\NovedadUsuarioService;
 
 header('Content-Type: application/json; charset=utf-8');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST['operacion'] != "") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoNovedad= new NovedadUsuarioModel();
     $objetoServicio = new NovedadUsuarioService();
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 
 
 	
-}elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion']) && $_GET['operacion'] != '' ){
+}elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
 
 }else{
 	echo "no post". $_SERVER['REQUEST_METHOD'];

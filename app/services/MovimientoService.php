@@ -41,14 +41,14 @@ class MovimientoService{
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
 
-        $datosEntrada = [
+        $datosMovimiento = [
             'numero_documento' => $numeroDocumento,
             'observacion' => $observacion
         ];
 
         $respuesta = [
             "tipo" => "OK",
-            "datos_entrada" => $datosEntrada
+            "datos_movimiento" => $datosMovimiento
         ];
         return $respuesta;
     }
@@ -141,7 +141,7 @@ class MovimientoService{
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
         $placaVehiculo = strtoupper($placaVehiculo);
 
-        $datosEntrada = [
+        $datosMovimiento = [
             'propietario' => $documentoPropietario,
             'grupo_propietario' => $grupoPropietario,
             'numero_placa' => $placaVehiculo,
@@ -151,7 +151,7 @@ class MovimientoService{
 
         $respuesta = [
             "tipo" => "OK",
-            "datos_entrada" => $datosEntrada
+            "datos_movimiento" => $datosMovimiento
         ];
         return $respuesta;
     }

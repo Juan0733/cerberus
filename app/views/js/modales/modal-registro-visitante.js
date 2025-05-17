@@ -5,6 +5,13 @@ let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
 let urlBase;
+let caja01;
+let caja02;
+let botonCancelar;
+let botonAtras;
+let botonSiguiente;
+let botonRegistrar;
+
 
 async function modalRegistroVisitante(url, documento=false, callback=false) {
     try {
@@ -30,6 +37,12 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
             funcionCallback = callback;
         }
 
+        caja01 = document.getElementById('caja_01_registro');
+        caja02 = document.getElementById('caja_02_registro');
+        botonCancelar = document.getElementById('btn_cancelar_visitante');
+        botonAtras = document.getElementById('btn_atras');
+        botonSiguiente = document.getElementById('btn_siguiente');
+        botonRegistrar = document.getElementById('btn_registrar');
         urlBase = url;
         
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
@@ -43,8 +56,10 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
             document.getElementById('nombres').focus();
         }, 250)
        
-        eventoBotonCerrarModal();
-        eventoFormularioVisitante();
+        eventoCerrarModal();
+        eventoRegistrarVisitante();
+        motrarCampos();
+        volverCampos();
 
            
     } catch (error) {
@@ -59,7 +74,7 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
 }
 export { modalRegistroVisitante };
 
-function eventoBotonCerrarModal(){
+function eventoCerrarModal(){
     botonCerrarModal = document.getElementById('cerrar_modal_visitante');
 
     botonCerrarModal.addEventListener('click', ()=>{
@@ -76,9 +91,7 @@ function eventoBotonCerrarModal(){
     });
 }
 
-
-
-function eventoFormularioVisitante(){
+function eventoRegistrarVisitante(){
     let formularioVisitante = document.getElementById('forma_acceso_04');
     formularioVisitante.addEventListener('submit', (e)=>{
         e.preventDefault();
@@ -136,5 +149,42 @@ function alertaError(respuesta){
 
 
 
+function motrarCampos() {
+    botonSiguiente.addEventListener('click', ()=>{
+        let inputs = document.querySelectorAll('.campo-caja-01');
+        let validos = true;
 
+        for(const input of inputs) {
+            if(!input.checkValidity()){
+                input.reportValidity();
+                validos = false;
+                break;
+            }
+        };
+
+        if(validos){
+            caja01.style.display = 'none';
+            botonSiguiente.style.display = 'none';
+            botonCancelar.style.display = 'none';
+            
+            caja02.style.display = 'block';
+            botonRegistrar.style.display = 'flex';
+            botonAtras.style.display = 'flex';
+        }
+    })
+}
+
+
+
+function volverCampos() {
+    botonAtras.addEventListener('click', ()=>{
+        caja02.style.display = 'none';
+        botonAtras.style.display = 'none';
+        botonRegistrar.style.display = 'none'
+
+        caja01.style.display = 'block';
+        botonSiguiente.style.display = 'block';
+        botonCancelar.style.display = 'flex';
+    })
+}
 

@@ -1,4 +1,4 @@
-import {registrarEntradaPeatonal} from '../fetchs/movimientos-fetch.js'
+import {registrarSalidaPeatonal} from '../fetchs/movimientos-fetch.js'
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 
@@ -47,17 +47,16 @@ function eventoInputPeaton() {
     });
 }
 
-
-function eventoRegistrarEntradaPeatonal() {
+function eventoRegistrarSalidaPeatonal() {
     formularioPeatonal.addEventListener('submit', (e)=>{
         e.preventDefault();
 
         let formData = new FormData(formularioPeatonal);
-        formData.append('operacion', 'registrar_entrada_peatonal');
+        formData.append('operacion', 'registrar_salida_peatonal');
 
-        registrarEntradaPeatonal(formData, urlBase).then(respuesta=>{
+        registrarSalidaPeatonal(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
-                if(respuesta.titulo == "Salida No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
+                if(respuesta.titulo == "Entrada No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
                     respuesta.documento = documentoPeaton.value;
                     alertaAdvertencia(respuesta);
                 }else{
@@ -131,8 +130,8 @@ function alertaAdvertencia(respuesta){
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            if(respuesta.titulo == "Salida No Registrada"){
-                modalRegistroNovedadUsuario(urlBase, 'Salida no registrada',  respuesta.documento);
+            if(respuesta.titulo == "Entrada No Registrada"){
+                modalRegistroNovedadUsuario(urlBase, 'Entrada no registrada',  respuesta.documento);
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento);
@@ -151,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
     botonVolver = document.getElementById('btn_volver_peatonal_vehicular');
     eventoAbrirFormularioPeatonal();
     eventoInputPeaton();
-    eventoRegistrarEntradaPeatonal();
+    eventoRegistrarSalidaPeatonal();
     eventoCerrarFormularioPeatonal();
 });
 

@@ -30,6 +30,22 @@ async function consultarVehiculo(placa, urlBase) {
 }
 export{consultarVehiculo}
 
+async function consultarPropietarios(placa, urlBase) {
+    try {
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_propietarios')+'&placa='+encodeURI(placa));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+
+        return data;
+        
+    } catch (error) {
+        console.error('Hubo un error:', error);
+    }
+}
+export{consultarPropietarios}
+
 async function registrarVehiculo(datos, urlBase) {
    
     try {
@@ -47,6 +63,5 @@ async function registrarVehiculo(datos, urlBase) {
         console.error('Hubo un error:', error);
     }
 }
-
 export{registrarVehiculo}
 

@@ -1,6 +1,6 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
-<div class="contenedor-reportes " id="panel_entrada">
+<div class="contenedor-reportes " id="panel_salida">
     <div class="contenedor-card-ptn-vhl">
         <div id="btn_volver_peatonal_vehicular" class="cont-btn-volver">
             <button type="button" class="btn-ent-sal-volver">
@@ -13,7 +13,7 @@
                 <h1>Peatonal</h1>
             </div>
             <form action="" method="post" id="formulario_peatonal" class="formulario-ingreso-salida" >
-                <h1 class="titulo-formulario">Entrada Peatonal</h1>
+                <h1 class="titulo-formulario">Salida Peatonal</h1>
                 <div class="cont_cajas_ptn">
                     <div class="input-caja">
                         <label for="documento_peaton">Numero documento</label>
@@ -34,7 +34,7 @@
             </div>
 
             <div id="formulario_vehicular">
-                <h1 class="titulo-formulario">Entrada Vehicular</h1>
+                <h1 class="titulo-formulario">Salida Vehicular</h1>
                 <div class="cont_cajas">
                     <div class="input-caja " id="caja_placa_vehiculo">
                         <label for="placa_vehiculo">Placa vehículo</label>
@@ -84,7 +84,7 @@
                     </div>
 
                 </div>
-                <button type="button" class="btn-eviar-reporte" id="registrar_entrada">Registrar</button>
+                <button type="button" class="btn-eviar-reporte" id="registrar_salida">Registrar</button>
             </div>  
         </div>
     </div>

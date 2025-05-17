@@ -1,9 +1,9 @@
 <?php
 namespace app\services;
 
-class NovedadUsuarioService{
-    public function sanitizarDatosNovedadUsuario(){
-        if (!isset($_POST['documento_involucrado'], $_POST['tipo_novedad'], $_POST['fecha_suceso'], $_POST['puerta_suceso'], $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['tipo_novedad'] == '' || $_POST['fecha_suceso'] == '' || $_POST['puerta_suceso'] == '' || $_POST['descripcion'] == '') {
+class NovedadVehiculoService{
+    public function sanitizarDatosNovedadVehiculo(){
+        if (!isset($_POST['documento_involucrado'], $_POST['propietario'], $_POST['tipo_novedad'], $_POST['numero_placa'],  $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['propietario'] == '' || $_POST['tipo_novedad'] == '' || $_POST['numero_placa'] == '' || $_POST['descripcion'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -12,29 +12,29 @@ class NovedadUsuarioService{
             return $respuesta;
         }
 
-        $numeroDocumento = $this->limpiarDatos($_POST['documento_involucrado']);
+        $documentoInvolucrado = $this->limpiarDatos($_POST['documento_involucrado']);
+        $propietario = $this->limpiarDatos($_POST['propietario']);
+        $numeroPlaca = $this->limpiarDatos($_POST['numero_placa']);
         $tipoNovedad = $this->limpiarDatos($_POST['tipo_novedad']);
-        $fechaSuceso = $this->limpiarDatos($_POST['fecha_suceso']);
-        $puertaSuceso = $this->limpiarDatos($_POST['puerta_suceso']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
-        unset($_POST['documento_involucrado'], $_POST['tipo_novedad'], $_POST['fecha_suceso'], $_POST['puerta_suceso'], $_POST['descripcion']);
+        unset($_POST['documento_involucrado'], $_POST['propietario'], $_POST['numero_placa'], $_POST['tipo_novedad'], $_POST['descripcion']);
 
         $datos = [
             [
                 'filtro' => "[A-Za-z0-9]{6,15}",
-                'cadena' => $numeroDocumento
+                'cadena' => $documentoInvolucrado
+            ],
+            [
+                'filtro' => "[A-Za-z0-9]{6,15}",
+                'cadena' => $propietario
             ],
             [
                 'filtro' => "[A-Za-z ]{1,50}",
                 'cadena' => $tipoNovedad
             ],
             [
-                'filtro' => "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])",
-                'cadena' => $fechaSuceso
-            ],
-            [
-                'filtro' => "(principal|ganaderia|peatonal)",
-                'cadena' => $puertaSuceso
+                'filtro' => "[A-Za-z0-9]{5,6}",
+                'cadena' => $numeroPlaca
             ],
             [
                 'filtro' => "[A-Za-zÑñ0-9 ]{5,100}",
@@ -54,12 +54,13 @@ class NovedadUsuarioService{
         }
 
         $tipoNovedad = strtoupper($tipoNovedad);
+        $numeroPlaca = strtoupper($numeroPlaca);
 
         $datosNovedad = [
-            'numero_documento' => $numeroDocumento,
+            'documento_involucrado' => $documentoInvolucrado,
+            'propietario' => $propietario,
+            'numero_placa' => $numeroPlaca,
             'tipo_novedad' => $tipoNovedad,
-            'fecha_suceso' => $fechaSuceso,
-            'puerta_suceso' => $puertaSuceso,
             'descripcion' => $descripcion
         ];
 

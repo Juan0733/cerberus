@@ -1,14 +1,14 @@
-import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
+import {registrarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
+import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let funcionCallback;
 let urlBase;
 
-async function modalRegistroNovedad(url, novedad, documento, callback=false) {
+async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
     try {
-        const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-novedad-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -21,40 +21,39 @@ async function modalRegistroNovedad(url, novedad, documento, callback=false) {
         contenedorModales.appendChild(modal);
 
         
-        let documentoCausante = document.getElementById('documento_causante'); 
+        let documentoInvolucrado = document.getElementById('documento_involucrado'); 
         let tipoNovedad = document.getElementById('tipo_novedad');
+        let numeroPlaca = document.getElementById('numero_placa');
 
-        documentoCausante.value = documento;
-        documentoCausante.setAttribute('readonly', '');
+        documentoInvolucrado.value = documento;
+        documentoInvolucrado.setAttribute('readonly', '');
         tipoNovedad.value = novedad;
         tipoNovedad.setAttribute('readonly', '');
-
-        if(callback){
-            funcionCallback = callback;
-        }
+        numeroPlaca.value = placa;
+        numeroPlaca.setAttribute('readonly', '')
 
         urlBase = url;
 
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         contenedorModales.classList.add('mostrar');
        
-        eventoBotonCerrarModal();
-        eventoFormularioNovedad();
-
+        dibujarPropietarios(placa);
+        eventoCerrarModal();
+        eventoRegistrarNovedadVehiculo();
            
     } catch (error) {
         let respuesta = {
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar el modal de registro de novedad'
+            mensaje: error
         }
         
         alertaError(respuesta);
     }
     
 }
-export { modalRegistroNovedad };
+export { modalRegistroNovedadVehiculo };
 
-function eventoBotonCerrarModal(){
+function eventoCerrarModal(){
     botonCerrarModal = document.getElementById('cerrar_modal_novedad');
 
     botonCerrarModal.addEventListener('click', ()=>{
@@ -71,26 +70,39 @@ function eventoBotonCerrarModal(){
     });
 }
 
-function eventoFormularioNovedad(){
+function eventoRegistrarNovedadVehiculo(){
     let formularioNovedad = document.getElementById('forma_acceso_05');
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
         let formData = new FormData(formularioNovedad);
-        formData.append('operacion', 'registrar_novedad_usuario');
+        formData.append('operacion', 'registrar_novedad_vehiculo');
 
-        registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
+        registrarNovedadVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
                 alertaError(respuesta);
                 
             }else if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
-                if(funcionCallback){
-                    funcionCallback();
-                }
             }
         });
     })
+}
+
+function dibujarPropietarios(placa){
+    const selectPropietario = document.getElementById('propietario');
+    propietario.innerHTML = '<option value="">Seleccionar</option>';
+
+    consultarPropietarios(placa, urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            respuesta.propietarios.forEach(propietario => {
+                selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
+            });
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
+        }
+    })
+
 }
 
 function alertaExito(respuesta){

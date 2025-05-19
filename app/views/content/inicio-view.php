@@ -4,14 +4,7 @@
         <h1 id="saludo_home">Hola <?php echo $_SESSION['datos_usuario']['nombres']?>!</h1>
         <p id="bienvenida">Bienvenido a Cerberus</p>
     </div>
-    <div id="buscar-persona">
-        <form action="post">
-            <div class="cont_buscador">
-                
-
-                <ion-icon name="search-outline"></ion-icon>
-                
-                <input type="text" name="input_buscar_persona" id="input_buscar_persona" placeholder="Buscar Persona" list="listaPersonas">
+    
                 
                             
                 <datalist id="listaPersonas">
@@ -64,19 +57,7 @@
                     <p class="subtitle" id="subtitle_barra_aprendices"></p>
                 </div>
 
-                <div class="card activada"><!-- Card Funcionarios Comunes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Funcionarios Comúnes</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_funcionarios_comunes"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_funcionarios_comunes"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_funcionarios_comunes"></p>
-                </div>
+                
 
                 <div id="card_brigadistas" class="card activada"><!-- Card Funcionarios Brigadistas -->
                     <p class="fecha-card"><?php echo $fecha;?></p>

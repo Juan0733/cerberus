@@ -26,6 +26,7 @@
         <h1 id="saludo_home">Hola <?php echo $_SESSION['datos_usuario']['nombres']?>!</h1>
         <p id="bienvenida">Bienvenido a Cerberus</p>
     </div>
+  
     <div id="contenedor-ppal-panel">
         <h3 class="titulo_multi_detalle">Multitud Detallada</h3>
         <div id="contenedor_cartas_multitudes">

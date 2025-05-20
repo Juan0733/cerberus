@@ -41,14 +41,14 @@ class MovimientoService{
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
 
-        $datosEntrada = [
+        $datosMovimiento = [
             'numero_documento' => $numeroDocumento,
             'observacion' => $observacion
         ];
 
         $respuesta = [
             "tipo" => "OK",
-            "datos_entrada" => $datosEntrada
+            "datos_movimiento" => $datosMovimiento
         ];
         return $respuesta;
     }
@@ -139,8 +139,9 @@ class MovimientoService{
         }
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
+        $placaVehiculo = strtoupper($placaVehiculo);
 
-        $datosEntrada = [
+        $datosMovimiento = [
             'propietario' => $documentoPropietario,
             'grupo_propietario' => $grupoPropietario,
             'numero_placa' => $placaVehiculo,
@@ -150,7 +151,7 @@ class MovimientoService{
 
         $respuesta = [
             "tipo" => "OK",
-            "datos_entrada" => $datosEntrada
+            "datos_movimiento" => $datosMovimiento
         ];
         return $respuesta;
     }
@@ -158,15 +159,51 @@ class MovimientoService{
     public function sanitizarParametros(){
         $parametros = [];
 
-       if(isset($_GET['documento'])){
-            $numeroDocumento= $this->limpiarDatos($_GET['documento']);
+        if(isset($_GET['puerta'])){
+            $puerta = $this->limpiarDatos($_GET['puerta']);
+            unset($_GET['puerta']);
+
+            if(preg_match('/^(peatonal|ganaderia|principal)$/', $puerta)){
+                $parametros['puerta'] = $puerta;
+            }
+        }
+
+        if(isset($_GET['fecha_inicio'])){
+            $fechaInicio = $this->limpiarDatos($_GET['fecha_inicio']);
+            unset($_GET['fecha_inicio']);
+
+            if(preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/', $fechaInicio)){
+                $parametros['fecha_inicio'] = $fechaInicio;
+            }
+        }
+
+        if(isset($_GET['fecha_fin'])){
+            $fechaFin = $this->limpiarDatos($_GET['fecha_fin']);
+            unset($_GET['fecha_fin']);
+
+            if(preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/', $fechaFin)){
+                $parametros['fecha_fin'] = $fechaFin;
+            }
+        }
+
+        if(isset($_GET['documento'])){
+            $numeroDocumento = $this->limpiarDatos($_GET['documento']);
             unset($_GET['documento']);
 
-            if(preg_match('/^[A-Za-z0-9]{6,15}$/', $numeroDocumento)){
+            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
                 $parametros['numero_documento'] = $numeroDocumento;
             }
         }
 
+        if(isset($_GET['placa'])){
+            $placa = $this->limpiarDatos($_GET['placa']);
+            unset($_GET['placa']);
+
+            if(preg_match('/^[A-Za-z0-9]{1,6}$/', $placa)){
+                $parametros['numero_placa'] = $placa;
+            }
+        }
+       
         return [
             'tipo' => 'OK',
             'parametros' => $parametros

@@ -11,14 +11,14 @@
                     <div id="caja_01_registro" class="rotado rotado caja_02_registro_03">
                         
                             <div class="input-caja-registro">
-                                <label for="propietario" class="label-input">Numero de documento</label>
-                                <input type="tel" class="campo  validacion-campo-03" inputmode="numeric" name="propietario" id="propietario" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="2">
+                                <label for="propietario" class="label-input">Propietario del vehículo</label>
+                                <input type="text" class="campo  validacion-campo-03" inputmode="numeric" name="propietario" id="propietario" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo numeros y letras, minimo 6 y maximo 15 caracteres" placeholder="Ej: 123456" tabindex="4">
                             </div>
 
                             <div class="input-caja-registro">
                                 
-                                <label for="tipo_vehiculo" class="label-input">Tipo de vehiculo</label>
-                                <select class="campo"  name="tipo_vehiculo" id="tipo_vehiculo" tabindex="3">
+                                <label for="tipo_vehiculo" class="label-input">Tipo de vehículo</label>
+                                <select class="campo"  name="tipo_vehiculo" id="tipo_vehiculo" tabindex="5">
                                     <option value="">Selecciona el tipo de vehiculo.</option>
                                     <option value="AT">Automovil</option>
                                     <option value="BS">Bus</option>
@@ -30,8 +30,8 @@
                 
                             <div class="input-caja-registro">
                                 
-                                <label for="numero_placa" class="label-input">Placa de vehiculo</label>
-                                <input type="text" class="campo  validacion-campo-03"  name="numero_placa" id="numero_placa" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo numeros y letras, minimo 5 y maximo 6 caracteres." placeholder="Ej: ABC123" tabindex="4">
+                                <label for="numero_placa" class="label-input">Placa del vehículo</label>
+                                <input type="text" class="campo  validacion-campo-03 input-placa"  name="numero_placa" id="numero_placa" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo numeros y letras, minimo 5 y maximo 6 caracteres." placeholder="Ej: ABC123" tabindex="6">
                 
                             </div>
                     
@@ -50,7 +50,6 @@
                     <button type="submit" id="btn_registrarme" class="btn-siguiente-03">Registrar</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

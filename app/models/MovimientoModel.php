@@ -95,6 +95,11 @@ class MovimientoModel extends MainModel{
             return $respuesta;
         }
 
+        $respuesta = $this->objetoVehiculo->actualizarUbicacionVehiculo($datosEntrada['numero_placa'], 'DENTRO');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
@@ -124,6 +129,109 @@ class MovimientoModel extends MainModel{
         return $respuesta;
     }
 
+    public function registrarSalidaPeatonal($datosEntrada){
+        $respuesta = $this->validarUsuarioAptoSalida($datosEntrada['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $tipoMovimiento = 'SALIDA';
+        $grupoUsuario = $respuesta['usuario']['grupo'];
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        
+        $sentenciaInsertar = "
+            INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
+            VALUES ('$tipoMovimiento', '".$datosEntrada['numero_documento']."', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
+        
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosEntrada['numero_documento'], $grupoUsuario, 'FUERA');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Registro Éxitoso',
+            "mensaje"=> 'La salida peatonal fue registrada correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function registrarSalidaVehicular($datosEntrada){
+        $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $tipoMovimiento = 'SALIDA';
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+
+        $sentenciaInsertar = "
+            INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
+            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', ".$datosEntrada['observacion'].");";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosEntrada['propietario'], $datosEntrada['grupo_propietario'], 'FUERA');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoVehiculo->actualizarUbicacionVehiculo($datosEntrada['numero_placa'], 'FUERA');
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        foreach($datosEntrada['pasajeros'] as $pasajero){
+            $sentenciaInsertar = "
+                INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
+                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', ".$datosEntrada['observacion'].")";
+            
+            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
+            if(!$respuestaSentencia){
+                $respuesta = [
+                    "tipo"=>"ERROR", 
+                    "titulo" => 'Error de Conexión',
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($pasajero['documento_pasajero'], $pasajero['grupo_pasajero'], 'FUERA');
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Registro Éxitoso',
+            "mensaje"=> 'La salida vehicular fue registrada correctamente.'
+        ];
+        return $respuesta;
+    }
+
     public function validarUsuarioAptoEntrada($usuario){
         $respuesta = $this->objetoUsuario->consultarUsuario($usuario);
         if($respuesta['tipo'] == 'ERROR'){
@@ -135,7 +243,7 @@ class MovimientoModel extends MainModel{
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Salida No Registrada',
-                'mensaje' => 'Parece que a este usuario no se le registro una salida, porque el sistema indica que aún se encuentra dentro del CAB.'
+                'mensaje' => 'Parece que el usuario con número de documento '.$usuario.', no se le registro una salida, porque el sistema indica que aún se encuentra dentro del CAB.'
             ];
             return $respuesta;
         }
@@ -176,6 +284,31 @@ class MovimientoModel extends MainModel{
         return $respuesta;
     }
 
+     public function validarUsuarioAptoSalida($usuario){
+        $respuesta = $this->objetoUsuario->consultarUsuario($usuario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $datosUsuario = $respuesta['usuario'];
+        if($datosUsuario['ubicacion'] == 'FUERA'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Entrada No Registrada',
+                'mensaje' => 'Parece que el usuario con número de documento '.$usuario.', no se le registro una entrada, porque el sistema indica que se encuentra fuera del CAB.'
+            ];
+            return $respuesta;
+        }
+        
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Apto',
+            'mensaje' => 'El usuario es apto, para registrar su salida del CAB.',
+            'usuario' => $datosUsuario,
+        ];
+        return $respuesta;
+    }
+
     public function validarPropiedadVehiculo($placa, $usuario){
         $respuesta = $this->objetoVehiculo->consultarPropietariosVehiculo($placa);
         if($respuesta['tipo'] == 'ERROR'){
@@ -200,9 +333,71 @@ class MovimientoModel extends MainModel{
         $respuesta = [
             'tipo' => 'ERROR',
             'titulo' => 'Propietario Incorrecto',
-            'mensaje' => 'El propietario del vehiculo no coincide con el usuario que intenta realizar el movimiento.',
+            'mensaje' => 'El usuario con numero de documento '.$usuario.', no le pertenece el vehículo de placas '.$placa.', ¿Es un vehículo prestado?',
             'tipo_vehiculo' => $tipoVehiculo
         ];
+        return $respuesta;
+    }
+
+    public function consultarMovimientos($parametros){
+        $sentenciaBuscar = "
+            SELECT 
+                DATE_FORMAT(mov.fecha_registro, '%d-%m-%Y %H:%i:%s') AS fecha_registro,
+                mov.tipo_movimiento, 
+                mov.fk_usuario,
+                mov.fk_usuario_sistema,
+                COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
+                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
+                COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
+                COALESCE(fk_vehiculo, 'No aplica') AS fk_vehiculo,
+                COALESCE(relacion_vehiculo, 'No aplica') AS relacion_vehiculo
+            FROM movimientos mov
+            LEFT JOIN funcionarios fun ON mov.fk_usuario = fun.numero_documento
+            LEFT JOIN visitantes vis ON mov.fk_usuario = vis.numero_documento
+            LEFT JOIN vigilantes vig ON mov.fk_usuario = vig.numero_documento
+            LEFT JOIN aprendices apr ON mov.fk_usuario = apr.numero_documento
+            WHERE DATE(mov.fecha_registro) BETWEEN DATE('".$parametros['fecha_inicio']."') AND DATE('".$parametros['fecha_fin']."')";
+
+        if(isset($parametros['puerta'])){
+            $sentenciaBuscar .= " AND mov.puerta_registro = '".$parametros['puerta']."'";
+        }
+
+        if(isset($parametros['numero_documento'])){
+            $sentenciaBuscar .= " AND mov.fk_usuario = '".$parametros['numero_documento']."'";
+        }
+
+        if(isset($parametros['numero_placa'])){
+            $sentenciaBuscar .= " AND mov.fk_vehiculo = '".$parametros['numero_placa']."'";
+        }
+
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+        if(!$respuestaSentencia){
+             $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;
+        }
+
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No encontrados',
+                "mensaje"=> 'No se encontraron resultados'
+            ];
+            return $respuesta;
+        }
+
+        $movimientos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'movimientos' => $movimientos
+        ];
+
         return $respuesta;
     }
 }

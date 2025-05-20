@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             echo json_encode($respuesta);
             exit();
         }
-        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['dato_entrada']));
+        echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['datos_movimiento']));
         
     }elseif($operacion == 'registrar_entrada_vehicular') {
         $respuesta = $objetoServicio->sanitizarDatosMovimientoVehicular();
@@ -30,7 +30,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             exit();
         }
 
-        echo json_encode($objetoMovimiento->registrarEntradaVehicular($respuesta['datos_entrada']));
+        echo json_encode($objetoMovimiento->registrarEntradaVehicular($respuesta['datos_movimiento']));
+    }elseif($operacion == "registrar_salida_peatonal"){
+         $respuesta = $objetoServicio->sanitizarDatosMovimientoPeatonal();
+        if ($respuesta['tipo'] == 'ERROR') {
+            echo json_encode($respuesta);
+            exit();
+        }
+        echo json_encode($objetoMovimiento->registrarSalidaPeatonal($respuesta['datos_movimiento']));
+    }elseif($operacion == 'registrar_salida_vehicular'){
+        $respuesta = $objetoServicio->sanitizarDatosMovimientoVehicular();
+        if ($respuesta['tipo'] == 'ERROR') {
+            echo json_encode($respuesta);
+            exit();
+        }
+        echo json_encode($objetoMovimiento->registrarSalidaVehicular($respuesta['datos_movimiento']));
     }
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $objetoMovimiento = new MovimientoModel();
@@ -51,5 +65,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
         
         echo json_encode($objetoMovimiento->validarUsuarioAptoEntrada($respuesta['parametros']['numero_documento']));
+
+    }elseif($operacion == 'validar_usuario_apto_salida'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(empty($respuesta['parametros'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+        
+        echo json_encode($objetoMovimiento->validarUsuarioAptoSalida($respuesta['parametros']['numero_documento']));
+
+    }elseif($operacion == 'consultar_movimientos'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['fecha_inicio']) || !isset($respuesta['parametros']['fecha_fin'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoMovimiento->consultarMovimientos($respuesta['parametros']));
     }
 }

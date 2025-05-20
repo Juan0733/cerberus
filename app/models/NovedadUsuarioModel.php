@@ -16,7 +16,9 @@ class NovedadUsuarioModel extends MainModel{
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
-        $sentenciaInsertar = "INSERT INTO novedades_usuarios(tipo_novedad, fk_usuario, fecha_suceso, puerta_suceso, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) VALUES('".$datosNovedad['tipo_novedad']."', '".$datosNovedad['numero_documento']."', '".$datosNovedad['fecha_suceso']."', '".$datosNovedad['puerta_suceso']."', '$puertaActual', '".$datosNovedad['descripcion']."', '$fechaRegistro', '$usuarioSistema')";
+        $sentenciaInsertar = "
+            INSERT INTO novedades_usuarios(tipo_novedad, fk_usuario, fecha_suceso, puerta_suceso, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) 
+            VALUES('".$datosNovedad['tipo_novedad']."', '".$datosNovedad['numero_documento']."', '".$datosNovedad['fecha_suceso']."', '".$datosNovedad['puerta_suceso']."', '$puertaActual', '".$datosNovedad['descripcion']."', '$fechaRegistro', '$usuarioSistema')";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){
@@ -35,9 +37,9 @@ class NovedadUsuarioModel extends MainModel{
 
         $tablaUsuario = $respuesta['usuario']['grupo'];
 
-        if($datosNovedad['tipo_novedad'] == 'Salida no registrada'){
+        if($datosNovedad['tipo_novedad'] == 'SALIDA NO REGISTRADA'){
             $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, 'FUERA');
-        }elseif($datosNovedad['tipo_novedad'] == 'Entrada no registrada'){
+        }elseif($datosNovedad['tipo_novedad'] == 'ENTRADA NO REGISTRADA'){
             $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, 'DENTRO');
         }
 

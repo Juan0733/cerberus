@@ -22,7 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     if($operacion == 'consultar_funcionarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
-        
+
         echo json_encode($objetoFuncionario->consultarFuncionarios($respuesta['parametros']));
+    }if($operacion == 'conteo_total_brigadistas'){
+        
+        echo json_encode($objetoFuncionario->conteoTotalBrigadistas());
     }
+
+
 }

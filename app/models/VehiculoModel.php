@@ -52,6 +52,10 @@ class VehiculoModel extends MainModel {
             FROM vehiculos 
             WHERE 1=1";
 
+        if(isset($parametros['numero_placa'])){
+            $sentenciaBuscar .= " AND numero_placa LIKE '".$parametros['numero_placa']."%'";
+        }
+
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND fk_usuario LIKE '".$parametros['numero_documento']."%'";
         }
@@ -229,14 +233,16 @@ class VehiculoModel extends MainModel {
         foreach($tiposVehiculo as $tipo) {
             if($tipo == "carros"){
                 $sentenciaBuscar = "
-                    SELECT contador 
+                    SELECT numero_placa
                     FROM vehiculos 
-                    WHERE tipo_vehiculo <> 'MT' AND ubicacion = 'DENTRO';";
+                    WHERE tipo_vehiculo <> 'MT' AND ubicacion = 'DENTRO'
+                    GROUP BY numero_placa;";
             }else{
                 $sentenciaBuscar = "
-                    SELECT contador 
+                    SELECT numero_placa 
                     FROM vehiculos 
-                    WHERE tipo_vehiculo = 'MT' AND ubicacion = 'DENTRO';";
+                    WHERE tipo_vehiculo = 'MT' AND ubicacion = 'DENTRO'
+                    GROUP BY numero_placa;";
             }
 
             $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
@@ -277,5 +283,28 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
+    public function actualizarUbicacionVehiculo($placa, $ubicacion){
+        $sentenciaActualizar = "
+            UPDATE vehiculos
+            SET ubicacion = '$ubicacion'
+            WHERE numero_placa = '$placa';";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaActualizar);
+        if(!$respuestaSentencia){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;    
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Ubicacion Actualizada',
+            'mensaje' => 'La ubicacion del vehiculo fue actualizada correctamente.'
+        ];
+        return $respuesta;
+    }
     
 }

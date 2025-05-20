@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/404-estilo.css">
 <?php elseif($url[0] == 'inicio'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/inicio.css">
+<?php elseif($url[0] == 'informes'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/inicio.css">
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/informes.css">
 <?php endif; ?>
 
 <link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">

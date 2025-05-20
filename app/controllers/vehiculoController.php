@@ -45,6 +45,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 		}
 		
 		echo json_encode($objetoVehiculo->consultarVehiculo($respuesta['parametros']['numero_placa']));
+	}elseif($operacion == 'consultar_propietarios'){
+		$respuesta = $objetoServicio->sanitizarParametros();
+		if(empty($respuesta['parametros'])){
+			$respuesta = [
+				"tipo" => "ERROR",
+				"titulo" => 'Error De Parámetros',
+				"mensaje" => 'No se han enviado parámetros o son incorrectos.'
+			];
+
+			echo json_encode($respuesta);
+			exit();
+		}
+
+		echo json_encode($objetoVehiculo->consultarPropietariosVehiculo($respuesta['parametros']['numero_placa']));
+
 	}
 }else{
 	echo "no post". $_SERVER['REQUEST_METHOD'];

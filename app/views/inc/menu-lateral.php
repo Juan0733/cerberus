@@ -21,7 +21,6 @@
             
             <div id="cont_icon_notificaciones-mobil">
                     <ion-icon name="notifications-outline" ></ion-icon>
-
                     <span id="notification_count">5</span> 
             </div>
         </div>

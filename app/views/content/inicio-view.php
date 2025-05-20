@@ -1,43 +1,33 @@
+<?php
+    date_default_timezone_set('America/Bogota');
+    $meses = [
+        'January' => 'enero',
+        'February' => 'febrero',
+        'March' => 'marzo',
+        'April' => 'abril',
+        'May' => 'mayo',
+        'June' => 'junio',
+        'July' => 'julio',
+        'August' => 'agosto',
+        'September' => 'septiembre',
+        'October' => 'octubre',
+        'November' => 'noviembre',
+        'December' => 'diciembre'
+    ];
+    $fecha = new DateTime();
+
+    $mes = $meses[$fecha->format('F')];
+    $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y'); 
+?>
+
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 <div class="contenedor-bienvenida">
     <div class="cont_saludo">
         <h1 id="saludo_home">Hola <?php echo $_SESSION['datos_usuario']['nombres']?>!</h1>
         <p id="bienvenida">Bienvenido a Cerberus</p>
     </div>
-    
-                
-                            
-                <datalist id="listaPersonas">
-                    <option value="Dilan Adrian Zapata"></option>
-                    <option value="Nombre persona 02"></option>
-                    <option value="Nombre persona 02"></option>
-                </datalist>
-
-            </div>
-        </form>
-    </div>
+  
     <div id="contenedor-ppal-panel">
-        <?php
-            date_default_timezone_set('America/Bogota');
-            $meses = [
-                'January' => 'enero',
-                'February' => 'febrero',
-                'March' => 'marzo',
-                'April' => 'abril',
-                'May' => 'mayo',
-                'June' => 'junio',
-                'July' => 'julio',
-                'August' => 'agosto',
-                'September' => 'septiembre',
-                'October' => 'octubre',
-                'November' => 'noviembre',
-                'December' => 'diciembre'
-            ];
-            $fecha = new DateTime();
-
-            $mes = $meses[$fecha->format('F')];
-            $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y'); 
-        ?>
         <h3 class="titulo_multi_detalle">Multitud Detallada</h3>
         <div id="contenedor_cartas_multitudes">
             <h3 class="titulo_multi_detalle_02">Multitud Detallada</h3>
@@ -57,22 +47,20 @@
                     <p class="subtitle" id="subtitle_barra_aprendices"></p>
                 </div>
 
-                
-
-                <div id="card_brigadistas" class="card activada"><!-- Card Funcionarios Brigadistas -->
+                <div class="card activada"><!-- Card Funcionarios Comunes -->
                     <p class="fecha-card"><?php echo $fecha;?></p>
                     <div class="titulo-card">
                         <ion-icon name="people-outline"></ion-icon>
-                        <h3>Funcionarios Brigadistas</h3>
+                        <h3>Funcionarios</h3>
                     </div>
                     <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_funcionarios_brigadistas"></h5>
+                    <h5 class="cantidad" id="conteo_funcionarios"></h5>
                     <div class="cantidad-barra">
-                        <div class="barra" id="barra_funcionarios_brigadistas"></div>
+                        <div class="barra" id="barra_funcionarios"></div>
                     </div>
-                    <p class="subtitle" id="subtitle_barra_funcionarios_brigadistas"></p>
+                    <p class="subtitle" id="subtitle_barra_funcionarios"></p>
                 </div>
-
+                
                 <div class="card activada"><!-- Card Visitantes -->
                     <p class="fecha-card"><?php echo $fecha;?></p>
                     <div class="titulo-card">

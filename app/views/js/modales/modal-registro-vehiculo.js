@@ -30,9 +30,13 @@ async function modalRegistroVehiculo(url, placa, callback ) {
         documentoPropietario = document.getElementById('propietario');
         funcionCallback = callback;
         urlBase = url;
-        
+ 
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         contenedorModales.classList.add('mostrar');
+
+        setTimeout(()=>{
+            documentoPropietario.focus();
+        }, 250)
         
         eventoBotonCerrarModal();
         eventoFormularioVehiculo();
@@ -74,6 +78,7 @@ function eventoFormularioVehiculo(){
         registrarVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "ERROR" ){
                 if(respuesta.titulo == "Usuario No Encontrado"){
+                    respuesta.documento = documentoPropietario.value
                     alertaAdvertencia(respuesta);
                 }else{
                     alertaError(respuesta);
@@ -105,7 +110,7 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Usuario No Encontrado"){
-                modalRegistroVisitante(urlBase, documentoPropietario.value);
+                modalRegistroVisitante(urlBase, respuesta.documento);
             }
         } 
     });

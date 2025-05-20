@@ -1,14 +1,16 @@
-import {validarUsuarioAptoEntrada} from '../fetchs/movimientos-fetch.js';
-import {registrarEntradaVehicular} from '../fetchs/movimientos-fetch.js';
+import {validarUsuarioAptoSalida} from '../fetchs/movimientos-fetch.js';
+import {registrarSalidaVehicular} from '../fetchs/movimientos-fetch.js';
 import {consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
 import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
+import { modalRegistroNovedadVehiculo } from '../modales/modal-registro-novedad-vehiculo.js';
 
 let documentoPropietario;
 let documentoPasajero;
 let placaVehiculo;
+let observacion;
 let cuerpoTablaPasajeros;
 let listaPropietarios;
 let urlBase;
@@ -74,10 +76,10 @@ function validarVehiculoAptoEntrada(){
 }
 
 function validarPropietarioAptoEntrada(){
-    validarUsuarioAptoEntrada(documentoPropietario.value, urlBase).then(respuesta => {
+    validarUsuarioAptoSalida(documentoPropietario.value, urlBase).then(respuesta => {
         if(respuesta.tipo == "ERROR"){
             datosEntradaVehicular.propietario = "";
-            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
+            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Entrada No Registrada"){
                 documentoPropietario.classList.remove('input-ok');
                 documentoPropietario.classList.add('input-error');
                 respuesta.documento = documentoPropietario.value;
@@ -97,9 +99,9 @@ function validarPropietarioAptoEntrada(){
 }
 
 function validarPasajeroAptoEntrada(){
-    validarUsuarioAptoEntrada(documentoPasajero.value, urlBase).then(respuesta => {
+    validarUsuarioAptoSalida(documentoPasajero.value, urlBase).then(respuesta => {
         if(respuesta.tipo == "ERROR"){
-            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
+            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Entrada No Registrada"){
                 respuesta.documento = documentoPasajero.value;
                 respuesta.callback = validarPasajeroAptoEntrada;
                 alertaAdvertencia(respuesta);
@@ -262,9 +264,8 @@ function eventoAgregarPasajero(){
     });
 }
 
-function eventoRegistrarEntradaVehicular(){
-    const observacion = document.getElementById('observacion_vehicular');
-    document.getElementById('registrar_entrada').addEventListener('click', ()=>{
+function eventoRegistrarSalidaVehicular(){
+    document.getElementById('registrar_salida').addEventListener('click', ()=>{
         if(!placaVehiculo.checkValidity()){
             placaVehiculo.reportValidity();
         }else if(!documentoPropietario.checkValidity()){
@@ -279,16 +280,23 @@ function eventoRegistrarEntradaVehicular(){
             const formData = new FormData();
             const pasajeros = JSON.stringify(datosEntradaVehicular.pasajeros);
 
-            formData.append('operacion', 'registrar_entrada_vehicular');
+            formData.append('operacion', 'registrar_salida_vehicular');
             formData.append('propietario', datosEntradaVehicular.propietario);
             formData.append('grupo_propietario', datosEntradaVehicular.grupo_propietario);
             formData.append('placa_vehiculo', datosEntradaVehicular.placa);
             formData.append('pasajeros', pasajeros);
             formData.append('observacion_vehicular', observacion.value);
 
-            registrarEntradaVehicular(formData, urlBase).then(respuesta=>{
+            registrarSalidaVehicular(formData, urlBase).then(respuesta=>{
                 if(respuesta.tipo == 'ERROR'){
-                    alertaError(respuesta);
+                    if(respuesta.titulo == 'Propietario Incorrecto'){
+                        respuesta.documento = datosEntradaVehicular.propietario;
+                        respuesta.vehiculo= datosEntradaVehicular.placa;
+                        alertaAdvertencia(respuesta)
+                    }else{
+                        alertaError(respuesta);
+                    }
+                   
                 }else if(respuesta.tipo == 'OK'){
                     alertaExito(respuesta);
                     limpiarFormularioVehicular();
@@ -318,6 +326,7 @@ function limpiarFormularioVehicular(){
     placaVehiculo.value = '';
     documentoPropietario.value = '';
     documentoPasajero.value = '';
+    observacion.value = '';
     cuerpoTablaPasajeros.innerHTML = '';
     datosEntradaVehicular.propietario = '';
     datosEntradaVehicular.grupo_propietario = '';
@@ -377,12 +386,14 @@ function alertaAdvertencia(respuesta){
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            if(respuesta.titulo == "Salida No Registrada"){
-                modalRegistroNovedadUsuario( urlBase, 'Salida no registrada',  respuesta.documento, respuesta.callback);
+            if(respuesta.titulo == "Entrada No Registrada"){
+                modalRegistroNovedadUsuario( urlBase, 'Entrada no registrada',  respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Vehículo No Encontrado"){
                 modalRegistroVehiculo(urlBase, respuesta.vehiculo, respuesta.callback);
+            }else if(respuesta.titulo == "Propietario Incorrecto"){
+                modalRegistroNovedadVehiculo(urlBase, 'Vehiculo prestado', respuesta.documento, respuesta.vehiculo);
             }
         } 
     });
@@ -396,11 +407,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     cuerpoTablaPasajeros = document.getElementById('cuerpo_tabla_pasajeros');
     listaPropietarios = document.getElementById('lista_propietarios');
     placaVehiculo = document.getElementById('placa_vehiculo');
+    observacion = document.getElementById('observacion_vehicular');
 
     eventoAbrirFormularioVehicular();
     eventoInputPlaca();
     eventoInputPropietario();
     eventoInputPasajero();
     eventoAgregarPasajero();
-    eventoRegistrarEntradaVehicular();
+    eventoRegistrarSalidaVehicular();
 });

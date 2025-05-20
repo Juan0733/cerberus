@@ -45,6 +45,8 @@ class VehiculoService{
             }
         }
 
+        $numeroPlaca = strtoupper($numeroPlaca);
+
         $datosVehiculo = [
             'propietario' => $propietario,
             'numero_placa' => $numeroPlaca,
@@ -57,15 +59,25 @@ class VehiculoService{
         ];
         return $respuesta;
     }
-	 public function sanitizarParametros(){
+	
+    public function sanitizarParametros(){
         $parametros = [];
 
-       if(isset($_GET['placa'])){
+        if(isset($_GET['placa'])){
             $numeroPlaca= $this->limpiarDatos($_GET['placa']);
             unset($_GET['placa']);
 
             if(preg_match('/^[A-Za-z0-9]{5,6}$/', $numeroPlaca)){
-                $parametros['numero_placa'] = $numeroPlaca;
+                $parametros['numero_placa'] = strtoupper($numeroPlaca);
+            }
+        }
+
+        if(isset($_GET['documento'])){
+            $numeroPlaca= $this->limpiarDatos($_GET['documento']);
+            unset($_GET['documento']);
+
+            if(preg_match('/^[A-Za-z0-9]{6,15}$/', $numeroPlaca)){
+                $parametros['numero_documento'] = strtoupper($numeroPlaca);
             }
         }
 

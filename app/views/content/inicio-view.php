@@ -105,7 +105,7 @@
                 <div class="card activada"><!-- Card Motos -->
                     <p class="fecha-card"><?php echo $fecha;?></p>
                     <div class="titulo-card">
-                        <ion-icon name="car-outline"></ion-icon>
+                        <ion-icon name="bicycle-outline"></ion-icon>
                         <h3>Motos</h3>
                     </div>
                     <h4 class="cantidad-titulo">Cantidad</h4>

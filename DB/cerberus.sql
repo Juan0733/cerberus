@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2025 a las 09:42:12
+-- Tiempo de generación: 20-05-2025 a las 05:52:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -123,7 +123,16 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(2, 'CC', '1234567898', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'instructor', 'planta', NULL, NULL, 'si', '2025-05-10 05:54:16', NULL, 'DENTRO', NULL);
+(11, 'CC', '1234567890', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(12, 'CC', '1234567890', 'Juan David', 'Restrepo Perez', '1234567897', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(13, 'CC', '1234567890', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(14, 'CC', '1234567899', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(15, 'CC', '1234567893', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(16, 'CC', '12345678902', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(17, 'CC', '12345678901', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(18, 'CC', '12345678908', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(19, 'CC', '123456789077', 'Juan David', 'Restrepo Perez', '1234567890', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL),
+(20, 'CC', '123456789055', 'Juan David', 'Restrepo Perez', '1234567897', 'juan@gmail.com', 'instructor', 'planta', NULL, NULL, 'SI', '2025-05-19 18:00:00', NULL, 'DENTRO', NULL);
 
 -- --------------------------------------------------------
 
@@ -161,41 +170,8 @@ CREATE TABLE `movimientos` (
 --
 
 INSERT INTO `movimientos` (`contador`, `tipo_movimiento`, `fk_usuario`, `fk_vehiculo`, `relacion_vehiculo`, `puerta_registro`, `observacion`, `fecha_registro`, `fk_usuario_sistema`, `grupo_usuario`) VALUES
-(5, 'ENTRADA', '123456789', NULL, NULL, '', 'peatonal', '2025-05-02 23:31:33', '123456789', 'vigilantes'),
-(6, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', '', '2025-05-02 23:32:48', '123456789', 'vigilantes'),
-(7, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', '', '2025-05-02 23:34:12', '123456789', 'vigilantes'),
-(8, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', '', '2025-05-02 23:34:53', '123456789', 'vigilantes'),
-(9, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-02 23:49:54', '123456789', 'vigilantes'),
-(10, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', '', '2025-05-02 23:51:34', '123456789', 'vigilantes'),
-(11, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-03 00:04:37', '123456789', 'vigilantes'),
-(12, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 11:27:26', '123456789', 'vigilantes'),
-(13, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 11:40:21', '123456789', 'vigilantes'),
-(14, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 11:43:45', '123456789', 'vigilantes'),
-(15, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 11:44:32', '123456789', 'vigilantes'),
-(16, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 11:49:12', '123456789', 'vigilantes'),
-(17, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 12:16:30', '123456789', 'vigilantes'),
-(18, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 12:18:35', '123456789', 'vigilantes'),
-(19, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 12:21:58', '123456789', 'vigilantes'),
-(20, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 13:37:45', '123456789', 'vigilantes'),
-(21, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 13:39:14', '123456789', 'vigilantes'),
-(22, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 13:39:50', '123456789', 'vigilantes'),
-(23, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 13:42:02', '123456789', 'vigilantes'),
-(24, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 13:44:11', '123456789', 'vigilantes'),
-(25, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-05 13:44:42', '123456789', 'vigilantes'),
-(26, 'ENTRADA', '132456647', NULL, NULL, 'peatonal', NULL, '2025-05-08 13:32:43', '123456789', 'visitantes'),
-(27, 'ENTRADA', '1234567890', NULL, NULL, 'peatonal', NULL, '2025-05-08 13:37:50', '123456789', 'visitantes'),
-(28, 'ENTRADA', '1234567891', NULL, NULL, 'peatonal', NULL, '2025-05-08 13:42:52', '123456789', 'visitantes'),
-(29, 'ENTRADA', '1234567892', NULL, NULL, 'peatonal', NULL, '2025-05-08 13:50:48', '123456789', 'visitantes'),
-(30, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-09 15:04:01', '123456789', 'vigilantes'),
-(31, 'ENTRADA', '12345678900', NULL, NULL, 'peatonal', NULL, '2025-05-09 15:24:28', '123456789', 'visitantes'),
-(32, 'ENTRADA', '2323323', NULL, NULL, 'peatonal', NULL, '2025-05-09 15:45:42', '123456789', 'visitantes'),
-(33, 'ENTRADA', '34343434', NULL, NULL, 'peatonal', NULL, '2025-05-09 15:50:02', '123456789', 'visitantes'),
-(34, 'ENTRADA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-09 16:02:30', '123456789', 'vigilantes'),
-(35, 'ENTRADA', '1114813615', NULL, NULL, 'peatonal', NULL, '2025-05-12 08:59:16', '123456789', 'visitantes'),
-(49, 'ENTRADA', '123456789', 'asd123', 'propietario', 'peatonal', 'NULL', '2025-05-14 02:30:46', '123456789', 'vigilantes'),
-(50, 'ENTRADA', '1234567890', 'asd123', 'pasajero', 'peatonal', 'NULL', '2025-05-14 02:30:46', '123456789', 'visitantes'),
-(51, 'ENTRADA', '123456', 'asd123', 'propietario', 'peatonal', 'NULL', '2025-05-14 02:36:51', '123456789', 'visitantes'),
-(52, 'ENTRADA', '12345678907', 'asd123', 'propietario', 'peatonal', 'NULL', '2025-05-14 02:39:29', '123456789', 'visitantes');
+(71, 'SALIDA', '123456789', NULL, NULL, 'peatonal', NULL, '2025-05-19 11:33:26', '123456789', 'vigilantes'),
+(72, 'ENTRADA', '123456789', 'ASD123', 'propietario', 'peatonal', 'NULL', '2025-04-19 13:25:03', '123456789', 'vigilantes');
 
 -- --------------------------------------------------------
 
@@ -215,16 +191,6 @@ CREATE TABLE `novedades_usuarios` (
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
---
--- Volcado de datos para la tabla `novedades_usuarios`
---
-
-INSERT INTO `novedades_usuarios` (`contador`, `tipo_novedad`, `puerta_suceso`, `puerta_registro`, `descripcion`, `fk_usuario`, `fecha_suceso`, `fecha_registro`, `fk_usuario_sistema`) VALUES
-(1, 'Salida no registrada', 'ganaderia', 'peatonal', 'no se le registra la salida', '123456789', '2025-05-09 14:51:00', '2025-05-09 15:03:53', '123456789'),
-(2, 'Salida no registrada', 'ganaderia', 'peatonal', 'no se le registra la salida', '123456789', '2025-05-09 16:02:00', '2025-05-09 16:02:26', '123456789'),
-(3, 'Salida no registrada', 'ganaderia', 'peatonal', 'no se le registra la salida', '1234567890', '2025-05-13 14:18:00', '2025-05-13 14:18:17', '123456789'),
-(4, 'Salida no registrada', 'ganaderia', 'peatonal', 'no se le registra la salida', '123456789', '2025-05-13 18:41:00', '2025-05-13 18:41:33', '123456789');
-
 -- --------------------------------------------------------
 
 --
@@ -237,10 +203,18 @@ CREATE TABLE `novedades_vehiculos` (
   `puerta_registro` varchar(9) NOT NULL,
   `descripcion` varchar(150) NOT NULL,
   `fk_vehiculo` varchar(6) NOT NULL,
-  `fk_usuario` varchar(15) NOT NULL,
+  `fk_usuario_involucrado` varchar(15) NOT NULL,
+  `fk_usuario_autoriza` varchar(15) NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `novedades_vehiculos`
+--
+
+INSERT INTO `novedades_vehiculos` (`contador`, `tipo_novedad`, `puerta_registro`, `descripcion`, `fk_vehiculo`, `fk_usuario_involucrado`, `fk_usuario_autoriza`, `fecha_registro`, `fk_usuario_sistema`) VALUES
+(1, 'VEHICULO PRESTADO', 'peatonal', 'dfdfdfdfdf', 'fg300', '12345678901', '1114813615', '2025-05-17 17:03:15', '123456789');
 
 -- --------------------------------------------------------
 
@@ -298,17 +272,7 @@ CREATE TABLE `vehiculos` (
 --
 
 INSERT INTO `vehiculos` (`contador`, `tipo_vehiculo`, `numero_placa`, `fk_usuario`, `fecha_registro`, `fk_usuario_sistema`, `ubicacion`) VALUES
-(13, 'AT', '123ATI', '1114813617', '2025-05-12 15:32:10', '123456789', 'FUERA'),
-(15, 'AT', '123ATY', '1114813610', '2025-05-12 15:38:18', '123456789', 'FUERA'),
-(18, 'BS', 'ASD229', '1114813615', '2025-05-12 15:42:34', '123456789', 'FUERA'),
-(19, 'AT', 'ASD220', '1114813615', '2025-05-12 15:43:10', '123456789', 'FUERA'),
-(20, 'AT', 'asw123', '1114813615', '2025-05-13 16:59:32', '123456789', 'FUERA'),
-(21, 'AT', 'asw120', '1114813615', '2025-05-13 17:35:52', '123456789', 'FUERA'),
-(24, 'AT', 'asd123', '1114813615', '2025-05-13 18:41:57', '123456789', 'FUERA'),
-(32, '', 'asd123', '1234567890', '2025-05-14 02:25:08', '123456789', 'FUERA'),
-(33, '', 'asd123', '123456789', '2025-05-14 02:30:46', '123456789', 'FUERA'),
-(34, '', 'asd123', '123456', '2025-05-14 02:36:51', '123456789', 'FUERA'),
-(35, '', 'asd123', '12345678907', '2025-05-14 02:39:29', '123456789', 'FUERA');
+(49, 'AT', 'ASD123', '123456789', '2025-05-19 13:24:42', '123456789', 'DENTRO');
 
 -- --------------------------------------------------------
 
@@ -357,32 +321,6 @@ CREATE TABLE `visitantes` (
   `fecha_registro` datetime NOT NULL,
   `ubicacion` varchar(8) NOT NULL DEFAULT 'FUERA'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `visitantes`
---
-
-INSERT INTO `visitantes` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `motivo_ingreso`, `fecha_registro`, `ubicacion`) VALUES
-(1, '', '', '', '', '', '', '', '2025-05-08 11:20:55', 'FUERA'),
-(2, 'CC', '12133344', '', '', '1234567890', '', 'yyuuyuyyyyuyuy', '2025-05-08 12:17:02', 'FUERA'),
-(3, 'CC', '121212122', '', '', '1234567890', 'amerik640@gmail.com', 'yyuuyuyyyyuyuy', '2025-05-08 13:02:30', 'FUERA'),
-(4, 'CC', '132456647', 'dfdfddfd', 'fdfdfdfdf', '1234567890', 'amerik640@gmail.com', 'yyuuyuyyyyuyuy', '2025-05-08 13:22:31', 'DENTRO'),
-(5, 'CC', '1234567890', 'dfdfddfd', 'fdfdfdfdf', '1234567890', 'amerik640@gmail.com', 'yyuuyuyyyyuyuy', '2025-05-08 13:31:37', 'DENTRO'),
-(6, 'CC', '1234567891', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', '', '2025-05-08 13:52:42', 'DENTRO'),
-(7, 'CC', '1234567892', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'La ficha del aprendiz ha finalizado.', '2025-05-08 13:48:50', 'DENTRO'),
-(8, 'CC', '12345678900', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-09 15:49:22', 'DENTRO'),
-(9, 'CC', '43434343', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-09 15:48:36', 'FUERA'),
-(10, 'CC', '2323323', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-09 15:38:45', 'DENTRO'),
-(11, 'CC', '34343434', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-09 15:57:49', 'DENTRO'),
-(12, 'CC', '1114813615', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-12 08:13:59', 'DENTRO'),
-(13, 'CC', '1114813617', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-12 15:44:08', 'FUERA'),
-(14, 'CC', '1114813610', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-12 15:15:38', 'FUERA'),
-(15, 'CC', '31314414', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-12 16:22:25', 'FUERA'),
-(16, 'CC', '3244555', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-12 16:32:41', 'FUERA'),
-(17, 'CC', '13242444', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-12 16:02:43', 'FUERA'),
-(18, 'CC', '12345678976', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-13 11:15:45', 'FUERA'),
-(19, 'CC', '12345678907', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-13 12:31:01', 'DENTRO'),
-(20, 'CC', '123456', 'Juan', 'Restrepo', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-05-13 19:52:19', 'DENTRO');
 
 --
 -- Índices para tablas volcadas
@@ -504,7 +442,7 @@ ALTER TABLE `fichas`
 -- AUTO_INCREMENT de la tabla `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `motivos_ingreso`
@@ -516,19 +454,19 @@ ALTER TABLE `motivos_ingreso`
 -- AUTO_INCREMENT de la tabla `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades_usuarios`
 --
 ALTER TABLE `novedades_usuarios`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades_vehiculos`
 --
 ALTER TABLE `novedades_vehiculos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos_permanencia_usuarios`
@@ -546,7 +484,7 @@ ALTER TABLE `permisos_permanencia_vehiculos`
 -- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `vigilantes`
@@ -558,7 +496,7 @@ ALTER TABLE `vigilantes`
 -- AUTO_INCREMENT de la tabla `visitantes`
 --
 ALTER TABLE `visitantes`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

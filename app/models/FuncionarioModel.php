@@ -51,4 +51,30 @@ class FuncionarioModel extends MainModel{
         return $respuesta;
     }
 
+    public function conteoTotalBrigadistas(){
+        $sentenciaBuscar = "
+            SELECT numero_documento 
+            FROM funcionarios 
+            WHERE ubicacion = 'DENTRO' AND brigadista = 'SI';";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+        if (!$respuestaSentencia) {
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                "icono" => "warning"
+            ];
+            return $respuesta;
+        }
+
+        $totalBrigadistas= $respuestaSentencia->num_rows;
+
+        $respuesta = [
+            'tipo' => "OK",
+            'total_brigadistas' => $totalBrigadistas
+        ];
+        return $respuesta;
+    }
+
 }

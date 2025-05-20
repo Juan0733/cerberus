@@ -38,6 +38,15 @@
         z-index: 1000;
     }
 
+    #contenedor-modales #modal_brigadistas{
+        width: 400px;
+        background-color: #EC8103;
+    }
+
+    #contenedor-modales #modal_brigadistas #cont_info_modales{
+        padding-top: 10px;
+    }
+
     /* Clase para mostrar el contenedor de fondo */
     #contenedor-modales.mostrar {
         opacity: 1;

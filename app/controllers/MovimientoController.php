@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         
         echo json_encode($objetoMovimiento->validarUsuarioAptoEntrada($respuesta['parametros']['numero_documento']));
 
-    }if($operacion == 'validar_usuario_apto_salida'){
+    }elseif($operacion == 'validar_usuario_apto_salida'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(empty($respuesta['parametros'])){
             $respuesta = [
@@ -80,5 +80,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
         
         echo json_encode($objetoMovimiento->validarUsuarioAptoSalida($respuesta['parametros']['numero_documento']));
+
+    }elseif($operacion == 'consultar_movimientos'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['fecha_inicio']) || !isset($respuesta['parametros']['fecha_fin'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoMovimiento->consultarMovimientos($respuesta['parametros']));
     }
 }

@@ -338,4 +338,66 @@ class MovimientoModel extends MainModel{
         ];
         return $respuesta;
     }
+
+    public function consultarMovimientos($parametros){
+        $sentenciaBuscar = "
+            SELECT 
+                DATE_FORMAT(mov.fecha_registro, '%d-%m-%Y %H:%i:%s') AS fecha_registro,
+                mov.tipo_movimiento, 
+                mov.fk_usuario,
+                mov.fk_usuario_sistema,
+                COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
+                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
+                COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
+                COALESCE(fk_vehiculo, 'No aplica') AS fk_vehiculo,
+                COALESCE(relacion_vehiculo, 'No aplica') AS relacion_vehiculo
+            FROM movimientos mov
+            LEFT JOIN funcionarios fun ON mov.fk_usuario = fun.numero_documento
+            LEFT JOIN visitantes vis ON mov.fk_usuario = vis.numero_documento
+            LEFT JOIN vigilantes vig ON mov.fk_usuario = vig.numero_documento
+            LEFT JOIN aprendices apr ON mov.fk_usuario = apr.numero_documento
+            WHERE DATE(mov.fecha_registro) BETWEEN DATE('".$parametros['fecha_inicio']."') AND DATE('".$parametros['fecha_fin']."')";
+
+        if(isset($parametros['puerta'])){
+            $sentenciaBuscar .= " AND mov.puerta_registro = '".$parametros['puerta']."'";
+        }
+
+        if(isset($parametros['numero_documento'])){
+            $sentenciaBuscar .= " AND mov.fk_usuario = '".$parametros['numero_documento']."'";
+        }
+
+        if(isset($parametros['numero_placa'])){
+            $sentenciaBuscar .= " AND mov.fk_vehiculo = '".$parametros['numero_placa']."'";
+        }
+
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
+
+        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+        if(!$respuestaSentencia){
+             $respuesta = [
+                "tipo"=>"ERROR", 
+                "titulo" => 'Error de Conexión',
+                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+            ];
+            return $respuesta;
+        }
+
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No encontrados',
+                "mensaje"=> 'No se encontraron resultados'
+            ];
+            return $respuesta;
+        }
+
+        $movimientos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'movimientos' => $movimientos
+        ];
+
+        return $respuesta;
+    }
 }

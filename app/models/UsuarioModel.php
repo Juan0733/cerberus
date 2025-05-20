@@ -291,80 +291,29 @@ class UsuarioModel extends MainModel{
         $totalUsuarios = 0;
 
         foreach($tablas as $tabla){
-            if($tabla == 'funcionarios'){
-                // Cuando se realiza el conteo en la tabla de funcionarios, se cuentan en grupos separados los funcionarios brigadistas y los funcionarios comunes
-                $sentenciaBuscar = "
-                    SELECT numero_documento 
-                    FROM ".$tabla." 
-                    WHERE ubicacion = 'DENTRO' AND brigadista = 'NO';";
+            $sentenciaBuscar = "
+                SELECT numero_documento 
+                FROM ".$tabla." 
+                WHERE ubicacion = 'DENTRO';";
 
-                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-                if (!$respuestaSentencia) {
-                    $respuesta = [
-                        "tipo"=>"ERROR",
-                        "titulo" => 'Error de Conexión',
-                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                        "icono" => "warning"
-                    ];
-                    return $respuesta;
-                }
-
-                $cantidad = $respuestaSentencia->num_rows;
-                $usuarios[] = [
-                    'tipo_usuario' => "funcionarios_comunes",
-                    'cantidad' => $cantidad
+            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+            if (!$respuestaSentencia) {
+                $respuesta = [
+                    "tipo"=>"ERROR",
+                    "titulo" => 'Error de Conexión',
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
+                    "icono" => "warning",
                 ];
-
-                $totalUsuarios += $cantidad;
-
-                $sentenciaBuscar = "
-                    SELECT numero_documento 
-                    FROM ".$tabla." 
-                    WHERE ubicacion = 'DENTRO' AND brigadista = 'SI';";
-
-                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-                if (!$respuestaSentencia) {
-                    $respuesta = [
-                        "tipo"=>"ERROR",
-                        "titulo" => 'Error de Conexión',
-                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                        "icono" => "warning",
-                    ];
-                    return $respuesta;
-                }
-
-                $cantidad = $respuestaSentencia->num_rows;
-                $usuarios[] = [
-                    'tipo_usuario' => "funcionarios_brigadistas",
-                    'cantidad' => $cantidad
-                ];
-
-                $totalUsuarios += $cantidad;
-            }else{
-                $sentenciaBuscar = "
-                    SELECT numero_documento 
-                    FROM ".$tabla." 
-                    WHERE ubicacion = 'DENTRO';";
-
-                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-                if (!$respuestaSentencia) {
-                    $respuesta = [
-                        "tipo"=>"ERROR",
-                        "titulo" => 'Error de Conexión',
-                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                        "icono" => "warning",
-                    ];
-                    return $respuesta;
-                }
-
-                $cantidad = $respuestaSentencia->num_rows;
-                $usuarios[] = [
-                    'tipo_usuario' => $tabla,
-                    'cantidad' => $cantidad
-                ];
-
-                $totalUsuarios += $cantidad;
+                return $respuesta;
             }
+
+            $cantidad = $respuestaSentencia->num_rows;
+            $usuarios[] = [
+                'tipo_usuario' => $tabla,
+                'cantidad' => $cantidad
+            ];
+
+            $totalUsuarios += $cantidad;
         }
 
         foreach ($usuarios as &$usuario) {

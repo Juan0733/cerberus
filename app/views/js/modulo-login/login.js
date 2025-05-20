@@ -24,7 +24,7 @@ function eventoFormulario(){
                 if(datos.tipo == 'OK'){
                     caja01.style.display = 'none';
                     caja02.style.display = 'block';
-                    caja02.focus();
+                    contrasena.focus();
                     tablaOrigen = datos.tabla;
                 }else if(datos.tipo == 'ERROR'){
                     alertaError(datos);

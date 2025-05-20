@@ -1422,7 +1422,7 @@ tbody tr td{
                         margin-left: 10px;
                     }
                     #cont_perfil_user p{
-                        font-size: 16px;
+                        font-size: 20px;
                         margin-right: 10px;
                     }
                 #cont_info_usuario #btn_brigadistas{
@@ -1448,7 +1448,7 @@ tbody tr td{
                         color: var(--color-primario);
                         margin-left: 5px;
                         margin-right: 10px;
-                        font-size: 16px;
+                        font-size: 20px;
                     }
 
    

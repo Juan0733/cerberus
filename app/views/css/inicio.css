@@ -240,7 +240,7 @@ div.caja .card .subtitle {
 
     #contenedor_cartas_multitudes div.caja .card,
     #contenedor_cartas_multitudes div.caja .activada {
-        width: 100%;
+        width: 85%;
         padding: 20px;
         height: auto;
     }

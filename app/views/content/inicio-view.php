@@ -28,9 +28,8 @@
     </div>
   
     <div id="contenedor-ppal-panel">
-        <h3 class="titulo_multi_detalle">Multitud Detallada</h3>
+        <h3 class="titulo_multi_detalle"></h3>
         <div id="contenedor_cartas_multitudes">
-            <h3 class="titulo_multi_detalle_02">Multitud Detallada</h3>
             <div class="caja">
 
                 <div class="card activada"><!-- Card Aprendices -->
@@ -89,8 +88,8 @@
                     <p class="subtitle" id="subtitle_barra_vigilantes"></p>
                 </div>
 
-                <div class="card activada">"><!-- Card Carros -->
-                    <p class="fecha-card"></p>
+                <div class="card activada"><!-- Card Carros -->
+                    <p class="fecha-card"><?php echo $fecha;?></p>
                     <div class="titulo-card">
                         <ion-icon name="car-outline"></ion-icon>
                         <h3>Carros</h3>
@@ -103,8 +102,8 @@
                     <p class="subtitle" id="subtitle_barra_carros"></p>
                 </div>
 
-                <div class="card activada">"><!-- Card Motos -->
-                    <p class="fecha-card"></p>
+                <div class="card activada"><!-- Card Motos -->
+                    <p class="fecha-card"><?php echo $fecha;?></p>
                     <div class="titulo-card">
                         <ion-icon name="car-outline"></ion-icon>
                         <h3>Motos</h3>

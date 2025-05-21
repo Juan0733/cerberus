@@ -344,13 +344,14 @@ class MovimientoModel extends MainModel{
             SELECT 
                 DATE_FORMAT(mov.fecha_registro, '%d-%m-%Y %H:%i:%s') AS fecha_registro,
                 mov.tipo_movimiento, 
+                mov.puerta_registro,
                 mov.fk_usuario,
                 mov.fk_usuario_sistema,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
                 COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
                 COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
-                COALESCE(fk_vehiculo, 'No aplica') AS fk_vehiculo,
-                COALESCE(relacion_vehiculo, 'No aplica') AS relacion_vehiculo
+                COALESCE(fk_vehiculo, 'N/A') AS fk_vehiculo,
+                COALESCE(relacion_vehiculo, 'N/A') AS relacion_vehiculo
             FROM movimientos mov
             LEFT JOIN funcionarios fun ON mov.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON mov.fk_usuario = vis.numero_documento

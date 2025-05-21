@@ -42,10 +42,11 @@
                     <ion-icon class="icon_buscador_informes" name="search-outline"></ion-icon>
                     <input type="text" class="input-placa" name="buscador_placa" id="buscador_placa" placeholder="BUSCAR PLACA">
                 </div>
-                
-                <button class="btn generar-informes-web">
+
+                <button id="generar_informe" class="btn generar-informes-web">
                     <ion-icon id="icon_filtro" name="arrow-down-outline"></ion-icon>
                 </button>
+                
             </div>
         </div>
 

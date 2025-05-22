@@ -6,36 +6,53 @@ class ViewModel{
 
 	/*---------- Modelo obtener vista ----------*/
 	public function obtenerVista($vista){
-
-		$listaBlanca = [
-			'login'
+		$vistasExistentes = [
+			"login",
+			"inicio",
+			"entradas",
+			"salidas",
+			"informes-tabla",
+			"informes-grafica"
 		];
 
-		if (isset($_SESSION['datos_usuario'])) {
+		if(in_array($vista, $vistasExistentes)){
 
-			if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes') {// --JEFE DE VIGILANTES--
-				$listaBlanca[] = "inicio";
-				$listaBlanca[] = "entradas";
-				$listaBlanca[] = "salidas";
-				$listaBlanca[] = "informes";
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
+			$vistasAccesibles = ['login'];
+
+			if(isset($_SESSION['datos_usuario'])){
+				if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes') {// --JEFE DE VIGILANTES--
+					$vistasAccesibles[] = 'inicio';
+					$vistasAccesibles[] = 'entradas';
+					$vistasAccesibles[] = 'salidas';
+					$vistasAccesibles[] = 'informes-tabla';
+					$vistasAccesibles[] = 'informes-grafica';
+
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
 
 
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'bienestar aprendiz') {// --BIENESTAR APRENDIZ--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'bienestar aprendiz') {// --BIENESTAR APRENDIZ--
 
 
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'coordinador') {// --COORDINADORA--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'coordinador') {// --COORDINADORA--
 
 
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'subdirector') {// --SUBDIRECTOR--
-				
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'subdirector') {// --SUBDIRECTOR--
+					
+				}
 			}
-		}
+			
+			if(in_array($vista, $vistasAccesibles)){
 
-		if(in_array($vista, $listaBlanca)){
-			$contenido = "app/views/content/".$vista."-view.php";
-		}elseif($vista=="index"){
-			$contenido = "app/views/content/login-view.php";
+				if($vista == 'login'){
+					session_destroy();
+				}
+
+				$contenido = "app/views/content/".$vista."-view.php";
+
+			}else{
+				$contenido = "app/views/content/acceso-denegado-view.php";
+			}
+
 		}else{
 			$contenido = "app/views/content/404-view.php";
 		}
@@ -44,160 +61,108 @@ class ViewModel{
 	}
 
 	public function obtenerMenuOpciones(){
-		if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes' ) {
-			$listMenu = [
-				"INICIO" => [
+		if(isset($_SESSION['datos_usuario'])){
+			if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes' ) {
+				$listMenu = [
+					"INICIO" => [
 						"TITULO" => 'Inicio',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'inicio/',
 						"ICON" => 'grid-outline'
-				],
-				"ENTRADA" => [
+					],
+					"ENTRADAS" => [
 						"TITULO" => 'Entradas',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'entradas/',
 						"ICON" => 'enter-outline'
-				],
-				"SALIDA" => [
+					],
+					"SALIDAS" => [
 						"TITULO" => 'Salidas',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'salidas/',
 						"ICON" => 'exit-outline'
-				],
-				"SUBMENU" => [
+					],
+					"USUARIOS" => [
 						"TITULO" => 'Usuarios',
 						"CLASE" => 'sub-menu',
 						"CLASE02" => 'sub-menu-link',
 						"CLASE03" => 'sub-menu-list',
 						"URL" => '#',
 						"ICON" => 'people-outline',
-						"OPC" => [
+						"SUBMENU" => [
 							"APRENDRIZ" => [
-								"titulo" => 'Aprendices',
-								"url" => 'aprendices/',
-								"icon" => 'person-outline'
+								"TITULO" => 'Aprendices',
+								"URL" => 'aprendices/',
+								"ICON" => 'person-outline'
 							],
 							"FUNCIONARIO" => [
-								"titulo" => 'Funcionarios',
-								"url" => 'funcionarios/',
-								"icon" => 'person-outline'
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios/',
+								"ICON" => 'person-outline'
 							],
 							"VISITANTES" => [
-								"titulo" => 'Visitantes',
-								"url" => 'visitante/',
-								"icon" => 'person-outline'
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitante/',
+								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [
-								"titulo" => 'Vigilantes',
-								"clase" => 'sub-item',
-								"url" => 'vigilantes/',
-								"icon" => 'person-outline'
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes/',
+								"ICON" => 'person-outline'
 							]
 						]
-				],
-				"VEHICULOS" => [
+					],
+					"VEHICULOS" => [
 						"TITULO" => 'Vehiculos',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'vehiculos/',
-						"ICON" => 'car-outline'
-				],
-				"INFORME" => [
+						"ICON" => 'car-outline',
+					],
+					"INFORMES" => [
 						"TITULO" => 'Informes',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'analytics-outline',
+						"SUBMENU" => [
+							"TABLA" => [
+								"TITULO" => 'Tabla',
+								"URL" => 'informes-tabla/',
+								"ICON" => 'person-outline'
+							],
+							"GRAFICA" => [
+								"TITULO" => 'Gráfica',
+								"URL" => 'informes-grafica/',
+								"ICON" => 'person-outline'
+							],
+						]
+					],
+					"AGENDAS" => [
+						"TITULO" => 'Agendas',
 						"CLASE" => '',
 						"CLASE02" => '',
-						"URL" => 'informes/',
-						"ICON" => 'analytics-outline'
-				],
-				"AGENDAS" => [
-					"TITULO" => 'Agendas',
-					"CLASE" => '',
-					"CLASE02" => '',
-					"URL" => 'agendas/',
-					"ICON" => 'calendar-outline'
-				],
-				"NOVEDADES" => [
+						"URL" => 'agendas/',
+						"ICON" => 'calendar-outline'
+					],
+					"NOVEDADES" => [
 						"TITULO" => 'Novedades',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'listado-novedades',
 						"ICON" => 'receipt-outline'
-				]
-			];
-		}elseif ($_SESSION['datos_usuario']['rol'] == 'subdirector' ) {
+					]
+				];
+			}elseif ($_SESSION['datos_usuario']['rol'] == 'subdirector' ) {
 
-			$listMenu = [
-				"INFORME" => [
-						"TITULO" => 'Informe',
-						"CLASE" => '',
-						"CLASE02" => '',
-						"URL" => 'informes/',
-						"ICON" => 'analytics-outline'
+			} else {
+			}
 
-				],
-				
-				"SUBMENU" => [
-						"TITULO" => 'Usuarios',
-						"CLASE" => 'sub-menu',
-						"CLASE02" => 'sub-menu-link',
-						"CLASE03" => 'sub-menu-list',
-						"URL" => '#',
-						"ICON" => 'people-outline',
-						"OPC" => [
-							"VIGILANTES" => [
-								"titulo" => 'Vigilantes',
-								"clase" => 'sub-item',
-								"url" => 'lista-vigilantes/',
-								"icon" => 'person-outline'
-							],
-							"VISITANTES" => [
-								"titulo" => 'Visitantes',
-								"url" => 'listado-visitantes/',
-								"icon" => 'person-outline'
-							],
-							"FUNCIONARIO" => [
-								"titulo" => 'Funcionario',
-								"url" => 'listado-funcionario/',
-								"icon" => 'person-outline'
-							],
-							
-						]
-				],"AGENDAS" => [
-					"TITULO" => 'Agendas',
-					"CLASE" => '',
-					"CLASE02" => '',
-					"URL" => 'agendas/',
-					"ICON" => 'person-outline'
-				],
-				"VEHICULOS" => [
-						"TITULO" => 'Vehiculos',
-						"CLASE" => '',
-						"CLASE02" => '',
-						"URL" => 'listado-vehiculos/',
-						"ICON" => 'car-outline'
-				],
-				"NOVEDADES" => [
-						"TITULO" => 'Novedades',
-						"CLASE" => '',
-						"CLASE02" => '',
-						"URL" => 'listado-novedades/',
-						"ICON" => 'receipt-outline'
-				]
-			];
-		} else {
-			$listMenu = [
-				"INFORME" => [
-						"TITULO" => 'Informe',
-						"CLASE" => '',
-						"CLASE02" => '',
-						"URL" => 'informes/',
-						"ICON" => 'analytics-outline'
-				],
-			];
+			return $listMenu;
 		}
-		return $listMenu;
 	}
 }

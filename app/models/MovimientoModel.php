@@ -375,7 +375,7 @@ class MovimientoModel extends MainModel{
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
         if(!$respuestaSentencia){
-             $respuesta = [
+            $respuesta = [
                 "tipo"=>"ERROR", 
                 "titulo" => 'Error de Conexión',
                 "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
@@ -393,6 +393,63 @@ class MovimientoModel extends MainModel{
         }
 
         $movimientos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'movimientos' => $movimientos
+        ];
+
+        return $respuesta;
+    }
+
+    public function consultarMovimientosUsuarios($parametros){
+        $jornadas = [
+            'mañana' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
+            'tarde' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
+            'noche' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
+        ];
+
+        $jornada = $parametros['jornada'];
+        $tablas = ['visitantes', 'aprendices', 'funcionarios', 'vigilantes'];
+        $movimientos = [];
+        foreach ($tablas as $tabla) {
+            $datos = [
+                'tipo_usuario' => $tabla
+            ];
+
+            for ($i=0; $i < count($jornadas[$jornada]) - 1; $i++) { 
+                $horaInicio = $jornadas[$jornada][$i];
+                $horaFin = $jornadas[$jornada][$i+1];
+                $sentenciaBuscar = "
+                    SELECT mov.fecha_registro 
+                    FROM movimientos mov 
+                    INNER JOIN $tabla ON mov.fk_usuario = numero_documento
+                    WHERE mov.tipo_movimiento = '".$parametros['tipo_movimiento']."'
+                    AND DATE(mov.fecha_registro) = '".$parametros['fecha']."' 
+                    AND TIME(mov.fecha_registro) BETWEEN '$horaInicio' AND '$horaFin'";
+
+                if(isset($parametros['puerta'])){
+                    $sentenciaBuscar .= " AND puerta_registro = '".$parametros['puerta']."'";
+                }
+
+                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
+                if(!$respuestaSentencia){
+                    $respuesta = [
+                        "tipo"=>"ERROR", 
+                        "titulo" => 'Error de Conexión',
+                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+                    ];
+                    return $respuesta;
+                }
+
+                $cantidadMovimientos = $respuestaSentencia->num_rows;
+
+                $datos['rangos'][] = date('H:i', strtotime($horaInicio)).'-'.date('H:i', strtotime($horaFin));
+                $datos['cantidades'][] = $cantidadMovimientos;
+            }
+
+            $movimientos[] = $datos;    
+        }
 
         $respuesta = [
             'tipo' => 'OK',

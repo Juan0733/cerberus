@@ -2,7 +2,7 @@
     display: flex;
     width: 100%;
     padding: 1rem;
-    justify-content: space-between;
+    justify-content: end;
 }
 
 .contendor_titulo_informes {
@@ -16,10 +16,6 @@
     align-items: center;
     gap: 0.5rem;
     justify-content: end;
-}
-
-.ppal-informes-2 .card{
-    display: none;
 }
 
 .contenedor_fechas {
@@ -40,9 +36,7 @@
     height: 40px;
 }
 
-#fecha_inicio,
-#fecha_fin,
-#puerta {
+input, select {
     font-size: 14px;
     padding: 5px 10px;
     border: none;

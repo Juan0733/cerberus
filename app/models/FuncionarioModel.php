@@ -22,6 +22,8 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND numero_documento LIKE '".$parametros['numero_documento']."%'";
         }
 
+        $sentenciaBuscar .= " LIMIT 10;";
+
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
         if(!$respuestaSentencia){
             $respuesta = [

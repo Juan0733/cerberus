@@ -1,3 +1,11 @@
+<?php
+    $palabras = explode("-", $url[0]);
+    if(count($palabras) > 1){
+        $titulo = ucwords(strtolower($palabras[1]));
+    }else{
+        $titulo = ucwords(strtolower($palabras[0]));
+    }
+?>
 
 <div class="menu">
         <div class="cont-menu-icon">
@@ -9,11 +17,7 @@
         <div id="cont_nombre_vista_menu">
             <h1>
                 <?php
-                        $titulo = str_replace("-", " ", $url[0]);
-                        $titulo = ucwords(strtolower($titulo));
-                        $palabras = explode(" ", $titulo);
-                        $titulo = implode(" ", array_slice($palabras, 0, 2));
-                        echo $titulo;
+                    echo $titulo;
                 ?>
             </h1>
         </div>
@@ -38,59 +42,48 @@
         </div>
 
         <nav class="navegacion">
-            <?php 
-                $titulo = str_replace("-", " ", $url[0]);
-                $titulo = ucwords(strtolower($titulo));
-            ?>
             <ul>
-                <?php foreach ($opcMenu as $clave => $opcion) { ?>
-                    <li class="<?php echo $opcion['CLASE']; ?>">
-                       
-                        <a href="<?php echo $clave != "SUBMENU" ? $urlBaseVariable.$opcion['URL'] : "#"; ?>" class="<?php echo $opcion['CLASE02']; ?> <?php 
-                            if ($clave == 'SUBMENU' && isset($opcion['OPC'])) {
-                                foreach ($opcion['OPC'] as $subClave => $opcSub) {
-                                    echo ($titulo ==  $opcSub['titulo'] ) ? 'inbox' : ''; 
-                                   
-                                }
-                                if (count($url) > 2 ) {
-                                    echo  'inbox';
-                                }
+                <?php foreach($opcionesMenu as $clave => $opcion): ?>
+                    <li class=" <?php echo $opcion['CLASE']; ?>">
+                        <a href="<?php echo $opcion['URL'] == '#' ? $opcion['URL'] : $urlBaseVariable.$opcion['URL']; ?>" class="<?php echo $opcion['CLASE02']; ?>
+                            <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES'): ?>
+                                <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
+                                    <?php if ($subOpcion['TITULO'] == $titulo): ?>
+                                        <?php echo 'inbox'; ?>
+                                        <?php break; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php elseif ($opcion['TITULO'] == $titulo): ?>
+                                <?php echo 'inbox'?>
+                            <?php endif; ?>">
 
-                            }else {
-                                if ($opcion['TITULO'] == 'Usuarios' ) {
-                                    echo "";
-                                }else {
-                                    echo ($titulo == $opcion['TITULO']) ? 'inbox' : ''; 
-                                }
-                            }
-                            
-                            
-                        ?>">
                             <ion-icon name="<?php echo $opcion['ICON']; ?>"></ion-icon>
                             <span><?php echo $opcion['TITULO']; ?></span>
                         </a>
 
-                        <?php if ($clave == 'SUBMENU' && isset($opcion['OPC'])) { ?>
+                        <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES'): ?>
                             <ul class="<?php echo $opcion['CLASE03']; ?>">
-                                <?php foreach ($opcion['OPC'] as $subClave => $opcSub) { ?>
+                                <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
                                     <li>
-                                        <a href="<?php echo $urlBaseVariable.$opcSub['url'];?>">
-                                            <ion-icon name="<?php echo $opcSub['icon']; ?>"></ion-icon>
-                                            <span class="links_nombre"><?php echo $opcSub['titulo']; ?></span>
+                                        <a href="<?php echo $urlBaseVariable.$subOpcion['URL'];?>">
+                                            <ion-icon name="<?php echo $subOpcion['ICON']; ?>"></ion-icon>
+                                            <span class="links_nombre"><?php echo $subOpcion['TITULO']; ?></span>
                                         </a>
                                     </li>
-                                <?php } ?>
+                                <?php endforeach; ?>
                             </ul>
-                        <?php } ?>
+                        <?php endif; ?>
                     </li>
-                <?php } ?>
+                <?php endforeach; ?>
             </ul>
         </nav>
 
         <div>
             <div class="linea"></div>
             <div class="usuario">
-                <ion-icon name="exit-outline" onclick="cerrarSesion('<?php echo $urlBaseVariable;?>')"></ion-icon>
+                <a href="<?php echo $urlBaseVariable; ?>">
+                    <ion-icon name="exit-outline" onclick="cerrarSesion('<?php echo $urlBaseVariable;?>')"></ion-icon>               
+                </a>
             </div>
         </div>
 

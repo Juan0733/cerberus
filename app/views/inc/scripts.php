@@ -13,8 +13,11 @@
 <?php elseif($url[0] == 'salidas'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-peatonal.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-vehicular.js"></script>
-<?php elseif($url[0] == 'informes'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes.js"></script>
+<?php elseif($url[0] == 'informes-tabla'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-tabla.js"></script>
+<?php elseif($url[0] == 'informes-grafica'): ?>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/librerias/chart.umd.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-grafica.js"></script>
 <?php endif; ?>
 
 

@@ -12,12 +12,12 @@
                 <div class="contenedor_fechas">
 
                     <div class="fecha_inicio_input_informes">
-                        <label class="fechas_input" for="fecha_inicio">Fecha Inicio:</label>
+                        <label class="fechas_input" for="fecha_inicio">Desde:</label>
                         <input type="date" id="fecha_inicio" name="fecha_inicio" title="Fecha Inicio" placeholder="Fecha Inicio" max="<?php echo $fechaActual; ?>" value="<?php echo $fechaActual; ?>">
                     </div>
 
                     <div class="fecha_final_input_informes">
-                        <label class="fechas_input" for="fecha_fin">Fecha Final:</label>
+                        <label class="fechas_input" for="fecha_fin">Hasta:</label>
                         <input type="date" id="fecha_fin" name="fecha_fin" title="Fecha Final" placeholder="Fecha Final" max="<?php echo $fechaActual; ?>" min="<?php echo $fechaActual; ?>" value="<?php echo $fechaActual; ?>">
                     </div>
 

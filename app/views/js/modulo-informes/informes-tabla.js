@@ -73,8 +73,8 @@ function dibujarCardsMovimientos(){
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
             respuesta.movimientos.forEach(movimiento => {
-                contenedorTabla.innerHTML = `
-                    <div class="document-card" onclick="toggleCard(this)">
+                contenedorTabla.innerHTML += `
+                    <div class="document-card">
                         <div class="card-header">
                             <div>
                                 <p class="document-title">${movimiento.nombres} ${movimiento.apellidos}</p>
@@ -99,7 +99,7 @@ function dibujarCardsMovimientos(){
 function eventoPuerta(){
     let selectPuerta = document.getElementById('puerta');
 
-    puerta.addEventListener('change', ()=>{
+    selectPuerta.addEventListener('change', ()=>{
         parametros.puerta = selectPuerta.value;
         validarResolucion();
     })
@@ -157,16 +157,16 @@ function eventoBuscarPlaca(){
 }
 
 function toggleCard() {
-    const Cards = document.querySelectorAll('.document-card');
+    const cards = document.querySelectorAll('.document-card');
     
-    Cards.forEach(cardEvento => {
-        cardEvento.addEventListener('click', function() {
-            Cards.forEach(card => {
-                if(card !== cardEvento) {
-                    card.classList.remove('active');
-                }
-            });
-            cardEvento.classList.toggle('active');
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            if(card.classList.contains('active')){
+                card.classList.remove('active');
+            }else{
+                document.querySelector('.active')?.classList.remove('active');
+                card.classList.toggle('active');
+            }
         });
       
     });
@@ -187,4 +187,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoBuscarPlaca();
     eventoGenerarInforme();
     validarResolucion();
+    
 })

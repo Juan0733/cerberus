@@ -43,8 +43,25 @@
         background-color: #EC8103;
     }
 
+    #contenedor-modales #modal_brigadistas .contenedor-titulo-modal{
+        justify-content: end;
+        padding: 0.5em;
+    }
+
+    #contenedor-modales #modal_brigadistas .document-title{
+        font-size: 0.9em;
+    }
+
+    #contenedor-modales #modal_brigadistas .document-meta{
+        font-size: 1em;
+    }
+
+    #contenedor-modales #modal_brigadistas .document-card{
+        margin-bottom: 8px;
+    }
+
     #contenedor-modales #modal_brigadistas #cont_info_modales{
-        padding-top: 10px;
+        padding-top: 8px;
     }
 
     /* Clase para mostrar el contenedor de fondo */

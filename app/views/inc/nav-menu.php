@@ -2,10 +2,12 @@
     <div id="cont_nombre_vista">
         <h1>
             <?php
-                $titulo = str_replace("-", " ", $url[0]);
-                $titulo = ucwords(strtolower($titulo));
-                $palabras = explode(" ", $titulo);
-                $titulo = implode(" ", array_slice($palabras, 0, 2));
+                $palabras = explode("-", $url[0]);
+                if(count($palabras) > 1){
+                    $titulo = ucwords(strtolower($palabras[1]));
+                }else{
+                    $titulo = ucwords(strtolower($palabras[0]));
+                }
                 echo $titulo;
             ?>
         </h1>

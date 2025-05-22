@@ -95,5 +95,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
 
         echo json_encode($objetoMovimiento->consultarMovimientos($respuesta['parametros']));
+    }elseif($operacion == 'consultar_movimientos_usuarios'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['fecha']) || !isset($respuesta['parametros']['jornada']) || !isset($respuesta['parametros']['tipo_movimiento'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoMovimiento->consultarMovimientosUsuarios($respuesta['parametros']));
     }
 }

@@ -36,7 +36,9 @@ class VisitanteModel extends MainModel{
         }
 
         $fechaRegistro = date('Y-m-d H:s:i');
-        $sentenciaInsertar = "INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, fecha_registro) VALUES('".$datosVisitante['tipo_documento']."', '".$datosVisitante['numero_documento']."', '".$datosVisitante['nombres']."', '".$datosVisitante['apellidos']."', '".$datosVisitante['telefono']."', '".$datosVisitante['correo_electronico']."', '".$datosVisitante['motivo_ingreso']."', '$fechaRegistro')";
+        $sentenciaInsertar = "
+        INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, fecha_registro) 
+        VALUES('{$datosVisitante['tipo_documento']}', '{$datosVisitante['numero_documento']}', '{$datosVisitante['nombres']}', '{$datosVisitante['apellidos']}', '{$datosVisitante['telefono']}', '{$datosVisitante['correo_electronico']}', '{$datosVisitante['motivo_ingreso']}', '$fechaRegistro')";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){

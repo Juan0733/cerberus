@@ -1,10 +1,5 @@
 <?php
-    $palabras = explode("-", $url[0]);
-    if(count($palabras) > 1){
-        $titulo = ucwords(strtolower($palabras[1]));
-    }else{
-        $titulo = ucwords(strtolower($palabras[0]));
-    }
+    $urlActual = $url[0];
 ?>
 
 <div class="menu">
@@ -17,6 +12,11 @@
         <div id="cont_nombre_vista_menu">
             <h1>
                 <?php
+                    $titulo = str_replace("-", " ", $url[0]);
+                    $titulo = ucwords(strtolower($titulo));
+                    if($titulo == 'Informes Grafica'){
+                        $titulo = 'Informes Gráfica';
+                    }
                     echo $titulo;
                 ?>
             </h1>
@@ -48,12 +48,12 @@
                         <a href="<?php echo $opcion['URL'] == '#' ? $opcion['URL'] : $urlBaseVariable.$opcion['URL']; ?>" class="<?php echo $opcion['CLASE02']; ?>
                             <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES'): ?>
                                 <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
-                                    <?php if ($subOpcion['TITULO'] == $titulo): ?>
+                                    <?php if ($subOpcion['URL'] == $urlActual): ?>
                                         <?php echo 'inbox'; ?>
                                         <?php break; ?>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
-                            <?php elseif ($opcion['TITULO'] == $titulo): ?>
+                            <?php elseif ($opcion['URL'] == $urlActual): ?>
                                 <?php echo 'inbox'?>
                             <?php endif; ?>">
 
@@ -81,8 +81,8 @@
         <div>
             <div class="linea"></div>
             <div class="usuario">
-                <a href="<?php echo $urlBaseVariable; ?>">
-                    <ion-icon name="exit-outline" onclick="cerrarSesion('<?php echo $urlBaseVariable;?>')"></ion-icon>               
+                <a id="cerrar_sesion">
+                    <ion-icon name="exit-outline"></ion-icon>               
                 </a>
             </div>
         </div>

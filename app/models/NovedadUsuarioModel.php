@@ -18,7 +18,7 @@ class NovedadUsuarioModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO novedades_usuarios(tipo_novedad, fk_usuario, fecha_suceso, puerta_suceso, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) 
-            VALUES('".$datosNovedad['tipo_novedad']."', '".$datosNovedad['numero_documento']."', '".$datosNovedad['fecha_suceso']."', '".$datosNovedad['puerta_suceso']."', '$puertaActual', '".$datosNovedad['descripcion']."', '$fechaRegistro', '$usuarioSistema')";
+            VALUES('{$datosNovedad['tipo_novedad']}', '{$datosNovedad['numero_documento']}', '{$datosNovedad['fecha_suceso']}', '{$datosNovedad['puerta_suceso']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$usuarioSistema')";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){

@@ -8,16 +8,19 @@ class ViewModel{
 	public function obtenerVista($vista){
 		$vistasExistentes = [
 			"login",
+			"sesion-expirada",
+			"acceso-denegado",
 			"inicio",
 			"entradas",
 			"salidas",
 			"informes-tabla",
-			"informes-grafica"
+			"informes-grafica",
+			"agendas"
 		];
 
 		if(in_array($vista, $vistasExistentes)){
 
-			$vistasAccesibles = ['login'];
+			$vistasAccesibles = ['login', 'sesion-expirada', 'acceso-denegado'];
 
 			if(isset($_SESSION['datos_usuario'])){
 				if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes') {// --JEFE DE VIGILANTES--
@@ -26,6 +29,7 @@ class ViewModel{
 					$vistasAccesibles[] = 'salidas';
 					$vistasAccesibles[] = 'informes-tabla';
 					$vistasAccesibles[] = 'informes-grafica';
+					$vistasAccesibles[] = 'agendas';
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
 
@@ -42,11 +46,6 @@ class ViewModel{
 			}
 			
 			if(in_array($vista, $vistasAccesibles)){
-
-				if($vista == 'login'){
-					session_destroy();
-				}
-
 				$contenido = "app/views/content/".$vista."-view.php";
 
 			}else{
@@ -68,21 +67,21 @@ class ViewModel{
 						"TITULO" => 'Inicio',
 						"CLASE" => '',
 						"CLASE02" => '',
-						"URL" => 'inicio/',
+						"URL" => 'inicio',
 						"ICON" => 'grid-outline'
 					],
 					"ENTRADAS" => [
 						"TITULO" => 'Entradas',
 						"CLASE" => '',
 						"CLASE02" => '',
-						"URL" => 'entradas/',
+						"URL" => 'entradas',
 						"ICON" => 'enter-outline'
 					],
 					"SALIDAS" => [
 						"TITULO" => 'Salidas',
 						"CLASE" => '',
 						"CLASE02" => '',
-						"URL" => 'salidas/',
+						"URL" => 'salidas',
 						"ICON" => 'exit-outline'
 					],
 					"USUARIOS" => [
@@ -95,22 +94,22 @@ class ViewModel{
 						"SUBMENU" => [
 							"APRENDRIZ" => [
 								"TITULO" => 'Aprendices',
-								"URL" => 'aprendices/',
+								"URL" => 'aprendices',
 								"ICON" => 'person-outline'
 							],
 							"FUNCIONARIO" => [
 								"TITULO" => 'Funcionarios',
-								"URL" => 'funcionarios/',
+								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VISITANTES" => [
 								"TITULO" => 'Visitantes',
-								"URL" => 'visitante/',
+								"URL" => 'visitante',
 								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [
 								"TITULO" => 'Vigilantes',
-								"URL" => 'vigilantes/',
+								"URL" => 'vigilantes',
 								"ICON" => 'person-outline'
 							]
 						]
@@ -119,7 +118,7 @@ class ViewModel{
 						"TITULO" => 'Vehiculos',
 						"CLASE" => '',
 						"CLASE02" => '',
-						"URL" => 'vehiculos/',
+						"URL" => 'vehiculos',
 						"ICON" => 'car-outline',
 					],
 					"INFORMES" => [
@@ -132,12 +131,12 @@ class ViewModel{
 						"SUBMENU" => [
 							"TABLA" => [
 								"TITULO" => 'Tabla',
-								"URL" => 'informes-tabla/',
+								"URL" => 'informes-tabla',
 								"ICON" => 'person-outline'
 							],
 							"GRAFICA" => [
 								"TITULO" => 'Gráfica',
-								"URL" => 'informes-grafica/',
+								"URL" => 'informes-grafica',
 								"ICON" => 'person-outline'
 							],
 						]
@@ -146,7 +145,7 @@ class ViewModel{
 						"TITULO" => 'Agendas',
 						"CLASE" => '',
 						"CLASE02" => '',
-						"URL" => 'agendas/',
+						"URL" => 'agendas',
 						"ICON" => 'calendar-outline'
 					],
 					"NOVEDADES" => [

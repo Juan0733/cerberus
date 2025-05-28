@@ -1,3 +1,6 @@
+import {cerrarSesion} from '../fetchs/usuarios-fetch.js';
+
+let urlBase;
 
 const logo_sena = document.getElementById("logo_sena");
 const barraLateral = document.querySelector(".barra-lateral");
@@ -69,7 +72,19 @@ function eventoSubMenu(){
     });
 }
 
- 
+function eventoCerrarSesion(){
+    document.getElementById('cerrar_sesion').addEventListener('click', ()=>{
+        cerrarSesion(urlBase).then(respuesta=>{
+            if(respuesta.tipo == 'OK'){
+                window.location.replace('login');
+            }
+        })
+    })
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
+    urlBase = document.getElementById('url_base').value;
     eventoSubMenu();
+    eventoCerrarSesion();
+
 })

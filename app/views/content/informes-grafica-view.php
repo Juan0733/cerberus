@@ -4,16 +4,13 @@
     $fechaActual = date('Y-m-d');
     $horaActual = date('H:i:s');
 
-    if(strtotime($horaActual > strtotime('23:59:59') && $horaActual < strtotime('11:59:59'))){
+    if(strtotime($horaActual) > strtotime('23:59:59') && strtotime($horaActual) < strtotime('11:59:59')){
         $jornada = 'mañana';
-    }elseif(strtotime($horaActual) > strtotime('11:59:59') && $horaActual < strtotime('17:59:59')){
+    }elseif(strtotime($horaActual) > strtotime('11:59:59') && strtotime($horaActual) < strtotime('17:59:59')){
         $jornada = 'tarde';
-    }elseif(strtotime($horaActual) > strtotime('17:59:59') && $horaActual < strtotime('23:59:59')){
+    }elseif(strtotime($horaActual) > strtotime('17:59:59') && strtotime($horaActual) < strtotime('23:59:59')){
         $jornada = 'noche';
     }
-
-
-
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">

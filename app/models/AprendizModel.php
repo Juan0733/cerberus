@@ -33,6 +33,5 @@ class AprendizModel extends MainModel{
         ];
 
         return $respuesta;
-
     }
 }

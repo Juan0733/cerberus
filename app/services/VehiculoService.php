@@ -29,7 +29,7 @@ class VehiculoService{
                 'cadena' => $numeroPlaca
             ],
             [
-                'filtro' => "(AT|MT|CM|BS)",
+                'filtro' => "(Automóvil|Moto|Camión|Bus)",
                 'cadena' => $tipoVehiculo
             ]
         ];

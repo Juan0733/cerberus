@@ -59,6 +59,8 @@ function eventoRegistrarSalidaPeatonal() {
                 if(respuesta.titulo == "Entrada No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
                     respuesta.documento = documentoPeaton.value;
                     alertaAdvertencia(respuesta);
+                }else if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
                 }else{
                     alertaError(respuesta);
                 }

@@ -44,6 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 		echo json_encode($objetoUsuario->conteoTotalUsuarios());
 	}elseif ($operacion == 'conteo_tipo_usuario') {
 		echo  json_encode($objetoUsuario->conteoTipoUsuario());
+	}elseif ($operacion == 'cerrar_sesion') {
+		echo  json_encode($objetoUsuario->cerrarSesion());
 	}
 }else{
 	echo "no post". $_SERVER['REQUEST_METHOD'];

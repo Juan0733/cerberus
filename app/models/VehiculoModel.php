@@ -26,7 +26,7 @@ class VehiculoModel extends MainModel {
 
         $sentenciaInsertar = "
             INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, fk_usuario_sistema) 
-            VALUES ('".$datosVehiculo['numero_placa']."', '".$datosVehiculo['tipo_vehiculo']."', '".$datosVehiculo['propietario']."', '$fechaRegistro', '$usuarioSistema');";
+            VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '$usuarioSistema');";
         
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if (!$respuestaSentencia) {
@@ -53,11 +53,11 @@ class VehiculoModel extends MainModel {
             WHERE 1=1";
 
         if(isset($parametros['numero_placa'])){
-            $sentenciaBuscar .= " AND numero_placa LIKE '".$parametros['numero_placa']."%'";
+            $sentenciaBuscar .= " AND numero_placa = '{$parametros['numero_placa']}'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND fk_usuario LIKE '".$parametros['numero_documento']."%'";
+            $sentenciaBuscar .= " AND fk_usuario = '{$parametros['numero_documento']}'";
         }
 
         $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
@@ -75,8 +75,8 @@ class VehiculoModel extends MainModel {
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Vehículos No Encontrados',
-                "mensaje"=> 'Lo sentimos, parece que no se encontraron vehiculos registrados en el sistema.'
+                "titulo" => 'Datos No Encontrados',
+                "mensaje"=> 'No se encontraron resultados.'
             ];
             return $respuesta;
         }
@@ -171,7 +171,7 @@ class VehiculoModel extends MainModel {
         ];
         $respuesta = $this->consultarVehiculos($parametros);
         if($respuesta['tipo'] == 'ERROR'){
-            if($respuesta['titulo'] == 'Vehículos No Encontrados'){
+            if($respuesta['titulo'] == 'Datos No Encontrados'){
                 $respuesta = [
                     "tipo"=>"OK",
                     "titulo" => 'Limite De Vehículos',
@@ -235,13 +235,13 @@ class VehiculoModel extends MainModel {
                 $sentenciaBuscar = "
                     SELECT numero_placa
                     FROM vehiculos 
-                    WHERE tipo_vehiculo <> 'MT' AND ubicacion = 'DENTRO'
+                    WHERE tipo_vehiculo <> 'Moto' AND ubicacion = 'DENTRO'
                     GROUP BY numero_placa;";
             }else{
                 $sentenciaBuscar = "
                     SELECT numero_placa 
                     FROM vehiculos 
-                    WHERE tipo_vehiculo = 'MT' AND ubicacion = 'DENTRO'
+                    WHERE tipo_vehiculo = 'Moto' AND ubicacion = 'DENTRO'
                     GROUP BY numero_placa;";
             }
 

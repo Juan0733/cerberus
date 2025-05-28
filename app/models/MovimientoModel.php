@@ -26,7 +26,7 @@ class MovimientoModel extends MainModel{
         
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['numero_documento']."', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
         
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){
@@ -78,7 +78,7 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', '".$datosEntrada['observacion']."');";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', '{$datosEntrada['observacion']}');";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){
@@ -103,7 +103,7 @@ class MovimientoModel extends MainModel{
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', '".$datosEntrada['observacion']."')";
+                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', '{$datosEntrada['observacion']}')";
             
             $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
             if(!$respuestaSentencia){
@@ -143,7 +143,7 @@ class MovimientoModel extends MainModel{
         
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['numero_documento']."', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
         
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){
@@ -181,7 +181,7 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', ".$datosEntrada['observacion'].");";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', {$datosEntrada['observacion']});";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){
@@ -206,7 +206,7 @@ class MovimientoModel extends MainModel{
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', ".$datosEntrada['observacion'].")";
+                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', {$datosEntrada['observacion']})";
             
             $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
             if(!$respuestaSentencia){
@@ -357,18 +357,18 @@ class MovimientoModel extends MainModel{
             LEFT JOIN visitantes vis ON mov.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON mov.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON mov.fk_usuario = apr.numero_documento
-            WHERE DATE(mov.fecha_registro) BETWEEN DATE('".$parametros['fecha_inicio']."') AND DATE('".$parametros['fecha_fin']."')";
+            WHERE DATE(mov.fecha_registro) BETWEEN DATE('{$parametros['fecha_inicio']}') AND DATE('{$parametros['fecha_fin']}')";
 
         if(isset($parametros['puerta'])){
-            $sentenciaBuscar .= " AND mov.puerta_registro = '".$parametros['puerta']."'";
+            $sentenciaBuscar .= " AND mov.puerta_registro = '{$parametros['puerta']}'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND mov.fk_usuario = '".$parametros['numero_documento']."'";
+            $sentenciaBuscar .= " AND mov.fk_usuario = '{$parametros['numero_documento']}'";
         }
 
         if(isset($parametros['numero_placa'])){
-            $sentenciaBuscar .= " AND mov.fk_vehiculo = '".$parametros['numero_placa']."'";
+            $sentenciaBuscar .= " AND mov.fk_vehiculo = '{$parametros['numero_placa']}'";
         }
 
         $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
@@ -424,12 +424,12 @@ class MovimientoModel extends MainModel{
                     SELECT mov.fecha_registro 
                     FROM movimientos mov 
                     INNER JOIN $tabla ON mov.fk_usuario = numero_documento
-                    WHERE mov.tipo_movimiento = '".$parametros['tipo_movimiento']."'
-                    AND DATE(mov.fecha_registro) = '".$parametros['fecha']."' 
+                    WHERE mov.tipo_movimiento = '{$parametros['tipo_movimiento']}'
+                    AND DATE(mov.fecha_registro) = '{$parametros['fecha']}' 
                     AND TIME(mov.fecha_registro) BETWEEN '$horaInicio' AND '$horaFin'";
 
                 if(isset($parametros['puerta'])){
-                    $sentenciaBuscar .= " AND puerta_registro = '".$parametros['puerta']."'";
+                    $sentenciaBuscar .= " AND puerta_registro = '{$parametros['puerta']}'";
                 }
 
                 $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);

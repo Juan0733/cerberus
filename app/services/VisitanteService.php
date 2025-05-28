@@ -64,7 +64,10 @@ class VisitanteService{
 			}
         }
 
-         $datosVisitante = [
+        $nombres = ucwords(strtolower($nombres));
+        $apellidos = ucwords((strtolower($apellidos)));
+
+        $datosVisitante = [
             'tipo_documento' => $tipoDocumento,
             'numero_documento' => $numeroDocumento,
             'nombres' => $nombres,

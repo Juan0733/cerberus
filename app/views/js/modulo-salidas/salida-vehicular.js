@@ -62,6 +62,8 @@ function validarVehiculoAptoEntrada(){
                 respuesta.vehiculo = placaVehiculo.value;
                 respuesta.callback = validarVehiculoAptoEntrada;
                 alertaAdvertencia(respuesta);
+            }else if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
             }else{
                 alertaError(respuesta);
             }
@@ -85,7 +87,9 @@ function validarPropietarioAptoEntrada(){
                 respuesta.documento = documentoPropietario.value;
                 respuesta.callback = validarPropietarioAptoEntrada;
                 alertaAdvertencia(respuesta);
-            }else if(respuesta){
+            }else if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+            }else{
                 alertaError(respuesta);
             }
         }else if(respuesta.tipo == "OK"){
@@ -105,6 +109,8 @@ function validarPasajeroAptoEntrada(){
                 respuesta.documento = documentoPasajero.value;
                 respuesta.callback = validarPasajeroAptoEntrada;
                 alertaAdvertencia(respuesta);
+            }else if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
             }else{
                 alertaError(respuesta);
             }
@@ -293,6 +299,8 @@ function eventoRegistrarSalidaVehicular(){
                         respuesta.documento = datosEntradaVehicular.propietario;
                         respuesta.vehiculo= datosEntradaVehicular.placa;
                         alertaAdvertencia(respuesta)
+                    }else if(respuesta.titulo == 'Sesión Expirada'){
+                        window.location.replace(urlBase+'sesion-expirada');
                     }else{
                         alertaError(respuesta);
                     }

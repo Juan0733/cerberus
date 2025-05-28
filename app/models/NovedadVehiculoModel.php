@@ -16,7 +16,7 @@ class NovedadVehiculoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO novedades_vehiculos(tipo_novedad, fk_usuario_involucrado, fk_usuario_autoriza, fk_vehiculo, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) 
-            VALUES('".$datosNovedad['tipo_novedad']."', '".$datosNovedad['documento_involucrado']."', '".$datosNovedad['propietario']."', '".$datosNovedad['numero_placa']."', '$puertaActual', '".$datosNovedad['descripcion']."', '$fechaRegistro', '$usuarioSistema');";
+            VALUES('{$datosNovedad['tipo_novedad']}', '{$datosNovedad['documento_involucrado']}', '{$datosNovedad['propietario']}', '{$datosNovedad['numero_placa']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$usuarioSistema');";
 
         $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
         if(!$respuestaSentencia){

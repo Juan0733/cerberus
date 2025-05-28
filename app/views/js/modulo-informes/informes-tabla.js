@@ -3,6 +3,8 @@ import {consultarMovimientos} from '../fetchs/movimientos-fetch.js'
 let fechaInicio;
 let fechaFin;
 let contenedorTabla;
+let tabla;
+let cuerpoTabla;
 let urlBase;
 
 const parametros = {
@@ -22,27 +24,31 @@ function validarResolucion(){
 }
 
 function dibujarTablaMovimientos(){
-    contenedorTabla.innerHTML = `
-        <table class="table">
-            <thead class="head-table">
-                <tr>
-                    <th>Fecha y Hora</th>
-                    <th>Movimiento</th>
-                    <th class="td-tipo-doc">Tipo Doc.</th>
-                    <th>Identificación</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Vehiculo</th>
-                    <th>Relacion vehículo</th>
-                    <th>Vigilante</th>
-                </tr>
-            </thead>
-            <tbody class="body-table" id="cuerpo_tabla_movimientos">
-            </tbody>
-        </table>`;
-    
-    const cuerpoTabla = document.getElementById('cuerpo_tabla_movimientos');
+    if(!tabla){
+        contenedorTabla.innerHTML = `
+            <table class="table" id="tabla_movimientos">
+                <thead class="head-table">
+                    <tr>
+                        <th>Fecha y Hora</th>
+                        <th>Movimiento</th>
+                        <th class="td-tipo-doc">Tipo Doc.</th>
+                        <th>Identificación</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Vehiculo</th>
+                        <th>Relacion vehículo</th>
+                        <th>Vigilante</th>
+                    </tr>
+                </thead>
+                <tbody class="body-table" id="cuerpo_tabla_movimientos">
+                </tbody>
+            </table>`;
 
+        tabla = document.getElementById('tabla_movimientos');
+        cuerpoTabla = document.getElementById('cuerpo_tabla_movimientos');
+    }
+   
+    cuerpoTabla.innerHTML = '';
     consultarMovimientos(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             respuesta.movimientos.forEach(movimiento => {
@@ -60,10 +66,14 @@ function dibujarTablaMovimientos(){
                     </tr>`;
             });
         }else if(respuesta.tipo == 'ERROR'){
-            cuerpoTabla.innerHTML = `
-                <tr>
-                    <td colspan="9">${respuesta.mensaje}</td>
-                </tr>`;
+            if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                cuerpoTabla.innerHTML = `
+                    <tr>
+                        <td colspan="9">${respuesta.mensaje}</td>
+                    </tr>`;
+            }
         }
     })
 }
@@ -92,6 +102,21 @@ function dibujarCardsMovimientos(){
             });
 
             toggleCard();
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                contenedorTabla.innerHTML = `
+                    <div class="document-card">
+                        <div class="card-header">
+                            <div>
+                                <p class="document-title">${respuesta.titulo}</p>
+                                <p class="document-meta">${respuesta.mensaje}</p>
+                            </div>
+                            <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
+                        </div>
+                    </div>`;
+            }
         }
     })
 }

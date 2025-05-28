@@ -2,11 +2,10 @@
     <div id="cont_nombre_vista">
         <h1>
             <?php
-                $palabras = explode("-", $url[0]);
-                if(count($palabras) > 1){
-                    $titulo = ucwords(strtolower($palabras[1]));
-                }else{
-                    $titulo = ucwords(strtolower($palabras[0]));
+                $titulo = str_replace("-", " ", $url[0]);
+                $titulo = ucwords(strtolower($titulo));
+                if($titulo == 'Informes Grafica'){
+                    $titulo = 'Informes Gráfica';
                 }
                 echo $titulo;
             ?>
@@ -22,7 +21,7 @@
             <p><?php echo $_SESSION['datos_usuario']['nombres'].' '.$_SESSION['datos_usuario']['apellidos']; ?></p>
         </div>
         <button id="btn_brigadistas">
-            <ion-icon name="help-buoy"></ion-icon>
+            <ion-icon name="medkit"></ion-icon>
             <p id="contador_brigadistas"></p>
         </button>
         <div id="cont_icon_notificaciones">

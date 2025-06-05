@@ -44,7 +44,7 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
     } catch (error) {
         let respuesta = {
             titulo: 'Error Modal',
-            mensaje: error
+            mensaje: 'Error al cargar modal registro de novedad de vehículo'
         }
         
         alertaError(respuesta);

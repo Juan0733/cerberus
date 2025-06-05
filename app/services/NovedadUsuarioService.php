@@ -37,7 +37,7 @@ class NovedadUsuarioService{
                 'cadena' => $puertaSuceso
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
                 'cadena' => $descripcion	
             ]
         ];

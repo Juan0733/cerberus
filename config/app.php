@@ -37,3 +37,29 @@
 		"VS" => 'Visitante'
 	];
 
+	const DIAS = [
+		"Monday"    => "Lunes",
+		"Tuesday"   => "Martes",
+		"Wednesday" => "Miércoles",
+		"Thursday"  => "Jueves",
+		"Friday"    => "Viernes",
+		"Saturday"  => "Sábado",
+		"Sunday"    => "Domingo"
+	];
+
+	const MESES = [
+        'January' => 'enero',
+        'February' => 'febrero',
+        'March' => 'marzo',
+        'April' => 'abril',
+        'May' => 'mayo',
+        'June' => 'junio',
+        'July' => 'julio',
+        'August' => 'agosto',
+        'September' => 'septiembre',
+        'October' => 'octubre',
+        'November' => 'noviembre',
+        'December' => 'diciembre'
+    ];
+
+

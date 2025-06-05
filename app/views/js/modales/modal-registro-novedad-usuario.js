@@ -45,7 +45,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
     } catch (error) {
         let respuesta = {
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar el modal de registro de novedad'
+            mensaje: 'Error al cargar modal de registro de novedad'
         }
         
         alertaError(respuesta);

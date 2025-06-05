@@ -1,6 +1,5 @@
 import {validarUsuarioLogin, validarContrasenaLogin} from '../fetchs/usuarios-fetch.js'
 
-let tablaOrigen;
 let urlBase;
 
 function eventoFormulario(){
@@ -24,7 +23,6 @@ function eventoFormulario(){
                     caja01.style.display = 'none';
                     caja02.style.display = 'block';
                     contrasena.focus();
-                    tablaOrigen = datos.tabla;
                 }else if(datos.tipo == 'ERROR'){
                     alertaError(datos);
                 };
@@ -33,7 +31,6 @@ function eventoFormulario(){
         }else if(caja01.style.display == 'none' && caja02.style.display == 'block'){
             data.append('usuario', usuario.value);
             data.append('contrasena', contrasena.value);
-            data.append('tabla', tablaOrigen);
             data.append('operacion', 'validar_contrasena');
             validarContrasenaLogin(data, urlBase).then((datos)=>{
                 if(datos.tipo == 'OK'){

@@ -21,6 +21,8 @@
 <?php elseif($url[0] == 'agendas'): ?>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script> 
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-agendas/agendas.js"></script>
+<?php elseif($url[0] == 'vehiculos'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos.js"></script>
 <?php endif; ?>
 
 

@@ -23,7 +23,6 @@ class VisitanteModel extends MainModel{
                     'titulo' => 'Usuario Existente',
                     'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el grupo de visitantes.'
                 ];
-
                 return $respuesta;
             }
 
@@ -40,13 +39,9 @@ class VisitanteModel extends MainModel{
         INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, fecha_registro) 
         VALUES('{$datosVisitante['tipo_documento']}', '{$datosVisitante['numero_documento']}', '{$datosVisitante['nombres']}', '{$datosVisitante['apellidos']}', '{$datosVisitante['telefono']}', '{$datosVisitante['correo_electronico']}', '{$datosVisitante['motivo_ingreso']}', '$fechaRegistro')";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
         }
 
         $respuesta = [
@@ -55,6 +50,5 @@ class VisitanteModel extends MainModel{
             "mensaje"=> 'El visitante fue registrado correctamente.'
         ];
         return $respuesta;
-
     }
 }

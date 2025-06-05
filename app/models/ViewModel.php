@@ -15,7 +15,8 @@ class ViewModel{
 			"salidas",
 			"informes-tabla",
 			"informes-grafica",
-			"agendas"
+			"agendas",
+			"vehiculos"
 		];
 
 		if(in_array($vista, $vistasExistentes)){
@@ -30,6 +31,7 @@ class ViewModel{
 					$vistasAccesibles[] = 'informes-tabla';
 					$vistasAccesibles[] = 'informes-grafica';
 					$vistasAccesibles[] = 'agendas';
+					$vistasAccesibles[] = 'vehiculos';
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
 

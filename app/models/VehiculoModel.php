@@ -28,13 +28,8 @@ class VehiculoModel extends MainModel {
             INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, fk_usuario_sistema) 
             VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '$usuarioSistema');";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;    
         }
 
@@ -60,18 +55,16 @@ class VehiculoModel extends MainModel {
             $sentenciaBuscar .= " AND fk_usuario = '{$parametros['numero_documento']}'";
         }
 
-        $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
+        $sentenciaBuscar .= " 
+            GROUP BY numero_placa, tipo_vehiculo, ubicacion
+            LIMIT 10;";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;    
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -96,16 +89,12 @@ class VehiculoModel extends MainModel {
             WHERE numero_placa = '$placa'
             GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;    
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -127,11 +116,13 @@ class VehiculoModel extends MainModel {
         $sentenciaBuscar = "
             SELECT 
                 veh.tipo_vehiculo,
+                COALESCE(fun.tipo_documento, vis.tipo_documento, vig.tipo_documento, apr.tipo_documento) AS tipo_documento,
                 COALESCE(fun.numero_documento, vis.numero_documento, vig.numero_documento, apr.numero_documento) AS numero_documento,  
                 COALESCE(fun.nombres, vis.nombres, vig.nombres, apr.nombres) AS nombres,
                 COALESCE(fun.apellidos, vis.apellidos, vig.apellidos, apr.apellidos) AS apellidos,
                 COALESCE(fun.telefono, vis.telefono, vig.telefono, apr.telefono) AS telefono,
-                COALESCE(fun.correo_electronico, vis.correo_electronico, vig.correo_electronico, apr.correo_electronico) AS correo_electronico
+                COALESCE(fun.correo_electronico, vis.correo_electronico, vig.correo_electronico, apr.correo_electronico) AS correo_electronico,
+                COALESCE(fun.ubicacion, vis.ubicacion, vig.ubicacion, apr.ubicacion) AS ubicacion
             FROM vehiculos veh
             LEFT JOIN funcionarios fun ON veh.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON veh.fk_usuario = vis.numero_documento
@@ -139,22 +130,19 @@ class VehiculoModel extends MainModel {
             LEFT JOIN aprendices apr ON veh.fk_usuario = apr.numero_documento
             WHERE veh.numero_placa = '$placa'";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;    
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No encontrados',
                 "mensaje"=> 'No se encontraron datos relacionados a la placa '.$placa
             ];
+            return $respuesta;
         }
 
         $propietarios = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
@@ -201,26 +189,50 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
+    public function validarCantidadPropietarios($placa){
+        $respuesta = $this->consultarPropietariosVehiculo($placa);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $propietarios = $respuesta['propietarios'];
+        if(count($propietarios) < 2){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Propietarios Insuficientes',
+                "mensaje"=> 'Para poder eliminar un propietario, el vehículo debe tener como minimo 2 propietarios.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Propietarios Suficientes',
+            "mensaje"=> 'El vehículo tiene suficientes propietarios..'
+        ];
+        return $respuesta;
+    }
+
     public function eliminarPropiedadVehiculo($propietario, $placa){
+        $respuesta = $this->validarCantidadPropietarios($placa);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
         $sentenciaEliminar = "
             DELETE 
             FROM vehiculos 
             WHERE fk_usuario = '$propietario' AND numero_placa = '$placa';";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaEliminar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaEliminar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;    
         }
 
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Eliminación Éxitosa',
-            "mensaje"=> 'La propiedad del vehiculo fue eliminada correctamente.'
+            "mensaje"=> 'El propietario del vehiculo fue eliminado correctamente.'
         ];
         return $respuesta;
     }
@@ -245,16 +257,12 @@ class VehiculoModel extends MainModel {
                     GROUP BY numero_placa;";
             }
 
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-            if (!$respuestaSentencia) {
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if ($respuesta['tipo'] == 'ERROR') {
                 return $respuesta;    
             }
 
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
             $cantidad = $respuestaSentencia->num_rows;
             $vehiculos[] = [
                 'tipo_vehiculo' => $tipo,
@@ -289,13 +297,8 @@ class VehiculoModel extends MainModel {
             SET ubicacion = '$ubicacion'
             WHERE numero_placa = '$placa';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaActualizar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;    
         }
 

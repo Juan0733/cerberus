@@ -1,100 +1,135 @@
-document.addEventListener('DOMContentLoaded', function () {
+import {modalRegistroAgenda} from '../modales/modal-registro-agenda.js'
+import {modalDetalleAgenda} from '../modales/modal-detalle-agenda.js'
+import {consultarAgendas} from '../fetchs/agenda-fetch.js'
 
-    const calendarioEl = document.getElementById('calendario-mes');
+let urlBase;
+let contenedorCards;
+let inputFecha;
 
-    if (!calendarioEl) {
-        console.error('No se encontró el elemento con ID "calendario-mes" en el DOM.');
-        return;
-    }
-
-    // Inicializar el calendario
-    const calendario = new FullCalendar.Calendar(calendarioEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es', // Configuración de idioma
-        headerToolbar: {
-            left: 'prev,next', // Botones de navegación
-            center: 'title', // Título del mes
-            right: '' // Sin botones adicionales
-        },
-        dateClick: function (info) {
-            
-            seleccionarDia(info.date); // Cambiar a vista solo de sábado y domingo al hacer clic en una fecha
-
-        },
-        
-    });
-
-    calendario.render(); // Renderizar el calendario
-});
-
-const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-const horas = ["7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm"];
-
-// Función para mostrar solo sábado y domingo
-function seleccionarDia(fecha) {
-    const encabezadoSemana = document.getElementById('encabezado-semana');
-    const cuadriculaSemana = document.getElementById('cuadricula-semana');
-
-    // Verificar que ambos elementos existan
-    if (!encabezadoSemana || !cuadriculaSemana) {
-        console.error('No se encontraron los elementos "encabezado-semana" o "cuadricula-semana" en el DOM.');
-        return;
-    }
-
-    // Limpiar contenido previo
-    encabezadoSemana.innerHTML = '';
-    cuadriculaSemana.innerHTML = '';
-
-    const diaSeleccionado = fecha.getDay();
-
-    const fechas = [];
-    for (let i = 0; i < 7; i++) {
-        
-        const nuevoDia = new Date(fecha);
-        nuevoDia.setDate(fecha.getDate() - diaSeleccionado + i);
-        const anio = nuevoDia.getFullYear(); // Obtiene el año
-        const mes = String(nuevoDia.getMonth() + 1).padStart(2, '0'); // Obtiene el mes (0-11) y agrega un 0 si es necesario
-        const dia = String(nuevoDia.getDate()).padStart(2, '0'); // Obtiene el día del mes (1-31) y agrega un 0 si es necesario
-
-
-        const formato = `${anio}-${mes}-${dia}`;
-        if (i == 0 || i == 6){
-            fechas.push(formato)
-            
-        }
-
-    }
-    listarAgenda(fechas[0],fechas[1])
-    
-    
+const parametros = {
+    fecha: '',
+    documento: '',
+    titulo: ''
 }
 
+function dibujarAgendas(){
+    consultarAgendas(parametros, urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            contenedorCards.innerHTML = '';
 
-function listarAgenda(fechainicio,fechafin) {
-    
-    
-    let cuerpo = document.getElementById("cuadricula-semana")
-    let formData = new FormData()
-    
-    formData.append('modulo_agenda', "listar")
-    formData.append('fechainicio', fechainicio)
-    formData.append('fechafin', fechafin)
-    
-    
-    
+            respuesta.agendas.forEach(agenda => {
+                contenedorCards.innerHTML += `
+                    <div class="card-agenda">
+                        <div class="card-agenda-header">
+                            <h1>${agenda.titulo}</h1>
+                        </div>
+                        <div class="card-agenda-body">
+                            <p class="nombre">${agenda.nombres_agendado} ${agenda.apellidos_agendado}</p>
+                            <div class="contenedor-fecha-agenda">
+                                <div>
+                                    <strong><p class="fecha-agenda">Fecha Agenda:</p></strong>
+                                    <p>${agenda.fecha}</p>
+                                </div>
+                                
+                                <div>
+                                    <strong><p class="fecha-agenda">Hora Agenda:</p></strong>
+                                    <p>${agenda.hora}</p>
+                                </div>
+                                
+                            </div>
+                            <div class="contenedor-icons">
+                                
+                                <ion-icon class="eliminar" name="trash-outline" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                <ion-icon class="editar" name="create-outline" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                <ion-icon class="ver" name="reader-outline" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                
+                            </div>
+                        </div>
+                    </div>`;
+            });
 
-    fetch("../app/ajax/agendaAjax.php",{
-        method:"POST",
-        body: formData
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error("Error en la respuesta del servidor");
+            eventoVerDetalle();
+        }else if(respuesta.tipo == 'ERROR'){
+            contenedorCards.innerHTML = `<h2 id="mensaje_respuesta">${respuesta.mensaje}</h2>`
         }
-        return response.json();
     })
-    .then(data => {
-        cuerpo.innerHTML = data.data
-    }).catch(err => console.log(err))
-
 }
+
+function eventoVerDetalle(){
+    const botonesVer = document.querySelectorAll('.ver');
+
+    botonesVer.forEach(boton => {
+        let codigoAgenda = boton.getAttribute('data-codigo');
+        boton.addEventListener('click', ()=>{
+            modalDetalleAgenda(codigoAgenda, urlBase);
+        })
+    });
+}
+
+function eventoFecha(){
+    const nombreDia = document.getElementById('nombre_dia');
+    const fechaFormateada = document.getElementById('fecha_formateada');
+
+    inputFecha.addEventListener('change', ()=>{
+        const fechaDividida = inputFecha.value.split('-');
+        const objetoFecha = new Date(parseInt(fechaDividida[0]), parseInt(fechaDividida[1]) - 1, parseInt(fechaDividida[2]));
+        let opciones = { weekday: 'long' };
+        let dia = objetoFecha.toLocaleDateString('es-ES', opciones);
+        dia = dia.charAt(0).toUpperCase() + dia.slice(1);
+        opciones = { day: 'numeric', month: 'long' }
+        const fechaEspañol = objetoFecha.toLocaleDateString('es-ES', opciones);
+
+        nombreDia.textContent = dia;
+        fechaFormateada.textContent = fechaEspañol;
+
+        parametros.fecha = inputFecha.value;
+        dibujarAgendas();
+    })
+}
+
+function eventoBuscarDocumento(){
+    const inputDocumento = document.getElementById('buscador_documento');
+    let temporizador;
+    
+    inputDocumento.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            parametros.documento = inputDocumento.value;
+            dibujarAgendas();
+        }, 500)
+    })
+}
+
+function eventoBuscarTitulo(){
+    const inputTitulo = document.getElementById('buscador_titulo');
+    let temporizador;
+    
+    inputTitulo.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            parametros.titulo = inputTitulo.value;
+            dibujarAgendas();
+        }, 500)
+    })
+}
+
+function eventoCrearAgenda(){
+    document.getElementById('btn_crear_agenda').addEventListener('click', ()=>{
+        modalRegistroAgenda(urlBase, dibujarAgendas);
+    })
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    urlBase = document.getElementById('url_base').value;
+    contenedorCards = document.getElementById('contenedor_cards');
+    inputFecha = document.getElementById('fecha');
+
+    parametros.fecha = inputFecha.value;
+
+    dibujarAgendas();
+    eventoFecha();
+    eventoBuscarDocumento();
+    eventoBuscarTitulo();
+    eventoCrearAgenda();
+})
 

@@ -11,384 +11,497 @@
 } 
  
  
- /* Estilos generales para el fondo de modal */
-    #contenedor-modales {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        position: fixed;
-        background: rgba(37, 37, 37, 0.7);
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: 160;
-    }
+/* Estilos generales para el fondo de modal */
+#contenedor-modales {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    position: fixed;
+    background: rgba(37, 37, 37, 0.7);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 160;
+}
 
-    /* Estilos generales para cada modal */
-    #contenedor-modales .contenedor-ppal-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: var(--main-color);
-        border-radius: 35px;
-        width: 95%;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-    }
+/* Estilos generales para cada modal */
+#contenedor-modales .contenedor-ppal-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--main-color);
+    border-radius: 35px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 350px;
+}
 
-    #contenedor-modales #modal_brigadistas{
-        width: 400px;
-        background-color: #EC8103;
-    }
+#contenedor-modales #modal_brigadistas{
+    width: 400px;
+    background-color: #EC8103;
+}
 
-    #contenedor-modales #modal_brigadistas .contenedor-titulo-modal{
-        justify-content: end;
-        padding: 0.5em;
-    }
+#contenedor-modales #modal_brigadistas .contenedor-titulo-modal{
+    justify-content: end;
+    padding: 0.5em;
+}
 
-    #contenedor-modales #modal_brigadistas .document-title{
-        font-size: 0.9em;
-    }
+#contenedor-modales #modal_brigadistas .document-title{
+    font-size: 0.9em;
+}
 
-    #contenedor-modales #modal_brigadistas .document-meta{
-        font-size: 1em;
-    }
+#contenedor-modales #modal_brigadistas .document-meta{
+    font-size: 1em;
+}
 
-    #contenedor-modales #modal_brigadistas .document-card{
+#contenedor-modales #modal_brigadistas .document-card{
+    margin-bottom: 8px;
+}
+
+#contenedor-modales #modal_brigadistas #cont_info_modales{
+    padding-top: 8px;
+}
+
+/* Clase para mostrar el contenedor de fondo */
+#contenedor-modales.mostrar {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#contenedor-modales .contenedor-titulo-modal{
+    color: var(--color-primario);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7em;
+    animation: slideIn 0.5s ease-out;
+}
+
+#contenedor-modales .contenedor-titulo-modal h2{
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+    margin-left: 14px;
+}
+
+#contenedor-modales .contenedor-titulo-modal ion-icon{
+    font-size: 32px;
+    cursor: pointer;
+}
+                
+#contenedor-modales .contenedor-ppal-modal .contenedor-info-modal{
+    height: 100%;
+    background: var(--color-primario);
+    border-radius: 20px;    
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+#contenedor-modales #cont_info_modales{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.oculto{
+    display: none !important;
+}
+
+/* Estilos Modal detalle agenda */
+
+#contenedor-modales #modal_detalle_agenda{
+    width: clamp(350px, 32%, 480px);
+}
+
+#contenedor-modales #modal_detalle_agenda #cont_info_modales{
+    align-items: start;
+    padding: 1em 1em 0.4em;
+}
+
+    #modal_detalle_agenda #cont_info_modales h3{
         margin-bottom: 8px;
     }
 
-    #contenedor-modales #modal_brigadistas #cont_info_modales{
-        padding-top: 8px;
+    #modal_detalle_agenda #cont_info_modales p{
+        margin-bottom: 12px;
     }
 
-    /* Clase para mostrar el contenedor de fondo */
-    #contenedor-modales.mostrar {
-        opacity: 1;
-        pointer-events: auto;
+    #modal_detalle_agenda #cont_info_modales #contenedor_agendados{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-height: 150px;
+        margin-bottom: 12px;
+        overflow-y: auto;
+        width: 100%;
     }
-    
-    #contenedor-modales .contenedor-titulo-modal{
-        color: var(--color-primario);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.7em;
-        animation: slideIn 0.5s ease-out;
-        }
-                .contenedor-titulo-modal h2{
-                        width: 100%;
-                        text-align: left;
-                        margin-left: 14px;
-                }
-                .contenedor-titulo-modal ion-icon{
-                    font-size: 32px;
-                }
-        
-                                    
-        #contenedor-modales .contenedor-ppal-modal .contenedor-info-modal{
-                height: 100%;
-                background: var(--color-primario);
-                border-radius: 20px;    
-                overflow-y: auto;
-                scrollbar-width: none;
+
+        #cont_info_modales #contenedor_agendados p{
+            margin: 0;
         }
 
-    .close-btn {
-        cursor: pointer;
-    }
-    #subtitulo_no_obligatorio{
-            
-        text-align: center;
-        margin: 13px 0;
-    }
-    #subtitulo_no_obligatorio_desk{
-        display: none;
-    }
-    #contenedor-modales #cont_info_modales{
-        
-        height: 100%;
+    #modal_detalle_agenda #cont_info_modales #contenedor_fecha_agenda{
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: space-between;
+        width: 100%;
     }
-
 
 /* Estilos Modal registrar Vehiculos */
-
-div#contenedor_modal_regis_vh{
-    width: clamp(272px, 100%, 730px);
+#contenedor_modal_vehiculo{
     animation: slideIn 0.5s ease-out;
 }
-    #contenedor_modal_regis_vh form{
-
+    #contenedor_modal_vehiculo #formulario_vehiculo{
+        align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        width: 100%;
     }
     
-    #contenedor_modal_regis_vh .contenedor_de_cajas{
+    #contenedor_modal_vehiculo #formulario_vehiculo #contenedor_cajas_vehiculo{
         display: flex;
         flex-direction: column;
-        width: 90%;
+        padding: 10px 20px;
     }
-       @keyframes slideIn {
-            from {
-                transform: translateX(10%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        #contenedor_modal_regis_vh #caja_02_registro {
+
+        #formulario_vehiculo #contenedor_cajas_vehiculo #caja_01 {
             animation: slideIn 0.5s ease-out;
-            padding: 20px;
         }
-        #contenedor_modal_regis_vh #caja_01_registro {
+
+    #contenedor_modal_vehiculo #formulario_vehiculo .label-input{
+        color: var(--color-placeholder);
+        font-size: 20px;
+        padding-left:12px;
+        margin-bottom: 5px;
+    }
+                
+    #contenedor_modal_vehiculo #formulario_vehiculo .campo{
+        background: var(--background-inputs);
+        border: none;
+        border-radius: 13px;
+        font-size: 16px;
+        height: 60px;
+        margin: 5px 0 0px 0;
+        padding-left: 10px;
+        width: 100%;
+    }
+
+    #contenedor_modal_vehiculo #formulario_vehiculo .campo::placeholder{
+        color: var(--color-placeholder);
+        font-size: 16px;
+    } 
+            
+    #contenedor_modal_vehiculo #formulario_vehiculo .input-caja-registro{
+        color: var(--color-placeholder);
+        font-size: 16px;
+        padding: 10px 0px;
+    }
+                 
+    #contenedor_modal_vehiculo #formulario_vehiculo #contenedor_btns_vehiculo {
+        display: flex;
+        width: 100%;
+    }
+
+        #formulario_vehiculo button {
+            align-items: center;
+            border: none;
+            display: flex;
+            font-size: 20px;
+            height: 60px;
+            justify-content: center;
+            width: 50%;
+        }
+                        
+        #formulario_vehiculo #contenedor_btns_vehiculo #btn_cancelar_vehiculo {
+            background-color: var(--color-btn-cancelar);
+            color: var(--color-placeholder);
+        }    
+                       
+        #formulario_vehiculo #contenedor_btns_vehiculo #btn_registrar_vehiculo {
+            background-color: var(--color-secundario);
+            color: var(--color-primario);
+            
+        }
+
+/* Estilos Modal registrar agenda */
+#contenedor_modal_agenda{
+    animation: slideIn 0.5s ease-out;
+}
+    #contenedor_modal_agenda #formulario_agenda{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    #contenedor_modal_agenda #formulario_agenda #contenedor_cajas_agenda{
+        padding: 10px 20px;
+    }
+
+        #formulario_agenda #contenedor_cajas_agenda .caja {
             animation: slideIn 0.5s ease-out;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        } 
+
+        #formulario_agenda #contenedor_cajas_agenda #caja_02 {
+            display: none;
         }
-            form#forma_acceso_03 .label-input{
-                color: var(--color-placeholder);
-                font-size: 20px;
-                padding-left:12px;
-                margin-bottom: 5px;
+
+        #formulario_agenda #contenedor_cajas_agenda .caja-flex{
+            align-items: end;
+            display: none;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #formulario_agenda #contenedor_cajas_agenda .btn-vehiculo {
+            align-items: center;
+            color: var(--color-placeholder);
+            cursor: pointer;
+            display: flex;
+        }
+
+        #formulario_agenda #contenedor_cajas_agenda .btn-vehiculo:hover{
+            background-color: rgb(130, 130, 130);
+            color: var(--color-primario);
+        }
+
+            #contenedor_cajas_agenda .btn-vehiculo ion-icon{
+                font-size: 30px;
+                margin-right: 20px;
             }
+
+    #contenedor_modal_agenda #formulario_agenda .label-input{
+        color: var(--color-placeholder);
+        font-size: 20px;
+        padding-left:12px;
+        margin-bottom: 5px;
+    }
+                
+    #contenedor_modal_agenda #formulario_agenda .campo{
+        background: var(--background-inputs);
+        border: none;
+        border-radius: 13px;
+        font-size: 16px;
+        height: 60px;
+        margin: 5px 0 0px 0;
+        padding-left: 10px;
+        width: 100%;
+    }
+
+    #contenedor_modal_agenda #formulario_vehiculo .campo::placeholder{
+        color: var(--color-placeholder);
+        font-size: 16px;
+    } 
             
-            #contenedor_modal_regis_vh form#forma_acceso_03 .compo-invalido{
-                display: none;
-                color: red;
-                font-size: 10px;
-                padding-left:12px;
-                margin-bottom: 5px;
-            }
-            #contenedor_modal_regis_vh form#forma_acceso_03 .campo{
-                width: 100%;
-                height: 60px;
-                background: var(--background-inputs);
-                border: none;
-                font-size: 16px;
-                border-radius: 13px;
-                padding-left: 10px;
-                margin: 5px 0 0px 0;
-            }
-            
-            #contenedor_modal_regis_vh form#forma_acceso_03 .formatoInvalidado{
-                width: 100%;
-                height: 60px;
-                background: var(--background-inputs);
-                border: 2px solid rgb(230, 101, 101) !important;
-                font-size: 16px;
-                border-radius: 13px;
-                padding-left: 10px;
-                margin: 5px 0 0px 0;
-            }
-            form#forma_acceso_03 .input-caja-registro{
-                font-size: 16px;
-                margin-bottom: 15px;
-                color: var(--color-placeholder);
-            }
-            #contenedor_modal_regis_vh form#forma_acceso_03 .campo::placeholder{
-                font-size: 16px;
-                color: var(--color-placeholder);
-            }       
-                    form#forma_acceso_03 div#cont_btn_form_regis_visi {
-                        display: flex;
-                        width: 100%;
-                    }
-                        form#forma_acceso_03 div#cont_btn_form_regis_visi #btn-siguiente {
+    #contenedor_modal_agenda #formulario_agenda .input-caja-registro{
+        color: var(--color-placeholder);
+        font-size: 16px;
+        padding: 10px 0px;
+    }
+
+        #formulario_agenda .caja-flex .input-caja-registro {
+            width: 48.5%;
+        }
+
+    #contenedor_modal_agenda #formulario_agenda #contenedor_caja_excel{
+        align-items: end;
+        display: flex;
+        justify-content: space-between;
+        width: 442px;
+    }
+
+        #formulario_agenda #contenedor_caja_excel .caja-excel{
+            width: 82%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #formulario_agenda #contenedor_caja_excel #input_excel{
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+        }
+
+        #formulario_agenda #contenedor_caja_excel #input_excel:hover{
+            background-color: rgb(130, 130, 130);
+            color: var(--color-primario);
+        }
+
+        #formulario_agenda #contenedor_caja_excel #plantilla_excel {
+            display: none; 
+        }
+
+        #formulario_agenda #contenedor_caja_excel #btn_plantilla_excel{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var( --color-terciario);
+            border-radius: 13px;
+            height: 60px;
+            width: 60px;
+        }
+
+        #formulario_agenda #contenedor_caja_excel ion-icon{
+            font-size: 30px;
+        }
+
+
+    #contenedor_modal_agenda #formulario_agenda #contenedor_checkbox{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #formulario_agenda #contenedor_checkbox .caja-checkbox{
+        display: flex;
+        align-items: center;
+    }
+
+    #formulario_agenda #contenedor_checkbox input{
+        appearance: none; 
+        border: none;
+        border-radius: 13px;
+        width: 60px;
+        height: 60px;
+        background: var(--background-inputs); 
+        cursor: pointer;
+    }
+
+    #formulario_agenda #contenedor_checkbox input:checked {
+        background-color: var(--color-secundario);
+    }
+
+                 
+    #contenedor_modal_agenda #formulario_agenda #contenedor_btns_agenda {
+        display: flex;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+        #formulario_agenda #contenedor_btns_agenda button {
+            align-items: center;
+            border: none;
+            display: flex;
+            font-size: 20px;
+            height: 60px;
+            justify-content: center;
+            width: 50%;
+        }
+                        
+        #formulario_agenda #contenedor_btns_agenda #btn_cancelar_agenda {
+            background-color: var(--color-btn-cancelar);
+            color: var(--color-placeholder);
+        }    
+
+        #formulario_agenda #contenedor_btns_agenda #btn_atras_agenda {
+            background-color: var(--color-btn-cancelar);
+            color: var(--color-placeholder);
+            display: none;
+        }
+                       
+        #formulario_agenda #contenedor_btns_agenda #btn_registrar_agenda {
+            background-color: var(--color-secundario);
+            color: var(--color-primario);
+            display: none;
+        }
+
+        #formulario_agenda #contenedor_btns_agenda #btn_siguiente_agenda {
+            background-color: var(--color-secundario);
+            color: var(--color-primario);
+        }
                             
-                            align-items: center;
-                            justify-content: center;
-                            width: 100%;
-                        }
-                        form#forma_acceso_03 div#cont_btn_form_regis_visi #btn_cancelar_vehiculo {
-                            background-color: var(--color-btn-cancelar);
-                            color: var(--color-placeholder);
-                            align-items: center;
-                            justify-content: center;
-                            width: 100%;
-                        }    
-                        form#forma_acceso_03 div#cont_btn_form_regis_visi #btn_atras {
-                            align-items: center;
-                            justify-content: center;
-                            width: 35%;
-                            background-color: #c9c9c9;
-                            color: rgb(85, 85, 85);
-                            font-size: 47px;
-                        }
-                        form#forma_acceso_03 div#cont_btn_form_regis_visi #btn_registrarme {
-                            width: 100%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                            
-                        form#forma_acceso_03 button {
-                            background-color: var(--color-secundario);
-                            color: var(--color-primario);
-                            font-size: 20px;
-                            height: 60px;
-                            margin-top: 38px;
-                            border: none;
-                            display: flex;
-                        }
-
-
-                    .oculto{
-                        display: none !important;
-                    }
-
-
 /* Estilos Modal registrar Visitante */
-
-div#contenedor_modal_regis_vs{
-    width: clamp(272px, 100%, 480px);
+#contenedor_modal_visitante{
     animation: slideIn 0.5s ease-out;
 }
-    #contenedor_modal_regis_vs form{
 
+    #contenedor_modal_visitante #formulario_visitante{
+        align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+    }
+
+    #contenedor_modal_visitante #formulario_visitante #contenedor_cajas_visitante{
+        padding: 10px 20px;
+    }
+        
+    #contenedor_modal_visitante #formulario_visitante .caja{
+        animation: slideIn 0.5s ease-out;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0px;
+    }
+
+    #contenedor_modal_visitante #formulario_visitante .label-input{
+        color: var(--color-placeholder);
+        font-size: 20px;
+    }
+                
+    #contenedor_modal_visitante #formulario_visitante .campo{
+        background: var(--background-inputs);
+        border: none;
+        border-radius: 13px;
+        height: 60px;
+        font-size: 16px;
+        padding-left: 10px;
+        margin: 5px 0 0px 0;
         width: 100%;
     }
-    
-    #contenedor_modal_regis_vs .contenedor_campos_no_obl{
-        display: none;
-    }
-    #contenedor_modal_regis_vs form #btn_registrarme{
-        display: none;
-    }
-    #contenedor_modal_regis_vs form #btn_atras{
-        display: none;
-    }
-    #contenedor_modal_regis_vs #caja_02_registro {
-        display: none;
-    }
-       @keyframes slideIn {
-            from {
-                transform: translateX(10%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        #contenedor_modal_regis_vs #caja_02_registro {
-            animation: slideIn 0.5s ease-out;
-            padding: 20px;
-        }
-        #contenedor_modal_regis_vs #caja_01_registro {
-            animation: slideIn 0.5s ease-out;
-            padding: 20px;
-        }
-            form#forma_acceso_04 .label-input{
-                color: var(--color-placeholder);
-                font-size: 20px;
-                padding-left:12px;
-                margin-bottom: 5px;
-            }
+
+    #contenedor_modal_visitante #formulario_visitante .campo::placeholder{
+        color: var(--color-placeholder);
+        font-size: 16px;
+    }  
             
-            #contenedor_modal_regis_vs form#forma_acceso_04 .compo-invalido{
-                display: none;
-                color: red;
-                font-size: 10px;
-                padding-left:12px;
-                margin-bottom: 5px;
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .campo{
-                width: 100%;
-                height: 60px;
-                background: var(--background-inputs);
-                border: none;
-                font-size: 16px;
-                border-radius: 13px;
-                padding-left: 10px;
-                margin: 5px 0 0px 0;
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .formatoInvalidado{
-                width: 100%;
-                height: 60px;
-                background: var(--background-inputs);
-                border: 2px solid rgb(230, 101, 101) !important;
-                font-size: 16px;
-                border-radius: 13px;
-                padding-left: 10px;
-                margin: 5px 0 0px 0;
-            }
-            form#forma_acceso_04 .input-caja-registro{
-                font-size: 16px;
-                margin-bottom: 15px;
-                color: var(--color-placeholder);
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .campo::placeholder{
-                font-size: 16px;
-                color: var(--color-placeholder);
-            }       
-                    form#forma_acceso_04 div#cont_btn_form_regis_visi {
-                        display: flex;
-                        width: 100%;
-                    }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_siguiente {
+    #contenedor_modal_visitante #formulario_visitante .input-caja-registro{
+        color: var(--color-placeholder);
+        font-size: 16px;
+        width: 48.5%;
+    }
+                
+    #contenedor_modal_visitante #formulario_visitante #contenedor_btns_visitante {
+        display: flex;
+        width: 100%;
+    }
+
+        #formulario_visitante button {
+            align-items: center;
+            border: none;
+            display: flex;
+            font-size: 20px;
+            height: 60px;
+            justify-content: center;
+            width: 50%;
+        }
+
+        #formulario_visitante #contenedor_btns_visitante #btn_siguiente_visitante {
+            background-color: var(--color-secundario);
+            color: var(--color-primario);
+            display: none;
+        }
+
+        #formulario_visitante #contenedor_btns_visitante #btn_cancelar_visitante {
+            background-color: var(--color-btn-cancelar);
+            color: var(--color-placeholder);
+        }  
+
+        #formulario_visitante #contenedor_btns_visitante #btn_atras_visitante {
+            background-color: var(--color-btn-cancelar);
+            color: var(--color-placeholder);
+            display: none;
+        }
+
+        #formulario_visitante #contenedor_btns_visitante #btn_registrar_visitante{
+            background-color: var(--color-secundario);
+            color: var(--color-primario);
+        }
                             
-                            align-items: center;
-                            justify-content: center;
-                            width: 100%;
-                        }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_cancelar_visitante {
-                            background-color: var(--color-btn-cancelar);
-                            color: var(--color-placeholder);
-                            align-items: center;
-                            justify-content: center;
-                            width: 100%;
-                        }    
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_atras {
-                            align-items: center;
-                            justify-content: center;
-                            width: 35%;
-                            background-color: #c9c9c9;
-                            color: rgb(85, 85, 85);
-                            font-size: 47px;
-                        }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_registrar{
-                            width: 100%;
-                            display: none;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                            
-                        form#forma_acceso_04 button {
-                            background-color: var(--color-secundario);
-                            color: var(--color-primario);
-                            font-size: 20px;
-                            height: 60px;
-                            margin-top: 38px;
-                            border: none;
-                            display: flex;
-                        }
-
-
-                    .oculto{
-                        display: none !important;
-                    }
-
-
 
 /* Estilos Registro de Novedades */
-
-
 div#contenedor_modal_regis_nv{
     width: clamp(272px, 100%, 480px);
     animation: slideIn 0.5s ease-out;
@@ -521,233 +634,96 @@ div#contenedor_modal_regis_nv{
                     }
 
 
-@media (width > 780px) {
-/* Estilos Modal */
-
-
-    #contenedor-modales {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        position: fixed;
-        background: rgba(37, 37, 37, 0.7);
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: 160;
-    }
+@media (width < 780px) {
 
     /* Estilos generales para cada modal */
-    #contenedor-modales .contenedor-ppal-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: var(--main-color);
-        border-radius: 35px;
-        width: clamp(272px, 60%, 730px);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
+    #contenedor-modales .contenedor-titulo-modal h2{
+        text-align: left;
     }
 
-    /* Clase para mostrar el contenedor de fondo */
-    #contenedor-modales.mostrar {
-        opacity: 1;
-        pointer-events: auto;
+    /* Estilos Modal detalle agenda */
+    #modal_detalle_agenda #cont_info_modales #contenedor_agendados {
+        grid-template-columns: 1fr;
     }
-    
-    #contenedor-modales .contenedor-titulo-modal{
-        color: var(--color-primario);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.7em;
-        }
-                .contenedor-titulo-modal h2{
-                        width: 100%;
-                        text-align: center;
-                }
-        
-                                    
-        #contenedor-modales .contenedor-ppal-modal .contenedor-info-modal{
-                height: 100%;
-                background: var(--color-primario);
-                border-radius: 20px;    
-                overflow-y: auto;
-                scrollbar-width: none;
-        }
 
-    .close-btn {
-        cursor: pointer;
-    }
-    #subtitulo_no_obligatorio{ 
-        display: none;
-    }
-    
-    
-    #contenedor-modales #cont_info_modales{
-        
-        height: 100%;
-        display: flex;
+    /* Estilo Modal registrar agenda */
+    #formulario_agenda #contenedor_cajas_agenda .caja-flex{
         flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
     }
 
+    #formulario_agenda .caja-flex .input-caja-registro {
+        width: 100%;
+    }
 
+    #formulario_agenda #contenedor_cajas_agenda #caja_05{
+        display: none;
+    }
 
+    #formulario_agenda #contenedor_cajas_agenda #caja_06{
+        display: none;
+    }
 
-/* Estilos Modal registrar Visitante */
-
-div#contenedor_modal_regis_vs{
-    width: clamp(272px, 100%, 730px);
-    animation: slideIn 0.5s ease-out;
-}
-    #contenedor_modal_regis_vs form{
-
-        display: flex;
+    #contenedor_modal_agenda #formulario_agenda #contenedor_checkbox{
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
+        padding: 0px;
     }
-    #contenedor_modal_regis_vs form #btn_registrar{
-        display: block;
+
+        #formulario_agenda #contenedor_checkbox .caja-checkbox{
+            padding: 10px 0px;
+        }
+
+    #contenedor_modal_agenda #formulario_agenda #contenedor_caja_excel{
+        width: 260px;
     }
-    #contenedor_modal_regis_vs form #btn_atras{
+
+        #formulario_agenda #contenedor_caja_excel .caja-excel{
+            width: 70%;
+        }
+                                      
+    /* Estilos Modal registrar Visitante */
+    #contenedor_modal_visitante #formulario_visitante .caja{
+        flex-direction: column;
+        padding: 0px;
+    }
+
+    #contenedor_modal_visitante #formulario_visitante #caja_03 {
         display: none;
     }
 
-    #contenedor_modal_regis_vs .contenedor_de_cajas{
-        display: flex;
-    }
-    
-    #subtitulo_no_obligatorio_desk{
-        display: block;
-        text-align: center;
-    }
-    #contenedor_modal_regis_vs .contenedor_campos_no_obl_mobile{
+    #contenedor_modal_visitante #formulario_visitante #caja_04{
         display: none;
     }
-    #contenedor_modal_regis_vs .contenedor_campos_no_obl{
-        display: flex;
-    }
-    #contenedor_modal_regis_vs .input-caja-registro-vehiculo{
-        
+
+    #contenedor_modal_visitante #formulario_visitante .input-caja-registro{
+        padding: 10px 0px;
         width: 100%;
     }
-    
-    #contenedor_modal_regis_vs .modal-reg-v-01{
-        
-        width: 100%;
-        padding: 8px 20px 0px 0px;
-    }
-    
-    #contenedor_modal_regis_vs .modal-reg-v-02{
-        
-        width: 100%;
-        padding: 8px 0px 0px 20px
-    }
-    
-    
-    #contenedor_modal_regis_vs #caja_02_registro {
-        display: block;
-    }
-        
-        #contenedor_modal_regis_vs #caja_02_registro {
-            animation: slideIn 0.5s ease-out;
-            padding: 20px;
-            width: 100%;
+
+        #formulario_visitante #contenedor_btns_visitante #btn_registrar_visitante{
+            display: none;
         }
-        #contenedor_modal_regis_vs #caja_01_registro {
-            animation: slideIn 0.5s ease-out;
-            padding: 20px;
-            width: 100%;
+
+        #formulario_visitante #contenedor_btns_visitante #btn_siguiente_visitante{
+            display: flex;
         }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .label-input{
-                color: var(--color-placeholder);
-                font-size: 20px;
-                padding-left:12px;
-                margin-bottom: 5px;
-            }
+
+    
+        
+       
+           
             
-            #contenedor_modal_regis_vs form#forma_acceso_04 .compo-invalido{
-                display: none;
-                color: red;
-                font-size: 10px;
-                padding-left:12px;
-                margin-bottom: 5px;
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .campo{
-                width: 100%;
-                height: 60px;
-                background: var(--background-inputs);
-                border: none;
-                font-size: 16px;
-                border-radius: 13px;
-                padding-left: 10px;
-                margin: 5px 0 0px 0;
-            } 
-            #contenedor_modal_regis_vs form#forma_acceso_04 .formatoInvalidado{
-                width: 100%;
-                height: 60px;
-                background: var(--background-inputs);
-                border: 2px solid rgb(230, 101, 101) !important;
-                font-size: 16px;
-                border-radius: 13px;
-                padding-left: 10px;
-                margin: 5px 0 0px 0;
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .input-caja-registro{
-                font-size: 16px;
-                margin-bottom: 15px;
-                color: var(--color-placeholder);
-            }
-            #contenedor_modal_regis_vs form#forma_acceso_04 .campo::placeholder{
-                font-size: 16px;
-                color: var(--color-placeholder);
-            }       
-                    form#forma_acceso_04 div#cont_btn_form_regis_visi {
-                        display: flex;
-                        width: 100%;
-                    }
+           
+            
+           
+            
+                   
+                    
                        
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn-cancelar {
-                            background-color: var(--color-btn-cancelar);
-                            color: var(--color-placeholder);
-                            align-items: center;
-                            justify-content: center;
-                            width: 100%;
-                        }    
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_atras {
-                            align-items: center;
-                            justify-content: center;
-                            width: 35%;
-                            background-color: #c9c9c9;
-                            color: rgb(85, 85, 85);
-                            font-size: 47px;
-                        }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn_registrarme {
-                            display: flex;
-                            width: 100%;
-                        }     
-                        form#forma_acceso_04 button {
-                            background-color: var(--color-secundario);
-                            color: var(--color-primario);
-                            font-size: 20px;
-                            height: 60px;
-                            margin-top: 38px;
-                            border: none;
-                            display: flex;
-                        }
-                        form#forma_acceso_04 div#cont_btn_form_regis_visi #btn-siguiente {
-                            display: none !important;
-                        }
+                          
+                           
+                       
 
-                    .oculto{
-                        display: none !important;
-                    }
+                    
 
 /* Estilos Registro de Novedades */
 

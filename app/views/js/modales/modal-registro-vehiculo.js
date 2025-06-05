@@ -32,20 +32,24 @@ async function modalRegistroVehiculo(url, placa, callback ) {
         urlBase = url;
  
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        contenedorModales.classList.add('mostrar');
-
+        if (modalesExistentes.length > 1) {
+            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+        }else{
+            contenedorModales.classList.add('mostrar');
+        } 
+    
         setTimeout(()=>{
             documentoPropietario.focus();
         }, 250)
         
         eventoBotonCerrarModal();
-        eventoFormularioVehiculo();
+        eventoRegistrarVehiculo();
 
            
     } catch (error) {
         let respuesta = {
             titulo: 'Error Modal',
-            mensaje: error
+            mensaje: 'Error al cargar modal registro de vehículo'
         }
         
         alertaError(respuesta);
@@ -59,7 +63,11 @@ function eventoBotonCerrarModal(){
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
-        contenedorModales.classList.remove('mostrar');
+        if(modalesExistentes.length > 0) {
+            modalesExistentes[modalesExistentes.length-1].style.display = 'block';
+        }else{
+            contenedorModales.classList.remove('mostrar');
+        }
         
     });
 
@@ -68,8 +76,8 @@ function eventoBotonCerrarModal(){
     });
 }
 
-function eventoFormularioVehiculo(){
-    let formularioVehiculo = document.getElementById('forma_acceso_03');
+function eventoRegistrarVehiculo(){
+    let formularioVehiculo = document.getElementById('formulario_vehiculo');
     formularioVehiculo.addEventListener('submit', (e)=>{
         e.preventDefault();
         let formData = new FormData(formularioVehiculo);

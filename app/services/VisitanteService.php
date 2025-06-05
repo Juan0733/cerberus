@@ -32,11 +32,11 @@ class VisitanteService{
 				'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "[A-Za-z ]{2,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,50}",
                 'cadena' => $nombres
             ],
             [
-                'filtro' => "[A-Za-z ]{2,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,50}",
                 'cadena' => $apellidos
             ],
             [
@@ -48,7 +48,7 @@ class VisitanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
                 'cadena' => $motivoIngreso
             ]
 		];

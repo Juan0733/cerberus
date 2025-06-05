@@ -23,7 +23,7 @@ class MovimientoService{
                 'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{0,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}",
                 'cadena' => $observacion
             ]
         ];
@@ -84,7 +84,7 @@ class MovimientoService{
                 'cadena' => $placaVehiculo
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{0,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}",
                 'cadena' => $observacion
             ]
         ];

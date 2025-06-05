@@ -24,16 +24,12 @@ class FuncionarioModel extends MainModel{
 
         $sentenciaBuscar .= " LIMIT 10;";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -59,17 +55,12 @@ class FuncionarioModel extends MainModel{
             FROM funcionarios 
             WHERE ubicacion = 'DENTRO' AND brigadista = 'SI';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning"
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         $totalBrigadistas= $respuestaSentencia->num_rows;
 
         $respuesta = [

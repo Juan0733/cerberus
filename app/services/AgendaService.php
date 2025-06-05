@@ -53,6 +53,8 @@ class AgendaService{
 			}
         }
 
+        $titulo = ucwords(strtolower($titulo));
+
         $datosAgenda = [
             'codigo_agenda' => $codigoAgenda,
             'titulo' => $titulo,
@@ -99,11 +101,11 @@ class AgendaService{
 				'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "[A-Za-z ]{2,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,50}",
                 'cadena' => $nombres
             ],
             [
-                'filtro' => "[A-Za-z ]{2,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,50}",
                 'cadena' => $apellidos
             ],
             [
@@ -115,11 +117,11 @@ class AgendaService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}",
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
                 'cadena' => $motivo
             ],
             [
@@ -138,6 +140,8 @@ class AgendaService{
                 return $respuesta;
 			}
         }
+
+        $titulo = ucwords(strtolower($titulo));
 
         $datosAgenda = [
             'tipo_documento' => $tipoDocumento,
@@ -176,11 +180,11 @@ class AgendaService{
 
         $datos = [
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}",
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
                 'cadena' => $motivo
             ],
             [
@@ -254,6 +258,8 @@ class AgendaService{
                 }
             }
         }
+
+        $titulo = ucwords(strtolower($titulo));
         
         $datosAgenda = [
             'agendados' => $agendados,
@@ -296,6 +302,15 @@ class AgendaService{
 
             if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
                 $parametros['numero_documento'] = $numeroDocumento;
+            }
+        }
+
+        if(isset($_GET['titulo'])){
+            $titulo = $this->limpiarDatos($_GET['titulo']);
+            unset($_GET['titulo']);
+
+            if(preg_match('/^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{1,15}$/', $titulo)){
+                $parametros['titulo'] = $titulo;
             }
         }
 

@@ -8,32 +8,62 @@ if(file_exists(__DIR__."/../../config/server.php")){
 }
 
 class MainModel{
-	protected function conectar(){
+	private $conexion;
+
+	private function conectar(){
 		// mysqli_report(MYSQLI_REPORT_OFF);
 		
 		try {
-			$enlace_conexion = new mysqli("localhost", "root", "", "cerberus");
-			//   $enlace_conexion = new mysqli("localhost", "arcanoposada_adsob", "CDqaQeehjt9y", "arcanoposada_cerbeb"); 
-		
-			if ($enlace_conexion->connect_error) {
-				throw new \Exception("No se realizó la conexión: " . $enlace_conexion->connect_error);
-			}else {
-				return $enlace_conexion;
-			} 
+			$this->conexion = new mysqli("localhost", "root", "", "cerberus");
 		} catch (\Exception $e) {
-			unset($enlace_conexion);
-			return false; 
+			$this->conexion = '';
 		}
 	}
 	
 	protected function ejecutarConsulta($consulta){
-		$conexion = $this->conectar();
-		if (!$conexion) {
-			return false;
+		$this->conectar();
+		if (!$this->conexion) {
+			$respuesta = [
+				"tipo"=>"ERROR",
+				"titulo" => 'Error de Conexión',
+				"mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+			];
+			return $respuesta;
+
 		}else {
-			$sql=$conexion->query($consulta);
-			$conexion->close();
-			return $sql;
+			$sql = $this->conexion->query($consulta);
+			if (!$sql) {
+				$respuesta = [
+                    "tipo"=>"ERROR",
+                    "titulo" => 'Error de Operación',
+                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error al ejecutar la operación, intentalo más tarde.'
+                ];
+                return $respuesta;
+			}
+
+			$tipoConsulta = strtoupper(substr(trim($consulta), 0, 6));
+			if ($tipoConsulta == 'INSERT' || $tipoConsulta == 'UPDATE' || $tipoConsulta == 'DELETE') {
+				if($this->conexion->affected_rows < 1){
+					$respuesta = [
+						"tipo"=>"ERROR",
+						"titulo" => 'Operación Fallida',
+						"mensaje"=> 'Lo sentimos, parece que la operación no tuvo los resultados esperados, intentalo más tarde.'
+					];
+					return $respuesta;
+				}
+			}
+
+			$this->conexion->close();
+			$this->conexion = '';
+
+			$respuesta = [
+				"tipo"=>"EXITO",
+				"titulo" => 'Operación Exitosa',
+				"mensaje"=> 'La operación se realizó correctamente.',
+				"respuesta_sentencia" => $sql
+			];
+
+			return $respuesta;
 		}
 	}
 }

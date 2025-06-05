@@ -13,6 +13,8 @@
 <?php elseif($url[0] == 'informes-tabla' || $url[0] == 'informes-grafica'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/inicio.css">
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/informes.css">
+<?php elseif($url[0] == 'agendas'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/agendas.css">
 <?php endif; ?>
 
 <link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">

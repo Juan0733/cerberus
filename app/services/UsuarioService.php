@@ -42,7 +42,7 @@ class UsuarioService{
     }
 
     public function sanitizarDatosLogin(){
-        if(!isset($_POST['usuario'], $_POST['contrasena'], $_POST['tabla']) || $_POST['usuario'] == '' || $_POST['contrasena'] == '' || $_POST['tabla'] == ''){
+        if(!isset($_POST['usuario'], $_POST['contrasena']) || $_POST['usuario'] == '' || $_POST['contrasena'] == ''){
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Campos Obligatorios',
@@ -56,8 +56,7 @@ class UsuarioService{
 
 		$usuario = $this->limpiarDatos($_POST['usuario']);
 		$contrasena = $this->limpiarDatos($_POST['contrasena']);
-		$tabla = $this->limpiarDatos($_POST['tabla']);
-        unset($_POST['usuario'], $_POST['contrasena'], $_POST['tabla']);
+        unset($_POST['usuario'], $_POST['contrasena']);
 
 		$datos = [
 			[
@@ -67,10 +66,6 @@ class UsuarioService{
 			[
 				'filtro' => "[a-zA-Z0-9]{6,15}",
 				'cadena' => $contrasena
-			],
-			[
-				'filtro' => "(vigilantes|funcionarios)",
-				'cadena' => $tabla
 			]
 		];
 
@@ -87,8 +82,7 @@ class UsuarioService{
 
         $datosLogin = [
 			'usuario' => $usuario,
-			'contrasena' => $contrasena,
-			'tabla' => $tabla
+			'contrasena' => $contrasena
 		];
 
         $respuesta = [

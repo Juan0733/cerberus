@@ -21,16 +21,12 @@ class UsuarioModel extends MainModel{
                     WHERE numero_documento = '$usuario';";
             }
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-            if (!$respuestaSentencia) {
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if ($respuesta['tipo'] == 'ERROR') {
                 return $respuesta;
             }
 
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
                 $datosUsuario['grupo'] = $tabla;
@@ -56,14 +52,8 @@ class UsuarioModel extends MainModel{
             SET ubicacion = '$ubicacion' 
             WHERE numero_documento = '$usuario';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaActualizar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -81,14 +71,8 @@ class UsuarioModel extends MainModel{
             FROM $tablaOrigen 
             WHERE numero_documento = '{$datosUsuario['numero_documento']}' ;";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaEliminar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-            ];
+        $respuesta= $this->ejecutarConsulta($sentenciaEliminar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -120,14 +104,8 @@ class UsuarioModel extends MainModel{
                 VALUES('{$datosUsuario['tipo_documento']}', '{$datosUsuario['numero_documento']}', '{$datosUsuario['nombres']}', '{$datosUsuario['apellidos']}', '{$datosUsuario['telefono']}', '{$datosUsuario['correo_electronico']}', '{$datosUsuario['rol']}', MD5('{$datosUsuario['contrasena']}'), '$fechaRegistro')";
         }
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -142,7 +120,6 @@ class UsuarioModel extends MainModel{
     
     public function validarUsuarioLogin($usuario){
         $tablas = ['vigilantes', 'funcionarios'];
-
         foreach ($tablas as $tabla) {
             if($tabla == 'vigilantes'){
                 $sentenciaBuscar = "
@@ -154,26 +131,20 @@ class UsuarioModel extends MainModel{
                 $sentenciaBuscar = "
                     SELECT `numero_documento` 
                     FROM `$tabla` 
-                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector' OR rol = 'bienestar aprendiz');";
+                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector');";
             }
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-
-            if (!$respuestaSentencia) {
-                $respuesta = [
-                    "tipo"=> "ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning"
-                    
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if ($respuesta['tipo'] == 'ERROR') {
                 return $respuesta;
             }
 
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
                 $respuesta = [
                     'tipo' => 'OK',
-                    'tabla' => $tabla
+                    'titulo' => 'Usuario Encontrado',
+                    'mensaje' => 'Se encontro una coincidencia con el usuario proporcionado.'
                 ];
                 return $respuesta; 
             }
@@ -186,61 +157,56 @@ class UsuarioModel extends MainModel{
             "icono" => "warning",
             "cod_error"=> "350"
         ];
-        
         return $respuesta;
     }
 
 
     public function validarContrasenaLogin($datosLogin){
-        $sentenciaBuscar = "
-            SELECT * 
-            FROM ".$datosLogin['tabla']."
-            WHERE  numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO';";
-                    
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo" => "ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-                "cod_error"=> "350"
-            ];
-            return $respuesta;
+        $tablas = ['vigilantes', 'funcionarios'];
+        foreach ($tablas as $tabla) {
+            if($tabla == 'vigilantes'){
+                $sentenciaBuscar = "
+                    SELECT * 
+                    FROM `$tabla` 
+                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO';";
+
+            }elseif($tabla == 'funcionarios'){
+                $sentenciaBuscar = "
+                    SELECT * 
+                    FROM `$tabla` 
+                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector');";
+            }
+
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if ($respuesta['tipo'] == 'ERROR') {
+                return $respuesta;
+            }
+
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
+            if ($respuestaSentencia->num_rows > 0) {
+                $datosUsuario = $respuestaSentencia->fetch_assoc();
+                $datosUsuario['hora_sesion'] = time();
+                $datosUsuario['puerta'] = 'peatonal';
+                $datosUsuario['panel_acceso'] = 'inicio';
+
+                session_regenerate_id(true);
+                setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 29000, "/");
+                $_SESSION['datos_usuario'] = $datosUsuario;
+
+                $respuesta = [
+                    'tipo' => 'OK',
+                    'titulo' => 'Login Éxitoso',
+                    'mensaje' => 'Usuario autorizado para acceder a cerberus',
+                    'ruta' => $datosUsuario['panel_acceso']
+                ];
+                return $respuesta;
+            }
         }
-
-        if ($respuestaSentencia->num_rows < 1) {
-            $respuesta = [
-                "tipo" => "ERROR",
-                "titulo" => 'Acceso Denegado',
-                "mensaje"=> 'Lo sentimos, parece que tu contraseña es incorrecta.',
-                "icono" => "warning",
-            ];
-            return $respuesta;
-        }
-
-        $datosUsuario = $respuestaSentencia->fetch_assoc();
-        $datosUsuario['hora_sesion'] = time();
-        $datosUsuario['puerta'] = 'peatonal';
-
-        // Se valida nuevamente que el rol del usuario tenga acceso al sistema
-        if($datosUsuario['rol'] == 'bienestar aprendiz'){
-            $panelAcceso = 'estadias';
-        }else{
-            $panelAcceso = 'inicio';
-        }
-
-        $datosUsuario['panel_acceso'] = $panelAcceso;
-
-        session_regenerate_id(true);
-        setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 29000, "/");
-
-        $_SESSION['datos_usuario'] = $datosUsuario;
+       
         $respuesta = [
-            'tipo' => 'OK',
-            'titulo' => 'Login Éxitoso',
-            'mensaje' => 'Usuario autorizado para acceder a cerberus',
-            'ruta' => $panelAcceso
+            "tipo" => "ERROR",
+            "titulo" => 'Acceso Denegado',
+            "mensaje"=> 'Lo sentimos, parece que tu contraseña es incorrecta.'
         ];
         return $respuesta;
     }
@@ -255,7 +221,6 @@ class UsuarioModel extends MainModel{
             'titulo' => 'Sesión Cerrada',
             'mensaje' => 'La sesion ha sido cerrada correctamente'
         ];
-
         return $respuesta;
     }
 
@@ -269,17 +234,12 @@ class UsuarioModel extends MainModel{
                 FROM $tabla
                 WHERE ubicacion = 'DENTRO';";
 
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-            if (!$respuestaSentencia) {
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning"
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if ($respuesta['tipo'] == 'ERROR') {
                 return $respuesta;
             }
 
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
             $totalUsuarios += $respuestaSentencia->num_rows;
         }
 
@@ -304,17 +264,12 @@ class UsuarioModel extends MainModel{
                 FROM $tabla 
                 WHERE ubicacion = 'DENTRO';";
 
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-            if (!$respuestaSentencia) {
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning",
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if ($respuesta['tipo'] == 'ERROR') {
                 return $respuesta;
             }
 
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
             $cantidad = $respuestaSentencia->num_rows;
             $usuarios[] = [
                 'tipo_usuario' => $tabla,
@@ -344,7 +299,6 @@ class UsuarioModel extends MainModel{
             'mensaje' => "El conteo de usuarios fue realizado con éxito.",
             'usuarios' => $usuarios
         ];
-
         return $respuesta;
     }
 }

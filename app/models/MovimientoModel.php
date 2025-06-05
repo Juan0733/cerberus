@@ -28,13 +28,8 @@ class MovimientoModel extends MainModel{
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
             VALUES ('$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo']  == 'ERROR'){
             return $respuesta;
         }
 
@@ -80,13 +75,8 @@ class MovimientoModel extends MainModel{
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
             VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', '{$datosEntrada['observacion']}');";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -105,13 +95,8 @@ class MovimientoModel extends MainModel{
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
                 VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', '{$datosEntrada['observacion']}')";
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-            if(!$respuestaSentencia){
-                $respuesta = [
-                    "tipo"=>"ERROR", 
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
 
@@ -145,13 +130,8 @@ class MovimientoModel extends MainModel{
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
             VALUES ('$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -183,13 +163,8 @@ class MovimientoModel extends MainModel{
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
             VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', {$datosEntrada['observacion']});";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -208,13 +183,8 @@ class MovimientoModel extends MainModel{
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
                 VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', {$datosEntrada['observacion']})";
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-            if(!$respuestaSentencia){
-                $respuesta = [
-                    "tipo"=>"ERROR", 
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
 
@@ -373,16 +343,12 @@ class MovimientoModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -432,16 +398,12 @@ class MovimientoModel extends MainModel{
                     $sentenciaBuscar .= " AND puerta_registro = '{$parametros['puerta']}'";
                 }
 
-                $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-                if(!$respuestaSentencia){
-                    $respuesta = [
-                        "tipo"=>"ERROR", 
-                        "titulo" => 'Error de Conexión',
-                        "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-                    ];
+                $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+                if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
                 }
 
+                $respuestaSentencia = $respuesta['respuesta_sentencia'];
                 $cantidadMovimientos = $respuestaSentencia->num_rows;
 
                 $datos['rangos'][] = date('H:i', strtotime($horaInicio)).'-'.date('H:i', strtotime($horaFin));

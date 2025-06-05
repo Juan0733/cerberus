@@ -21,7 +21,7 @@
                     </div>
                     <div class="input-caja">
                         <label for="observacion_peatonal">Observacion</label>
-                        <textarea class="campo" inputmode="numeric" name="observacion_peatonal" id="observacion_peatonal" pattern="[A-Za-z0-9 ]{0,100}" title="Debes digitar solo numeros y letras, maximo 100 caracteres" placeholder="Escribe aquí..." tabindex="2" ></textarea>
+                        <textarea class="campo" inputmode="numeric" name="observacion_peatonal" id="observacion_peatonal" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}" title="Debes digitar solo numeros y letras, maximo 100 caracteres" placeholder="Escribe aquí..." tabindex="2" ></textarea>
                     </div>
                 </div>
                 <button type="submit" class="btn-eviar-reporte">Registrar</button>
@@ -80,7 +80,7 @@
                 <div class="cont_cajas">
                     <div class="input-caja">
                         <label for="observacion_vehicular">Observacion</label>
-                        <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y letras, maximo 100 caracteres" placeholder="Escribe aquí..." tabindex="4" ></textarea>
+                        <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}" title="Debes digitar solo numeros y letras, maximo 100 caracteres" placeholder="Escribe aquí..." tabindex="4" ></textarea>
                     </div>
 
                 </div>

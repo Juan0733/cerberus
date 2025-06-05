@@ -2,6 +2,7 @@
 namespace app\models;
 
 use DateTime;
+use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
 
 class AgendaModel extends MainModel{
     private $objetoUsuario;
@@ -48,20 +49,12 @@ class AgendaModel extends MainModel{
             }
         }
 
-
-
         $sentenciaInsertar = "
             INSERT INTO agendas(codigo_agenda, titulo, motivo, fk_usuario, fecha_agenda, fecha_registro, fk_usuario_sistema)
             VALUES ('$codigoAgenda', '{$datosAgenda['titulo']}', '{$datosAgenda['motivo']}', '{$datosAgenda['numero_documento']}', '{$datosAgenda['fecha_agenda']}', '$fechaRegistro', '$usuarioSistema');";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-                $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-            ];
+        $respuesta= $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
         
@@ -101,14 +94,8 @@ class AgendaModel extends MainModel{
                 INSERT INTO agendas(codigo_agenda, titulo, motivo, fk_usuario, fecha_agenda, fecha_registro, fk_usuario_sistema)
                 VALUES ('$codigoAgenda', '{$datosAgenda['titulo']}', '{$datosAgenda['motivo']}', '{$agendado['numero_documento']}', '{$datosAgenda['fecha_agenda']}', '$fechaRegistro', '$usuarioSistema');";
 
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-            if(!$respuestaSentencia){
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning",
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
         }
@@ -116,7 +103,7 @@ class AgendaModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'titulo' =>'Registro Exitoso',
-            'mensaje' => 'Fueron agendados correctamente, '.count($datosAgenda['agendados']).' usuarios.'
+            'mensaje' => 'Fueron agendados correctamente '.count($datosAgenda['agendados']).' usuarios.'
         ];
         return $respuesta;
     }
@@ -128,13 +115,8 @@ class AgendaModel extends MainModel{
             SET titulo = '{$datosAgenda['titulo']}', motivo = '{$datosAgenda['motivo']}', fecha_agenda = '{$datosAgenda['fecha_agenda']}'
             WHERE codigo_agenda = '{$datosAgenda['codigo_agenda']}';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaActualizar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -156,17 +138,12 @@ class AgendaModel extends MainModel{
                 WHERE fk_usuario = '$numeroDocumento' AND fecha_agenda = '$fechaAgenda';
             ";
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-            if(!$respuestaSentencia){
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                    "icono" => "warning",
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
 
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if($respuestaSentencia->num_rows > 0){
                 $respuesta = [
                     'tipo' => 'ERROR',
@@ -187,7 +164,10 @@ class AgendaModel extends MainModel{
 
     public function consultarAgendas($parametros){
         $sentenciaBuscar = "
-                SELECT a.codigo_agenda, a.titulo,
+                SELECT 
+                    a.codigo_agenda, 
+                    a.titulo,
+                    a.fecha_agenda,
                     COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_agendado,
                     COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_agendado
                 FROM agendas a
@@ -214,16 +194,18 @@ class AgendaModel extends MainModel{
             )";
         }
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        if(isset($parametros['titulo'])){
+            $sentenciaBuscar .= " AND titulo = '{$parametros['titulo']}'";
+        }
+
+        $sentenciaBuscar .= " ORDER BY a.fecha_registro DESC LIMIT 10;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -234,6 +216,16 @@ class AgendaModel extends MainModel{
         }
 
         $agendas = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        foreach($agendas as &$agenda){
+            $fecha = new DateTime($agenda['fecha_agenda']);
+            $mes = MESES[$fecha->format('F')];
+            $fechaFormateada = $fecha->format('j').' de '.$mes;
+            $horaFormateada = strtolower($fecha->format('g:iA')) ;
+
+            $agenda['fecha'] = $fechaFormateada;
+            $agenda['hora'] = $horaFormateada;
+        }
+        
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Consulta Exitosa',
@@ -255,43 +247,32 @@ class AgendaModel extends MainModel{
                 COALESCE(fun2.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_agendado,
                 COALESCE(fun2.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_agendado
             FROM agendas age
-            INNER JOIN funcionarios fun1 ON age.fk_usuario_sistema = fun1.numero_documento
+            INNER JOIN vigilantes fun1 ON age.fk_usuario_sistema = fun1.numero_documento
             LEFT JOIN funcionarios fun2 ON age.fk_usuario = fun2.numero_documento
             LEFT JOIN visitantes vis ON age.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON age.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON age.fk_usuario = apr.numero_documento
-            WHERE codigo_agenda = '$codigoAgenda';";
+            WHERE age.codigo_agenda = '$codigoAgenda';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Agenda No Encontrada',
-                "mensaje"=> 'No se encontró la agenda solicitada.'
+                "mensaje"=> 'No se encontró la agenda solicitada.'.$codigoAgenda
             ];
             return $respuesta;
         }
 
         $resultados = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
-        $meses = [
-            'January' => 'enero', 'February' => 'febrero', 'March' => 'marzo',
-            'April' => 'abril', 'May' => 'mayo', 'June' => 'junio',
-            'July' => 'julio', 'August' => 'agosto', 'September' => 'septiembre',
-            'October' => 'octubre', 'November' => 'noviembre', 'December' => 'diciembre'
-        ];
-
         $objetoFecha = new DateTime($resultados[0]['fecha_agenda']);
-        $mes = $objetoFecha->format('F');  
-        $fechaFormateada = $objetoFecha->format('j') . ' de ' . $meses[$mes];
+        $mes = MESES[$objetoFecha->format('F')];  
+        $fechaFormateada = $objetoFecha->format('j') . ' de ' . $mes;
 
         $horaFormateada = strtolower($objetoFecha->format('g:iA')); 
 
@@ -327,18 +308,12 @@ class AgendaModel extends MainModel{
             FROM agendas
             WHERE codigo_agenda = '$codigoAgenda';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaEliminar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaEliminar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
-         $respuesta = [
+        $respuesta = [
             'tipo' => 'OK',
             'titulo' =>'Eliminación Exitosa',
             'mensaje' => 'La agenda fue eliminada correctamente.'

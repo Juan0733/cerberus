@@ -3,7 +3,6 @@ import {consultarMovimientos} from '../fetchs/movimientos-fetch.js'
 let fechaInicio;
 let fechaFin;
 let contenedorTabla;
-let tabla;
 let cuerpoTabla;
 let urlBase;
 
@@ -24,7 +23,7 @@ function validarResolucion(){
 }
 
 function dibujarTablaMovimientos(){
-    if(!tabla){
+    if(!cuerpoTabla){
         contenedorTabla.innerHTML = `
             <table class="table" id="tabla_movimientos">
                 <thead class="head-table">
@@ -44,7 +43,6 @@ function dibujarTablaMovimientos(){
                 </tbody>
             </table>`;
 
-        tabla = document.getElementById('tabla_movimientos');
         cuerpoTabla = document.getElementById('cuerpo_tabla_movimientos');
     }
    

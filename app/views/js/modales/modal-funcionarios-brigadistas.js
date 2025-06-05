@@ -28,7 +28,7 @@ async function modalFuncionariosBrigadistas(url) {
     } catch (error) {
         let respuesta = {
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar el modal de brigadistas.'
+            mensaje: 'Error al cargar modal brigadistas.'
         }
         
         alertaError(respuesta);

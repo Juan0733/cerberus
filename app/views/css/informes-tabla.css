@@ -1,0 +1,248 @@
+#contenedor_principal {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+    #contenedor_principal #contenedor_filtros {
+        display: flex;
+        width: 100%;
+        padding: 1rem 0;
+        column-gap: 10px;
+    }
+
+        #contenedor_principal #contenedor_filtros .caja-flex{
+            display: flex;
+            width: 100%;
+            column-gap: 10px;
+        }
+
+        #contenedor_principal #contenedor_filtros #caja_02{
+            width: 73%;
+        }
+
+
+        #contenedor_principal #contenedor_filtros .filtro{
+            align-items: center;
+            border: 1px solid #d8d8d8;
+            border-radius: 13px;
+            background: white;
+            display: flex;
+            font-size: 17px;
+            gap: 0.5rem;
+            padding: 0 10px;
+            height: 40px;
+            width: 100%; 
+        }
+
+            #contenedor_principal #contenedor_filtros .filtro input, select{
+                border: none;
+                font-size: 17px;
+                outline: none;
+                width: 100%;
+            }
+
+            #contenedor_principal #contenedor_filtros .filtro ion-icon{
+                font-size: 25px;
+            }
+
+        #contenedor_principal .btn-informe{
+            align-items: center;
+            border: none;
+            border-radius: 13px;
+            background-color: red;
+            display: flex;
+            height: 40px;
+            justify-content: center;
+            padding: 0 8px;
+        }
+
+        #contenedor_principal #btn_informe_mobile{
+            display: none;
+            height: 60px;
+            left: 80%;
+            position: fixed;
+            top: 88.5%;
+            width: 60px;
+            z-index: 20;
+           
+        }
+
+        #contenedor_principal .btn-informe ion-icon{
+            color: white;
+            font-size: 25px;
+        }
+
+    #contenedor_principal #contenedor_tabla_cards{
+        display: flex;
+        max-height: 75vh;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+        #contenedor_principal #contenedor_tabla_cards #tabla_movimientos {
+            border-collapse: collapse;
+            border-radius: 20px;
+            background: var(--color-primario);
+            text-align: center;
+            width: 100%;
+        }
+
+            #contenedor_principal #contenedor_tabla_cards #tabla_movimientos tr{
+                border-bottom: 2px solid rgb(219, 219, 219);
+            }
+
+            #contenedor_principal #contenedor_tabla_cards #tabla_movimientos thead {
+                background-color: var(--color-secundario);
+                color: white;
+                cursor: pointer;
+                font-size: 1em;
+                left: 0;
+                position: sticky;
+                top: 0;
+            }
+
+                #contenedor_tabla_cards #tabla_movimientos thead th{
+                    font-weight: bolder;
+                    padding: 1rem;
+                }
+
+                #contenedor_tabla_cards #tabla_movimientos tbody td{
+                    padding: 1rem;
+                }
+
+                    #tabla_vehiculos tbody td ion-icon{
+                        color: var(--color-secundario);
+                        font-size: 25px;
+                    }
+
+                #contenedor_tabla_cards #tabla_movimientos thead th:first-child {
+                    border-radius: 20px 0 0 0;  
+                }
+
+                #contenedor_tabla_cards #tabla_movimientos thead th:last-child {
+                    border-radius: 0 20px 0 0;  
+                }
+
+    #contenedor_principal #contenedor_tabla_cards .document-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        margin:0 0 10px 0;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card .card-header {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 10px 0px 10px;
+        }
+  
+            #contenedor_tabla_cards .document-card .card-header .document-title {
+                color: #333;
+                font-size: 1.1em;
+                font-weight: bold;
+                margin: 0;
+            }
+  
+            #contenedor_tabla_cards .document-card .card-header .document-meta {
+                color: #555;
+                font-size: 0.9em;
+                margin: 5px 0;
+            }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card .card-details {
+            display: none;
+            color: #555;
+            font-size: 0.9em;
+            transition: max-height 0.5s ease;
+        }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card.active .card-details {
+            display: block;
+            padding: 10px;
+        }
+
+       
+    
+      /* Icono de flecha para desplegar */
+        #contenedor_principal #contenedor_tabla_cards .document-card .toggle-icon {
+            font-size: 1.2em;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+@media(min-width: 768px) and (max-width: 1023px){
+    #contenedor_principal #contenedor_filtros{
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+        #contenedor_principal #contenedor_filtros #caja_02{
+            width: 100%;
+        }
+
+            #contenedor_principal #contenedor_filtros #caja_02 #contenedor_placa{
+                width: 89%;
+            }
+
+    #contenedor_principal #contenedor_tabla_cards{
+        column-gap: 4%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        max-height: 78.5vh;
+    }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card{
+            height: 65px;
+        }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card.document-card.active{
+            height: auto;
+        }
+}
+
+@media(max-width: 767px){
+    #contenedor_principal{
+        width: clamp(260px, 100%, 600px);
+    }
+
+        #contenedor_principal #contenedor_filtros{
+            flex-direction: column;
+            row-gap: 10px;
+        } 
+
+        #contenedor_filtros .caja-flex{
+            flex-direction: column;
+            row-gap: 10px;
+        } 
+
+        #contenedor_principal #contenedor_filtros #caja_02{
+            width: 100%;
+        }
+
+            #contenedor_principal #contenedor_filtros #caja_02 #btn_informe{
+                display: none;
+            }
+
+
+        #contenedor_principal #btn_informe_mobile{
+            display: flex;
+        }
+
+        #contenedor_principal #contenedor_tabla_cards{
+            align-items: center;
+            flex-direction: column;
+            max-height: 57vh;
+        }
+}

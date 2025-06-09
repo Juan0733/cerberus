@@ -35,13 +35,16 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         urlBase = url;
 
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        contenedorModales.classList.add('mostrar');
        
-        dibujarPropietarios(placa);
         eventoCerrarModal();
+        dibujarPropietarios(placa);
         eventoRegistrarNovedadVehiculo();
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal registro de novedad de vehículo'
@@ -54,15 +57,11 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
 export { modalRegistroNovedadVehiculo };
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_novedad');
+    botonCerrarModal = document.getElementById('cerrar_modal_novedad_vehiculo');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
-        if(modalesExistentes.length > 0) {
-            modalesExistentes[modalesExistentes.length-1].style.display = 'block';
-        }else{
-            contenedorModales.classList.remove('mostrar');
-        }
+        contenedorModales.classList.remove('mostrar');
     });
 
     document.getElementById('btn_cancelar_novedad').addEventListener('click', ()=>{
@@ -78,12 +77,17 @@ function eventoRegistrarNovedadVehiculo(){
         formData.append('operacion', 'registrar_novedad_vehiculo');
 
         registrarNovedadVehiculo(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                alertaError(respuesta);
-                
-            }else if(respuesta.tipo == "OK"){
+            if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
+                
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
+                }
             }
         });
     })
@@ -98,8 +102,18 @@ function dibujarPropietarios(placa){
             respuesta.propietarios.forEach(propietario => {
                 selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
             });
+
+            contenedorModales.classList.add('mostrar');
+
         }else if(respuesta.tipo == 'ERROR'){
-            alertaError(respuesta);
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else{
+                botonCerrarModal.click();
+                alertaError(respuesta);
+            }
+            
         }
     })
 

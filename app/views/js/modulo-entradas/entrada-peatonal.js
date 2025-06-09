@@ -56,19 +56,22 @@ function eventoRegistrarEntradaPeatonal() {
         formData.append('operacion', 'registrar_entrada_peatonal');
 
         registrarEntradaPeatonal(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                if(respuesta.titulo == "Salida No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
-                    respuesta.documento = documentoPeaton.value;
-                    alertaAdvertencia(respuesta);
-                }else if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
-                }else{
-                    alertaError(respuesta);
-                }
-            }else if(respuesta.tipo == "OK"){
+            if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 formularioPeatonal.reset();
                 documentoPeaton.focus();
+                
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == "Salida No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
+                    respuesta.documento = documentoPeaton.value;
+                    alertaAdvertencia(respuesta);
+
+                }else if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+                    
+                }else{
+                    alertaError(respuesta);
+                }
             }
         });
     })
@@ -82,7 +85,6 @@ function eventoCerrarFormularioPeatonal(){
         botonPeatonal.style = 'flex';
         botonVehicular.style = 'flex';
     })
-
 }
 
 function alertaExito(respuesta){

@@ -2,6 +2,7 @@ import {consultarFuncionarios} from '../fetchs/funcionarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
+let botonCerrarModal;
 let urlBase;
 
 async function modalFuncionariosBrigadistas(url) {
@@ -18,6 +19,8 @@ async function modalFuncionariosBrigadistas(url) {
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
+
+        botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         urlBase = url;
          
@@ -26,19 +29,21 @@ async function modalFuncionariosBrigadistas(url) {
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+        
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal brigadistas.'
         }
-        
         alertaError(respuesta);
     }
-    
 }
 export { modalFuncionariosBrigadistas };
 
 function eventoCerrarModal(){
-    document.getElementById('cerrar_modal_brigadista').addEventListener('click', ()=>{
+    botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
     });
@@ -69,6 +74,8 @@ function dibujarBrigadistas(){
                     </div>`;
             });
 
+            contenedorModales.classList.add('mostrar');
+
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Datos No Encontrados'){
                contenedor.innerHTML = `
@@ -79,19 +86,17 @@ function dibujarBrigadistas(){
                             </div>
                         </div>
                     </div>`;
+
+                contenedorModales.classList.add('mostrar');
+
+            }else if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
             }else{
-                contenedor.innerHTML = `
-                    <div class="document-card">
-                        <div class="card-header">
-                            <div>
-                                <p class="document-meta">${respuesta.mensaje}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                botonCerrarModal.click();
+                alertaError(respuesta);
             }
         }
-
-        contenedorModales.classList.add('mostrar');
     });
 }
 

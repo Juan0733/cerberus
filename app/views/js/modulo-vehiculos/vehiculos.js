@@ -11,7 +11,7 @@ const parametros = {
 }
 
 function validarResolucion(){
-    if(window.innerWidth > 1024){
+    if(window.innerWidth >= 1024){
         dibujarTablaVehiculos();
     }else{
         dibujarCardsVehiculos();
@@ -47,9 +47,7 @@ function dibujarTablaVehiculos(){
                         <td>${vehiculo.tipo_vehiculo}</td>
                         <td>${vehiculo.ubicacion}</td>
                         <td class="contenedor-colum-acciones">
-                            <a class="btn-cards" data-vehiculo="${vehiculo.numero_placa}">
-                                <p>Ver Propietarios</p>
-                            </a>
+                            <ion-icon name="eye-outline" class="ver-propietarios" data-vehiculo="${vehiculo.numero_placa}"></ion-icon>
                         </td>
                     </tr>`;
             });
@@ -83,9 +81,7 @@ function dibujarCardsVehiculos(){
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                         <div class="contenedor-acciones">
-                            <a class="btn-cards" data-vehiculo="${vehiculo.numero_placa}">
-                                <p>Ver Propietarios</p>
-                            </a>
+                            <ion-icon name="eye-outline" class="ver-propietarios" data-vehiculo="${vehiculo.numero_placa}"></ion-icon>
                         </div>
                     </div>`;
             });
@@ -102,8 +98,7 @@ function dibujarCardsVehiculos(){
                             <div>
                                 <p class="document-title">${respuesta.titulo}</p>
                                 <p class="document-meta">${respuesta.mensaje}</p>
-                            </div>
-                            <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
+                            </div> 
                         </div>
                     </div>`;
             }
@@ -112,7 +107,7 @@ function dibujarCardsVehiculos(){
 }
 
 function eventoVerPropietarios(){
-    const botonesVerPropietarios = document.querySelectorAll('.btn-cards');
+    const botonesVerPropietarios = document.querySelectorAll('.ver-propietarios');
     
     botonesVerPropietarios.forEach(boton => {
         let placa = boton.getAttribute('data-vehiculo');
@@ -165,7 +160,7 @@ function toggleCard() {
 
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
-    contenedorTabla = document.getElementById('contenedor_tabla');
+    contenedorTabla = document.getElementById('contenedor_tabla_cards');
     
     eventoBuscarDocumento();
     eventoBuscarPlaca();

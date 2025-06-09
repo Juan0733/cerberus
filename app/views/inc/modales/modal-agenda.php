@@ -5,7 +5,7 @@
 ?>
 
 <div class="contenedor-titulo-modal">
-    <h2 class="titulo-modal">Registrar Agenda</h2>
+    <h2 class="titulo-modal"id="titulo_modal">Registrar Agenda</h2>
     <ion-icon name="close-outline" id="cerrar_modal_agenda" class="close-btn"></ion-icon>
 </div>
 <div class="contenedor-info-modal">
@@ -15,8 +15,8 @@
                 <div id="contenedor_cajas_agenda">
                     <div class="caja" id="caja_01">
                         <div class="input-caja-registro">
-                            <label for="titulo" class="label-input">Titulo de la agenda</label>
-                            <input type="text" class="campo campo-seccion-01" inputmode="numeric" name="titulo" id="titulo" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}" title="Debes digitar solo números y letras, minimo 5 y maximo 50 caracteres" placeholder="Ej: 123456" tabindex="1" required>
+                            <label for="titulo_agenda" class="label-input">Titulo de la agenda</label>
+                            <input type="text" class="campo campo-seccion-01" inputmode="numeric" name="titulo_agenda" id="titulo_agenda" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}" title="Debes digitar solo números y letras, minimo 5 y maximo 50 caracteres" placeholder="Ej: 123456" tabindex="1" required>
                         </div>
 
                         <div class="input-caja-registro">
@@ -120,6 +120,7 @@
                     <button type="button" id="btn_cancelar_agenda">Cancelar</button>
                     <button type="button" id="btn_siguiente_agenda">Siguiente</button>
                     <button type="submit" id="btn_registrar_agenda">Registrar</button>
+                    <button type="submit" id="btn_actualizar_agenda">Actualizar</button>
                 </div>
             </form>
         </div>

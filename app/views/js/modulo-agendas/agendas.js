@@ -1,6 +1,7 @@
 import {modalRegistroAgenda} from '../modales/modal-registro-agenda.js'
+import {modalActualizarAgenda} from '../modales/modal-actualizacion-agenda.js'
 import {modalDetalleAgenda} from '../modales/modal-detalle-agenda.js'
-import {consultarAgendas} from '../fetchs/agenda-fetch.js'
+import {consultarAgendas, eliminarAgenda} from '../fetchs/agenda-fetch.js'
 
 let urlBase;
 let contenedorCards;
@@ -48,14 +49,17 @@ function dibujarAgendas(){
                     </div>`;
             });
 
-            eventoVerDetalle();
+            eventoVerDetalleAgenda();
+            eventoEditarAgenda();
+            eventoEliminarAgenda();
+
         }else if(respuesta.tipo == 'ERROR'){
-            contenedorCards.innerHTML = `<h2 id="mensaje_respuesta">${respuesta.mensaje}</h2>`
+            contenedorCards.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`
         }
     })
 }
 
-function eventoVerDetalle(){
+function eventoVerDetalleAgenda(){
     const botonesVer = document.querySelectorAll('.ver');
 
     botonesVer.forEach(boton => {
@@ -64,6 +68,34 @@ function eventoVerDetalle(){
             modalDetalleAgenda(codigoAgenda, urlBase);
         })
     });
+}
+
+function eventoEditarAgenda(){
+    const botonesEditar = document.querySelectorAll('.editar');
+
+    botonesEditar.forEach(boton => {
+        let codigoAgenda = boton.getAttribute('data-codigo');
+        boton.addEventListener('click', ()=>{
+            modalActualizarAgenda(codigoAgenda, dibujarAgendas, urlBase);
+        })
+    });
+}
+
+function eventoEliminarAgenda(){
+    const botonesEliminar = document.querySelectorAll('.eliminar');
+
+    botonesEliminar.forEach(boton=>{
+        let codigoAgenda = boton.getAttribute('data-codigo');
+        boton.addEventListener('click', ()=>{
+            let mensaje = {
+                titulo: 'Eliminar Agenda',
+                mensaje: '¿Estas seguro que deseas eliminar esta agenda?',
+                codigo_agenda: codigoAgenda
+            };
+
+            alertaAdvertencia(mensaje);
+        })
+    })
 }
 
 function eventoFecha(){
@@ -114,10 +146,84 @@ function eventoBuscarTitulo(){
 }
 
 function eventoCrearAgenda(){
-    document.getElementById('btn_crear_agenda').addEventListener('click', ()=>{
+    const botoCrearAgenda = document.getElementById('btn_crear_agenda');
+
+    botoCrearAgenda.addEventListener('click', ()=>{
         modalRegistroAgenda(urlBase, dibujarAgendas);
     })
+
+    document.getElementById('btn_crear_agenda_mobile').addEventListener('click', ()=>{
+        botoCrearAgenda.click();
+    })
 }
+
+function alertaExito(respuesta){
+    Swal.fire({
+        toast: true, 
+        position: 'top-end', 
+        icon: 'success',
+        iconColor: "#2db910",
+        color: '#F3F4F4',
+        background: '#001629',
+        timer: 5000,
+        timerProgressBar: true,
+        title: respuesta.mensaje,
+        showConfirmButton: false,   
+        customClass: {
+            popup: 'alerta-contenedor',
+        }
+    })
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
+function alertaAdvertencia(datos){
+    Swal.fire({
+        icon: "warning",
+        iconColor: "#feb211",
+        title: datos.titulo,
+        text: datos.mensaje,
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar',
+            cancelButton: 'btn-cancelar' 
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if(datos.titulo == "Eliminar Agenda"){
+                eliminarAgenda(datos.codigo_agenda, urlBase).then(respuesta=>{
+                    if(respuesta.tipo == 'OK'){
+                        alertaExito(respuesta);
+                        dibujarAgendas();
+
+                    }else if(respuesta.tipo == 'ERROR'){
+                        if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+                        }else{
+                            alertaError(respuesta);
+                        }
+                    }
+                });   
+            }
+        } 
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
     urlBase = document.getElementById('url_base').value;

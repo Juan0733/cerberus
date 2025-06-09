@@ -7,13 +7,13 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class AgendaService{
 
     public function sanitizarDatosAgenda(){
-        if (!isset($_POST['codigo_agenda'], $_POST['motivo'], $_POST['titulo'], $_POST['fecha_agenda']) || $_POST['codigo_agenda'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
+        if (!isset($_POST['codigo_agenda'], $_POST['motivo'], $_POST['titulo'], $_POST['fecha_agenda'], $_POST['agendados']) || $_POST['codigo_agenda'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '' || $_POST['agendados'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
                 "mensaje" => 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
             ];
-          return $respuesta;
+            return $respuesta;
         }
 
        
@@ -21,7 +21,8 @@ class AgendaService{
         $titulo = $this->limpiarDatos($_POST['titulo']);
         $motivo = $this->limpiarDatos($_POST['motivo']);
         $fechaAgenda = $this->limpiarDatos($_POST['fecha_agenda']);
-        unset($_POST['codigo_agenda'], $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda']);
+        $agendados = json_decode($_POST['agendados'], true);
+        unset($_POST['codigo_agenda'], $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda'], $_POST['agendados']);
 
         $datos = [
             [
@@ -29,11 +30,11 @@ class AgendaService{
                 'cadena' => $codigoAgenda
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,50}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}",
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
                 'cadena' => $motivo
             ],
             [
@@ -53,13 +54,46 @@ class AgendaService{
 			}
         }
 
+        foreach ($agendados as $agendado) {
+            $agendado['numero_documento'] = $this->limpiarDatos($agendado['numero_documento']);
+            $agendado['nombres'] = $this->limpiarDatos($agendado['nombres']);
+            $agendado['apellidos'] = $this->limpiarDatos($agendado['apellidos']);
+            
+            $datos = [
+                [
+                    'filtro' => "[A-Za-z0-9]{6,15}",
+                    'cadena' => $agendado['numero_documento']
+                ],
+                [
+                    'filtro' => "[A-Za-z ]{2,50}",
+                    'cadena' => $agendado['nombres']
+                ],
+                [
+                    'filtro' => "[A-Za-z ]{2,50}",
+                    'cadena' => $agendado['apellidos']
+                ]
+            ];
+
+            foreach ($datos as $dato) {
+                if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
+                    $respuesta = [
+                        "tipo" => "ERROR",
+                        'titulo' => "Formato Inválido",
+                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".var_dump($agendados),
+                    ];
+                    return $respuesta;
+                }
+            }
+        }
+
         $titulo = ucwords(strtolower($titulo));
 
         $datosAgenda = [
             'codigo_agenda' => $codigoAgenda,
             'titulo' => $titulo,
             'motivo' => $motivo,
-            'fecha_agenda' => $fechaAgenda
+            'fecha_agenda' => $fechaAgenda,
+            'agendados' => $agendados
         ];
 
         $respuesta = [

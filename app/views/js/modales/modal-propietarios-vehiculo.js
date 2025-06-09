@@ -1,14 +1,15 @@
 import {consultarPropietarios, eliminarPropietarioVehiculo} from '../fetchs/vehiculos-fetch.js';
 
 let contenedorModales;
-let contenedorTabla;
+let botonCerrarModal;
+let contenedorInformacion;
 let numeroPlaca;
 let modalesExistentes;
 let cuerpoTabla;
 let urlBase;
 
 function validarResolucion(){
-    if(window.innerWidth > 1024){
+    if(window.innerWidth >= 1024){
         dibujarTablaPropietarios();
     }else{
         dibujarCardsPropietarios();
@@ -17,29 +18,38 @@ function validarResolucion(){
 
 async function modalPropietariosVehiculo(placa, url) {
     try {
+        document.getElementById("contenedor_spinner").classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-propietarios-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
+        document.getElementById("contenedor_spinner").classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_propietarios';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
+
+        botonCerrarModal = document.getElementById('cerrar_modal_propietarios');
         document.getElementById('titulo_modal').textContent = 'Propietarios Vehículo '+placa.toUpperCase();
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        contenedorInformacion = document.getElementById('cont_info_modales');
         urlBase = url;
-        contenedorTabla = document.getElementById('contenedor_tabla_propietarios');
         cuerpoTabla = '';
         numeroPlaca = placa;
-         
+        
+        eventoCerrarModal(); 
         validarResolucion();
-        eventoCerrarModal();
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+        
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal propietarios.'
@@ -52,7 +62,7 @@ async function modalPropietariosVehiculo(placa, url) {
 export { modalPropietariosVehiculo };
 
 function eventoCerrarModal(){
-    document.getElementById('cerrar_modal_propietarios').addEventListener('click', ()=>{
+    botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
     });
@@ -60,7 +70,7 @@ function eventoCerrarModal(){
 
 function dibujarTablaPropietarios(){
     if(!cuerpoTabla){
-        contenedorTabla.innerHTML = `
+        contenedorInformacion.innerHTML = `
             <table class="table" id="tabla_propietarios">
                 <thead class="head-table">
                     <tr>
@@ -91,27 +101,24 @@ function dibujarTablaPropietarios(){
                         <td>${propietario.correo_electronico}</td>
                         <td>${propietario.ubicacion}</td>
                         <td class="contenedor-colum-acciones-ptr">
-                            <a class="btn-cancelar-table" data-propietario="${propietario.numero_documento}">
-                                <ion-icon name="trash-outline"></ion-icon>
-                            </a>
+                            <ion-icon name="trash-outline" class="eliminar-propietario"></ion-icon>
                         </td>
                     </tr>`;
             });
 
-            eventoEliminarPropietarioVehiculo();
+            contenedorModales.classList.add('mostrar');
 
+            eventoEliminarPropietarioVehiculo();
+            
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
+
             }else{
-                cuerpoTabla.innerHTML = `
-                    <tr class="propietarios">
-                        <td colspan="6">${respuesta.mensaje}</td>
-                    </tr>`;
+                botonCerrarModal.click();
+                alertaError(respuesta);
             }
         }
-
-        contenedorModales.classList.add('mostrar');
     });
 }
 
@@ -119,7 +126,7 @@ function dibujarCardsPropietarios(){
     consultarPropietarios(numeroPlaca, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             respuesta.propietarios.forEach(propietario => {
-                contenedorTabla.innerHTML += `
+                contenedorInformacion.innerHTML += `
                     <div class="document-card">
                         <div class="card-header">
                             <div>
@@ -136,36 +143,45 @@ function dibujarCardsPropietarios(){
                         </div>
 
                         <div class="contenedor-acciones">
-                            <a class="btn-cancelar-table" data-propietario="${propietario.numero_documento}">
-                                <ion-icon name="trash-outline"></ion-icon>
-                            </a>
+                            <ion-icon name="trash-outline" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
                         </div>
                     </div>`;
             });
 
+            toggleCard();
             eventoEliminarPropietarioVehiculo();
+
+            contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
+
             }else{
-                contenedor.innerHTML = `
-                    <div class="document-card">
-                        <div class="card-header">
-                            <div>
-                                <p class="document-meta">${respuesta.mensaje}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                botonCerrarModal.click();
+                alertaError(respuesta);
             }
         }
+    });
+}
 
-        contenedorModales.classList.add('mostrar');
+function toggleCard() {
+    const cards = document.querySelectorAll('.document-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            if(card.classList.contains('active')){
+                card.classList.remove('active');
+            }else{
+                document.querySelector('.active')?.classList.remove('active');
+                card.classList.toggle('active');
+            }
+        });
     });
 }
 
 function eventoEliminarPropietarioVehiculo(){
-    const botonesEliminar = document.querySelectorAll('.btn-cancelar-table');
+    const botonesEliminar = document.querySelectorAll('.eliminar-propietario');
 
     botonesEliminar.forEach(boton => {
         let propietario = boton.getAttribute('data-propietario');
@@ -201,9 +217,11 @@ function alertaAdvertencia(datos){
                 if(respuesta.tipo == 'OK'){
                     alertaExito(respuesta);
                     validarResolucion();
+
                 }else if(respuesta.tipo == 'ERROR'){
                     if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
+
                     }else{
                         alertaError(respuesta);
                     }

@@ -19,7 +19,7 @@ class AgendaModel extends MainModel{
                 'numero_documento' => $datosAgenda['numero_documento'],
             ]
         ];
-        $respuesta = $this->validarDuplicidadAgenda($agendados, $datosAgenda['fecha_agenda']);
+        $respuesta = $this->validarUsuarioAptoAgenda($agendados, $datosAgenda['fecha_agenda']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -67,7 +67,7 @@ class AgendaModel extends MainModel{
     }
 
     public function registrarAgendaGrupal($datosAgenda){
-        $respuesta = $this->validarDuplicidadAgenda($datosAgenda['agendados'], $datosAgenda['fecha_agenda']);
+        $respuesta = $this->validarUsuarioAptoAgenda($datosAgenda['agendados'], $datosAgenda['fecha_agenda']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -109,6 +109,11 @@ class AgendaModel extends MainModel{
     }
 
     public function actualizarAgenda($datosAgenda){
+
+        $respuesta = $this->validarUsuarioAptoAgenda($datosAgenda['agendados'], $datosAgenda['fecha_agenda']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
         
         $sentenciaActualizar = "
             UPDATE agendas
@@ -128,9 +133,20 @@ class AgendaModel extends MainModel{
         return $respuesta;
     }
 
-    private function validarDuplicidadAgenda($agendados, $fechaAgenda){
+    private function validarUsuarioAptoAgenda($agendados, $fechaAgenda){
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+
         foreach ($agendados as $agendado) {
             $numeroDocumento = $agendado['numero_documento'];
+
+            if($numeroDocumento == $usuarioSistema){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Error Agenda',
+                    'mensaje' => 'No es posible registrar una agenda para ti mismo.'
+                ];
+                return $respuesta;
+            }
                 
             $sentenciaBuscar = "
                 SELECT codigo_agenda
@@ -244,6 +260,7 @@ class AgendaModel extends MainModel{
                 age.fecha_agenda,
                 fun1.nombres AS nombres_responsable,
                 fun1.apellidos AS apellidos_responsable,
+                COALESCE(fun2.numero_documento, apr.numero_documento, vis.numero_documento, vig.numero_documento) AS numero_documento,
                 COALESCE(fun2.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_agendado,
                 COALESCE(fun2.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_agendado
             FROM agendas age
@@ -279,6 +296,7 @@ class AgendaModel extends MainModel{
         $datosAgenda = [
             'titulo' => $resultados[0]['titulo'],
             'motivo' => $resultados[0]['motivo'],
+            'fecha_agenda' => $resultados[0]['fecha_agenda'],
             'fecha'=> $fechaFormateada,
             'hora'=> $horaFormateada,
             'nombres_responsable'=> $resultados[0]['nombres_responsable'],
@@ -288,6 +306,7 @@ class AgendaModel extends MainModel{
         
         foreach ($resultados as $resultado) {
             $datosAgenda['agendados'][] = [
+                'numero_documento' => $resultado['numero_documento'],
                 'nombres' => $resultado['nombres_agendado'],
                 'apellidos' => $resultado['apellidos_agendado']
             ];

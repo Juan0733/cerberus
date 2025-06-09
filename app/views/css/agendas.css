@@ -1,16 +1,18 @@
-#contenedor_filtros {
+#contenedor_principal {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: 1rem 0;
-    justify-content: end;
 }
 
-    #contenedor_filtros #caja_filtros{
+    #contenedor_principal #contenedor_filtros {
         display: flex;
-        justify-content: space-between;
+        width: 100%;
+        padding: 1rem 0;
+        justify-content: end;
+        column-gap: 10px;
     }
 
-        #contenedor_filtros #caja_filtros .filtro{
+        #contenedor_principal #contenedor_filtros .filtro{
             align-items: center;
             border: 1px solid #d8d8d8;
             border-radius: 13px;
@@ -20,32 +22,43 @@
             gap: 0.5rem;
             padding: 0 10px;
             height: 40px;
-            width: clamp(240px, 18%, 600px);
+            width: 20%;
             
         }
 
-            #caja_filtros .filtro input, select{
+            #contenedor_principal #contenedor_filtros .filtro input, select{
                 border: none;
                 font-size: 17px;
                 outline: none;
                 width: 100%;
             }
 
-            #caja_filtros .filtro ion-icon{
+            #contenedor_principal #contenedor_filtros .filtro ion-icon{
                 font-size: 25px;
             }
 
-        #contenedor_filtros #caja_filtros #btn_crear_agenda{
+
+        #contenedor_principal .btn-agenda{
             align-items: center;
             border: none;
             border-radius: 13px;
             background-color: var(--color-secundario);
             display: flex;
             justify-content: center;
-            width: 40px;
             height: 40px;
+            padding: 0 8px;
         }
-            #contenedor_filtros #btn_crear_agenda ion-icon{
+
+        #contenedor_principal #btn_crear_agenda_mobile{
+            display: none;
+            height: 60px;
+            left: 80%;
+            position: fixed;
+            top: 88.5%;
+            width: 60px;
+            z-index: 20;
+        }
+            #contenedor_principal .btn-agenda ion-icon{
                 color: white;
                 font-size: 25px;
             }
@@ -91,7 +104,7 @@
 }
 
     #contenedor_agendas #contenedor_cards{
-        max-height: 440px;
+        max-height: 66vh;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         overflow-y: auto;
@@ -178,60 +191,10 @@
                     color: #fb2d2d;
                 }
 
-@media(max-width: 767px){
-
-    #contenedor_principal{
-        width: clamp(260px, 100%, 600px);
-    }
-
-    #contenedor_fecha_actual{
-        padding: 0;
-    }
-
-    #contenedor_filtros #caja_filtros{
-        flex-direction: column;
-        align-items: end;
-        width: 100%;
-    }
-
-        #contenedor_filtros #caja_filtros .filtro{
-            width: 100%;
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-    #contenedor_agendas #contenedor_cards{
-        height: 55vh;
-        grid-template-columns: 100%;
-        gap: 1em;
-        width: 100%;
-    }
-
-        #contenedor_agendas #contenedor_cards #mensaje_respuesta {
-            font-size: 16px;
-            width: 216px;
-            margin: 1em auto;
-        }
-
-        #contenedor_agendas #contenedor_cards .card-agenda{
-            width: 100%;
-        }
-
-            .card-agenda .card-agenda-body p{
-                font-size: 14px;
-            }
-
-            .card-agenda .card-agenda-body ion-icon{
-                margin: 0;
-                margin-top: 5px;
-                font-size: 23px;
-            }
-}
-
 @media(min-width: 768px) and (max-width: 1023px){
 
-    #contenedor_filtros #caja_filtros .filtro{
-        width: clamp(220px, 18%, 600px);
+    #contenedor_principal #contenedor_filtros .filtro{
+        width: 100%;
         
     }
 
@@ -240,7 +203,7 @@
     }
 
     #contenedor_agendas #contenedor_cards{
-        height: 50vh;
+        max-height: 76vh;
         margin: 0 auto;
         grid-template-columns: repeat(2, 1fr);
         width: 100%;
@@ -259,7 +222,62 @@
             .card-agenda .card-agenda-body p{
                 font-size: 14px;
             }
+}
 
+@media(max-width: 767px){
+
+    #contenedor_principal{
+        width: clamp(260px, 100%, 600px);
+    }
+
+        #contenedor_principal #contenedor_filtros{
+            flex-direction: column;
+            row-gap: 10px;
+        }
+
+            #contenedor_principal #contenedor_filtros .filtro{
+                width: 100%;
+            }
+
+            #contenedor_principal #contenedor_filtros #btn_crear_agenda{
+                display: none;
+            }
+
+
+        #contenedor_principal #btn_crear_agenda_mobile{
+            display: flex;
+        }
+
+        #contenedor_principal #contenedor_fecha_actual{
+            padding: 0;
+        }
+
+            #contenedor_principal #contenedor_agendas #contenedor_cards{
+                max-height: 50vh;
+                grid-template-columns: 100%;
+                gap: 1em;
+                width: 100%;
+            }
+
+                #contenedor_principal #contenedor_agendas #contenedor_cards #mensaje_respuesta {
+                    font-size: 16px;
+                    width: 216px;
+                    margin: 1em auto;
+                }
+
+                #contenedor_principal #contenedor_agendas #contenedor_cards .card-agenda{
+                    width: 100%;
+                }
+
+                    #contenedor_cards .card-agenda .card-agenda-body p{
+                        font-size: 14px;
+                    }
+
+                    #contenedor_cards .card-agenda .card-agenda-body ion-icon{
+                        margin: 0;
+                        margin-top: 5px;
+                        font-size: 23px;
+                    }
 }
 
 

@@ -94,7 +94,7 @@ function dibujarCardsMovimientos(){
                             <p><strong>Fecha y Hora: </strong>${movimiento.fecha_registro}</p>
                             <p><strong>Vehículo:</strong>${movimiento.fk_vehiculo}</p>
                             <p><strong>Relacion Vehículo:</strong>${movimiento.relacion_vehiculo}</p>
-                             <p><strong>Vigilante </strong>${movimiento.fk_usuario_sistema}</p>
+                            <p><strong>Vigilante </strong>${movimiento.fk_usuario_sistema}</p>
                         </div>
                     </div>`;
             });
@@ -111,7 +111,6 @@ function dibujarCardsMovimientos(){
                                 <p class="document-title">${respuesta.titulo}</p>
                                 <p class="document-meta">${respuesta.mensaje}</p>
                             </div>
-                            <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                     </div>`;
             }
@@ -161,8 +160,14 @@ function eventoBuscarDocumento(){
 }
 
 function eventoGenerarInforme(){
-    document.getElementById('generar_informe').addEventListener('click', ()=>{
+    const botoInforme = document.getElementById('btn_informe');
+
+    botoInforme.addEventListener('click', ()=>{
         window.location.href = urlBase+'app/pdf/GenerarInforme.php?puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa);
+    })
+
+    document.getElementById('btn_informe_mobile').addEventListener('click', ()=>{
+        botoInforme.click();
     })
 }
 
@@ -199,7 +204,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     fechaInicio = document.getElementById('fecha_inicio');
     fechaFin = document.getElementById('fecha_fin');
-    contenedorTabla = document.getElementById('contenedor_tabla');
+    contenedorTabla = document.getElementById('contenedor_tabla_cards');
     parametros.fecha_inicio = fechaInicio.value;
     parametros.fecha_fin = fechaFin.value;
 

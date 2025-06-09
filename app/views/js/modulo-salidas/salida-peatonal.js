@@ -55,19 +55,22 @@ function eventoRegistrarSalidaPeatonal() {
         formData.append('operacion', 'registrar_salida_peatonal');
 
         registrarSalidaPeatonal(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                if(respuesta.titulo == "Entrada No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
-                    respuesta.documento = documentoPeaton.value;
-                    alertaAdvertencia(respuesta);
-                }else if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
-                }else{
-                    alertaError(respuesta);
-                }
-            }else if(respuesta.tipo == "OK"){
+            if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
                 formularioPeatonal.reset();
                 documentoPeaton.focus();
+                
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == "Entrada No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
+                    respuesta.documento = documentoPeaton.value;
+                    alertaAdvertencia(respuesta);
+
+                }else if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
+                }
             }
         });
     })

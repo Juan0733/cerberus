@@ -20,6 +20,8 @@ async function modalDetalleAgenda(codigo, url) {
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
+
+        botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         codigoAgenda = codigo;
         urlBase = url;
@@ -29,20 +31,20 @@ async function modalDetalleAgenda(codigo, url) {
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+        
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal detalla agenda.'
         }
-        
         alertaError(respuesta);
     }
 }
 export{modalDetalleAgenda}
 
-
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
-
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
@@ -53,9 +55,15 @@ function dibujarAgenda() {
     consultarAgenda(codigoAgenda, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             document.getElementById('titulo').textContent = respuesta.datos_agenda.titulo;
-            const contenedorAgendados = document.getElementById('contenedor_agendados');
+            const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
+        
             respuesta.datos_agenda.agendados.forEach((agendado, indice) => {
-                contenedorAgendados.innerHTML += `<p>${indice+1+'.'}${agendado.nombres} ${agendado.apellidos}</p>`
+                cuerpoTablaAgendados.innerHTML += `
+                    <tr>
+                        <td>${indice+1}</td>
+                        <td>${agendado.nombres}</td>
+                        <td>${agendado.apellidos}</td>
+                    </tr>`
             });
 
             document.getElementById('responsable').textContent = respuesta.datos_agenda.nombres_responsable+' '+respuesta.datos_agenda.apellidos_responsable;

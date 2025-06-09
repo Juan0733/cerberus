@@ -9,26 +9,24 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 <div id="contenedor_principal">
     <div id="contenedor_filtros">
-        <div id="caja_filtros">
-             <div class="fecha filtro">
-                <label class="label-fecha" for="fecha">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
-            </div>
-            
-            <div class="buscar filtro">
-                <ion-icon name="search-outline"></ion-icon>
-                <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
-            </div>
-
-            <div class="buscar filtro">
-                <ion-icon name="search-outline"></ion-icon>
-                <input type="text" name="buscador_titulo" id="buscador_titulo" placeholder="Buscar Titulo Agenda">
-            </div>
-
-            <button id="btn_crear_agenda">
-                <ion-icon name="add-outline"></ion-icon>
-            </button>
+        <div class="fecha filtro">
+            <label class="label-fecha" for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
         </div>
+        
+        <div class="buscar filtro">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+        </div>
+
+        <div class="buscar filtro">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="text" name="buscador_titulo" id="buscador_titulo" placeholder="Buscar Titulo Agenda">
+        </div>
+
+        <button class="btn-agenda" id="btn_crear_agenda">
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
     </div>
 
     <div id="contenedor_fecha_actual">
@@ -39,11 +37,14 @@
         <ion-icon name="calendar-number-outline"></ion-icon>
     </div>
    
-
     <div id="contenedor_agendas">
         <div id="contenedor_cards">
         </div>
     </div>
+
+    <button class="btn-agenda" id="btn_crear_agenda_mobile">
+        <ion-icon name="add-outline"></ion-icon>
+    </button>
 </div>
 
 

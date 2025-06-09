@@ -67,11 +67,14 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal registro de visitante'
         }
-
         alertaError(respuesta);
     }
     
@@ -103,15 +106,20 @@ function eventoRegistrarVisitante(){
         formData.append('operacion', 'registrar_visitante');
 
         registrarVisitante(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                alertaError(respuesta);
-                
-            }else if(respuesta.tipo == "OK"){
+            if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
 
                 if(funcionCallback){
                     funcionCallback(respuesta);
+                }
+                
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
                 }
             }
         });

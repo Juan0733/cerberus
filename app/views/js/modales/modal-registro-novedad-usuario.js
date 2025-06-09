@@ -20,7 +20,6 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
 
-        
         let documentoInvolucrado = document.getElementById('documento_involucrado'); 
         let tipoNovedad = document.getElementById('tipo_novedad');
 
@@ -36,13 +35,21 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         urlBase = url;
 
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        contenedorModales.classList.add('mostrar');
+        if(modalesExistentes.length > 1){
+            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+        }else{
+            contenedorModales.classList.add('mostrar');
+        }
        
         eventoCerrarModal();
         eventoRegistrarNovedadUsuario();
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal de registro de novedad'
@@ -55,7 +62,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
 export { modalRegistroNovedadUsuario };
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_novedad');
+    botonCerrarModal = document.getElementById('cerrar_modal_novedad_usuario');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
@@ -79,14 +86,19 @@ function eventoRegistrarNovedadUsuario(){
         formData.append('operacion', 'registrar_novedad_usuario');
 
         registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                alertaError(respuesta);
-                
-            }else if(respuesta.tipo == "OK"){
+            if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
                 if(funcionCallback){
                     funcionCallback();
+                }
+                
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
                 }
             }
         });

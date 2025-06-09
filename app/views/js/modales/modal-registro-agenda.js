@@ -1,4 +1,5 @@
 import {registrarAgenda} from '../fetchs/agenda-fetch.js'
+import {modalRegistroVehiculo} from './modal-registro-vehiculo.js'
 
 let tipoAgenda;
 let contenedorModales;
@@ -35,6 +36,7 @@ async function modalRegistroAgenda(url, callback) {
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
 
+        botonCerrarModal = document.getElementById('cerrar_modal_agenda');
         caja01 = document.getElementById('caja_01');
         caja02 = document.getElementById('caja_02');
         caja03 = document.getElementById('caja_03');
@@ -45,7 +47,7 @@ async function modalRegistroAgenda(url, callback) {
         botonCancelar = document.getElementById('btn_cancelar_agenda');
         botonSiguiente = document.getElementById('btn_siguiente_agenda');
         botonRegistrar = document.getElementById('btn_registrar_agenda');
-        titulo =  document.getElementById('titulo');
+        titulo = document.getElementById('titulo_agenda');
         tipoDocumento = document.getElementById('tipo_documento');
         correoElectronico = document.getElementById('correo_electronico');
         plantillaExcel = document.getElementById('plantilla_excel');
@@ -60,15 +62,19 @@ async function modalRegistroAgenda(url, callback) {
            titulo.focus();
         }, 250)
         
+        eventoCerrarModal();
         eventoTipoAgenda();
         eventoMostrarCampos();
         eventoVolverCampos();
+        eventoAgregarVehiculo();
         eventoInputFile();
         eventoRegistrarAgenda();
-        eventoCerrarModal();
            
     } catch (error) {
-        console.error('hubo un error:', error)
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal agenda.'
@@ -79,8 +85,6 @@ async function modalRegistroAgenda(url, callback) {
 export{modalRegistroAgenda}
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_agenda');
-
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
@@ -115,13 +119,18 @@ function eventoRegistrarAgenda(){
         }
 
         registrarAgenda(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == 'ERROR'){
-                alertaError(respuesta);
-
-            }else if(respuesta.tipo == 'OK'){
-                alertaExito(respuesta);
+            if(respuesta.tipo == 'OK'){
                 botonCerrarModal.click();
+                alertaExito(respuesta);
                 funcioCallback();
+
+            }else if(respuesta.tipo == 'ERROR'){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
+                }
             }
         })
 
@@ -145,6 +154,12 @@ function eventoTipoAgenda() {
             }
         })
     });
+}
+
+function eventoAgregarVehiculo(){
+    document.getElementById('btn_agregar_vehiculo').addEventListener('click', ()=>{
+        modalRegistroVehiculo(urlBase, '', '', 'agendas');
+    })
 }
 
 function eventoMostrarCampos(){

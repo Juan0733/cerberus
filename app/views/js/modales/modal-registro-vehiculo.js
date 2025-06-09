@@ -1,14 +1,16 @@
-import {registrarVehiculo} from '../fetchs/vehiculos-fetch.js';
+import {registrarVehiculo, consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVisitante} from './modal-registro-visitante.js'
 
 let documentoPropietario;
+let numeroPlaca;
+let nombreModulo;
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
 let urlBase;
 
-async function modalRegistroVehiculo(url, placa, callback ) {
+async function modalRegistroVehiculo(url, placa=false, callback=false, modulo=false) {
     try {
         const response = await fetch(url+'app/views/inc/modales/modal-vehiculo.php');
 
@@ -22,10 +24,15 @@ async function modalRegistroVehiculo(url, placa, callback ) {
         contenedorModales = document.getElementById('contenedor-modales');
         contenedorModales.appendChild(modal);
 
-        let numeroPlaca = document.getElementById('numero_placa'); 
-
-        numeroPlaca.value = placa;
-        numeroPlaca.setAttribute('readonly', '');
+        numeroPlaca = document.getElementById('numero_placa'); 
+        if(placa){
+            numeroPlaca.value = placa;
+            numeroPlaca.setAttribute('readonly', '');
+        }
+        
+        if(modulo){
+            nombreModulo = modulo;
+        }
 
         documentoPropietario = document.getElementById('propietario');
         funcionCallback = callback;
@@ -42,11 +49,15 @@ async function modalRegistroVehiculo(url, placa, callback ) {
             documentoPropietario.focus();
         }, 250)
         
-        eventoBotonCerrarModal();
+        eventoCerrarModal();
         eventoRegistrarVehiculo();
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+        
         let respuesta = {
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal registro de vehículo'
@@ -58,7 +69,7 @@ async function modalRegistroVehiculo(url, placa, callback ) {
 }
 export { modalRegistroVehiculo };
 
-function eventoBotonCerrarModal(){
+function eventoCerrarModal(){
     botonCerrarModal = document.getElementById('cerrar_modal_vehiculo');
 
     botonCerrarModal.addEventListener('click', ()=>{
@@ -83,21 +94,61 @@ function eventoRegistrarVehiculo(){
         let formData = new FormData(formularioVehiculo);
         formData.append('operacion', 'registrar_vehiculo');
 
-        registrarVehiculo(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                if(respuesta.titulo == "Usuario No Encontrado"){
-                    respuesta.documento = documentoPropietario.value
-                    alertaAdvertencia(respuesta);
-                }else{
-                    alertaError(respuesta);
+        if(nombreModulo == 'agendas'){
+            consultarVehiculo(numeroPlaca.value, urlBase).then(respuesta=>{
+                if(respuesta.tipo == 'OK'){
+                    let mensaje = {
+                        titulo: 'Vehículo Existente',
+                        mensaje: 'No es necesario agregar este vehículo, porque ya se encuentra registrado.'
+                    }
+                    alertaAdvertencia(mensaje);
+
+                }else if(respuesta.tipo == 'ERROR'){
+                    if(respuesta.titulo == 'Vehículo No Encontrado'){
+                        registrarVehiculo(formData, urlBase).then(respuesta=>{
+                            if(respuesta.tipo == "OK" ){
+                                alertaExito(respuesta);
+                                botonCerrarModal.click();
+                                funcionCallback();
+
+                            }else if(respuesta.tipo == "ERROR"){
+                                if(respuesta.titulo == "Usuario No Encontrado"){
+                                    respuesta.documento = documentoPropietario.value
+                                    alertaAdvertencia(respuesta);
+                                }else{
+                                    alertaError(respuesta);
+                                }
+                            }
+                        });
+
+                    }else if(respuesta.titulo == "Sesión Expirada"){
+                        window.location.replace(urlBase+'sesion-expirada');
+                    }else{
+                        alertaError(respuesta);
+                    }
                 }
-                
-            }else if(respuesta.tipo == "OK"){
-                alertaExito(respuesta);
-                botonCerrarModal.click();
-                funcionCallback();
-            }
-        });
+            })
+
+        }else{
+             registrarVehiculo(formData, urlBase).then(respuesta=>{
+                if(respuesta.tipo == "OK" ){
+                        alertaExito(respuesta);
+                    botonCerrarModal.click();
+                    funcionCallback();
+                }else if(respuesta.tipo == "ERROR"){
+                    if(respuesta.titulo == 'Sesión Expirada'){
+                        window.location.replace(urlBase+'sesion-expirada');
+
+                    }else if(respuesta.titulo == "Usuario No Encontrado"){
+                        respuesta.documento = documentoPropietario.value
+                        alertaAdvertencia(respuesta);
+
+                    }else{
+                        alertaError(respuesta);
+                    }
+                }
+            });
+        }
     })
 }
 

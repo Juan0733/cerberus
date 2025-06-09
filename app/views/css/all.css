@@ -3,6 +3,7 @@
     box-sizing: border-box;
     transition: all 0.8s;
 }
+
 a{
     text-decoration: none;
     color: white;
@@ -24,14 +25,13 @@ body, html{
 
 }
 
-  
-
 body{
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
     font-size: 16px;
 }
+
 main#cuerpo{
     background: var(--main-color);
     height: 100vh;
@@ -87,7 +87,7 @@ main#cuerpo{
         width: 100vw;
         padding: 0 14px 0 14px;
         margin-right: 16px;
-        min-height: 100vh;
+        height: 96.5vh;
 
     }
         section#contenedor_pagina #nav_menu{
@@ -631,154 +631,17 @@ main#cuerpo{
                                         .colum-oculta{
                                             display: none;
                                         }
-
-    /* Estilo general para la tarjeta */
-    .document-card {
-        border: 1px solid #ddd;
-        overflow: hidden;
-        border-radius: 8px;
-        min-width: 350px;
-        max-width: 400px;
-        font-family: Arial, sans-serif;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin: 10px;
-        cursor: pointer;
-        margin:0 0 10px 0;
-        transition: all 0.3s ease;
-      }
-  
-      /* Contenedor principal */
-      .card-header {
-        padding: 10px 10px 0px 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-  
-      /* Estilo del título */
-      .document-title {
-        font-size: 1.1em;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-      }
-  
-      /* Metadatos iniciales visibles */
-      .document-meta {
-        font-size: 0.9em;
-        color: #555;
-        margin: 5px 0;
-      }
-  
-      /* Detalles adicionales que se despliegan */
-      .card-details {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-        font-size: 0.9em;
-        color: #555;
-        padding: 10px 10px 0px 10px;
-      }
-  
-      .document-card.active .card-details {
-        padding: 10px 10px 0px 10px;
-        max-height: 150px; /* Ajusta según la cantidad de contenido */
-      }
-
-
-      .contenedor-acciones {
-        max-height: 0;
-        overflow: hidden;
-        font-size: 0.9em;
-        color: var(--color-primario);
-        margin-top: 10px;
-      }
-
-      .document-card.active .contenedor-acciones {
-        max-height: 150px; /* Ajusta según la cantidad de contenido */
-      }
-
-      .document-card .contenedor-acciones .btn-cards {
-        font-size: 20px;
-        display: flex;
-        background: var(--color-secundario);
-        transition: max-height 0.1s ease;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-      }
-      
-    .btn-editar{
-        
-        display: flex;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-radius: 10px 10px 0 0;
-        background: var(--color-secundario);
-        color: var(--color-primario);
-        font-size: 18px;
-        text-decoration: none;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-    }
     
-    .btn-editar:hover {
-        transform: translateY(-1px);
-    }
 
-    .btn-editar:active {
-        transform: translateY(0px);
-    }
+@media (max-width: 767px) {
 
-    .btn-cancelar-table{
-        
-        display: flex;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-radius: 0 0 10px 10px;
-        background: var(--color-btn-cancelar);
-        color: var(--color-placeholder);
-        font-size: 18px;
-        text-decoration: none;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .btn-cancelar-table:hover {
-        transform: translateY(-1px);
-    }
-
-    .btn-cancelar-table:active {
-        transform: translateY(0px);
-    }
-  
-      /* Icono de flecha para desplegar */
-      .toggle-icon {
-        font-size: 1.2em;
-        transform: rotate(0deg);
-        transition: transform 0.5s ease;
-      }
-  
-      .document-card.active .toggle-icon {
-        transform: rotate(180deg);
-      }
-
-@media (width > 780px) {
     main#cuerpo section#contenedor_pagina{
         display: flex;
         justify-content: center;
         background: var(--color-primario);
         border-radius: 20px;
         width: 100vw;
-        min-height: 100%;
+        min-height: 100vh;
         padding: 0 14px 0 14px;
         margin-right: 16px;
 
@@ -1154,74 +1017,7 @@ main#cuerpo{
                                         }
                     
         /* Estilo de tablas */
-        
-#contenedor_tabla{
-    max-height: 460px;
-    overflow-y: auto;
-    margin: 0 !important;
-}   
-table {
-    background: var(--color-primario);
-    width: 100%;
-    border-radius: 20px;
-    padding: 1em;
-}
-
-
-
-table, th, td {
-    border-collapse: collapse;
-    font-weight: normal;
-    padding: 1rem;
-    text-align: center;
-}
-table td {
-    border-collapse: collapse;
-    padding: 1rem;
-    text-align: center;
-    border-bottom: 2px solid rgb(219, 219, 219);
-}
-
-thead {
-    position: sticky;
-    top: 0;
-    left: 0;
-    border-bottom: 3px solid rgb(219, 219, 219);
-    cursor: pointer;
-    text-transform: capitalize;
-}
-thead tr {
-    border-bottom: 3px solid rgb(219, 219, 219);
-    cursor: pointer;
-    text-transform: capitalize;
-}
-
-
-
-tbody tr {
-    --delay: .1s;
-    transition: .5s ease-in-out var(--delay), background-color 0s;
-}
-
-
-
-tbody tr:hover {
-    background-color: rgb(231, 231, 231) !important;
-}
-
-tbody tr td{
-    transition: .2s ease-in-out;
-}
-
-
-#contenedor_tabla .table thead th:first-child {
-    border-radius: 20px 0 0 0;  
-}
-
-#contenedor_tabla .table thead th:last-child {
-    border-radius: 0 20px 0 0;  
-}
-             
+                    
 .contenedor-colum-acciones {
     text-align: center;
     vertical-align: middle;
@@ -1320,6 +1116,12 @@ tbody tr td{
 }
 }
 
+@media(min-width: 768px) and (max-width: 1023px){
+    main#cuerpo section#contenedor_pagina{
+        height: 94vh;
+    }
+}
+
 @media (width > 1080px) {
 
     main#cuerpo{
@@ -1336,7 +1138,7 @@ tbody tr td{
             background: var(--color-primario);
             border-radius: 20px;
             width: 100vw;
-            min-height: 97.3vh;
+            height: 96.5vh;
             margin-right: 16px;
             padding: 18px;
             overflow: hidden;

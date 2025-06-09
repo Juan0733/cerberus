@@ -53,66 +53,62 @@ function eventoAbrirFormularioVehicular() {
 
 function validarVehiculoAptoEntrada(){
     consultarVehiculo(placaVehiculo.value, urlBase).then(respuesta => {
-        if(respuesta.tipo == "ERROR"){
+        if(respuesta.tipo == "OK"){
+            placaVehiculo.classList.remove('input-error');
+            placaVehiculo.classList.add('input-ok');
+            documentoPropietario.focus();
+            datosEntradaVehicular.placa = placaVehiculo.value;
+            dibujarPropietarios();
+            
+        }else if(respuesta.tipo == "ERROR"){
             if(respuesta.titulo == "Vehículo No Encontrado"){
                 placaVehiculo.classList.remove('input-ok');
                 placaVehiculo.classList.add('input-error');
                 respuesta.vehiculo = placaVehiculo.value;
                 respuesta.callback = validarVehiculoAptoEntrada;
                 alertaAdvertencia(respuesta);
+
             }else if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
+
             }else{
                 alertaError(respuesta);
             }
-        }else if(respuesta.tipo == "OK"){
-            placaVehiculo.classList.remove('input-error');
-            placaVehiculo.classList.add('input-ok');
-            documentoPropietario.focus();
-            datosEntradaVehicular.placa = placaVehiculo.value;
-            dibujarPropietarios();
         }
     });
 }
 
 function validarPropietarioAptoEntrada(){
     validarUsuarioAptoEntrada(documentoPropietario.value, urlBase).then(respuesta => {
-        if(respuesta.tipo == "ERROR"){
-            datosEntradaVehicular.propietario = "";
+        if(respuesta.tipo == "OK"){
+            documentoPropietario.classList.remove('input-error');
+            documentoPropietario.classList.add('input-ok');
+            documentoPasajero.focus();
+            datosEntradaVehicular.propietario = documentoPropietario.value;
+            datosEntradaVehicular.grupo_propietario = respuesta.usuario.grupo;
+
+        }else if(respuesta.tipo == "ERROR"){
+             datosEntradaVehicular.propietario = "";
             if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
                 documentoPropietario.classList.remove('input-ok');
                 documentoPropietario.classList.add('input-error');
                 respuesta.documento = documentoPropietario.value;
                 respuesta.callback = validarPropietarioAptoEntrada;
                 alertaAdvertencia(respuesta);
+
             }else if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
+
             }else{
                 alertaError(respuesta);
             }
-        }else if(respuesta.tipo == "OK"){
-            documentoPropietario.classList.remove('input-error');
-            documentoPropietario.classList.add('input-ok');
-            documentoPasajero.focus();
-            datosEntradaVehicular.propietario = documentoPropietario.value;
-            datosEntradaVehicular.grupo_propietario = respuesta.usuario.grupo;
         }
     });
 }
 
 function validarPasajeroAptoEntrada(){
     validarUsuarioAptoEntrada(documentoPasajero.value, urlBase).then(respuesta => {
-        if(respuesta.tipo == "ERROR"){
-            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
-                respuesta.documento = documentoPasajero.value;
-                respuesta.callback = validarPasajeroAptoEntrada;
-                alertaAdvertencia(respuesta);
-            }else if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
-            }else{
-                alertaError(respuesta);
-            }
-        }else if(respuesta.tipo == "OK"){
+        if(respuesta.tipo == "OK"){
             let datosPasajero = {
                 documento_pasajero: documentoPasajero.value,
                 nombres: `${respuesta.usuario.nombres} ${respuesta.usuario.apellidos}`,
@@ -121,6 +117,19 @@ function validarPasajeroAptoEntrada(){
             datosEntradaVehicular.pasajeros.push(datosPasajero);
             documentoPasajero.value = '';
             dibujarTablaPasajeros();
+
+        }else if(respuesta.tipo == "ERROR"){
+             if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
+                respuesta.documento = documentoPasajero.value;
+                respuesta.callback = validarPasajeroAptoEntrada;
+                alertaAdvertencia(respuesta);
+
+            }else if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else{
+                alertaError(respuesta);
+            }
         }
     });
 }
@@ -218,6 +227,7 @@ function eventoInputPropietario(){
                 documentoPropietario.blur();
                 validarDocumentoPropietario();
             }, 250);
+
         }else{
             clearTimeout(temporizador);
             temporizador = setTimeout(()=>{
@@ -293,16 +303,17 @@ function eventoRegistrarEntradaVehicular(){
             formData.append('observacion_vehicular', observacion.value);
 
             registrarEntradaVehicular(formData, urlBase).then(respuesta=>{
-                if(respuesta.tipo == 'ERROR'){
-                    if(respuesta.titulo == 'Sesión Expirada'){
+                if(respuesta.tipo == 'OK'){
+                    alertaExito(respuesta);
+                    limpiarFormularioVehicular();
+                    placaVehiculo.focus();
+                   
+                }else if(respuesta.tipo == 'ERROR'){
+                     if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
                     }else{
                         alertaError(respuesta);
                     }
-                }else if(respuesta.tipo == 'OK'){
-                    alertaExito(respuesta);
-                    limpiarFormularioVehicular();
-                    placaVehiculo.focus();
                 }
             })
         }
@@ -319,6 +330,14 @@ function dibujarPropietarios(){
                     <option value="${propietario.numero_documento}">${propietario.numero_documento}</option>
                 `;
             })
+
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else{
+                alertaError(respuesta);
+            }
         }
     })
 }

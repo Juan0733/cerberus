@@ -127,7 +127,7 @@ function dibujarCardsPropietarios(){
         if(respuesta.tipo == 'OK'){
             respuesta.propietarios.forEach(propietario => {
                 contenedorInformacion.innerHTML += `
-                    <div class="document-card">
+                    <div class="document-card-propietario">
                         <div class="card-header">
                             <div>
                                 <p class="document-title">${propietario.tipo_documento} ${propietario.numero_documento}</p>
@@ -166,7 +166,7 @@ function dibujarCardsPropietarios(){
 }
 
 function toggleCard() {
-    const cards = document.querySelectorAll('.document-card');
+    const cards = document.querySelectorAll('.document-card-propietario');
     
     cards.forEach(card => {
         card.addEventListener('click', function() {

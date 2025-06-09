@@ -82,7 +82,7 @@ function dibujarCardsMovimientos(){
         if(respuesta.tipo == 'OK'){
             respuesta.movimientos.forEach(movimiento => {
                 contenedorTabla.innerHTML += `
-                    <div class="document-card">
+                    <div class="document-card-movimiento">
                         <div class="card-header">
                             <div>
                                 <p class="document-title">${movimiento.nombres} ${movimiento.apellidos}</p>
@@ -104,15 +104,7 @@ function dibujarCardsMovimientos(){
             if(respuesta.titulo == 'Sesión Expirada'){
                     window.location.replace(urlBase+'sesion-expirada');
             }else{
-                contenedorTabla.innerHTML = `
-                    <div class="document-card">
-                        <div class="card-header">
-                            <div>
-                                <p class="document-title">${respuesta.titulo}</p>
-                                <p class="document-meta">${respuesta.mensaje}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
             }
         }
     })
@@ -185,7 +177,7 @@ function eventoBuscarPlaca(){
 }
 
 function toggleCard() {
-    const cards = document.querySelectorAll('.document-card');
+    const cards = document.querySelectorAll('.document-card-movimiento');
     
     cards.forEach(card => {
         card.addEventListener('click', function() {

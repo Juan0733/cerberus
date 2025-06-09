@@ -1,0 +1,34 @@
+#panel_salida .contenedor-card-ptn-vhl .card-entr-sali {
+    width: 457px;
+    height: 186px;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: 0 20px;
+    background: var(--main-color) !important;
+}
+#panel_salida .contenedor-card-ptn-vhl .card-entr-sali ion-icon {
+    font-size: 100px;
+    color: var(--color-primario);
+}
+#panel_salida .contenedor-card-ptn-vhl .card-entr-sali h1 {
+    font-size: 39px;
+    color: var(--color-primario);
+}
+
+#panel_salida .btn-eviar-reporte {
+    background: var(--main-color);
+    margin: 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    height: 60px;
+    color: var(--color-primario);
+}
+
+#panel_salida .cont-input-buscar .agregar-persona {
+    background: var(--main-color);
+}

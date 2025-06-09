@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/404-estilo.css">
 <?php elseif($url[0] == 'inicio'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/inicio.css">
+<?php elseif($url[0] == 'entradas'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/entradas.css">
 <?php elseif($url[0] == 'vehiculos'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/vehiculos.css">
 <?php elseif($url[0] == 'informes-tabla'): ?>

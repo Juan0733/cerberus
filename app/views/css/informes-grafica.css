@@ -40,9 +40,9 @@
             }
 
     #contenedor_principal #contenedor_graficas {
+        align-items: center;
         display: flex;
         flex-direction: column;
-        align-items: center;
         width: 100%;
     }
 
@@ -63,7 +63,7 @@
                 height: auto;
                 margin-bottom: 7px;
                 padding: 20px;
-                width: 85%;
+                width: clamp(350px, 85%, 580px);
             }
 
                 #contenedor_principal #contenedor_graficas #contenedor_cards .card-grafica * {

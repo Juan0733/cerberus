@@ -6,45 +6,42 @@
 }
 
     #contenedor_principal #contenedor_filtros {
+        column-gap: 10px;
         display: flex;
-        width: 100%;
-        padding: 1rem 0;
         justify-content: end;
+        padding: 1rem 0;
+        width: 100%;
     }
 
-        #contenedor_principal #contenedor_filtros #caja_filtros{
+        #contenedor_principal #contenedor_filtros .buscar{
+            align-items: center;
+            border: 1px solid #d8d8d8;
+            border-radius: 13px;
+            background: white;
             display: flex;
-            justify-content: space-between;
+            font-size: 17px;
+            gap: 0.5rem;
+            padding: 0 10px;
+            height: 40px;
+            width: 20%;
+            
         }
 
-            #contenedor_principal #contenedor_filtros #caja_filtros .buscar{
-                align-items: center;
-                border: 1px solid #d8d8d8;
-                border-radius: 13px;
-                background: white;
-                display: flex;
+            #contenedor_filtros  .buscar input{
+                border: none;
                 font-size: 17px;
-                gap: 0.5rem;
-                padding: 0 10px;
-                height: 40px;
-                width: clamp(260px, 18%, 600px);
-                
+                outline: none;
+                width: 100%;
             }
-
-                #contenedor_filtros #caja_filtros .buscar input{
-                    border: none;
-                    font-size: 17px;
-                    outline: none;
-                    width: 100%;
-                }
 
                 #contenedor_filtros #caja_filtros .buscar ion-icon{
                     font-size: 25px;
                 }
 
-
     #contenedor_principal #contenedor_tabla_cards{
+        align-items: center;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         max-height: 75vh;
         overflow-y: auto;
@@ -95,109 +92,106 @@
                     border-radius: 0 20px 0 0;  
                 }
 
-    #contenedor_principal #contenedor_tabla_cards .document-card {
+    #contenedor_principal #contenedor_tabla_cards .document-card-vehiculo {
         border: 1px solid #ddd;
-        overflow: hidden;
         border-radius: 8px;
-        font-family: Arial, sans-serif;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin: 10px;
         cursor: pointer;
+        font-family: Arial, sans-serif;
+        margin: 10px;
         margin:0 0 10px 0;
-        min-height: 60px;
         transition: all 0.3s ease;
+        width: 100%;
       }
   
-      /* Contenedor principal */
-        #contenedor_principal #contenedor_tabla_cards .document-card .card-header {
+        #contenedor_principal #contenedor_tabla_cards .document-card-vehiculo .card-header {
             padding: 10px 10px 0px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
   
-      /* Estilo del título */
-            #contenedor_tabla_cards .document-card .card-header .document-title {
+            #contenedor_tabla_cards .document-card-vehiculo .card-header .document-title {
                 font-size: 1.1em;
                 font-weight: bold;
                 color: #333;
                 margin: 0;
             }
   
-      /* Metadatos iniciales visibles */
-            #contenedor_tabla_cards .document-card .card-header .document-meta {
+            #contenedor_tabla_cards .document-card-vehiculo .card-header .document-meta {
                 font-size: 0.9em;
                 color: #555;
                 margin: 5px 0;
             }
 
-        #contenedor_tabla_cards .document-card .contenedor-acciones {
-            display: flex;
+        #contenedor_tabla_cards .document-card-vehiculo .contenedor-acciones {
+            display: none;
             justify-content: end;
             max-height: 0;
-            overflow: hidden;
             font-size: 0.9em;
             color: var(--color-primario);
             margin-top: 10px;
         }
 
-        #contenedor_tabla_cards .document-card.active .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-vehiculo.active .contenedor-acciones {
+            display: flex;
             max-height: 150px;
             padding: 0 10px 10px;
         }
 
-            #contenedor_tabla_cards .document-card.active .contenedor-acciones .ver-propietarios{
+            #contenedor_tabla_cards .document-card-vehiculo.active .contenedor-acciones .ver-propietarios{
                 font-size: 25px;
                 color: var(--color-secundario);
             }
     
-      /* Icono de flecha para desplegar */
-        #contenedor_tabla_cards .document-card .toggle-icon {
+        #contenedor_tabla_cards .document-card-vehiculo .toggle-icon {
             font-size: 1.2em;
             transform: rotate(0deg);
             transition: transform 0.5s ease;
         }
   
-        #contenedor_tabla_cards .document-card.active .toggle-icon {
+        #contenedor_tabla_cards .document-card-vehiculo.active .toggle-icon {
             transform: rotate(180deg);
         }
 
-@media(max-width: 767px){
-    #contenedor_principal #contenedor_filtros #caja_filtros{
-        align-items: center;
-        flex-direction: column;
-        height: 95px;
-        justify-content: space-between;
-        width: 100%;
+    #contenedor_principal #contenedor_tabla_cards #mensaje_respuesta{
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
     }
-
-        #contenedor_principal #contenedor_filtros #caja_filtros .buscar{
-            width: clamp(260px, 100%, 600px);
-        }
-
-    #contenedor_principal #contenedor_tabla_cards{
-        align-items: center;
-        flex-direction: column;
-    }
-
-        #contenedor_principal #contenedor_tabla_cards .document-card{
-            width: clamp(260px, 100%, 600px);
-        }
-}
 
 @media(min-width: 768px) and (max-width: 1023px){
-    #contenedor_principal #contenedor_filtros #caja_filtros{
+
+    #contenedor_principal #contenedor_filtros .buscar{
         width: 100%;
     }
 
-        #contenedor_principal #contenedor_filtros #caja_filtros .buscar{
-            width: 48%;
-        }
-
     #contenedor_principal #contenedor_tabla_cards{
-        column-gap: 4%;
+        column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card{
+            height: 65px;
+        }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card.document-card.active{
+            height: auto;
+        }
+
+}
+
+@media(max-width: 767px){
+    #contenedor_principal{
+        flex-direction: column;
+        row-gap: 10px;
+        width: clamp(260px, 100%, 600px);
+    }
+
+        #contenedor_principal #contenedor_filtros .buscar{
+            width: 100%;
+        }
 
 }

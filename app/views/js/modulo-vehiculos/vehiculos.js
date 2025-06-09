@@ -72,10 +72,10 @@ function dibujarCardsVehiculos(){
         if(respuesta.tipo == 'OK'){
             respuesta.vehiculos.forEach(vehiculo => {
                 contenedorTabla.innerHTML += `
-                    <div class="document-card">
+                    <div class="document-card-vehiculo">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${vehiculo.numero_placa} | Tipo: ${vehiculo.tipo}</p>
+                                <p class="document-title">${vehiculo.numero_placa} | Tipo: ${vehiculo.tipo_vehiculo}</p>
                                 <p class="document-meta">Ubicación: ${vehiculo.ubicacion}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
@@ -90,17 +90,10 @@ function dibujarCardsVehiculos(){
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
+
             }else{
-                contenedorTabla.innerHTML = `
-                    <div class="document-card">
-                        <div class="card-header">
-                            <div>
-                                <p class="document-title">${respuesta.titulo}</p>
-                                <p class="document-meta">${respuesta.mensaje}</p>
-                            </div> 
-                        </div>
-                    </div>`;
+                contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
             }
         }
     })
@@ -144,7 +137,7 @@ function eventoBuscarPlaca(){
 }
 
 function toggleCard() {
-    const cards = document.querySelectorAll('.document-card');
+    const cards = document.querySelectorAll('.document-card-vehiculo');
     
     cards.forEach(card => {
         card.addEventListener('click', function() {

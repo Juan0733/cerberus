@@ -143,9 +143,7 @@ function dibujarTablaPasajeros(){
                 <td>${pasajero.documento_pasajero}</td>
                 <td>${pasajero.nombres}</td>
                 <td>
-                    <button type="button" id="${indice}" class ="eliminar-pasajero">
-                        <ion-icon name="trash-outline" role="img" class="md hydrated"></ion-icon>
-                    </button>
+                    <ion-icon name="trash-outline" class="eliminar-pasajero" data-id="${indice}"></ion-icon>
                 </td>
             </tr>`;
     });
@@ -156,7 +154,7 @@ function dibujarTablaPasajeros(){
 function eventoEliminarPasajero(){
     const botonesEliminar = document.querySelectorAll('.eliminar-pasajero');
     botonesEliminar.forEach(boton => {
-        let indice = boton.id;
+        let indice = boton.getAttribute('data-id');
         boton.addEventListener('click', ()=>{
             datosEntradaVehicular.pasajeros.splice(indice, 1);
             dibujarTablaPasajeros();

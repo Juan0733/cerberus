@@ -25,26 +25,24 @@ function eventoAbrirFormularioVehicular() {
     const botonPeatonal = document.getElementById('btn_peatonal');
     const formularioVehicular = document.getElementById('formulario_vehicular');
     const formularioPeatonal = document.getElementById('formulario_peatonal');
+    const contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
 
     botonVehicular.addEventListener('click', ()=>{
         limpiarFormularioVehicular();
-        if (botonPeatonal.style.display == "none") {
-            if (window.innerWidth >= 780) {
-                botonPeatonal.style.display = "flex"
+        if(window.innerWidth > 1023){
+            if (formularioPeatonal.style.display == "flex") {
+                formularioPeatonal.style.display = "none"
+                botonPeatonal.style.display = 'flex';
             }
 
-            formularioPeatonal.style.display = "none"
             botonVehicular.style.display = "none"
             formularioVehicular.style.display = "flex"
             placaVehiculo.focus();
+
         }else{
-            
-            if (window.innerWidth <= 779) {
-                botonPeatonal.style.display = "none"
-                document.querySelector('.cont-btn-volver').style.display = 'flex'
-            }
-            
-            botonVehicular.style.display = "none"
+            botonVehicular.style.display = "none";
+            botonPeatonal.style.display = "none";
+            contenedorBotonVolver.style.display = 'flex';
             formularioVehicular.style.display = "flex"
             placaVehiculo.focus();
         }

@@ -7,31 +7,28 @@ let botonPeatonal;
 let botonVehicular;
 let formularioPeatonal;
 let formularioVehicular;
-let botonVolver;
+let contenedorBotonVolver;
 let urlBase;
 
 function eventoAbrirFormularioPeatonal(){
     botonPeatonal.addEventListener("click", ()=>{
         formularioPeatonal.reset();
-        if (botonVehicular.style.display == "none") {
-            if (window.innerWidth >= 780) {
-                botonVehicular.style.display = "flex";
+
+        if(window.innerWidth > 1023){
+            if (formularioVehicular.style.display == "flex") {
+                formularioVehicular.style.display = "none"
+                botonVehicular.style.display = 'flex';
             }
-            
-            botonPeatonal.style.display = "none";
-            formularioPeatonal.style.display = "flex";
-            formularioVehicular.style.display = "none";
+
+            botonPeatonal.style.display = "none"
+            formularioPeatonal.style.display = "flex"
             documentoPeaton.focus();
 
         }else{
-            if (window.innerWidth <= 779) {
-                botonVehicular.style.display = "none";
-                document.querySelector('.cont-btn-volver').style.display = 'flex';
-            }
-            
-            botonVehicular.style.background = 'red !important';
+            botonVehicular.style.display = "none";
             botonPeatonal.style.display = "none";
-            formularioPeatonal.style.display = "flex";
+            contenedorBotonVolver.style.display = 'flex';
+            formularioPeatonal.style.display = "flex"
             documentoPeaton.focus();
         }
     })
@@ -77,14 +74,13 @@ function eventoRegistrarSalidaPeatonal() {
 }
 
 function eventoCerrarFormularioPeatonal(){
-    botonVolver.addEventListener('click', ()=>{
+    document.getElementById('btn_volver').addEventListener('click', ()=>{
         formularioPeatonal.style.display = 'none';
         formularioVehicular.style.display = 'none';
-        botonVolver.style.display = 'none';
+        contenedorBotonVolver.style.display = 'none';
         botonPeatonal.style = 'flex';
         botonVehicular.style = 'flex';
     })
-
 }
 
 function alertaExito(respuesta){
@@ -152,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
     botonVehicular = document.getElementById("btn_vehicular");
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     formularioVehicular = document.getElementById('formulario_vehicular');
-    botonVolver = document.getElementById('btn_volver_peatonal_vehicular');
+    contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
     eventoAbrirFormularioPeatonal();
     eventoInputPeaton();
     eventoRegistrarSalidaPeatonal();

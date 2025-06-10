@@ -103,6 +103,7 @@
                 left: 0;
                 position: sticky;
                 top: 0;
+                z-index: 1;
             }
 
                 #contenedor_tabla_cards #tabla_movimientos thead th{

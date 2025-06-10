@@ -189,6 +189,7 @@
                 left: 0;
                 position: sticky;
                 top: 0;
+                z-index: 1;
             }
 
                 #modal_propietarios #tabla_propietarios thead th{

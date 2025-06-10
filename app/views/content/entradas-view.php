@@ -1,10 +1,14 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
 <div id="contenedor_principal">
-
     <div id="contenedor_btns_formularios">
+        <div id="contenedor_btn_volver">
+            <button type="button" id="btn_volver">
+                <ion-icon name="chevron-back-outline" role="img" class="md hydrated"></ion-icon>
+            </button>
+        </div>
+
         <div class="contenedor-btn-formulario" id="contenedor_peatonal">
-            
             <button type="button" id="btn_peatonal" class="btn-peatonal-vehicular">
                 <ion-icon name="walk-outline"></ion-icon>
                 <h1>Peatonal</h1>

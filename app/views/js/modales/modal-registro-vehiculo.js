@@ -20,8 +20,9 @@ async function modalRegistroVehiculo(url, placa=false, callback=false, modulo=fa
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_vehiculo';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         numeroPlaca = document.getElementById('numero_placa'); 

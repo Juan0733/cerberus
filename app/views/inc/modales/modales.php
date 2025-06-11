@@ -63,7 +63,7 @@
 </div>
 
     
-<div id="contenedor-modales">
+<div id="contenedor_modales">
 </div>
 
 

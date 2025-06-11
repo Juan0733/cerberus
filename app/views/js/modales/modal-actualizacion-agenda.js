@@ -23,8 +23,9 @@ async function modalActualizarAgenda(codigo, callback, url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_agenda';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         document.getElementById('btn_siguiente_agenda').style.display = 'none';

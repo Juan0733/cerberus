@@ -25,8 +25,9 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_visitante';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         if(documento){

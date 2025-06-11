@@ -4,6 +4,7 @@ import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let descripcion;
 let urlBase;
 
 async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
@@ -16,14 +17,16 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_novedad_vehiculo';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         
         let documentoInvolucrado = document.getElementById('documento_involucrado'); 
         let tipoNovedad = document.getElementById('tipo_novedad');
         let numeroPlaca = document.getElementById('numero_placa');
+        descripcion = document.getElementById("descripcion");
 
         documentoInvolucrado.value = documento;
         documentoInvolucrado.setAttribute('readonly', '');
@@ -38,6 +41,7 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
        
         eventoCerrarModal();
         dibujarPropietarios(placa);
+        eventoTextArea();
         eventoRegistrarNovedadVehiculo();
            
     } catch (error) {
@@ -51,6 +55,7 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         }
         
         alertaError(respuesta);
+        console.log(error)
     }
     
 }
@@ -64,15 +69,20 @@ function eventoCerrarModal(){
         contenedorModales.classList.remove('mostrar');
     });
 
-    document.getElementById('btn_cancelar_novedad').addEventListener('click', ()=>{
+    document.getElementById('btn_cancelar_novedad_vehiculo').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
 
 function eventoRegistrarNovedadVehiculo(){
-    let formularioNovedad = document.getElementById('forma_acceso_05');
+    let formularioNovedad = document.getElementById('formulario_novedad_vehiculo');
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
+
+        if(!descripcion.reportValidty()){
+            return
+        }
+
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_vehiculo');
 
@@ -93,9 +103,34 @@ function eventoRegistrarNovedadVehiculo(){
     })
 }
 
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    descripcion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+    
+            if (!patron.test(descripcion.value)){
+
+                if(primeraValidacion){
+                    descripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
+                    descripcion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            } else {
+                descripcion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
+    })
+}
+
 function dibujarPropietarios(placa){
     const selectPropietario = document.getElementById('propietario');
-    propietario.innerHTML = '<option value="">Seleccionar</option>';
+    propietario.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
 
     consultarPropietarios(placa, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){

@@ -17,7 +17,7 @@ async function modalFuncionariosBrigadistas(url) {
         modal.classList.add('contenedor-ppal-modal');
         modal.id = 'modal_brigadistas';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
@@ -64,7 +64,7 @@ function dibujarBrigadistas(){
 
                 funcionario.telefono = telefonoFormateado;
                 contenedor.innerHTML += `
-                    <div class="document-card">
+                    <div class="document-card-brigadista">
                         <div class="card-header">
                             <div>
                                 <p class="document-title">${funcionario.nombres} ${funcionario.apellidos}</p>
@@ -79,7 +79,7 @@ function dibujarBrigadistas(){
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Datos No Encontrados'){
                contenedor.innerHTML = `
-                    <div class="document-card">
+                    <div class="document-card-brigadista">
                         <div class="card-header">
                             <div>
                                 <p class="document-meta">No hay brigadistas dentro del CAB</p>

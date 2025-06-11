@@ -4,69 +4,66 @@
 </div>
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
-        <div id="contenedor_modal_visitante">
-            <form action="" id="formulario_visitante" method="post" >
-
-                <div id="contenedor_cajas_visitante">
-                    <div id="caja_01" class="caja">
-                        <div class="input-caja-registro">
-                            <label for="tipo_documento" class="label-input">Tipo de documento</label>
-                            <select class="campo campo-seccion-01"  name="tipo_documento" id="tipo_documento" tabindex="8" date="Tipo de documento" required>
-                                <option value="" selected disabled>Seleccionar</option>
-                                <option value="CC">Cedula de ciudadanía</option>
-                                <option value="CE">Cedula de extranjería</option>
-                                <option value="TI">Tarjeta de identidad</option>
-                                <option value="PS">Pasaporte</option>
-                                <option value="PEP">Permiso especial de permanencia</option>
-                            </select>
-                        </div>
-
-                        <div class="input-caja-registro">
-                            <label for="documento_visitante" class="label-input">Numero de documento</label>
-                            <input type="tel" class="campo campo-seccion-01" inputmode="numeric" name="documento_visitante" id="documento_visitante" pattern="[0-9]{6,15}" title="Debes digitar solo numeros y como minimo 6 numeros y maximo 10 numeros" placeholder="Ej: 123456Dil" date="Numero de documento" tabindex="9" >
-                        </div>
+        <form action="" id="formulario_visitante" method="post" >
+            <div id="contenedor_cajas_visitante">
+                <div id="caja_01" class="caja">
+                    <div class="input-caja-registro">
+                        <label for="tipo_documento" class="label-input">Tipo de documento</label>
+                        <select class="campo campo-seccion-01"  name="tipo_documento" id="tipo_documento" tabindex="8" date="Tipo de documento" required>
+                            <option value="" selected disabled>Seleccionar</option>
+                            <option value="CC">Cedula de ciudadanía</option>
+                            <option value="CE">Cedula de extranjería</option>
+                            <option value="TI">Tarjeta de identidad</option>
+                            <option value="PS">Pasaporte</option>
+                            <option value="PEP">Permiso especial de permanencia</option>
+                        </select>
                     </div>
 
-                    <div id="caja_02" class="caja">
-                        
-                        <div class="input-caja-registro">
-                            <label for="nombres" class="label-input">Nombre(s)</label>
-                            <input type="text" class="campo campo-seccion-01" name="nombres" id="nombres" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,64}" title="Debes digitar solo letras y minimo dos letras" placeholder="Ej: Oscar Alejandro" tabindex="4" date="Nombre(s)" required>
-                        </div>
-
-                        <div class="input-caja-registro">
-                            <label for="apellidos" class="label-input">Apellido(s)</label>
-                            <input type="text" class="campo campo-seccion-01" name="apellidos" id="apellidos" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,64}" title="Debes digitar solo letras y minimo dos letras" placeholder="Ej: Alvarez" tabindex="5" date="Apellido(s)" required>
-                        </div>
-                    </div>
-
-                    <div id="caja_03" class="caja">
-                        <div class="input-caja-registro">
-                            <label for="correo_electronico" class="label-input">Correo electronico</label>
-                            <input class="campo" type="email" name="correo_electronico" id="correo_electronico" pattern="[a-zA-Z0-9\._%+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,10}" maxlength="64" minlength="11" placeholder="Ej: miCorreo@ejemplo.com" title="Lo que acabas de digitar no parece un correo electronico." tabindex="6" date="Correo electronico" required>
-                        </div>
-
-                        <div class="input-caja-registro">
-                            <label for="telefono" class="label-input">Numero de telefono</label>
-                            <input type="tel" class="campo" inputmode="numeric" name="telefono" id="telefono" pattern="[0-9]{10}" title="Debes digitar solo numeros y como minimo y maximo 10 numeros" placeholder="Ej: 3104444333" date="Numero de telefono" tabindex="10" >
-                        </div>
-                    </div>
-
-                    <div id="caja_04" class="caja">
-                        <div class="input-caja-registro">
-                            <label for="motivo_ingreso" class="label-input">Motivo ingreso</label>
-                            <input class="campo" type="text" name="motivo_ingreso" id="motivo_ingreso" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{4,100}" maxlength="100" minlength="4" placeholder="Ej: Matricula" title="Debes digitar solo letras y numeros." tabindex="7" date="Motivo ingreso" required>
-                        </div>
+                    <div class="input-caja-registro">
+                        <label for="documento_visitante" class="label-input">Numero de documento</label>
+                        <input type="tel" class="campo campo-seccion-01" inputmode="numeric" name="documento_visitante" id="documento_visitante" pattern="[0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 10" placeholder="Ej: 123456Dil" date="Numero de documento" tabindex="9" >
                     </div>
                 </div>
-                
-                <div id="contenedor_btns_visitante">
-                    <button type="button" id="btn_atras_visitante">Atras</button>
-                    <button type="button" id="btn_cancelar_visitante" >Cancelar</button>
-                    <button type="button" id="btn_siguiente_visitante" >Siguiente</button>
-                    <button type="submit" id="btn_registrar_visitante" >Registrar</button>
+
+                <div id="caja_02" class="caja">
+                    
+                    <div class="input-caja-registro">
+                        <label for="nombres" class="label-input">Nombre(s)</label>
+                        <input type="text" class="campo campo-seccion-01" name="nombres" id="nombres" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,64}" title="Debes digitar solo letras y mínimo 2" placeholder="Ej: Oscar Alejandro" tabindex="4" date="Nombre(s)" required>
+                    </div>
+
+                    <div class="input-caja-registro">
+                        <label for="apellidos" class="label-input">Apellido(s)</label>
+                        <input type="text" class="campo campo-seccion-01" name="apellidos" id="apellidos" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,64}" title="Debes digitar solo letras y mínimo 2" placeholder="Ej: Alvarez" tabindex="5" date="Apellido(s)" required>
+                    </div>
                 </div>
-            </form>
-        </div>
+
+                <div id="caja_03" class="caja">
+                    <div class="input-caja-registro">
+                        <label for="correo_electronico" class="label-input">Correo electrónico</label>
+                        <input class="campo" type="email" name="correo_electronico" id="correo_electronico" pattern="[a-zA-Z0-9\._%+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,10}" maxlength="64" minlength="11" placeholder="Ej: miCorreo@ejemplo.com" title="Lo que acabas de digitar no parece un correo electrónico." tabindex="6" date="Correo electronico" required>
+                    </div>
+
+                    <div class="input-caja-registro">
+                        <label for="telefono" class="label-input">Numero de teléfono</label>
+                        <input type="tel" class="campo" inputmode="numeric" name="telefono" id="telefono" pattern="[0-9]{10}" title="Debes digitar solo 10 números, sin espacios ni caracteres especiales" placeholder="Ej: 3104444333" date="Numero de telefono" tabindex="10" >
+                    </div>
+                </div>
+
+                <div id="caja_04" class="caja">
+                    <div class="input-caja-registro">
+                        <label for="motivo_ingreso" class="label-input">Motivo ingreso</label>
+                        <input class="campo" type="text" name="motivo_ingreso" id="motivo_ingreso" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}" maxlength="100" minlength="5" placeholder="Ej: Matricula" title="Debes digitar solo letras y números, mínimo 5 y máximo 100 caracteres." tabindex="7" date="Motivo ingreso" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="contenedor_btns_visitante">
+                <button type="button" id="btn_atras_visitante">Atras</button>
+                <button type="button" id="btn_cancelar_visitante" >Cancelar</button>
+                <button type="button" id="btn_siguiente_visitante" >Siguiente</button>
+                <button type="submit" id="btn_registrar_visitante" >Registrar</button>
+            </div>
+        </form>
     </div>
 </div>

@@ -5,6 +5,7 @@ let tipoAgenda;
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let modal;
 let caja01;
 let caja02;
 let caja03;
@@ -29,11 +30,12 @@ async function modalRegistroAgenda(url, callback) {
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+        modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_agenda';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         botonCerrarModal = document.getElementById('cerrar_modal_agenda');
@@ -157,8 +159,13 @@ function eventoTipoAgenda() {
 }
 
 function eventoAgregarVehiculo(){
-    document.getElementById('btn_agregar_vehiculo').addEventListener('click', ()=>{
+    const botonAgregarVehiculo = document.getElementById('btn_agregar_vehiculo_individual');
+    botonAgregarVehiculo.addEventListener('click', ()=>{
         modalRegistroVehiculo(urlBase, '', '', 'agendas');
+    })
+
+    document.getElementById('btn_agregar_vehiculo_grupal').addEventListener('click', ()=>{
+        botonAgregarVehiculo.click();
     })
 }
 
@@ -198,6 +205,7 @@ function eventoMostrarCampos(){
                         caja06.style.display = 'flex';
                         botonSiguiente.style.display = 'none';
                         botonRegistrar.style.display = 'flex';
+                        modal.style.width = 'auto';
                     }
                 
                 }else if(tipoAgenda == 'grupal'){
@@ -264,6 +272,7 @@ function eventoVolverCampos(){
             if(caja05.style.display == 'flex'){
                 caja05.style.display = 'none';
                 caja06.style.display = 'none';
+                modal.style.width = 'clamp(350px, 32%, 600px)';
             }
 
             titulo.focus();

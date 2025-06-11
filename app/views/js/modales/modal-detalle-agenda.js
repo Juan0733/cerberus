@@ -18,7 +18,7 @@ async function modalDetalleAgenda(codigo, url) {
         modal.classList.add('contenedor-ppal-modal');
         modal.id = 'modal_detalle_agenda';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');

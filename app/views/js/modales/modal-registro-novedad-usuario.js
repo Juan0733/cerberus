@@ -4,6 +4,7 @@ let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
+let descripcion;
 let urlBase;
 
 async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false) {
@@ -16,12 +17,14 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_novedad_usuario';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
         let documentoInvolucrado = document.getElementById('documento_involucrado'); 
         let tipoNovedad = document.getElementById('tipo_novedad');
+        descripcion = document.getElementById('descripcion');
 
         documentoInvolucrado.value = documento;
         documentoInvolucrado.setAttribute('readonly', '');
@@ -42,6 +45,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         }
        
         eventoCerrarModal();
+        eventoTextArea();
         eventoRegistrarNovedadUsuario();
 
            
@@ -73,15 +77,20 @@ function eventoCerrarModal(){
         }
     });
 
-    document.getElementById('btn_cancelar_novedad').addEventListener('click', ()=>{
+    document.getElementById('btn_cancelar_novedad_usuario').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
 
 function eventoRegistrarNovedadUsuario(){
-    let formularioNovedad = document.getElementById('forma_acceso_05');
+    let formularioNovedad = document.getElementById('formulario_novedad_usuario');
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
+
+        if(!descripcion.reportValidity()){
+            return
+        }
+
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_usuario');
 
@@ -102,6 +111,31 @@ function eventoRegistrarNovedadUsuario(){
                 }
             }
         });
+    })
+}
+
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    descripcion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+    
+            if (!patron.test(descripcion.value)){
+
+                if(primeraValidacion){
+                    descripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
+                    descripcion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            } else {
+                descripcion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
     })
 }
 

@@ -204,6 +204,10 @@
             margin-bottom: 100px;
         }
 
+        #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario .btn-peatonal-vehicular{
+            width: clamp(300px, 70%, 600px);
+        }
+
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario .formulario{
             row-gap: 40px;
             width: 90%;
@@ -222,11 +226,11 @@
     }
 
         #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver{
-            width: clamp(260px, 100%, 600px);
+            width: clamp(300px, 100%, 600px);
         }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario .btn-peatonal-vehicular{
-            width: clamp(260px, 100%, 600px);
+            width: clamp(300px, 100%, 600px);
         }
 
         #contenedor_principal #contenedor_btns_formularios #contenedor_peatonal #btn_peatonal{
@@ -235,7 +239,7 @@
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario .formulario{
             row-gap: 10px;
-            width: clamp(260px, 100%, 600px);
+            width: clamp(300px, 100%, 600px);
         }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{

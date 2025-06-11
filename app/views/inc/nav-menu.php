@@ -4,8 +4,9 @@
             <?php
                 $titulo = str_replace("-", " ", $url[0]);
                 $titulo = ucwords(strtolower($titulo));
-                $palabras = explode(" ", $titulo);
-                $titulo = implode(" ", array_slice($palabras, 0, 2));
+                if($titulo == 'Informes Grafica'){
+                    $titulo = 'Informes Gráfica';
+                }
                 echo $titulo;
             ?>
         </h1>
@@ -20,7 +21,7 @@
             <p><?php echo $_SESSION['datos_usuario']['nombres'].' '.$_SESSION['datos_usuario']['apellidos']; ?></p>
         </div>
         <button id="btn_brigadistas">
-            <ion-icon name="help-buoy"></ion-icon>
+            <ion-icon name="medkit"></ion-icon>
             <p id="contador_brigadistas"></p>
         </button>
         <div id="cont_icon_notificaciones">

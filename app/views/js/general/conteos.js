@@ -14,8 +14,12 @@ function dibujarConteoMultitud(){
             if(contadorMultitudInicio){
                 contadorMultitudInicio.innerHTML ="Multitud: " + respuesta.total_usuarios;
             }
-        }else{
-            console.error(respuesta.mensaje);
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                alertaError(datos);
+            }
         }
     })
 }
@@ -24,8 +28,13 @@ function dibujarConteoBrigadistas(){
     conteoTotalBrigadistas(urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             contadorBrigadistas.innerText = "Brigadistas: " + respuesta.total_brigadistas;
-        }else{
-            console.error(respuesta.mensaje);
+
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                alertaError(datos);
+            }
         }
     })
 }
@@ -34,6 +43,20 @@ function eventoBrigadistas(){
     document.getElementById('btn_brigadistas').addEventListener('click', ()=>{
         modalFuncionariosBrigadistas(urlBase);
     })
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {

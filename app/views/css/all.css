@@ -3,6 +3,7 @@
     box-sizing: border-box;
     transition: all 0.8s;
 }
+
 a{
     text-decoration: none;
     color: white;
@@ -24,14 +25,13 @@ body, html{
 
 }
 
-  
-
 body{
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
     font-size: 16px;
 }
+
 main#cuerpo{
     background: var(--main-color);
     height: 100vh;
@@ -87,7 +87,7 @@ main#cuerpo{
         width: 100vw;
         padding: 0 14px 0 14px;
         margin-right: 16px;
-        min-height: 100vh;
+        height: 96.5vh;
 
     }
         section#contenedor_pagina #nav_menu{
@@ -119,29 +119,7 @@ main#cuerpo{
                 justify-content: center;
             }
             
-                .input-caja{
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    margin: 20px 0;
-                }
-                    .input-caja label{
-                        font-size: 20px;
-                    }
-                    .campo{
-                        width: 100%;
-                        height: 60px;
-                        background: var(--background-inputs);
-                        border: none;
-                        font-size: 18px;
-                        border-radius: 13px;
-                        padding: 10px;
-                        margin: 5px 0 0 0;
-                    }
-                    .campo::placeholder{
-                        font-size: 18px;
-                        color: var(--color-placeholder);
-                    } 
+                
             #contenedor_campos_2{
                 display: flex;
             }
@@ -283,502 +261,19 @@ main#cuerpo{
                                         background: var(--color-secundario);
                                         color: var(--color-primario);
                                     }
-/* Ecabezado de listatados */
-.nav_gestion_listado{
-    margin: 10px 0;
-}
-    .nav_gestion_listado #cont_opciones_listado{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-        .listado-visitantes{
-            width: 100%;
-        }
-        #cont_opciones_listado .filtro{  
-            display: none;
-        }
-            #cont_opciones_listado .filtro .cont_select{
-                height: 34px;
-                width: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: white;
-                border: 1px solid #d8d8d8;
-                border-radius: 10px;
-                margin: 0 20px 0 10px;
-            }
-                .filtro .cont_select select{
-                    border: none;
-                    outline: none;
-                }
-        #cont_opciones_listado .cont_buscar_persona{                    
-                display: flex;
-                align-items: center;
-                width: 100%;
-        }
-            #cont_opciones_listado .cont_buscar_persona .buscar{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: white;
-                border: 1px solid #d8d8d8;
-                border-radius: 10px;
-                margin: 0 10px 0 0px;
-                padding: 0 10px;
-                width: 94%;
-                position: fixed;
-                left: 12px;
-                top: 60px;
-                z-index: 20;
-            }
-            #cont_opciones_listado .cont_buscar_persona .buscar-nove{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: white;
-                border: 1px solid #d8d8d8;
-                border-radius: 10px;
-                margin: 0 10px 0 0px;
-                padding: 0 10px;
-                width: 53%;
-                position: fixed;
-                left: 12px;
-                top: 60px;
-                z-index: 20;
-            }
-            #cont_opciones_listado .cont_buscar_persona .buscar-tipo-novedad{
-                
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: white;
-                border: 1px solid #d8d8d8;
-                border-radius: 10px;
-                margin: 0 14px 0 10px;
-                padding: 0 10px;
-                width: 36%;
-                position: fixed;
-                right: 0;
-                top: 60px;
-                z-index: 20;
-            }
-                .cont_buscar_persona .buscar-tipo-novedad ion-icon{   
-                    font-size: 25px;
-                }
-                .cont_buscar_persona .buscar ion-icon{   
-                    font-size: 25px;
-                }
-                .cont_buscar_persona .buscar #filtro{       
-                    border: none;
-                    margin-left: 5px;
-                    height: 44px;
-                    font-size: 22px;
-                    outline: none;
-                    width: 100%;
-                }
-                .cont_buscar_persona .buscar-tipo-novedad #tipo_novedades{  
-                    width: 100%;
-                    height: 44px;
-                    border: none;
-                    padding: 0px 0px 0px 5px;
-                    font-size: 16px;
-                    color: var(--color-placeholder);
-                    outline: none;
-                }
-                
-                #contenedor_tabla{
-                    margin-top: 60px;
-                }
-                .cont_buscar_persona .btn-nueva-persona-mobile{
-                    position: fixed;
-                    top: 90%;
-                    left: 80%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: var(--color-secundario);
-                    height: 60px;
-                    padding: 0 14px;
-                    border-radius: 22px;
-                    z-index: 20;
-
-                }
-
-                .btn-nueva-persona{
-                    display: none;
-                }
-               
-                .cont_buscar_persona a ion-icon{   
-                    font-size: 32px;
-                    margin: 0px 1px 3px 0px;
-                    
-                }
             
 /* Estilos de repote ingreso y salida Mobile*/
-    .contenedor-reportes{
-        width: 100%;
-    }
-        .cont-btn-volver {   
-            width: 100%;
-            display: none;
-            justify-content: flex-end;
-            align-items: center;
-            flex-direction: row-reverse;
-        }
-
-        #panel_entrada .cont-btn-volver .btn-ent-sal-volver{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: var(--color-secundario);
-            border: none;
-            border-radius: 10px;
-            font-size: 30px;
-            color: white;
-        }
-        
-        #panel_salida .cont-btn-volver .btn-ent-sal-volver{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: var(--main-color);
-            border: none;
-            border-radius: 10px;
-            font-size: 30px;
-            color: white;
-        }
-
-        .cont_e_s {
-            width: 100%;
-        }
-        .cont_entrada_salida_01{
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin: 20px;
-        }
-        .cont_entrada_salida_02{
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        .contenedor-reportes .contenedor-card-ptn-vhl{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin: 40px 20px;
-        }
-
-                .contenedor-card-ptn-vhl .card-entr-sali{   
-                    width: 457px;
-                    height: 186px;
-                    display: flex;
-                    align-content: center;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 20px;
-                    margin: 0 20px;
-                }
-                #panel_entrada .contenedor-card-ptn-vhl .card-entr-sali{   
-                    background: var(--color-secundario) !important;
-                }
-                #panel_salida .contenedor-card-ptn-vhl .card-entr-sali{   
-                    background: var(--main-color) !important;
-                }
-               
-                    .contenedor-card-ptn-vhl .card-entr-sali ion-icon{  
-                        font-size: 100px;
-                        color: var(--color-primario);
-                    }
-                    .contenedor-card-ptn-vhl .card-entr-sali h1{
-                        font-size: 39px;
-                        color: var(--color-primario);
-                    }
-
-                    /* Estilos Formularios */
-
-                
-                    #formulario_peatonal {
-                        display: none;
-                        width: 100%;
-                        flex-direction: column;
-                        margin-top: 140px;
-                    
-                    }
-                    .titulo-formulario{
-                        text-align: center;
-                        font-size: 39px;
-                    }
-
-                        .cont_cajas_ptn{       
-                            display: flex;
-                            flex-direction: column;
-                            margin-bottom: 20px;
-                        }
-                        .contenido_1{       
-                            padding: 0 20px;
-                        }
-                        .btn-eviar-reporte{
-                            background: var(--color-secundario);
-                            border: none;
-                            border-radius: 10px;
-                            font-size: 20px;
-                            height: 60px;
-                            margin: 0 20px;
-                            color: var(--color-primario);
-                        }
-
-                        #panel_entrada .btn-eviar-reporte{
-                            background: var(--color-secundario);
-                        }
-
-                        #panel_salida .btn-eviar-reporte{
-                            background: var(--main-color);
-                            margin: 20px;
-                        }
-
-                        @keyframes slideIn2 {
-                            from {
-                                transform: translateY(50%);
-                                opacity: 0;
-                            }
-                            to {
-                                transform: translateY(0);
-                                opacity: 1;
-                            }
-                        }
-                        
-                        #formulario_peatonal{
-                            animation: slideIn2 0.5s ease-out;
-                        }
-                    #formulario_vehicular {
-                        display: none;
-                        width: 100%;
-                        flex-direction: column;
-                    
-                    }
-                        @keyframes slideIn2 {
-                            from {
-                                transform: translateY(-50%);
-                                opacity: 0;
-                            }
-                            to {
-                                transform: translateY(0);
-                                opacity: 1;
-                            }
-                        }
-                        
-                        #panel_entrada .input-caja{
-                            margin: 12px 0;
-                        }
-                        
-                        #formulario_vehicular{
-                            animation: slideIn2 0.5s ease-out;
-                        }
-                        .contenedor-card-ptn-vhl{
-                            animation: slideIn2 0.5s ease-out;
-
-                        }
-                            #formulario_vehicular .cont_cajas{
-                                                            
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                            }
-
-                                    .cont-input-buscar{
-                                        display: flex;
-                                        margin: 5px 0 10px 0;
-                                        align-items: center;
-                                    }
-                                    
-                                        .cont-input-buscar #num_documento_pasajero {
-                                            margin: 0 !important;
-                                        }
-                                        .cont-input-buscar .agregar-persona{
-                                            
-                                            width: 64px;
-                                            height: 60px;
-                                            font-size: 30px;
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                            margin-left: 17px;
-                                            border-radius: 10px;
-                                            border: none;
-                                            color: var(--color-primario);
-                                        }
-                                        #panel_entrada .cont-input-buscar .agregar-persona{
-                                            background: var(--color-secundario);
-                                        }
-                                        
-                                        #panel_salida .cont-input-buscar .agregar-persona{
-                                            background: var(--main-color);
-                                        }
-                                        .contenido_1{
-                                            width: 100%;
-                                            display: flex;
-                                            justify-content: center;
-                                        }
-                                        .colum-oculta{
-                                            display: none;
-                                        }
-
-    /* Estilo general para la tarjeta */
-    .document-card {
-        border: 1px solid #ddd;
-        overflow: hidden;
-        border-radius: 8px;
-        min-width: 350px;
-        max-width: 400px;
-        font-family: Arial, sans-serif;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin: 10px;
-        cursor: pointer;
-        margin:0 0 10px 0;
-        transition: all 0.3s ease;
-      }
-  
-      /* Contenedor principal */
-      .card-header {
-        padding: 10px 10px 0px 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-  
-      /* Estilo del título */
-      .document-title {
-        font-size: 1.1em;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-      }
-  
-      /* Metadatos iniciales visibles */
-      .document-meta {
-        font-size: 0.9em;
-        color: #555;
-        margin: 5px 0;
-      }
-  
-      /* Detalles adicionales que se despliegan */
-      .card-details {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-        font-size: 0.9em;
-        color: #555;
-        padding: 10px 10px 0px 10px;
-      }
-  
-      .document-card.active .card-details {
-        padding: 10px 10px 0px 10px;
-        max-height: 150px; /* Ajusta según la cantidad de contenido */
-      }
-
-
-      .contenedor-acciones {
-        max-height: 0;
-        overflow: hidden;
-        font-size: 0.9em;
-        color: var(--color-primario);
-        margin-top: 10px;
-      }
-
-      .document-card.active .contenedor-acciones {
-        max-height: 150px; /* Ajusta según la cantidad de contenido */
-      }
-
-      .document-card .contenedor-acciones .btn-cards {
-        font-size: 20px;
-        display: flex;
-        background: var(--color-secundario);
-        transition: max-height 0.1s ease;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-      }
-      
-    .btn-editar{
-        
-        display: flex;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-radius: 10px 10px 0 0;
-        background: var(--color-secundario);
-        color: var(--color-primario);
-        font-size: 18px;
-        text-decoration: none;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-    }
     
-    .btn-editar:hover {
-        transform: translateY(-1px);
-    }
 
-    .btn-editar:active {
-        transform: translateY(0px);
-    }
+@media (max-width: 767px) {
 
-    .btn-cancelar-table{
-        
-        display: flex;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-radius: 0 0 10px 10px;
-        background: var(--color-btn-cancelar);
-        color: var(--color-placeholder);
-        font-size: 18px;
-        text-decoration: none;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .btn-cancelar-table:hover {
-        transform: translateY(-1px);
-    }
-
-    .btn-cancelar-table:active {
-        transform: translateY(0px);
-    }
-  
-      /* Icono de flecha para desplegar */
-      .toggle-icon {
-        font-size: 1.2em;
-        transform: rotate(0deg);
-        transition: transform 0.5s ease;
-      }
-  
-      .document-card.active .toggle-icon {
-        transform: rotate(180deg);
-      }
-
-@media (width > 780px) {
     main#cuerpo section#contenedor_pagina{
         display: flex;
         justify-content: center;
         background: var(--color-primario);
         border-radius: 20px;
         width: 100vw;
-        min-height: 100%;
+        min-height: 100vh;
         padding: 0 14px 0 14px;
         margin-right: 16px;
 
@@ -851,7 +346,7 @@ main#cuerpo{
                         outline: none;
 
                     }
-                    .cont_buscar_persona .buscar #filtro{       
+                    .cont_buscar_persona .buscar input{       
                         border: none;
                         margin-left: 5px;
                         height: 34px;
@@ -972,256 +467,9 @@ main#cuerpo{
                                     background: var(--color-secundario);
                                     color: var(--color-primario);
                                 }
-    /* Estilos para los paneles de entrada y salida de personas */
 
-    .contenedor-reportes{
-        width: 100%;
-    }
-        .btn-ent-sal-volver{
-            display: none;
-        }
-        .cont_e_s {
-            width: 100%;
-        }
-        .cont_entrada_salida_01{
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-        .cont_entrada_salida_02{
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        .contenedor-reportes .contenedor-card-ptn-vhl{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-            margin: 50px 0;
-        }
-
-                .contenedor-card-ptn-vhl .card-entr-sali{   
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    width: 457px;
-                    height: 186px;
-                    display: flex;
-                    align-content: center;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 20px;
-                    margin: 0 20px;
-                }
-                #panel_entrada .contenedor-card-ptn-vhl .card-entr-sali{   
-                    background: var(--color-secundario) ;
-                }
-                #panel_salida .contenedor-card-ptn-vhl .card-entr-sali{   
-                    background: var(--main-color) !important;
-                }
-                .contenedor-card-ptn-vhl .card-entr-sali:hover{   
-                    scale: 1.1;
-                }
-                
-                    .contenedor-card-ptn-vhl .card-entr-sali ion-icon{
-                                            
-                        font-size: 100px;
-                        color: var(--color-primario);
-                    }
-                    .contenedor-card-ptn-vhl .card-entr-sali h1{
-                        font-size: 39px;
-                        color: var(--color-primario);
-                    }
-
-                    /* Estilos Formularios */
-
-                
-                    #formulario_peatonal {
-                        display: none;
-                        padding: 0 40px;
-                        width: 100%;
-                        flex-direction: column;
-                        margin: 0;
-                    
-                    }
-                    .titulo-formulario{
-                        text-align: center;
-                        font-size: 39px;
-                    }
-                        
-                    #caja_placa_vehiculo{
-                        margin-right: 10px !important;
-                    }
-                        .cont_cajas_ptn{       
-                            display: flex;
-                        }
-                        .contenido_1{       
-                            padding: 0 20px;
-                        }
-                        .btn-eviar-reporte{
-                            background: var(--color-secundario);
-                            border: none;
-                            border-radius: 10px;
-                            font-size: 20px;
-                            height: 60px;
-                            margin: 0 20px;
-                            color: var(--color-primario);
-                        }
-
-                        #panel_entrada .btn-eviar-reporte{
-                            background: var(--color-secundario);
-                        }
-
-                        #panel_salida .btn-eviar-reporte{
-                            background: var(--main-color);
-                            margin-top: 20px;
-                        
-                        }
-
-                       @keyframes slideIn2 {
-                            from {
-                                transform: translateX(50%);
-                                opacity: 0;
-                            }
-                            to {
-                                transform: translateX(0);
-                                opacity: 1;
-                            }
-                        }
-                        
-                        #formulario_peatonal{
-                            animation: slideIn2 0.5s ease-out;
-                        }
-                    #formulario_vehicular {
-                        display: none;
-                        padding: 0 40px;
-                        width: 100%;
-                        flex-direction: column;
-                    
-                    }
-                        @keyframes slideIn2 {
-                            from {
-                                transform: translateX(-50%);
-                                opacity: 0;
-                            }
-                            to {
-                                transform: translateX(0);
-                                opacity: 1;
-                            }
-                        }
-                        .num_identificacion_vehiculo{
-                            margin-right: 10px;
-                        }
-                        #formulario_vehicular{
-                            animation: slideIn2 0.5s ease-out;
-                        }
-                            #formulario_vehicular .cont_cajas{
-                                                            
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-                            }
-
-                                    .cont-input-buscar{
-                                        display: flex;
-                                        margin: 5px 0 0 0;
-                                    }
-                                        .cont-input-buscar #num_documento_pasajero{
-                                            margin: 0 !important;
-                                        }
-                                        .cont-input-buscar .agregar-persona{
-                                            
-                                            width: 64px;
-                                            font-size: 30px;
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                            margin-left: 17px;
-                                            border-radius: 10px;
-                                            border: none;
-                                            color: var(--color-primario);
-                                        }
-                                        #panel_entrada .cont-input-buscar .agregar-persona{
-                                            background: var(--color-secundario);
-                                        }
-                                        
-                                        #panel_salida .cont-input-buscar .agregar-persona{
-                                            background: var(--main-color);
-                                        }
-                                        .formulario-ingreso-salida-pasajeros{
-                                            width: 100%;
-                                        }
-                    
         /* Estilo de tablas */
-        
-#contenedor_tabla{
-    max-height: 460px;
-    overflow-y: auto;
-    margin: 0 !important;
-}   
-table {
-    background: var(--color-primario);
-    width: 100%;
-    border-radius: 20px;
-    padding: 1em;
-}
-
-
-
-table, th, td {
-    border-collapse: collapse;
-    font-weight: normal;
-    padding: 1rem;
-    text-align: center;
-}
-table td {
-    border-collapse: collapse;
-    padding: 1rem;
-    text-align: center;
-    border-bottom: 2px solid rgb(219, 219, 219);
-}
-
-thead {
-    position: sticky;
-    top: 0;
-    left: 0;
-    border-bottom: 3px solid rgb(219, 219, 219);
-    cursor: pointer;
-    text-transform: capitalize;
-}
-thead tr {
-    border-bottom: 3px solid rgb(219, 219, 219);
-    cursor: pointer;
-    text-transform: capitalize;
-}
-
-
-
-tbody tr {
-    --delay: .1s;
-    transition: .5s ease-in-out var(--delay), background-color 0s;
-}
-
-
-
-tbody tr:hover {
-    background-color: rgb(231, 231, 231) !important;
-}
-
-tbody tr td{
-    transition: .2s ease-in-out;
-}
-
-
-#contenedor_tabla .table thead th:first-child {
-    border-radius: 20px 0 0 0;  
-}
-
-#contenedor_tabla .table thead th:last-child {
-    border-radius: 0 20px 0 0;  
-}
-             
+                    
 .contenedor-colum-acciones {
     text-align: center;
     vertical-align: middle;
@@ -1320,6 +568,12 @@ tbody tr td{
 }
 }
 
+@media(min-width: 768px) and (max-width: 1023px){
+    main#cuerpo section#contenedor_pagina{
+        height: 94vh;
+    }
+}
+
 @media (width > 1080px) {
 
     main#cuerpo{
@@ -1336,7 +590,7 @@ tbody tr td{
             background: var(--color-primario);
             border-radius: 20px;
             width: 100vw;
-            min-height: 97.3vh;
+            height: 96.5vh;
             margin-right: 16px;
             padding: 18px;
             overflow: hidden;

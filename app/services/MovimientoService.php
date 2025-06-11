@@ -23,7 +23,7 @@ class MovimientoService{
                 'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{0,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}",
                 'cadena' => $observacion
             ]
         ];
@@ -84,7 +84,7 @@ class MovimientoService{
                 'cadena' => $placaVehiculo
             ],
             [
-                'filtro' => "[A-Za-zÑñ0-9 ]{0,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}",
                 'cadena' => $observacion
             ]
         ];
@@ -165,6 +165,33 @@ class MovimientoService{
 
             if(preg_match('/^(peatonal|ganaderia|principal)$/', $puerta)){
                 $parametros['puerta'] = $puerta;
+            }
+        }
+
+        if(isset($_GET['fecha'])){
+            $fecha = $this->limpiarDatos($_GET['fecha']);
+            unset($_GET['fecha']);
+
+            if(preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/', $fecha)){
+                $parametros['fecha'] = $fecha;
+            }
+        }
+
+        if(isset($_GET['jornada'])){
+            $jornada = $this->limpiarDatos($_GET['jornada']);
+            unset($_GET['jornada']);
+
+            if(preg_match('/^(mañana|tarde|noche)$/', $jornada)){
+                $parametros['jornada'] = $jornada;
+            }
+        }
+
+        if(isset($_GET['tipo_movimiento'])){
+            $tipoMovimiento = $this->limpiarDatos($_GET['tipo_movimiento']);
+            unset($_GET['tipo_movimiento']);
+
+            if(preg_match('/^(entrada|salida)$/', $tipoMovimiento)){
+                $parametros['tipo_movimiento'] = $tipoMovimiento;
             }
         }
 

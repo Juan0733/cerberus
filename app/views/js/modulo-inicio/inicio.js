@@ -27,6 +27,13 @@ function dibujarConteoUsuarios(){
                     
                 }
             });
+
+        }else if(datos.tipo == 'ERROR'){
+            if(datos.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                alertaError(datos);
+            }
         }
     })
 }
@@ -45,8 +52,29 @@ function dibujarConteoVehiculos(){
                     document.getElementById('subtitle_barra_motos').innerHTML = vehiculo.porcentaje+"% son Motos";
                 }
             })
+            
+        }else if(datos.tipo == 'ERROR'){
+            if(datos.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                alertaError(datos);
+            }
         }
     })
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
 }
 
 

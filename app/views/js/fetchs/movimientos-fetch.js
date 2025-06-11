@@ -117,3 +117,19 @@ async function consultarMovimientos(parametros, urlBase) {
     }
 }
 export{consultarMovimientos}
+
+async function consultarMovimientosUsuarios(parametros, urlBase) {
+    try {
+        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('consultar_movimientos_usuarios')+'&puerta='+encodeURI(parametros.puerta)+'&fecha='+encodeURI(parametros.fecha)+'&jornada='+encodeURI(parametros.jornada)+'&tipo_movimiento='+encodeURI(parametros.tipo_movimiento)+'&puerta='+encodeURI(parametros.puerta));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+
+        return data;
+        
+    } catch (error) {
+        console.error('Hubo un error:', error);
+    }
+}
+export{consultarMovimientosUsuarios}

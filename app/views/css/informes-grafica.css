@@ -1,0 +1,141 @@
+#contenedor_principal {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+    #contenedor_principal #contenedor_filtros {
+        display: flex;
+        justify-content: end;
+        width: 100%;
+        padding: 1rem 0;
+        column-gap: 10px;
+    }
+
+        #contenedor_principal #contenedor_filtros .caja-flex{
+            display: flex;
+            width: 40%;
+            column-gap: 10px;
+        }
+
+        #contenedor_principal #contenedor_filtros .filtro{
+            align-items: center;
+            border: 1px solid #d8d8d8;
+            border-radius: 13px;
+            background: white;
+            display: flex;
+            font-size: 17px;
+            gap: 0.5rem;
+            padding: 0 10px;
+            height: 40px;
+            width: 100%; 
+        }
+
+            #contenedor_principal #contenedor_filtros .filtro input, select{
+                border: none;
+                font-size: 17px;
+                outline: none;
+                width: 100%;
+            }
+
+    #contenedor_principal #contenedor_graficas {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+        #contenedor_principal #contenedor_graficas #contenedor_cards{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
+            max-height: 75vh;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+            #contenedor_principal #contenedor_graficas #contenedor_cards .card-grafica {
+                border-radius: 20px;
+                border: 2px solid var(--color-terciario);
+                background: var(--color-transparente);
+                height: auto;
+                margin-bottom: 7px;
+                padding: 20px;
+                width: clamp(350px, 85%, 580px);
+            }
+
+                #contenedor_principal #contenedor_graficas #contenedor_cards .card-grafica * {
+                    color: var(--color-terciario);
+                }
+
+
+                #contenedor_graficas #contenedor_cards .card-grafica .titulo-card {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                    #contenedor_cards .card-grafica .titulo-card ion-icon {
+                        font-size: 35px;
+                        margin-right: 5px;
+                    }
+
+                    #contenedor_cards .card-grafica .titulo-card h3 {
+                        font-size: 28px;
+                        margin: 0;
+                    }
+
+
+@media(min-width: 768px) and (max-width: 1023px){
+    #contenedor_principal #contenedor_filtros {
+       flex-direction: column;
+       row-gap: 10px;
+    }
+
+        #contenedor_principal #contenedor_filtros .caja-flex{
+            width: 100%;
+        }
+
+    #contenedor_principal #contenedor_graficas #contenedor_cards{
+        max-height: 78.5vh;
+    }
+
+        #contenedor_principal #contenedor_graficas #contenedor_cards .card-grafica{
+            width: 100%;
+        }
+}
+
+@media(max-width: 767px){
+    #contenedor_principal{
+        width: clamp(260px, 100%, 600px);
+    }
+
+        #contenedor_principal #contenedor_filtros {
+        flex-direction: column;
+        row-gap: 10px;
+        }
+
+            #contenedor_principal #contenedor_filtros .caja-flex{
+                flex-direction: column;
+                row-gap: 10px;
+                width: 100%;
+            }
+
+        #contenedor_principal #contenedor_graficas #contenedor_cards{
+            grid-template-columns: repeat(1, 1fr);
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+            
+            #contenedor_principal #contenedor_graficas #contenedor_cards .card-grafica{
+                width: 100%;
+            }
+
+                #contenedor_cards .card-grafica .titulo-card h3{
+                    font-size: 24px;
+                }
+}
+
+

@@ -1,24 +1,15 @@
+import {cerrarSesion} from '../fetchs/usuarios-fetch.js';
+
+let urlBase;
 
 const logo_sena = document.getElementById("logo_sena");
 const barraLateral = document.querySelector(".barra-lateral");
 const spans = document.querySelectorAll("span");
 const menu = document.querySelector(".cont-menu-icon");
 
-var lista = document.querySelector(".sub-menu-list");
-const menuLinks = document.querySelectorAll(".navegacion a"); // Selecciona todos los enlaces del menú
-
-
 if(window.innerWidth<=1080){
     barraLateral.classList.remove("mini-barra-lateral");
 }
-menuLinks.forEach(link => {
-    link.addEventListener("click", function() {
-        // Remover la clase 'inbox' de cualquier enlace que la tenga
-        document.querySelector(".navegacion .inbox")?.classList.add("desactivado");
-        document.querySelector(".navegacion .inbox")?.classList.remove("inbox");
-        this.classList.add("inbox");
-    });
-});
 
 menu.addEventListener("click",()=>{
     barraLateral.classList.toggle("max-barra-lateral");
@@ -61,40 +52,39 @@ barraLateral.addEventListener("mouseover", () => {
 });
 
 
+function eventoSubMenu(){
+    const opciones = document.querySelectorAll(".sub-menu-link");
+    const subMenus = document.querySelectorAll('.sub-menu-list');
 
-document.querySelectorAll(".sub-menu-link").forEach((link) => {     
-    link.addEventListener("click", () => {
-        if (lista.classList.contains('desplegado')) {
-            lista.style.display = 'none';
-            lista.classList.remove('desplegado');
-        }else{
-            lista.style.display = 'block';
-            lista.classList.add('desplegado');
-        }
-       
+    opciones.forEach((opcion, indice) => {    
+        opcion.addEventListener("click", () => {
+            if (subMenus[indice].classList.contains('desplegado')) {
+                subMenus[indice].style.display = 'none';
+                subMenus[indice].classList.remove('desplegado');
+                opcion.classList.remove('inbox');
+            }else{
+                subMenus[indice].style.display = 'block';
+                subMenus[indice].classList.add('desplegado');
+                document.querySelector('.inbox')?.classList.remove('inbox');
+                opcion.classList.add('inbox');
+            }
+        });
     });
-});
+}
 
-
-function cerrarSesion(url) {  
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "Quieres cerrar sesión?",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, cerrar',
-        cancelButtonText: 'No, volver',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar',
-            cancelButton: 'btn-cancelar'
-        }
-    }).then((result) => {
-        if (result.isConfirmed){  
-            window.location.href= url;
-        }
+function eventoCerrarSesion(){
+    document.getElementById('cerrar_sesion').addEventListener('click', ()=>{
+        cerrarSesion(urlBase).then(respuesta=>{
+            if(respuesta.tipo == 'OK'){
+                window.location.replace('login');
+            }
+        })
     })
 }
- 
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    urlBase = document.getElementById('url_base').value;
+    eventoSubMenu();
+    eventoCerrarSesion();
+
+})

@@ -11,27 +11,25 @@ class FuncionarioModel extends MainModel{
             WHERE 1=1";
         
         if(isset($parametros['brigadista'])){
-            $sentenciaBuscar .= " AND brigadista = '".$parametros['brigadista']."'";
+            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}'";
         }
 
         if(isset($parametros['ubicacion'])){
-            $sentenciaBuscar .= " AND ubicacion = '".$parametros['ubicacion']."'";
+            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND numero_documento LIKE '".$parametros['numero_documento']."%'";
+            $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
         }
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-            ];
+        $sentenciaBuscar .= " LIMIT 10;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -57,17 +55,12 @@ class FuncionarioModel extends MainModel{
             FROM funcionarios 
             WHERE ubicacion = 'DENTRO' AND brigadista = 'SI';";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if (!$respuestaSentencia) {
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning"
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         $totalBrigadistas= $respuestaSentencia->num_rows;
 
         $respuesta = [

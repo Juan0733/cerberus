@@ -2,6 +2,7 @@ import {consultarFuncionarios} from '../fetchs/funcionarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
+let botonCerrarModal;
 let urlBase;
 
 async function modalFuncionariosBrigadistas(url) {
@@ -16,8 +17,10 @@ async function modalFuncionariosBrigadistas(url) {
         modal.classList.add('contenedor-ppal-modal');
         modal.id = 'modal_brigadistas';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
+
+        botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         urlBase = url;
          
@@ -26,19 +29,21 @@ async function modalFuncionariosBrigadistas(url) {
 
            
     } catch (error) {
-        let respuesta = {
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar el modal de brigadistas.'
+        if(botonCerrarModal){
+            botonCerrarModal.click();
         }
         
+        let respuesta = {
+            titulo: 'Error Modal',
+            mensaje: 'Error al cargar modal brigadistas.'
+        }
         alertaError(respuesta);
     }
-    
 }
 export { modalFuncionariosBrigadistas };
 
 function eventoCerrarModal(){
-    document.getElementById('cerrar_modal_brigadista').addEventListener('click', ()=>{
+    botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
     });
@@ -52,14 +57,14 @@ function dibujarBrigadistas(){
                 let telefonoFormateado = '';
                 for (let i = 0; i < funcionario.telefono.length; i++) {
                     telefonoFormateado += funcionario.telefono[i];
-                    if(i == 2 || i == 4 || i == 6){
+                    if(i == 2 || i == 4 || i == 6 || i == 8){
                         telefonoFormateado += '-';
                     }
                 }
 
                 funcionario.telefono = telefonoFormateado;
                 contenedor.innerHTML += `
-                    <div class="document-card">
+                    <div class="document-card-brigadista">
                         <div class="card-header">
                             <div>
                                 <p class="document-title">${funcionario.nombres} ${funcionario.apellidos}</p>
@@ -69,29 +74,29 @@ function dibujarBrigadistas(){
                     </div>`;
             });
 
+            contenedorModales.classList.add('mostrar');
+
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Datos No Encontrados'){
                contenedor.innerHTML = `
-                    <div class="document-card">
+                    <div class="document-card-brigadista">
                         <div class="card-header">
                             <div>
                                 <p class="document-meta">No hay brigadistas dentro del CAB</p>
                             </div>
                         </div>
                     </div>`;
+
+                contenedorModales.classList.add('mostrar');
+
+            }else if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
             }else{
-                contenedor.innerHTML = `
-                    <div class="document-card">
-                        <div class="card-header">
-                            <div>
-                                <p class="document-meta">${respuesta.mensaje}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                botonCerrarModal.click();
+                alertaError(respuesta);
             }
         }
-
-        contenedorModales.classList.add('mostrar');
     });
 }
 

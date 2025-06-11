@@ -18,15 +18,10 @@ class NovedadUsuarioModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO novedades_usuarios(tipo_novedad, fk_usuario, fecha_suceso, puerta_suceso, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) 
-            VALUES('".$datosNovedad['tipo_novedad']."', '".$datosNovedad['numero_documento']."', '".$datosNovedad['fecha_suceso']."', '".$datosNovedad['puerta_suceso']."', '$puertaActual', '".$datosNovedad['descripcion']."', '$fechaRegistro', '$usuarioSistema')";
+            VALUES('{$datosNovedad['tipo_novedad']}', '{$datosNovedad['numero_documento']}', '{$datosNovedad['fecha_suceso']}', '{$datosNovedad['puerta_suceso']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$usuarioSistema')";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 

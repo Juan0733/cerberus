@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 	$operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
 	if($operacion == 'conteo_tipo_vehiculo'){
 		echo json_encode($objetoVehiculo->conteoTipoVehiculo());
+
 	}elseif($operacion == 'consultar_vehiculo'){
 		$respuesta = $objetoServicio->sanitizarParametros();
 		if(empty($respuesta['parametros'])){
@@ -45,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 		}
 		
 		echo json_encode($objetoVehiculo->consultarVehiculo($respuesta['parametros']['numero_placa']));
+
 	}elseif($operacion == 'consultar_propietarios'){
 		$respuesta = $objetoServicio->sanitizarParametros();
 		if(empty($respuesta['parametros'])){
@@ -60,7 +62,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
 		echo json_encode($objetoVehiculo->consultarPropietariosVehiculo($respuesta['parametros']['numero_placa']));
 
+	}elseif($operacion == 'consultar_vehiculos'){
+		$respuesta = $objetoServicio->sanitizarParametros();
+		echo json_encode($objetoVehiculo->consultarVehiculos($respuesta['parametros']));
+
+	}elseif($operacion == 'eliminar_propietario_vehiculo'){
+		$respuesta = $objetoServicio->sanitizarParametros();
+		if(!isset($respuesta['parametros']['numero_placa']) || !isset($respuesta['parametros']['numero_documento'])){
+			$respuesta = [
+				"tipo" => "ERROR",
+				"titulo" => 'Error De Parámetros',
+				"mensaje" => 'No se han enviado parámetros o son incorrectos.'
+			];
+
+			echo json_encode($respuesta);
+			exit();
+		}
+
+		echo json_encode($objetoVehiculo->eliminarPropiedadVehiculo($respuesta['parametros']['numero_documento'], $respuesta['parametros']['numero_placa']));
 	}
+	
 }else{
 	echo "no post". $_SERVER['REQUEST_METHOD'];
 }

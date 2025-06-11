@@ -14,14 +14,8 @@ class AprendizModel extends MainModel{
     public function eliminarAprendiz($aprendiz){
         $sentenciaEliminar = "DELETE FROM aprendices WHERE numero_identificacion = '$aprendiz'";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaEliminar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.',
-                "icono" => "warning",
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaEliminar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -31,8 +25,6 @@ class AprendizModel extends MainModel{
             'mensaje' => 'El aprendiz fue eliminado correctamente',
             'icon' => ''
         ];
-
         return $respuesta;
-
     }
 }

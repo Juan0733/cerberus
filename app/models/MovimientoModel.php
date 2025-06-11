@@ -26,15 +26,10 @@ class MovimientoModel extends MainModel{
         
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['numero_documento']."', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo']  == 'ERROR'){
             return $respuesta;
         }
 
@@ -78,15 +73,10 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', '".$datosEntrada['observacion']."');";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', '{$datosEntrada['observacion']}');";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -103,15 +93,10 @@ class MovimientoModel extends MainModel{
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', '".$datosEntrada['observacion']."')";
+                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', '{$datosEntrada['observacion']}')";
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-            if(!$respuestaSentencia){
-                $respuesta = [
-                    "tipo"=>"ERROR", 
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
 
@@ -143,15 +128,10 @@ class MovimientoModel extends MainModel{
         
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['numero_documento']."', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$grupoUsuario')";
         
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -181,15 +161,10 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '".$datosEntrada['propietario']."', '".$datosEntrada['numero_placa']."', 'propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$datosEntrada['grupo_propietario']."', ".$datosEntrada['observacion'].");";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', {$datosEntrada['observacion']});";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-        if(!$respuestaSentencia){
-            $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
@@ -206,15 +181,10 @@ class MovimientoModel extends MainModel{
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-                VALUES ('$tipoMovimiento', '".$pasajero['documento_pasajero']."', '".$datosEntrada['numero_placa']."', 'pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '".$pasajero['grupo_pasajero']."', ".$datosEntrada['observacion'].")";
+                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', {$datosEntrada['observacion']})";
             
-            $respuestaSentencia = $this->ejecutarConsulta($sentenciaInsertar);
-            if(!$respuestaSentencia){
-                $respuesta = [
-                    "tipo"=>"ERROR", 
-                    "titulo" => 'Error de Conexión',
-                    "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-                ];
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
 
@@ -344,44 +314,41 @@ class MovimientoModel extends MainModel{
             SELECT 
                 DATE_FORMAT(mov.fecha_registro, '%d-%m-%Y %H:%i:%s') AS fecha_registro,
                 mov.tipo_movimiento, 
+                mov.puerta_registro,
                 mov.fk_usuario,
                 mov.fk_usuario_sistema,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
                 COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
                 COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
-                COALESCE(fk_vehiculo, 'No aplica') AS fk_vehiculo,
-                COALESCE(relacion_vehiculo, 'No aplica') AS relacion_vehiculo
+                COALESCE(fk_vehiculo, 'N/A') AS fk_vehiculo,
+                COALESCE(relacion_vehiculo, 'N/A') AS relacion_vehiculo
             FROM movimientos mov
             LEFT JOIN funcionarios fun ON mov.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON mov.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON mov.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON mov.fk_usuario = apr.numero_documento
-            WHERE DATE(mov.fecha_registro) BETWEEN DATE('".$parametros['fecha_inicio']."') AND DATE('".$parametros['fecha_fin']."')";
+            WHERE DATE(mov.fecha_registro) BETWEEN DATE('{$parametros['fecha_inicio']}') AND DATE('{$parametros['fecha_fin']}')";
 
         if(isset($parametros['puerta'])){
-            $sentenciaBuscar .= " AND mov.puerta_registro = '".$parametros['puerta']."'";
+            $sentenciaBuscar .= " AND mov.puerta_registro = '{$parametros['puerta']}'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND mov.fk_usuario = '".$parametros['numero_documento']."'";
+            $sentenciaBuscar .= " AND mov.fk_usuario = '{$parametros['numero_documento']}'";
         }
 
         if(isset($parametros['numero_placa'])){
-            $sentenciaBuscar .= " AND mov.fk_vehiculo = '".$parametros['numero_placa']."'";
+            $sentenciaBuscar .= " AND mov.fk_vehiculo = '{$parametros['numero_placa']}'";
         }
 
         $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
 
-        $respuestaSentencia = $this->ejecutarConsulta($sentenciaBuscar);
-        if(!$respuestaSentencia){
-             $respuesta = [
-                "tipo"=>"ERROR", 
-                "titulo" => 'Error de Conexión',
-                "mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
-            ];
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
@@ -392,6 +359,59 @@ class MovimientoModel extends MainModel{
         }
 
         $movimientos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'movimientos' => $movimientos
+        ];
+
+        return $respuesta;
+    }
+
+    public function consultarMovimientosUsuarios($parametros){
+        $jornadas = [
+            'mañana' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
+            'tarde' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
+            'noche' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
+        ];
+
+        $jornada = $parametros['jornada'];
+        $tablas = ['visitantes', 'aprendices', 'funcionarios', 'vigilantes'];
+        $movimientos = [];
+        foreach ($tablas as $tabla) {
+            $datos = [
+                'tipo_usuario' => $tabla
+            ];
+
+            for ($i=0; $i < count($jornadas[$jornada]) - 1; $i++) { 
+                $horaInicio = $jornadas[$jornada][$i];
+                $horaFin = $jornadas[$jornada][$i+1];
+                $sentenciaBuscar = "
+                    SELECT mov.fecha_registro 
+                    FROM movimientos mov 
+                    INNER JOIN $tabla ON mov.fk_usuario = numero_documento
+                    WHERE mov.tipo_movimiento = '{$parametros['tipo_movimiento']}'
+                    AND DATE(mov.fecha_registro) = '{$parametros['fecha']}' 
+                    AND TIME(mov.fecha_registro) BETWEEN '$horaInicio' AND '$horaFin'";
+
+                if(isset($parametros['puerta'])){
+                    $sentenciaBuscar .= " AND puerta_registro = '{$parametros['puerta']}'";
+                }
+
+                $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $respuestaSentencia = $respuesta['respuesta_sentencia'];
+                $cantidadMovimientos = $respuestaSentencia->num_rows;
+
+                $datos['rangos'][] = date('H:i', strtotime($horaInicio)).'-'.date('H:i', strtotime($horaFin));
+                $datos['cantidades'][] = $cantidadMovimientos;
+            }
+
+            $movimientos[] = $datos;    
+        }
 
         $respuesta = [
             'tipo' => 'OK',

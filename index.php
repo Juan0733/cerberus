@@ -1,18 +1,23 @@
 <?php
 
-use app\models\UsuarioModel;
 use app\models\ViewModel;
 require_once "./config/app.php";
 require_once "./autoload.php";
 
-/*---------- Iniciando sesion ----------*/
-require_once "./app/views/inc/session_start.php";
+
 
 if(isset($_GET['views'])){
     $url=explode("/", $_GET['views']);
+
+    if($url[0] == 'index'){
+        $url[0] = 'login';
+    }
+
 }else{
     $url=["login"];
 }
+
+require_once "./app/views/inc/session_start.php";
 
 
 if (count($url) == 1){
@@ -24,13 +29,14 @@ if (count($url) == 1){
 }
 
 
-$insView= new ViewModel();
-$insLogin = new UsuarioModel();
+$objetoView= new ViewModel();
 
-$vista = $insView->obtenerVista($url[0]);
+$vista = $objetoView->obtenerVista($url[0]);
 
 if($vista == "app/views/content/404-view.php"){
    $url[0] = "404";
+}elseif($vista == "app/views/content/acceso-denegado-view.php"){
+    $url[0] = 'acceso-denegado';
 }
 
 ?>
@@ -43,7 +49,7 @@ if($vista == "app/views/content/404-view.php"){
     <?php require_once "app/views/inc/head.php"; ?>
 </head>
 <body>
-    <?php if($url[0] == 'registro-visitante' || $url[0] == '404' || $url[0] == 'login'): ?>
+    <?php if($url[0] == 'registro-visitante' || $url[0] == '404' || $url[0] == 'login' || $url[0] == 'acceso-denegado' || $url[0] == 'sesion-expirada'): ?>
 
         <?php include $vista; ?>
 
@@ -51,7 +57,7 @@ if($vista == "app/views/content/404-view.php"){
        
         <main class="cuerpo-contenedor" id="cuerpo">
             <?php
-                $opcMenu =  $insView->obtenerMenuOpciones();
+                $opcionesMenu =  $objetoView->obtenerMenuOpciones();
                 include "./app/views/inc/menu-lateral.php";
             ?>      
             <section class="full-width pageContent scroll" id="contenedor_pagina">

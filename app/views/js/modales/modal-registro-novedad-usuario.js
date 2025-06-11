@@ -4,6 +4,7 @@ let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
+let descripcion;
 let urlBase;
 
 async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false) {
@@ -16,13 +17,14 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_novedad_usuario';
         modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor-modales');
+        contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
-        
         let documentoInvolucrado = document.getElementById('documento_involucrado'); 
         let tipoNovedad = document.getElementById('tipo_novedad');
+        descripcion = document.getElementById('descripcion');
 
         documentoInvolucrado.value = documento;
         documentoInvolucrado.setAttribute('readonly', '');
@@ -36,16 +38,25 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         urlBase = url;
 
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        contenedorModales.classList.add('mostrar');
+        if(modalesExistentes.length > 1){
+            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+        }else{
+            contenedorModales.classList.add('mostrar');
+        }
        
         eventoCerrarModal();
+        eventoTextArea();
         eventoRegistrarNovedadUsuario();
 
            
     } catch (error) {
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+
         let respuesta = {
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar el modal de registro de novedad'
+            mensaje: 'Error al cargar modal de registro de novedad'
         }
         
         alertaError(respuesta);
@@ -55,7 +66,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
 export { modalRegistroNovedadUsuario };
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_novedad');
+    botonCerrarModal = document.getElementById('cerrar_modal_novedad_usuario');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
@@ -66,30 +77,65 @@ function eventoCerrarModal(){
         }
     });
 
-    document.getElementById('btn_cancelar_novedad').addEventListener('click', ()=>{
+    document.getElementById('btn_cancelar_novedad_usuario').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
 
 function eventoRegistrarNovedadUsuario(){
-    let formularioNovedad = document.getElementById('forma_acceso_05');
+    let formularioNovedad = document.getElementById('formulario_novedad_usuario');
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
+
+        if(!descripcion.reportValidity()){
+            return
+        }
+
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_usuario');
 
         registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
-            if(respuesta.tipo == "ERROR" ){
-                alertaError(respuesta);
-                
-            }else if(respuesta.tipo == "OK"){
+            if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
                 if(funcionCallback){
                     funcionCallback();
                 }
+                
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
+                }
             }
         });
+    })
+}
+
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    descripcion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+    
+            if (!patron.test(descripcion.value)){
+
+                if(primeraValidacion){
+                    descripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
+                    descripcion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            } else {
+                descripcion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
     })
 }
 

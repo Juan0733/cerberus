@@ -1,4 +1,3 @@
-    
     <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
     <main id="gran_padre" name="gran_padre">
         <section id="cont_login">

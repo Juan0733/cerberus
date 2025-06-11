@@ -65,3 +65,19 @@ async function conteoTipoUsuario(urlBase) {
     }
 }
 export{conteoTipoUsuario}
+
+async function cerrarSesion(urlBase) {
+    try {
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('cerrar_sesion'));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+
+        return data;
+        
+    } catch (error) {
+        console.error('Hubo un error:', error);
+    }
+}
+export{cerrarSesion}

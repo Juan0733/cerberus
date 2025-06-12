@@ -77,7 +77,7 @@
                 
                 <div class="input-caja">
                     <label for="observacion_vehicular">Observación</label>
-                    <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" tabindex="4"></textarea>
+                    <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" placeholder="Escribe aquí..." tabindex="4"></textarea>
                 </div>
 
                 <button type="button" class="btn-registrar" id="registrar_entrada">Registrar</button>

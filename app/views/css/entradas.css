@@ -121,6 +121,16 @@
                     width: 100%;
                 }
 
+                #contenedor_vehicular #formulario_vehicular .caja-flex .input-ok{
+                    border: solid 3px var(--color-secundario) !important;
+                    background-color: #c6ffc6 !important;
+                }
+
+                #contenedor_vehicular #formulario_vehicular .caja-flex .input-error{
+                    border: solid 3px red !important;
+                    background-color: #ffc6c6 !important;
+                }
+
                     #contenedor_vehicular #formulario_vehicular .caja-flex #btn_agregar_pasajero{
                         align-items: center;
                         border: none;

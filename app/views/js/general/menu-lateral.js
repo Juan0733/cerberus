@@ -7,7 +7,7 @@ const barraLateral = document.querySelector(".barra-lateral");
 const spans = document.querySelectorAll("span");
 const menu = document.querySelector(".cont-menu-icon");
 
-if(window.innerWidth<=1080){
+if(window.innerWidth<1023){
     barraLateral.classList.remove("mini-barra-lateral");
 }
 
@@ -35,7 +35,7 @@ menu.addEventListener("click",()=>{
 });
 
 barraLateral.addEventListener("mouseout", () => {
-    if (window.innerWidth > 1080) {
+    if (window.innerWidth >= 1023) {
         
         barraLateral.classList.add("mini-barra-lateral");
         spans.forEach((span) => {

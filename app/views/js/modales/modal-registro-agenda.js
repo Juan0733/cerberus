@@ -18,6 +18,7 @@ let botonCancelar;
 let botonAtras;
 let tipoDocumento;
 let titulo;
+let motivo;
 let correoElectronico;
 let plantillaExcel;
 let funcioCallback;
@@ -50,6 +51,7 @@ async function modalRegistroAgenda(url, callback) {
         botonSiguiente = document.getElementById('btn_siguiente_agenda');
         botonRegistrar = document.getElementById('btn_registrar_agenda');
         titulo = document.getElementById('titulo_agenda');
+        motivo = document.getElementById('motivo');
         tipoDocumento = document.getElementById('tipo_documento');
         correoElectronico = document.getElementById('correo_electronico');
         plantillaExcel = document.getElementById('plantilla_excel');
@@ -70,6 +72,7 @@ async function modalRegistroAgenda(url, callback) {
         eventoVolverCampos();
         eventoAgregarVehiculo();
         eventoInputFile();
+        eventoTextArea();
         eventoRegistrarAgenda();
            
     } catch (error) {
@@ -100,6 +103,11 @@ function eventoCerrarModal(){
 function eventoRegistrarAgenda(){
     document.getElementById('formulario_agenda').addEventListener('submit', (e)=>{
         e.preventDefault();
+
+        if(!motivo.reportValidity()){
+            return;
+        }
+
         const formData = new FormData();
 
         formData.append('titulo', titulo.value);
@@ -136,6 +144,31 @@ function eventoRegistrarAgenda(){
             }
         })
 
+    })
+}
+
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    motivo.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+    
+            if (!patron.test(motivo.value)){
+
+                if(primeraValidacion){
+                    motivo.setCustomValidity("Debes digitar solo números y letras, mínimo 5 y máximo 100 caracteres");
+                    motivo.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            }else {
+                motivo.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
     })
 }
 
@@ -184,6 +217,11 @@ function eventoMostrarCampos(){
             };
 
             if(validos && tipoAgenda){
+
+                if(!motivo.reportValidity()){
+                    return;
+                }
+
                 caja01.style.display = 'none';
                 botonCancelar.style.display = 'none';
                 botonAtras.style.display = 'flex';
@@ -220,8 +258,8 @@ function eventoMostrarCampos(){
                     botonSiguiente.style.display = 'none';
                     botonRegistrar.style.display = 'flex';
                 }
-
             }
+
         }else{
             const inputsSeccion02 = document.querySelectorAll('.campo-seccion-02');
             let validos = true;

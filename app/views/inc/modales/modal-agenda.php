@@ -25,7 +25,7 @@
         
                     <div class="input-caja-registro">
                         <label for="motivo" class="label-input">Descripción</label>
-                        <textarea class="campo campo-seccion-01" name="motivo" id="motivo" tabindex="3" required></textarea>
+                        <textarea class="campo" name="motivo" id="motivo" placeholder="Escribe aquí..." tabindex="3" required></textarea>
                     </div>
 
                     <div id="contenedor_checkbox" class="input-caja-registro">

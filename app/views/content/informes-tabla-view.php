@@ -5,7 +5,7 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 <div id="contenedor_principal">
     <div id="contenedor_filtros">
-        <div class="caja-flex">
+        <div class="caja-flex" id="caja_01">
             <div class="fecha filtro">
                 <label class="fechas_input" for="fecha_inicio">Desde:</label>
                 <input type="date" id="fecha_inicio" name="fecha_inicio" title="Fecha Inicio" placeholder="Fecha Inicio" max="<?php echo $fechaActual; ?>" value="<?php echo $fechaActual; ?>">

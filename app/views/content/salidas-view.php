@@ -22,7 +22,7 @@
                 </div>
                 <div class="input-caja">
                     <label for="observacion_peatonal">Observacion</label>
-                    <textarea class="campo" inputmode="numeric" name="observacion_peatonal" id="observacion_peatonal" tabindex="2"></textarea>
+                    <textarea class="campo" inputmode="numeric" name="observacion_peatonal" id="observacion_peatonal" placeholder="Escribe aquí..." tabindex="2"></textarea>
                 </div>
                 <button type="submit" class="btn-registrar">Registrar</button>
             </form>
@@ -77,7 +77,7 @@
                 
                 <div class="input-caja">
                     <label for="observacion_vehicular">Observacion</label>
-                    <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" tabindex="4"></textarea>
+                    <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" placeholder="Escribe aquí..." tabindex="4"></textarea>
                 </div>
 
                 <button type="button" class="btn-registrar" id="registrar_salida">Registrar</button>

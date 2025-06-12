@@ -29,7 +29,6 @@ async function modalDetalleAgenda(codigo, url) {
         eventoCerrarModal();
         dibujarAgenda(codigo);
 
-           
     } catch (error) {
         if(botonCerrarModal){
             botonCerrarModal.click();

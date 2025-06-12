@@ -9,17 +9,17 @@
         display: flex;
         width: 100%;
         padding: 1rem 0;
-        column-gap: 10px;
+        column-gap: 5px;
     }
 
         #contenedor_principal #contenedor_filtros .caja-flex{
             display: flex;
             width: 100%;
-            column-gap: 10px;
+            column-gap: 5px;
         }
 
         #contenedor_principal #contenedor_filtros #caja_02{
-            width: 73%;
+            width: 74%;
         }
 
 
@@ -29,16 +29,19 @@
             border-radius: 13px;
             background: white;
             display: flex;
-            font-size: 17px;
-            gap: 0.5rem;
-            padding: 0 10px;
+            column-gap: 2px;
+            padding: 0 8px;
             height: 40px;
             width: 100%; 
         }
 
+        #contenedor_principal #contenedor_filtros #caja_01 .filtro{
+            width: 33.3%;
+        }
+
             #contenedor_principal #contenedor_filtros .filtro input, select{
                 border: none;
-                font-size: 17px;
+                font-size: 14px;
                 outline: none;
                 width: 100%;
             }
@@ -200,6 +203,10 @@
             width: 100%;
         }
 
+            #contenedor_principal #contenedor_filtros .filtro input, select{
+                font-size: 17px;
+            }
+
             #contenedor_principal #contenedor_filtros #caja_02 #contenedor_placa{
                 width: 89%;
             }
@@ -234,6 +241,14 @@
             flex-direction: column;
             row-gap: 10px;
         } 
+
+            #contenedor_principal #contenedor_filtros #caja_01 .filtro{
+                width: 100%;
+            }
+
+                #contenedor_principal #contenedor_filtros .filtro input, select{
+                    font-size: 17px;
+                }
 
         #contenedor_principal #contenedor_filtros #caja_02{
             width: 100%;

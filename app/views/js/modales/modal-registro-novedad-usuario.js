@@ -7,13 +7,17 @@ let funcionCallback;
 let descripcion;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
+        contenedorSpinner.classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -50,16 +54,17 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
 
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
 
-        let respuesta = {
+       console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal de registro de novedad'
-        }
-        
-        alertaError(respuesta);
+            mensaje: 'Error al cargar modal registro novedad usuario.'
+        });
     }
     
 }

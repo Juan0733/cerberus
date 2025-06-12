@@ -56,12 +56,11 @@ async function modalActualizarAgenda(codigo, callback, url) {
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
-        
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal agenda.'
-        }
-        alertaError(respuesta);
+        });
     }
 }
 export{modalActualizarAgenda}

@@ -34,11 +34,11 @@ async function modalDetalleAgenda(codigo, url) {
             botonCerrarModal.click();
         }
         
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalla agenda.'
-        }
-        alertaError(respuesta);
+            mensaje: 'Error al cargar modal  detalle agenda.'
+        });
     }
 }
 export{modalDetalleAgenda}

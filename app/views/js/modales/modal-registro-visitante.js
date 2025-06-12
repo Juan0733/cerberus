@@ -14,14 +14,17 @@ let botonAtras;
 let botonSiguiente;
 let botonRegistrar;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
 
 async function modalRegistroVisitante(url, documento=false, callback=false) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-visitante.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
+        contenedorSpinner.classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -68,15 +71,17 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
 
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
 
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro de visitante'
-        }
-        alertaError(respuesta);
+            mensaje: 'Error al cargar modal visitante.'
+        });
     }
     
 }

@@ -24,13 +24,17 @@ let plantillaExcel;
 let funcioCallback;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalRegistroAgenda(url, callback) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-agenda.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
+        contenedorSpinner.classList.remove("mostrar_spinner");
         modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -76,15 +80,17 @@ async function modalRegistroAgenda(url, callback) {
         eventoRegistrarAgenda();
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
 
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal agenda.'
-        }
-        alertaError(respuesta);
+        });
     }
 }
 export{modalRegistroAgenda}

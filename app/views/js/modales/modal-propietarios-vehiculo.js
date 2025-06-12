@@ -18,13 +18,11 @@ function validarResolucion(){
 
 async function modalPropietariosVehiculo(placa, url) {
     try {
-        document.getElementById("contenedor_spinner").classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-propietarios-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
-        document.getElementById("contenedor_spinner").classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -50,12 +48,11 @@ async function modalPropietariosVehiculo(placa, url) {
             botonCerrarModal.click();
         }
         
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal propietarios.'
-        }
-        
-        alertaError(respuesta);
+        });
     }
     
 }

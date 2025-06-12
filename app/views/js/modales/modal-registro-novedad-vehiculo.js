@@ -49,13 +49,11 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
             botonCerrarModal.click();
         }
 
-        let respuesta = {
+       console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro de novedad de vehículo'
-        }
-        
-        alertaError(respuesta);
-        console.log(error)
+            mensaje: 'Error al cargar modal registro novedad vehículo'
+        });
     }
     
 }

@@ -4,36 +4,27 @@ import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js'
 let urlBase;
 
 function dibujarConteoUsuarios(){
-    
     conteoTipoUsuario(urlBase).then(datos => {
         if(datos.tipo == 'OK'){
             datos.usuarios.forEach(usuario => {
                 if(usuario.tipo_usuario == 'aprendices'){
-                    document.getElementById('conteo_aprendices').innerHTML = usuario.cantidad+" Aprendices en el CAB";
-                    document.getElementById('barra_aprendices').style.width = usuario.porcentaje+"%";
-                    document.getElementById('subtitle_barra_aprendices').innerHTML = usuario.porcentaje+"% son Aprendices";
-                }else if(usuario.tipo_usuario == 'funcionarios'){
-                    document.getElementById('conteo_funcionarios').innerHTML = usuario.cantidad+" Funcionarios en el CAB";
-                    document.getElementById('barra_funcionarios').style.width = usuario.porcentaje+"%";
-                    document.getElementById('subtitle_barra_funcionarios').innerHTML = usuario.porcentaje+"% son Funcionarios";
-                }else if(usuario.tipo_usuario == 'visitantes'){
-                    document.getElementById('conteo_visitantes').innerHTML = usuario.cantidad+" Visitantes en el CAB";
-                    document.getElementById('barra_visitantes').style.width = usuario.porcentaje+"%";
-                    document.getElementById('subtitle_barra_visitantes').innerHTML = usuario.porcentaje+"% son Visitantes";
-                }else if(usuario.tipo_usuario == 'vigilantes'){
-                    document.getElementById('conteo_vigilantes').innerHTML = usuario.cantidad+" Vigilantes en el CAB";
-                    document.getElementById('barra_vigilantes').style.width = usuario.porcentaje+'%';
-                    document.getElementById('subtitle_barra_vigilantes').innerHTML = usuario.porcentaje+"% son Vigilantes";
-                    
+                    document.getElementById('conteo_aprendices').innerHTML = usuario.cantidad + " en el CAB";
+                    document.getElementById('barra_aprendices').style.width = usuario.porcentaje + "%";
+                    document.getElementById('subtitle_barra_aprendices').innerHTML = usuario.porcentaje + "% son Aprendices";
+                } else if(usuario.tipo_usuario == 'funcionarios'){
+                    document.getElementById('conteo_funcionarios').innerHTML = usuario.cantidad + " en el CAB";
+                    document.getElementById('barra_funcionarios').style.width = usuario.porcentaje + "%";
+                    document.getElementById('subtitle_barra_funcionarios').innerHTML = usuario.porcentaje + "% son Funcionarios";
+                } else if(usuario.tipo_usuario == 'visitantes'){
+                    document.getElementById('conteo_visitantes').innerHTML = usuario.cantidad + " en el CAB";
+                    document.getElementById('barra_visitantes').style.width = usuario.porcentaje + "%";
+                    document.getElementById('subtitle_barra_visitantes').innerHTML = usuario.porcentaje + "% son Visitantes";
+                } else if(usuario.tipo_usuario == 'vigilantes'){
+                    document.getElementById('conteo_vigilantes').innerHTML = usuario.cantidad + " en el CAB";
+                    document.getElementById('barra_vigilantes').style.width = usuario.porcentaje + "%";
+                    document.getElementById('subtitle_barra_vigilantes').innerHTML = usuario.porcentaje + "% son Vigilantes";
                 }
             });
-
-        }else if(datos.tipo == 'ERROR'){
-            if(datos.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-            }else{
-                alertaError(datos);
-            }
         }
     })
 }
@@ -43,40 +34,18 @@ function dibujarConteoVehiculos(){
         if(datos.tipo == 'OK'){
             datos.vehiculos.forEach(vehiculo => {
                 if(vehiculo.tipo_vehiculo == 'carros'){
-                    document.getElementById('conteo_carros').innerHTML = vehiculo.cantidad+" Carros en el CAB";
-                    document.getElementById('barra_carros').style.width = vehiculo.porcentaje+"%";
-                    document.getElementById('subtitle_barra_carros').innerHTML = vehiculo.porcentaje+"% son Carros";
-                }else if(vehiculo.tipo_vehiculo == 'motos'){
-                    document.getElementById('conteo_motos').innerHTML = vehiculo.cantidad+" Motos en el CAB";
-                    document.getElementById('barra_motos').style.width = vehiculo.porcentaje+"%";
-                    document.getElementById('subtitle_barra_motos').innerHTML = vehiculo.porcentaje+"% son Motos";
+                    document.getElementById('conteo_carros').innerHTML = vehiculo.cantidad + " en el CAB";
+                    document.getElementById('barra_carros').style.width = vehiculo.porcentaje + "%";
+                    document.getElementById('subtitle_barra_carros').innerHTML = vehiculo.porcentaje + "% son Carros";
+                } else if(vehiculo.tipo_vehiculo == 'motos'){
+                    document.getElementById('conteo_motos').innerHTML = vehiculo.cantidad + " en el CAB";
+                    document.getElementById('barra_motos').style.width = vehiculo.porcentaje + "%";
+                    document.getElementById('subtitle_barra_motos').innerHTML = vehiculo.porcentaje + "% son Motos";
                 }
             })
-            
-        }else if(datos.tipo == 'ERROR'){
-            if(datos.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-            }else{
-                alertaError(datos);
-            }
         }
     })
 }
-
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
-}
-
 
 document.addEventListener('DOMContentLoaded', () => {
     urlBase = document.getElementById('url_base').value;
@@ -88,4 +57,3 @@ document.addEventListener('DOMContentLoaded', () => {
         dibujarConteoVehiculos();
     }, 60000);
 });
-

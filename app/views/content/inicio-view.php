@@ -1,108 +1,110 @@
-<?php
+<?php 
+    date_default_timezone_set('America/Bogota');
+    $meses = [
+        'January' => 'enero',
+        'February' => 'febrero',
+        'March' => 'marzo',
+        'April' => 'abril',
+        'May' => 'mayo',
+        'June' => 'junio',
+        'July' => 'julio',
+        'August' => 'agosto',
+        'September' => 'septiembre',
+        'October' => 'octubre',
+        'November' => 'noviembre',
+        'December' => 'diciembre'
+    ];
     $fecha = new DateTime();
-    $mes = MESES[$fecha->format('F')];
+    $mes = $meses[$fecha->format('F')];
     $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y'); 
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
+
 <div class="contenedor-bienvenida">
     <div class="cont_saludo">
         <h1 id="saludo_home">Hola <?php echo $_SESSION['datos_usuario']['nombres']?>!</h1>
         <p id="bienvenida">Bienvenido a Cerberus</p>
     </div>
-  
+
     <div id="contenedor-ppal-panel">
         <h3 class="titulo_multi_detalle"></h3>
         <div id="contenedor_cartas_multitudes">
             <div class="caja">
 
-                <div class="card activada"><!-- Card Aprendices -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Aprendices</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_aprendices"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_aprendices"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_aprendices"></p>
-                </div>
+                <!-- Tarjetas dinámicas -->
+                <?php
+                    $tarjetas = [
+                        ['id' => 'aprendices', 'icon' => 'people-outline', 'titulo' => 'Aprendices'],
+                        ['id' => 'funcionarios', 'icon' => 'people-outline', 'titulo' => 'Funcionarios'],
+                        ['id' => 'visitantes', 'icon' => 'people-outline', 'titulo' => 'Visitantes'],
+                        ['id' => 'vigilantes', 'icon' => 'people-outline', 'titulo' => 'Vigilantes'],
+                        ['id' => 'carros', 'icon' => 'car-outline', 'titulo' => 'Carros'],
+                        ['id' => 'motos', 'icon' => 'bicycle-outline', 'titulo' => 'Motos'],
+                    ];
 
-                <div class="card activada"><!-- Card Funcionarios Comunes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Funcionarios</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_funcionarios"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_funcionarios"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_funcionarios"></p>
-                </div>
-                
-                <div class="card activada"><!-- Card Visitantes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Visitantes</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_visitantes"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_visitantes"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_visitantes"></p>
-                </div>
-
-                <div class="card activada"><!-- Card Vigilantes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Vigilantes</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_vigilantes"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_vigilantes"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_vigilantes"></p>
-                </div>
-
-                <div class="card activada"><!-- Card Carros -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="car-outline"></ion-icon>
-                        <h3>Carros</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_carros"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_carros"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_carros"></p>
-                </div>
-
-                <div class="card activada"><!-- Card Motos -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="bicycle-outline"></ion-icon>
-                        <h3>Motos</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_motos"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_motos"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_motos"></p>
-                </div>
+                    foreach ($tarjetas as $t) {
+                        echo "
+                        <div class='card activada'>
+                            <p class='fecha-card'>{$fecha}</p>
+                            <div class='titulo-card'>
+                                <ion-icon name='{$t['icon']}'></ion-icon>
+                                <h3>{$t['titulo']}</h3>
+                            </div>
+                            <h4 class='cantidad-titulo'>Cantidad</h4>
+                            <h5 class='cantidad' id='conteo_{$t['id']}'></h5>
+                            <div class='cantidad-barra'>
+                                <div class='barra' id='barra_{$t['id']}'></div>
+                            </div>
+                            <p class='subtitle' id='subtitle_barra_{$t['id']}'></p>
+                        </div>";
+                    }
+                ?>
             </div>
         </div>
     </div>
-    <script>
-    
-  </script>
 </div>
+
+<script type="module">
+import {conteoTipoUsuario} from '../fetchs/usuarios-fetch.js';
+import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js';
+
+let urlBase;
+
+function dibujarConteoUsuarios(){
+    conteoTipoUsuario(urlBase).then(datos => {
+        if(datos.tipo == 'OK'){
+            datos.usuarios.forEach(usuario => {
+                const tipo = usuario.tipo_usuario;
+                document.getElementById(`conteo_${tipo}`).innerHTML = usuario.cantidad + " en el CAB";
+                document.getElementById(`barra_${tipo}`).style.width = usuario.porcentaje + "%";
+                document.getElementById(`subtitle_barra_${tipo}`).innerHTML = usuario.porcentaje + "% son " + tipo.charAt(0).toUpperCase() + tipo.slice(1);
+            });
+        }
+    });
+}
+
+function dibujarConteoVehiculos(){
+    conteoTipoVehiculo(urlBase).then(datos => {
+        if(datos.tipo == 'OK'){
+            datos.vehiculos.forEach(vehiculo => {
+                const tipo = vehiculo.tipo_vehiculo;
+                document.getElementById(`conteo_${tipo}`).innerHTML = vehiculo.cantidad + " en el CAB";
+                document.getElementById(`barra_${tipo}`).style.width = vehiculo.porcentaje + "%";
+                document.getElementById(`subtitle_barra_${tipo}`).innerHTML = vehiculo.porcentaje + "% son " + tipo.charAt(0).toUpperCase() + tipo.slice(1);
+            });
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    urlBase = document.getElementById('url_base').value;
+    dibujarConteoUsuarios();
+    dibujarConteoVehiculos();
+
+    setInterval(() => {
+        dibujarConteoUsuarios();
+        dibujarConteoVehiculos();
+    }, 60000);
+});
+</script>

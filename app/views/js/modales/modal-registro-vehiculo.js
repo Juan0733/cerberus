@@ -3,20 +3,23 @@ import {modalRegistroVisitante} from './modal-registro-visitante.js'
 
 let documentoPropietario;
 let numeroPlaca;
-let nombreModulo;
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
 let urlBase;
 
-async function modalRegistroVehiculo(url, placa=false, callback=false, modulo=false) {
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
+async function modalRegistroVehiculo(url, placa=false, callback=false) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
+        contenedorSpinner.classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -30,15 +33,14 @@ async function modalRegistroVehiculo(url, placa=false, callback=false, modulo=fa
             numeroPlaca.value = placa;
             numeroPlaca.setAttribute('readonly', '');
         }
-        
-        if(modulo){
-            nombreModulo = modulo;
+
+        if(callback){
+            funcionCallback = callback;
         }
 
         documentoPropietario = document.getElementById('propietario');
-        funcionCallback = callback;
         urlBase = url;
- 
+
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if (modalesExistentes.length > 1) {
             modalesExistentes[modalesExistentes.length-2].style.display = 'none';
@@ -55,16 +57,17 @@ async function modalRegistroVehiculo(url, placa=false, callback=false, modulo=fa
 
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
         
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro de vehículo'
-        }
-        
-        alertaError(respuesta);
+            mensaje: 'Error al cargar modal vehículo.'
+        });
     }
     
 }
@@ -95,61 +98,28 @@ function eventoRegistrarVehiculo(){
         let formData = new FormData(formularioVehiculo);
         formData.append('operacion', 'registrar_vehiculo');
 
-        if(nombreModulo == 'agendas'){
-            consultarVehiculo(numeroPlaca.value, urlBase).then(respuesta=>{
-                if(respuesta.tipo == 'OK'){
-                    let mensaje = {
-                        titulo: 'Vehículo Existente',
-                        mensaje: 'No es necesario agregar este vehículo, porque ya se encuentra registrado.'
-                    }
-                    alertaAdvertencia(mensaje);
-
-                }else if(respuesta.tipo == 'ERROR'){
-                    if(respuesta.titulo == 'Vehículo No Encontrado'){
-                        registrarVehiculo(formData, urlBase).then(respuesta=>{
-                            if(respuesta.tipo == "OK" ){
-                                alertaExito(respuesta);
-                                botonCerrarModal.click();
-                                funcionCallback();
-
-                            }else if(respuesta.tipo == "ERROR"){
-                                if(respuesta.titulo == "Usuario No Encontrado"){
-                                    respuesta.documento = documentoPropietario.value
-                                    alertaAdvertencia(respuesta);
-                                }else{
-                                    alertaError(respuesta);
-                                }
-                            }
-                        });
-
-                    }else if(respuesta.titulo == "Sesión Expirada"){
-                        window.location.replace(urlBase+'sesion-expirada');
-                    }else{
-                        alertaError(respuesta);
-                    }
-                }
-            })
-
-        }else{
-             registrarVehiculo(formData, urlBase).then(respuesta=>{
-                if(respuesta.tipo == "OK" ){
-                        alertaExito(respuesta);
-                    botonCerrarModal.click();
+        registrarVehiculo(formData, urlBase).then(respuesta=>{
+            if(respuesta.tipo == "OK" ){
+                alertaExito(respuesta);
+                botonCerrarModal.click();
+                if(funcionCallback){
                     funcionCallback();
-                }else if(respuesta.tipo == "ERROR"){
-                    if(respuesta.titulo == 'Sesión Expirada'){
-                        window.location.replace(urlBase+'sesion-expirada');
-
-                    }else if(respuesta.titulo == "Usuario No Encontrado"){
-                        respuesta.documento = documentoPropietario.value
-                        alertaAdvertencia(respuesta);
-
-                    }else{
-                        alertaError(respuesta);
-                    }
                 }
-            });
-        }
+
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else if(respuesta.titulo == "Usuario No Encontrado"){
+                    respuesta.documento = documentoPropietario.value
+                    alertaAdvertencia(respuesta);
+
+                }else{
+                    alertaError(respuesta);
+                }
+            }
+        });
+        
     })
 }
 

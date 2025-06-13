@@ -33,11 +33,11 @@ async function modalFuncionariosBrigadistas(url) {
             botonCerrarModal.click();
         }
         
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal brigadistas.'
-        }
-        alertaError(respuesta);
+        });
     }
 }
 export { modalFuncionariosBrigadistas };

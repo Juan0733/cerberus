@@ -23,7 +23,7 @@
             gap: 0.5rem;
             padding: 0 10px;
             height: 40px;
-            width: 20%;
+            width: clamp(220px, 20%, 600px);
             
         }
 

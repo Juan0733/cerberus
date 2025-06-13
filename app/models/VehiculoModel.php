@@ -21,6 +21,12 @@ class VehiculoModel extends MainModel {
             return $respuesta;
         }
 
+        $respuesta = $this->validarDuplicidadVehiculo($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
@@ -112,6 +118,36 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
+    public function consultarVehiculoPropietario($placa, $propietario){
+        $sentenciaBuscar = "
+            SELECT numero_placa, tipo_vehiculo, ubicacion
+            FROM vehiculos 
+            WHERE numero_placa = '$placa' AND fk_usuario = '$propietario'
+            GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if ($respuesta['tipo'] == 'ERROR') {
+            return $respuesta;    
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No Encontrados',
+                "mensaje"=> 'No se encontro datos relacionados con el vehiculo de placas '.$placa.' y el usuario con número de  documento '.$propietario.'.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            'titulo' => "Vehículo Encontrado",
+            "mensaje" => "El vehículo se encuentra registrado en el sistema."
+        ];
+        return $respuesta;
+    }
+
     public function consultarPropietariosVehiculo($placa){
         $sentenciaBuscar = "
             SELECT 
@@ -149,6 +185,28 @@ class VehiculoModel extends MainModel {
         $respuesta = [
             "tipo"=>"OK",
             "propietarios" => $propietarios
+        ];
+        return $respuesta;
+    }
+
+    protected function validarDuplicidadVehiculo($placa, $propietario){
+        $respuesta = $this->consultarVehiculoPropietario($placa, $propietario);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                "titulo" => 'Vehículo Existente',
+                "mensaje" => 'No es posible registrar el vehículo de placas '.$placa.', porque ya se encuentra registrado y asociado al usuario con número de documento'.$propietario.'.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            "titulo" => 'Vehículo No Existente',
+            "mensaje" => 'Es posible registrar el vehículo.'
         ];
         return $respuesta;
     }

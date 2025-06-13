@@ -18,18 +18,23 @@ let botonCancelar;
 let botonAtras;
 let tipoDocumento;
 let titulo;
+let motivo;
 let correoElectronico;
 let plantillaExcel;
 let funcioCallback;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalRegistroAgenda(url, callback) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-agenda.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
+        contenedorSpinner.classList.remove("mostrar_spinner");
         modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -50,6 +55,7 @@ async function modalRegistroAgenda(url, callback) {
         botonSiguiente = document.getElementById('btn_siguiente_agenda');
         botonRegistrar = document.getElementById('btn_registrar_agenda');
         titulo = document.getElementById('titulo_agenda');
+        motivo = document.getElementById('motivo');
         tipoDocumento = document.getElementById('tipo_documento');
         correoElectronico = document.getElementById('correo_electronico');
         plantillaExcel = document.getElementById('plantilla_excel');
@@ -70,18 +76,21 @@ async function modalRegistroAgenda(url, callback) {
         eventoVolverCampos();
         eventoAgregarVehiculo();
         eventoInputFile();
+        eventoTextArea();
         eventoRegistrarAgenda();
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
 
-        let respuesta = {
+        console.error('Hubo un error:', error);
+        alertaError({
             titulo: 'Error Modal',
             mensaje: 'Error al cargar modal agenda.'
-        }
-        alertaError(respuesta);
+        });
     }
 }
 export{modalRegistroAgenda}
@@ -100,6 +109,11 @@ function eventoCerrarModal(){
 function eventoRegistrarAgenda(){
     document.getElementById('formulario_agenda').addEventListener('submit', (e)=>{
         e.preventDefault();
+
+        if(!motivo.reportValidity()){
+            return;
+        }
+
         const formData = new FormData();
 
         formData.append('titulo', titulo.value);
@@ -139,6 +153,31 @@ function eventoRegistrarAgenda(){
     })
 }
 
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    motivo.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+    
+            if (!patron.test(motivo.value)){
+
+                if(primeraValidacion){
+                    motivo.setCustomValidity("Debes digitar solo números y letras, mínimo 5 y máximo 100 caracteres");
+                    motivo.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            }else {
+                motivo.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
+    })
+}
+
 function eventoTipoAgenda() {
     const inputsCheckbox = document.querySelectorAll('.checkbox');
 
@@ -161,7 +200,7 @@ function eventoTipoAgenda() {
 function eventoAgregarVehiculo(){
     const botonAgregarVehiculo = document.getElementById('btn_agregar_vehiculo_individual');
     botonAgregarVehiculo.addEventListener('click', ()=>{
-        modalRegistroVehiculo(urlBase, '', '', 'agendas');
+        modalRegistroVehiculo(urlBase, '', '');
     })
 
     document.getElementById('btn_agregar_vehiculo_grupal').addEventListener('click', ()=>{
@@ -184,6 +223,11 @@ function eventoMostrarCampos(){
             };
 
             if(validos && tipoAgenda){
+
+                if(!motivo.reportValidity()){
+                    return;
+                }
+
                 caja01.style.display = 'none';
                 botonCancelar.style.display = 'none';
                 botonAtras.style.display = 'flex';
@@ -220,8 +264,8 @@ function eventoMostrarCampos(){
                     botonSiguiente.style.display = 'none';
                     botonRegistrar.style.display = 'flex';
                 }
-
             }
+
         }else{
             const inputsSeccion02 = document.querySelectorAll('.campo-seccion-02');
             let validos = true;

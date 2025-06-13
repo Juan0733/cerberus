@@ -283,8 +283,8 @@ function eventoRegistrarSalidaVehicular(){
             placaVehiculo.reportValidity();
         }else if(!documentoPropietario.checkValidity()){
             documentoPropietario.reportValidity();
-        }else if(!observacion.checkValidity()){
-            observacion.reportValidity();
+        }else if(!observacion.reportValidity()){
+            return;
         }else if(datosEntradaVehicular.placa == ''){
            validarVehiculoAptoEntrada();
         }else if(datosEntradaVehicular.propietario == ''){
@@ -320,6 +320,31 @@ function eventoRegistrarSalidaVehicular(){
             })
             
         }
+    })
+}
+
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    observacion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}$/;
+    
+            if (!patron.test(observacion.value)){
+
+                if(primeraValidacion){
+                    observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
+                    observacion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            } else {
+                observacion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
     })
 }
 
@@ -437,5 +462,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoInputPropietario();
     eventoInputPasajero();
     eventoAgregarPasajero();
+    eventoTextArea();
     eventoRegistrarSalidaVehicular();
 });

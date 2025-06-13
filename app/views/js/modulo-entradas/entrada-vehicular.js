@@ -11,6 +11,7 @@ let documentoPasajero;
 let placaVehiculo;
 let cuerpoTablaPasajeros;
 let listaPropietarios;
+let observacion;
 let urlBase;
 
 const datosEntradaVehicular = {
@@ -275,14 +276,13 @@ function eventoAgregarPasajero(){
 }
 
 function eventoRegistrarEntradaVehicular(){
-    const observacion = document.getElementById('observacion_vehicular');
     document.getElementById('registrar_entrada').addEventListener('click', ()=>{
         if(!placaVehiculo.checkValidity()){
             placaVehiculo.reportValidity();
         }else if(!documentoPropietario.checkValidity()){
             documentoPropietario.reportValidity();
-        }else if(!observacion.checkValidity()){
-            observacion.reportValidity();
+        }else if(!observacion.reportValidity()){
+            return;
         }else if(datosEntradaVehicular.placa == ''){
            validarVehiculoAptoEntrada();
         }else if(datosEntradaVehicular.propietario == ''){
@@ -316,6 +316,31 @@ function eventoRegistrarEntradaVehicular(){
     })
 }
 
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    observacion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}$/;
+    
+            if (!patron.test(observacion.value)){
+
+                if(primeraValidacion){
+                    observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
+                    observacion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            } else {
+                observacion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
+    })
+}
+
 function dibujarPropietarios(){
     consultarPropietarios(datosEntradaVehicular.placa, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
@@ -342,6 +367,7 @@ function limpiarFormularioVehicular(){
     placaVehiculo.value = '';
     documentoPropietario.value = '';
     documentoPasajero.value = '';
+    observacion.value = '';
     cuerpoTablaPasajeros.innerHTML = '';
     datosEntradaVehicular.propietario = '';
     datosEntradaVehicular.grupo_propietario = '';
@@ -412,7 +438,6 @@ function alertaAdvertencia(respuesta){
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     documentoPropietario = document.getElementById('documento_propietario');
@@ -420,11 +445,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     cuerpoTablaPasajeros = document.getElementById('cuerpo_tabla_pasajeros');
     listaPropietarios = document.getElementById('lista_propietarios');
     placaVehiculo = document.getElementById('placa_vehiculo');
+    observacion = document.getElementById('observacion_vehicular');
 
     eventoAbrirFormularioVehicular();
     eventoInputPlaca();
     eventoInputPropietario();
     eventoInputPasajero();
     eventoAgregarPasajero();
+    eventoTextArea();
     eventoRegistrarEntradaVehicular();
 });

@@ -42,7 +42,7 @@ class MainModel{
 			}
 
 			$tipoConsulta = strtoupper(substr(trim($consulta), 0, 6));
-			if ($tipoConsulta == 'INSERT' || $tipoConsulta == 'UPDATE' || $tipoConsulta == 'DELETE') {
+			if ($tipoConsulta == 'INSERT' || $tipoConsulta == 'DELETE') {
 				if($this->conexion->affected_rows < 1){
 					$respuesta = [
 						"tipo"=>"ERROR",

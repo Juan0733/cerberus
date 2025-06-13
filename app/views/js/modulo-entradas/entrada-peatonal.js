@@ -8,6 +8,7 @@ let botonVehicular;
 let formularioPeatonal;
 let formularioVehicular;
 let contenedorBotonVolver;
+let observacion;
 let urlBase;
 
 function eventoAbrirFormularioPeatonal(){
@@ -49,6 +50,10 @@ function eventoRegistrarEntradaPeatonal() {
     formularioPeatonal.addEventListener('submit', (e)=>{
         e.preventDefault();
 
+        if(!observacion.reportValidity()){
+            return;
+        }
+
         let formData = new FormData(formularioPeatonal);
         formData.append('operacion', 'registrar_entrada_peatonal');
 
@@ -81,6 +86,31 @@ function eventoCerrarFormularioPeatonal(){
         contenedorBotonVolver.style.display = 'none';
         botonPeatonal.style = 'flex';
         botonVehicular.style = 'flex';
+    })
+}
+
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    observacion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}$/;
+    
+            if (!patron.test(observacion.value)){
+
+                if(primeraValidacion){
+                    observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
+                    observacion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            } else {
+                observacion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
     })
 }
 
@@ -150,8 +180,10 @@ document.addEventListener("DOMContentLoaded", function() {
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     formularioVehicular = document.getElementById('formulario_vehicular');
     contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
+    observacion = document.getElementById('observacion_peatonal');
     eventoAbrirFormularioPeatonal();
     eventoInputPeaton();
+    eventoTextArea();
     eventoRegistrarEntradaPeatonal();
     eventoCerrarFormularioPeatonal();
 });

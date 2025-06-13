@@ -110,9 +110,20 @@ class AgendaModel extends MainModel{
 
     public function actualizarAgenda($datosAgenda){
 
-        $respuesta = $this->validarUsuarioAptoAgenda($datosAgenda['agendados'], $datosAgenda['fecha_agenda']);
+        $respuesta = $this->consultarAgenda($datosAgenda['codigo_agenda']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
+        }
+
+        $agendados = $respuesta['datos_agenda']['agendados'];
+        $fechaActualAgenda = new DateTime($respuesta['datos_agenda']['fecha_agenda']);
+        $fechaNuevaAgenda = new DateTime($datosAgenda['fecha_agenda']);
+
+        if($fechaActualAgenda != $fechaNuevaAgenda){
+            $respuesta = $this->validarUsuarioAptoAgenda($agendados, $datosAgenda['fecha_agenda']);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
         }
         
         $sentenciaActualizar = "

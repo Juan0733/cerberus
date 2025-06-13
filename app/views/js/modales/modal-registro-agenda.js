@@ -200,7 +200,7 @@ function eventoTipoAgenda() {
 function eventoAgregarVehiculo(){
     const botonAgregarVehiculo = document.getElementById('btn_agregar_vehiculo_individual');
     botonAgregarVehiculo.addEventListener('click', ()=>{
-        modalRegistroVehiculo(urlBase, '', '', 'agendas');
+        modalRegistroVehiculo(urlBase, '', '');
     })
 
     document.getElementById('btn_agregar_vehiculo_grupal').addEventListener('click', ()=>{

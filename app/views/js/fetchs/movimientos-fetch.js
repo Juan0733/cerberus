@@ -1,4 +1,4 @@
-const contenedorSpinner = documentdocument.getElementById("contenedor_spinner");
+const contenedorSpinner = document.getElementById("contenedor_spinner");
 
 async function registrarEntradaPeatonal(datos, urlBase) {
     try {

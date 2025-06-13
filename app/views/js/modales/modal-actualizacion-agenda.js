@@ -3,7 +3,6 @@ import {consultarAgenda, actualizarAgenda} from '../fetchs/agenda-fetch.js'
 let contenedorModales;
 let modalesExistentes;
 let codigoAgenda;
-let agendados;
 let botonCerrarModal;
 let titulo;
 let fechAgenda;
@@ -50,6 +49,7 @@ async function modalActualizarAgenda(codigo, callback, url) {
         
         eventoCerrarModal();
         dibujarAgenda();
+        eventoTextArea();
         eventoActualizarAgenda();
            
     } catch (error) {
@@ -84,13 +84,11 @@ function dibujarAgenda(){
             titulo.value = respuesta.datos_agenda.titulo;
             fechAgenda.value = respuesta.datos_agenda.fecha_agenda;
             motivo.value = respuesta.datos_agenda.motivo;
-            agendados = respuesta.datos_agenda.agendados;
             fechAgenda.min = respuesta.datos_agenda.fecha_agenda;
-
             checkIndividual.disabled = true;
             checkGrupal.disabled = true;
 
-            if(agendados.length > 1){
+            if(respuesta.datos_agenda.agendados.length > 1){
                 checkGrupal.checked = true;
             }else{
                 checkIndividual.checked = true;
@@ -114,15 +112,18 @@ function dibujarAgenda(){
 function eventoActualizarAgenda(){
     document.getElementById('formulario_agenda').addEventListener('submit', (e)=>{
         e.preventDefault();
+
+        if(!motivo.reportValidity()){
+            return;
+        }
+
         const formData = new FormData();
-        const agendadosJson = JSON.stringify(agendados);
 
         formData.append('operacion', 'actualizar_agenda');
         formData.append('codigo_agenda', codigoAgenda)
         formData.append('titulo', titulo.value);
         formData.append('fecha_agenda', fechAgenda.value);
         formData.append('motivo', motivo.value);
-        formData.append('agendados', agendadosJson);
 
         actualizarAgenda(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
@@ -139,6 +140,31 @@ function eventoActualizarAgenda(){
             }
         })
 
+    })
+}
+
+function eventoTextArea(){
+    let temporizador;
+    let primeraValidacion = true;
+
+    motivo.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+    
+            if (!patron.test(motivo.value)){
+
+                if(primeraValidacion){
+                    motivo.setCustomValidity("Debes digitar solo números y letras, mínimo 5 y máximo 100 caracteres");
+                    motivo.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            }else {
+                motivo.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
     })
 }
 

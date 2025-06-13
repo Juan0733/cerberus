@@ -1,108 +1,51 @@
-<?php
+<?php 
     $fecha = new DateTime();
     $mes = MESES[$fecha->format('F')];
-    $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y'); 
+    $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y');  
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
+
 <div class="contenedor-bienvenida">
     <div class="cont_saludo">
         <h1 id="saludo_home">Hola <?php echo $_SESSION['datos_usuario']['nombres']?>!</h1>
         <p id="bienvenida">Bienvenido a Cerberus</p>
     </div>
-  
+
     <div id="contenedor-ppal-panel">
         <h3 class="titulo_multi_detalle"></h3>
         <div id="contenedor_cartas_multitudes">
             <div class="caja">
 
-                <div class="card activada"><!-- Card Aprendices -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Aprendices</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_aprendices"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_aprendices"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_aprendices"></p>
-                </div>
+                <!-- Tarjetas dinámicas -->
+                <?php
+                    $tarjetas = [
+                        ['id' => 'aprendices', 'icon' => 'people-outline', 'titulo' => 'Aprendices'],
+                        ['id' => 'funcionarios', 'icon' => 'people-outline', 'titulo' => 'Funcionarios'],
+                        ['id' => 'visitantes', 'icon' => 'people-outline', 'titulo' => 'Visitantes'],
+                        ['id' => 'vigilantes', 'icon' => 'people-outline', 'titulo' => 'Vigilantes'],
+                        ['id' => 'carros', 'icon' => 'car-outline', 'titulo' => 'Carros'],
+                        ['id' => 'motos', 'icon' => 'bicycle-outline', 'titulo' => 'Motos'],
+                    ];
 
-                <div class="card activada"><!-- Card Funcionarios Comunes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Funcionarios</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_funcionarios"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_funcionarios"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_funcionarios"></p>
-                </div>
-                
-                <div class="card activada"><!-- Card Visitantes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Visitantes</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_visitantes"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_visitantes"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_visitantes"></p>
-                </div>
-
-                <div class="card activada"><!-- Card Vigilantes -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <h3>Vigilantes</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_vigilantes"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_vigilantes"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_vigilantes"></p>
-                </div>
-
-                <div class="card activada"><!-- Card Carros -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="car-outline"></ion-icon>
-                        <h3>Carros</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_carros"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_carros"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_carros"></p>
-                </div>
-
-                <div class="card activada"><!-- Card Motos -->
-                    <p class="fecha-card"><?php echo $fecha;?></p>
-                    <div class="titulo-card">
-                        <ion-icon name="bicycle-outline"></ion-icon>
-                        <h3>Motos</h3>
-                    </div>
-                    <h4 class="cantidad-titulo">Cantidad</h4>
-                    <h5 class="cantidad" id="conteo_motos"></h5>
-                    <div class="cantidad-barra">
-                        <div class="barra" id="barra_motos"></div>
-                    </div>
-                    <p class="subtitle" id="subtitle_barra_motos"></p>
-                </div>
+                    foreach ($tarjetas as $t) {
+                        echo "
+                        <div class='card activada'>
+                            <p class='fecha-card'>{$fecha}</p>
+                            <div class='titulo-card'>
+                                <ion-icon name='{$t['icon']}'></ion-icon>
+                                <h3>{$t['titulo']}</h3>
+                            </div>
+                            <h4 class='cantidad-titulo'>Cantidad</h4>
+                            <h5 class='cantidad' id='conteo_{$t['id']}'></h5>
+                            <div class='cantidad-barra'>
+                                <div class='barra' id='barra_{$t['id']}'></div>
+                            </div>
+                            <p class='subtitle' id='subtitle_barra_{$t['id']}'></p>
+                        </div>";
+                    }
+                ?>
             </div>
         </div>
     </div>
-    <script>
-    
-  </script>
 </div>

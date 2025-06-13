@@ -1,22 +1,7 @@
 <?php 
-    date_default_timezone_set('America/Bogota');
-    $meses = [
-        'January' => 'enero',
-        'February' => 'febrero',
-        'March' => 'marzo',
-        'April' => 'abril',
-        'May' => 'mayo',
-        'June' => 'junio',
-        'July' => 'julio',
-        'August' => 'agosto',
-        'September' => 'septiembre',
-        'October' => 'octubre',
-        'November' => 'noviembre',
-        'December' => 'diciembre'
-    ];
     $fecha = new DateTime();
-    $mes = $meses[$fecha->format('F')];
-    $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y'); 
+    $mes = MESES[$fecha->format('F')];
+    $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y');  
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
@@ -64,47 +49,3 @@
         </div>
     </div>
 </div>
-
-<script type="module">
-import {conteoTipoUsuario} from '../fetchs/usuarios-fetch.js';
-import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js';
-
-let urlBase;
-
-function dibujarConteoUsuarios(){
-    conteoTipoUsuario(urlBase).then(datos => {
-        if(datos.tipo == 'OK'){
-            datos.usuarios.forEach(usuario => {
-                const tipo = usuario.tipo_usuario;
-                document.getElementById(`conteo_${tipo}`).innerHTML = usuario.cantidad + " en el CAB";
-                document.getElementById(`barra_${tipo}`).style.width = usuario.porcentaje + "%";
-                document.getElementById(`subtitle_barra_${tipo}`).innerHTML = usuario.porcentaje + "% son " + tipo.charAt(0).toUpperCase() + tipo.slice(1);
-            });
-        }
-    });
-}
-
-function dibujarConteoVehiculos(){
-    conteoTipoVehiculo(urlBase).then(datos => {
-        if(datos.tipo == 'OK'){
-            datos.vehiculos.forEach(vehiculo => {
-                const tipo = vehiculo.tipo_vehiculo;
-                document.getElementById(`conteo_${tipo}`).innerHTML = vehiculo.cantidad + " en el CAB";
-                document.getElementById(`barra_${tipo}`).style.width = vehiculo.porcentaje + "%";
-                document.getElementById(`subtitle_barra_${tipo}`).innerHTML = vehiculo.porcentaje + "% son " + tipo.charAt(0).toUpperCase() + tipo.slice(1);
-            });
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    urlBase = document.getElementById('url_base').value;
-    dibujarConteoUsuarios();
-    dibujarConteoVehiculos();
-
-    setInterval(() => {
-        dibujarConteoUsuarios();
-        dibujarConteoVehiculos();
-    }, 60000);
-});
-</script>

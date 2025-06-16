@@ -54,7 +54,7 @@ class MovimientoService{
     }
 
     public function sanitizarDatosMovimientoVehicular(){
-        if (!isset($_POST['propietario'], $_POST['grupo_propietario'], $_POST['placa_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']) || $_POST['propietario'] == '' || $_POST['grupo_propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['pasajeros'] == '') {
+        if (!isset($_POST['propietario'], $_POST['placa_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']) || $_POST['propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['pasajeros'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -64,7 +64,6 @@ class MovimientoService{
         }
 
         $documentoPropietario = $this->limpiarDatos($_POST['propietario']);
-        $grupoPropietario = $this->limpiarDatos($_POST['grupo_propietario']);
         $placaVehiculo = $this->limpiarDatos($_POST['placa_vehiculo']);
         $pasajeros = json_decode($_POST['pasajeros'], true);
         $observacion = $this->limpiarDatos($_POST['observacion_vehicular']);
@@ -74,10 +73,6 @@ class MovimientoService{
             [
                 'filtro' => "[A-Za-z0-9]{6,15}",
                 'cadena' => $documentoPropietario
-            ],
-            [
-                'filtro' => "(aprendices|funcionarios|visitantes|vigilantes)",
-                'cadena' => $grupoPropietario
             ],
             [
                 'filtro' => "[A-Za-z0-9 ]{5,6}",
@@ -101,7 +96,7 @@ class MovimientoService{
         }
 
         foreach ($pasajeros as &$pasajero) {
-            if(!isset($pasajero['documento_pasajero'], $pasajero['grupo_pasajero']) || $pasajero['documento_pasajero'] == '' || $pasajero['grupo_pasajero'] == ''){
+            if(!isset($pasajero['documento_pasajero']) || $pasajero['documento_pasajero'] == ''){
                 $respuesta = [
                     "tipo" => "ERROR",
                     "titulo" => 'Campos Obligatorios',
@@ -110,16 +105,11 @@ class MovimientoService{
                 return $respuesta;
             }
             $documentoPasajero = $this->limpiarDatos($pasajero['documento_pasajero']);
-            $grupoPasajero = $this->limpiarDatos($pasajero['grupo_pasajero']);
 
             $datos = [
                 [
                     'filtro' => '[A-Za-z0-9]{6,15}',
                     'cadena' => $documentoPasajero
-                ],
-                [
-                    'filtro' => "(aprendices|funcionarios|visitantes|vigilantes)",
-                    'cadena' => $grupoPasajero
                 ]
             ];
 
@@ -135,7 +125,6 @@ class MovimientoService{
             }
 
             $pasajero['documento_pasajero'] = $documentoPasajero;
-            $pasajero['grupo_pasajero'] = $grupoPasajero;
         }
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
@@ -143,7 +132,6 @@ class MovimientoService{
 
         $datosMovimiento = [
             'propietario' => $documentoPropietario,
-            'grupo_propietario' => $grupoPropietario,
             'numero_placa' => $placaVehiculo,
             'pasajeros' => $pasajeros,
             'observacion' => $observacion

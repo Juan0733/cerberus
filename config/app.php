@@ -2,7 +2,6 @@
 
  /* -------------Nombre Sesion y APP---------------- */
 	const APP_NOMBRE = "Cerberus";
-	const APP_SESSION_NAME = "POS";
 
 /*--------------Variables-------------------- */
 	$urlBaseVariable = './';

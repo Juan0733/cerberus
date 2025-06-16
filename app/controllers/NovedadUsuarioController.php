@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new NovedadUsuarioService();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
+    
     if($operacion == 'registrar_novedad_usuario') {
         $respuesta = $objetoServicio->sanitizarDatosNovedadUsuario();
         if ($respuesta['tipo'] == 'ERROR') {

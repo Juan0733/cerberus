@@ -22,7 +22,7 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
         }
 
-        $sentenciaBuscar .= " LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -34,7 +34,7 @@ class FuncionarioModel extends MainModel{
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No encontrados',
-                "mensaje"=> 'No se encontraron datos relacionados a los criterios de busqueda.'
+                "mensaje"=> 'No se encontraron resultados.'
             ];
             return $respuesta;
         }

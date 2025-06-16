@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 	$objetoServicio = new VehiculoService();
 
 	$operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+	unset($_POST['operacion']);
+
 	if($operacion == 'registrar_vehiculo'){
 		$respuesta = $objetoServicio->sanitizarDatosVehiculo();
 		if ($respuesta['tipo'] == 'ERROR') {
@@ -24,11 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 	}
 	
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
-	
 	$objetoVehiculo= new VehiculoModel();
 	$objetoServicio = new VehiculoService();
 
 	$operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+	unset($_GET['operacion']);
+	
 	if($operacion == 'conteo_tipo_vehiculo'){
 		echo json_encode($objetoVehiculo->conteoTipoVehiculo());
 

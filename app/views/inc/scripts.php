@@ -1,4 +1,4 @@
-<?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada'): ?>
+<?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/menu-lateral.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteos.js"></script>
 <?php endif; ?>
@@ -13,8 +13,10 @@
 <?php elseif($url[0] == 'salidas'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-peatonal.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-vehicular.js"></script>
-<?php elseif($url[0] == 'informes-tabla'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-tabla.js"></script>
+<?php elseif($url[0] == 'visitantes'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/visitantes.js"></script>
+<?php elseif($url[0] == 'informes-listado'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-listado.js"></script>
 <?php elseif($url[0] == 'informes-grafica'): ?>
     <script src="<?php echo $urlBaseVariable; ?>app/views/js/librerias/chart.umd.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-grafica.js"></script>

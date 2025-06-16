@@ -18,10 +18,17 @@ async function modalFuncionariosBrigadistas(url) {
         modal.id = 'modal_brigadistas';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
+
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
+        }
+
         contenedorModales.appendChild(modal);
 
         botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         urlBase = url;
          
         eventoCerrarModal();
@@ -50,7 +57,13 @@ function eventoCerrarModal(){
 }
 
 function dibujarBrigadistas(){
-    consultarFuncionarios('SI', 'DENTRO', '', urlBase).then(respuesta=>{
+    const parametros = {
+        brigadista: 'SI',
+        ubicacion: 'DENTRO',
+        documento: ''
+    };
+
+    consultarFuncionarios(parametros, urlBase).then(respuesta=>{
         const contenedor = document.getElementById('cont_info_modales');
         if(respuesta.tipo == 'OK'){
             respuesta.funcionarios.forEach(funcionario => {

@@ -84,6 +84,34 @@ class VisitanteService{
         return $respuesta;
     }
 
+    public function sanitizarParametros()
+    {
+        $parametros = [];
+
+        if(isset($_GET['ubicacion'])){
+            $ubicacion = $this->limpiarDatos($_GET['ubicacion']);
+            unset($_GET['ubicacion']);
+
+            if(preg_match('/^(DENTRO|FUERA)$/', $ubicacion)){
+                 $parametros['ubicacion'] = $ubicacion;
+            }
+        }
+
+        if(isset($_GET['documento'])){
+            $numeroDocumento= $this->limpiarDatos($_GET['documento']);
+            unset($_GET['documento']);
+
+            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
+                $parametros['numero_documento'] = $numeroDocumento;
+            }
+        }
+
+        return [
+            'tipo' => 'OK',
+            'parametros' => $parametros
+        ];
+    }
+
     public function limpiarDatos($dato){
 		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
 

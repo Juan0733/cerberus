@@ -25,6 +25,14 @@ async function modalActualizarAgenda(codigo, callback, url) {
         modal.id = 'modal_agenda';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
+
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
+        }
+
         contenedorModales.appendChild(modal);
 
         document.getElementById('btn_siguiente_agenda').style.display = 'none';
@@ -36,8 +44,6 @@ async function modalActualizarAgenda(codigo, callback, url) {
         motivo = document.getElementById('motivo');
         checkIndividual = document.getElementById('individual');
         checkGrupal = document.getElementById('grupal');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
     
         codigoAgenda = codigo;
         funcionCallback = callback;

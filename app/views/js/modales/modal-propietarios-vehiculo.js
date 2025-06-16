@@ -29,11 +29,18 @@ async function modalPropietariosVehiculo(placa, url) {
         modal.id = 'modal_propietarios';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
+
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
+        }
+
         contenedorModales.appendChild(modal);
 
         botonCerrarModal = document.getElementById('cerrar_modal_propietarios');
         document.getElementById('titulo_modal').textContent = 'Propietarios Vehículo '+placa.toUpperCase();
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         contenedorInformacion = document.getElementById('cont_info_modales');
         urlBase = url;
         cuerpoTabla = '';

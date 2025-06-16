@@ -31,7 +31,7 @@ function dibujarTablaMovimientos(){
                         <th>Fecha y Hora</th>
                         <th>Movimiento</th>
                         <th class="td-tipo-doc">Tipo Doc.</th>
-                        <th>Identificación</th>
+                        <th>Número Doc.</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>Vehiculo</th>

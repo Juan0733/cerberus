@@ -4,10 +4,12 @@ use DateTime;
 
 class MovimientoModel extends MainModel{
     private $objetoUsuario;
+    private $objetoVisitante;
     private $objetoVehiculo;
 
     public function __construct() {
         $this->objetoUsuario = new UsuarioModel();
+        $this->objetoVisitante = new VisitanteModel();
         $this->objetoVehiculo = new VehiculoModel();
 
     }
@@ -51,12 +53,14 @@ class MovimientoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
+        $datosEntrada['grupo_propietario'] = $respuesta['usuario']['grupo'];
 
-        foreach($datosEntrada['pasajeros'] as $pasajero){
+        foreach($datosEntrada['pasajeros'] as &$pasajero){
             $respuesta = $this->validarUsuarioAptoEntrada($pasajero['documento_pasajero']);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
+            $pasajero['grupo_pasajero'] = $respuesta['usuario']['grupo'];
         }
 
         $respuesta = $this->objetoVehiculo->consultarVehiculo($datosEntrada['numero_placa']);
@@ -82,7 +86,6 @@ class MovimientoModel extends MainModel{
             }
         }
         
-
         $tipoMovimiento = 'ENTRADA';
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
@@ -170,12 +173,14 @@ class MovimientoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
+        $datosSalida['grupo_propietario'] = $respuesta['usuario']['grupo'];
 
-        foreach($datosSalida['pasajeros'] as $pasajero){
+        foreach($datosSalida['pasajeros'] as &$pasajero){
             $respuesta = $this->validarUsuarioAptoSalida($pasajero['documento_pasajero']);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
+            $pasajero['grupo_pasajero'] = $respuesta['usuario']['grupo'];
         }
 
         $respuesta = $this->objetoVehiculo->consultarVehiculo($datosSalida['numero_placa']);
@@ -257,7 +262,12 @@ class MovimientoModel extends MainModel{
             $fechaFinFicha = new DateTime($datosUsuario['fecha_fin_ficha']);
             if($fechaFinFicha < $fechaActual){
                 $datosUsuario['motivo_ingreso'] = 'La ficha del aprendiz ha finalizado';
-                $respuesta = $this->objetoUsuario->cambiarGrupoUsuario('aprendices', 'visitantes', $datosUsuario);
+                $respuesta = $this->objetoUsuario->eliminarUsuario($datosUsuario['numero_documento'], 'aprendices');
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
                 }
@@ -270,7 +280,12 @@ class MovimientoModel extends MainModel{
             $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
             if($fechaFinContrato < $fechaActual){
                 $datosUsuario['motivo_ingreso'] = 'El contrato del funcionario ha finalizado';
-                $this->objetoUsuario->cambiarGrupoUsuario('funcionarios', 'visitantes', $datosUsuario);
+                $respuesta = $this->objetoUsuario->eliminarUsuario($datosUsuario['numero_documento'], 'funcionarios');
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
                 }

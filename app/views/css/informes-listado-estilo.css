@@ -59,6 +59,7 @@
             height: 40px;
             justify-content: center;
             padding: 0 8px;
+            width: 40px;
         }
 
         #contenedor_principal #btn_informe_mobile{
@@ -84,6 +85,16 @@
         max-height: 75vh;
         overflow-y: auto;
         width: 100%;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar{
+        background: transparent;
+        width: 8px;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        background-color: rgb(180, 180, 180);
     }
 
         #contenedor_principal #contenedor_tabla_cards #tabla_movimientos {
@@ -212,6 +223,7 @@
             }
 
     #contenedor_principal #contenedor_tabla_cards{
+        align-items: start;
         column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);

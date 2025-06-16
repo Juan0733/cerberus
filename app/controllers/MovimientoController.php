@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new MovimientoService();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
 
     if ($operacion == 'registrar_entrada_peatonal') {
         $respuesta = $objetoServicio->sanitizarDatosMovimientoPeatonal();
@@ -51,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new MovimientoService();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+    
     if($operacion == 'validar_usuario_apto_entrada'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(empty($respuesta['parametros'])){

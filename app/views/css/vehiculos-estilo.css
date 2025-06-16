@@ -27,25 +27,34 @@
             
         }
 
-            #contenedor_filtros  .buscar input{
+            #contenedor_principal #contenedor_filtros  .buscar input{
                 border: none;
                 font-size: 17px;
                 outline: none;
                 width: 100%;
             }
 
-                #contenedor_filtros #caja_filtros .buscar ion-icon{
-                    font-size: 25px;
-                }
+            #contenedor_principal #contenedor_filtros .buscar ion-icon{
+                font-size: 25px;
+            }
 
     #contenedor_principal #contenedor_tabla_cards{
         align-items: center;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         max-height: 75vh;
         overflow-y: auto;
         width: 100%;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar{
+        background: transparent;
+        width: 8px;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        background-color: rgb(180, 180, 180);
     }
 
         #contenedor_principal #contenedor_tabla_cards #tabla_vehiculos {
@@ -169,16 +178,17 @@
     }
 
     #contenedor_principal #contenedor_tabla_cards{
+        align-items: start;
         column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card{
+        #contenedor_principal #contenedor_tabla_cards .document-card-vehiculo{
             height: 65px;
         }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card.document-card.active{
+        #contenedor_principal #contenedor_tabla_cards .document-card-vehiculo.active{
             height: auto;
         }
 
@@ -191,8 +201,12 @@
         width: clamp(260px, 100%, 600px);
     }
 
-        #contenedor_principal #contenedor_filtros .buscar{
-            width: 100%;
+        #contenedor_principal #contenedor_filtros{
+            flex-direction: column;
+            row-gap: 10px;
         }
+            #contenedor_principal #contenedor_filtros .buscar{
+                width: 100%;
+            }
 
 }

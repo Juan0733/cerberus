@@ -151,8 +151,8 @@ function motrarCampos() {
             botonSiguiente.style.display = 'none';
             botonCancelar.style.display = 'none';
             
-            caja03.style.display = 'block';
-            caja04.style.display = 'block';
+            caja03.style.display = 'flex';
+            caja04.style.display = 'flex';
             botonRegistrar.style.display = 'flex';
             botonAtras.style.display = 'flex';
         }
@@ -166,9 +166,9 @@ function volverCampos() {
         botonAtras.style.display = 'none';
         botonRegistrar.style.display = 'none'
 
-        caja01.style.display = 'block';
-        caja02.style.display = 'block';
-        botonSiguiente.style.display = 'block';
+        caja01.style.display = 'flex';
+        caja02.style.display = 'flex';
+        botonSiguiente.style.display = 'flex';
         botonCancelar.style.display = 'flex';
     })
 }

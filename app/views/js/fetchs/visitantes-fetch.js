@@ -25,6 +25,50 @@ async function registrarVisitante(datos, urlBase) {
 }
 export{registrarVisitante}
 
+async function consultarVisitantes(parametros, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarVisitantes}
+
+async function consultarVisitante(documento, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitante')+'&documento='+encodeURI(documento));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarVisitante}
+
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",

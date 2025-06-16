@@ -14,12 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new FuncionarioService();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
 
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $objetoFuncionario = new FuncionarioModel();
     $objetoServicio = new FuncionarioService();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+    
     if($operacion == 'consultar_funcionarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
 

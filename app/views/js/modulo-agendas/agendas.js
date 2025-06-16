@@ -146,14 +146,14 @@ function eventoBuscarTitulo(){
 }
 
 function eventoCrearAgenda(){
-    const botoCrearAgenda = document.getElementById('btn_crear_agenda');
+    const botonCrearAgenda = document.getElementById('btn_crear_agenda');
 
-    botoCrearAgenda.addEventListener('click', ()=>{
+    botonCrearAgenda.addEventListener('click', ()=>{
         modalRegistroAgenda(urlBase, dibujarAgendas);
     })
 
     document.getElementById('btn_crear_agenda_mobile').addEventListener('click', ()=>{
-        botoCrearAgenda.click();
+        botonCrearAgenda.click();
     })
 }
 

@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	$objetoServicio = new UsuarioService();
 
 	$operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+	unset($_POST['operacion']);
+
 	if($operacion == 'validar_usuario'){
 		$respuesta = $objetoServicio->sanitizarUsuarioLogin();
 		if ($respuesta['tipo'] == 'ERROR') {
@@ -40,6 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	$objetoServicio = new UsuarioService();
 
 	$operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+	unset($_GET['operacion']);
+	
 	if($operacion == 'conteo_total_usuarios'){
 		echo json_encode($objetoUsuario->conteoTotalUsuarios());
 	}elseif ($operacion == 'conteo_tipo_usuario') {

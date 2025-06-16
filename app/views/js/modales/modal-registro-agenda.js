@@ -41,6 +41,14 @@ async function modalRegistroAgenda(url, callback) {
         modal.id = 'modal_agenda';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
+
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
+        }
+
         contenedorModales.appendChild(modal);
 
         botonCerrarModal = document.getElementById('cerrar_modal_agenda');
@@ -59,7 +67,6 @@ async function modalRegistroAgenda(url, callback) {
         tipoDocumento = document.getElementById('tipo_documento');
         correoElectronico = document.getElementById('correo_electronico');
         plantillaExcel = document.getElementById('plantilla_excel');
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         tipoAgenda = '';
         funcioCallback = callback;
         urlBase = url;

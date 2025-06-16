@@ -13,22 +13,25 @@ class ViewModel{
 			"inicio",
 			"entradas",
 			"salidas",
-			"informes-tabla",
+			"visitantes",
+			"informes-listado",
 			"informes-grafica",
 			"agendas",
-			"vehiculos"
+			"vehiculos",
+			"auto-registro-visitantes"
 		];
 
 		if(in_array($vista, $vistasExistentes)){
 
-			$vistasAccesibles = ['login', 'sesion-expirada', 'acceso-denegado'];
+			$vistasAccesibles = ['login', 'sesion-expirada', 'acceso-denegado', 'auto-registro-visitantes'];
 
 			if(isset($_SESSION['datos_usuario'])){
 				if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes') {// --JEFE DE VIGILANTES--
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
-					$vistasAccesibles[] = 'informes-tabla';
+					$vistasAccesibles[] = 'visitantes';
+					$vistasAccesibles[] = 'informes-listado';
 					$vistasAccesibles[] = 'informes-grafica';
 					$vistasAccesibles[] = 'agendas';
 					$vistasAccesibles[] = 'vehiculos';
@@ -106,7 +109,7 @@ class ViewModel{
 							],
 							"VISITANTES" => [
 								"TITULO" => 'Visitantes',
-								"URL" => 'visitante',
+								"URL" => 'visitantes',
 								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [
@@ -132,8 +135,8 @@ class ViewModel{
 						"ICON" => 'analytics-outline',
 						"SUBMENU" => [
 							"TABLA" => [
-								"TITULO" => 'Tabla',
-								"URL" => 'informes-tabla',
+								"TITULO" => 'Listado',
+								"URL" => 'informes-listado',
 								"ICON" => 'person-outline'
 							],
 							"GRAFICA" => [

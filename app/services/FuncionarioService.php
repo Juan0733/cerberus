@@ -37,7 +37,6 @@ class FuncionarioService{
             'tipo' => 'OK',
             'parametros' => $parametros
         ];
-        
     }
 
     public function limpiarDatos($dato){

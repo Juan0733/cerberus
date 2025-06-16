@@ -1,0 +1,208 @@
+<?php
+namespace app\models;
+
+class VigilanteModel extends MainModel{
+    private $objetoUsuario;
+    
+    public function __construct() {
+        $this->objetoUsuario = new UsuarioModel();
+    }
+
+    public function registrarVigilante($datosVigilante){
+        $respuesta = $this->validarDuplicidadVigilante($datosVigilante['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $sentenciaInsertar = "
+            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, fecha_registro, estado_usuario) 
+            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '$fechaRegistro', '{$datosVigilante['estado_usuario']}')";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            "titulo" => 'Registro Exitoso',
+            "mensaje"=> 'El vigilante fue registrado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function actualizarVigilante($datosVigilante){
+        $respuesta = $this->consultarVigilante($datosVigilante['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $sentenciaActualizar = "
+            UPDATE vigilantes SET nombres = '{$datosVigilante['nombres']}', apellidos = '{$datosVigilante['apellidos']}', telefono = '{$datosVigilante['telefono']}', correo_electronico = '{$datosVigilante['correo_electronico']}', rol = '{$datosVigilante['rol']}'";
+        
+        if(isset($datosVigilante['contrasena'])){
+            $sentenciaActualizar .= ", contrasena = '{$datosVigilante['contrasena']}'";
+        }
+
+        $sentenciaActualizar .= " WHERE numero_documento = '{$datosVigilante['numero_documento']}'";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Actualización Exitosa',
+            'mensaje' => 'El vigilante fue actualizado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function habilitarVigilante($datosVigilante){
+        $respuesta = $this->consultarVigilante($datosVigilante['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $sentenciaActualizar = "
+            UPDATE vigilantes SET contrasena = '{$datosVigilante['contrasena']}', estado_usuario = 'ACTIVO' WHERE numero_documento = '{$datosVigilante['numero_documento']}';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Activo',
+            'mensaje' => 'El vigilante fue habilitado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function inhabilitarVigilante($vigilante){
+        $respuesta = $this->consultarVigilante($vigilante);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $sentenciaActualizar = "
+            UPDATE vigilantes SET estado_usuario = 'INACTIVO' WHERE numero_documento = '$vigilante';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Inactivo',
+            'mensaje' => 'El vigilante fue inhabilitado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    private function validarDuplicidadVigilante($vigilante){
+        $respuesta = $this->objetoUsuario->consultarUsuario($vigilante);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $grupoUsuario = $respuesta['usuario']['grupo'];
+            if($grupoUsuario == 'vigilantes'){
+                $respuesta = [
+                    'tipo' => "ERROR",
+                    'titulo' => 'Usuario Existente',
+                    'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el sistema como vigilante.'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = $this->objetoUsuario->eliminarUsuario($vigilante, $grupoUsuario);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Usuario No Existente',
+            "mensaje"=> 'El vigilante no se encuentra registrado en el sistema'
+        ];
+        return $respuesta;
+    }
+
+    public function consultarVigilantes($parametros){
+        $sentenciaBuscar = "
+            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, ubicacion
+            FROM vigilantes
+            WHERE 1=1";
+
+        if(isset($parametros['ubicacion'])){
+            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
+        }
+
+        if(isset($parametros['numero_documento'])){
+            $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
+        }
+
+        if(isset($parametros['rol'])){
+            $sentenciaBuscar .= " AND rol = '{$parametros['rol']}'";
+        }
+
+        $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No encontrados',
+                "mensaje"=> 'No se encontraron resultados.'
+            ];
+            return $respuesta;
+        }
+
+        $vigilantes = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $respuesta = [
+            'tipo' => 'OK',
+            'vigilantes' => $vigilantes
+        ];
+        return $respuesta;
+    }
+
+    public function consultarVigilante($documento){
+        $sentenciaBuscar = "
+            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol
+            FROM vigilantes
+            WHERE numero_documento = '$documento';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No encontrados',
+                "mensaje"=> 'No se encontraron resultados.'
+            ];
+            return $respuesta;
+        }
+
+        $vigilante = $respuestaSentencia->fetch_assoc();
+        $respuesta = [
+            'tipo' => 'OK',
+            'datos_visitante' => $vigilante
+        ];
+        return $respuesta;
+    }
+}

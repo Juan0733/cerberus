@@ -17,7 +17,6 @@ let urlBase;
 const datosEntradaVehicular = {
     placa: "",
     propietario: "",
-    grupo_propietario: "",
     pasajeros: []
 };
 
@@ -84,7 +83,6 @@ function validarPropietarioAptoEntrada(){
             documentoPropietario.classList.add('input-ok');
             documentoPasajero.focus();
             datosEntradaVehicular.propietario = documentoPropietario.value;
-            datosEntradaVehicular.grupo_propietario = respuesta.usuario.grupo;
 
         }else if(respuesta.tipo == "ERROR"){
              datosEntradaVehicular.propietario = "";
@@ -111,7 +109,6 @@ function validarPasajeroAptoEntrada(){
             let datosPasajero = {
                 documento_pasajero: documentoPasajero.value,
                 nombres: `${respuesta.usuario.nombres} ${respuesta.usuario.apellidos}`,
-                grupo_pasajero: respuesta.usuario.grupo
             }
             datosEntradaVehicular.pasajeros.push(datosPasajero);
             documentoPasajero.value = '';

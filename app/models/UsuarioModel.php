@@ -65,46 +65,13 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
-    public function cambiarGrupoUsuario($tablaOrigen, $tablaDestino, $datosUsuario){
+    public function eliminarUsuario($usuario, $tablaOrigen){
         $sentenciaEliminar = "
             DELETE 
             FROM $tablaOrigen 
-            WHERE numero_documento = '{$datosUsuario['numero_documento']}' ;";
+            WHERE numero_documento = '$usuario' ;";
         
         $respuesta= $this->ejecutarConsulta($sentenciaEliminar);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
-        $fechaRegistro = date('Y-m-d H:s:i');
-
-        if($tablaDestino == 'aprendices'){
-            $sentenciaInsertar = "
-                INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, fecha_registro) 
-                VALUES('{$datosUsuario['tipo_documento']}', '{$datosUsuario['numero_documento']}', '{$datosUsuario['nombres']}', '{$datosUsuario['apellidos']}', '{$datosUsuario['telefono']}', '{$datosUsuario['correo_electronico']}', '{$datosUsuario['numero_ficha']}', '$fechaRegistro')";
-
-        }elseif($tablaDestino == 'funcionarios'){
-            if($datosUsuario['rol'] == 'subdirector' || $datosUsuario['rol'] == 'coordinador' || $datosUsuario['rol'] == 'bienestar aprendiz'){
-                $sentenciaInsertar = "
-                    INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, tipo_contrato, fecha_fin_contrato, contrasena, fecha_registro, estado) 
-                    VALUES('{$datosUsuario['tipo_documento']}', '{$datosUsuario['numero_documento']}', '{$datosUsuario['nombres']}', '{$datosUsuario['apellidos']}', '{$datosUsuario['telefono']}', '{$datosUsuario['correo_electronico']}', '{$datosUsuario['rol']}', '{$datosUsuario['tipo_contrato']}', '{$datosUsuario['fecha_fin_contrato']}', MD5('{$datosUsuario['contrasena']}'), '$fechaRegistro', 'ACTIVO')";
-            }else{  
-                $sentenciaInsertar = "
-                INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, tipo_contrato, fecha_fin_contrato, fecha_registro) VALUES('{$datosUsuario['tipo_documento']}', '{$datosUsuario['numero_documento']}', '{$datosUsuario['nombres']}', '{$datosUsuario['apellidos']}', '{$datosUsuario['telefono']}', '{$datosUsuario['correo_electronico']}', '{$datosUsuario['rol']}', '{$datosUsuario['tipo_contrato']}', '{$datosUsuario['fecha_fin_contrato']}', '$fechaRegistro')";
-            }
-           
-        }elseif($tablaDestino == 'visitantes'){
-            $sentenciaInsertar = "
-                INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, fecha_registro) 
-                VALUES('{$datosUsuario['tipo_documento']}', '{$datosUsuario['numero_documento']}', '{$datosUsuario['nombres']}', '{$datosUsuario['apellidos']}', '{$datosUsuario['telefono']}', '{$datosUsuario['correo_electronico']}', '{$datosUsuario['motivo_ingreso']}', '$fechaRegistro')";
-
-        }elseif($tablaDestino == 'vigilantes'){
-            $sentenciaInsertar = "
-                INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, fecha_registro) 
-                VALUES('{$datosUsuario['tipo_documento']}', '{$datosUsuario['numero_documento']}', '{$datosUsuario['nombres']}', '{$datosUsuario['apellidos']}', '{$datosUsuario['telefono']}', '{$datosUsuario['correo_electronico']}', '{$datosUsuario['rol']}', MD5('{$datosUsuario['contrasena']}'), '$fechaRegistro')";
-        }
-
-        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }

@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new AgendaService();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
+
     if($operacion == 'registrar_agenda_grupal'){
         $respuesta = $objetoServicio->sanitizarDatosAgendaGrupal();
         if($respuesta['tipo'] == 'ERROR'){
@@ -47,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new AgendaService();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+
     if($operacion == 'eliminar_agenda'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['codigo_agenda'])){

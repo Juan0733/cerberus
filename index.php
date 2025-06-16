@@ -49,7 +49,7 @@ if($vista == "app/views/content/404-view.php"){
     <?php require_once "app/views/inc/head.php"; ?>
 </head>
 <body>
-    <?php if($url[0] == 'registro-visitante' || $url[0] == '404' || $url[0] == 'login' || $url[0] == 'acceso-denegado' || $url[0] == 'sesion-expirada'): ?>
+    <?php if($url[0] == 'auto-registro-visitantes' || $url[0] == '404' || $url[0] == 'login' || $url[0] == 'acceso-denegado' || $url[0] == 'sesion-expirada'): ?>
 
         <?php include $vista; ?>
 

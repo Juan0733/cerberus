@@ -1,14 +1,14 @@
-import {consultarAgenda} from '../fetchs/agenda-fetch.js';
+import { consultarVisitante } from '../fetchs/visitantes-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
-let codigoAgenda;
+let documentoVisitante;
 let botonCerrarModal;
 let urlBase;
 
-async function modalDetalleAgenda(codigo, url) {
+async function modalDetalleVisitante(visitante, url) {
     try {
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-agenda.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-detalle-visitante.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -16,10 +16,10 @@ async function modalDetalleAgenda(codigo, url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_agenda';
+        modal.id = 'modal_detalle_visitante';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
-
+        
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if(modalesExistentes.length > 0){
            for (let i = 0; i < modalesExistentes.length; i++) {
@@ -29,12 +29,12 @@ async function modalDetalleAgenda(codigo, url) {
 
         contenedorModales.appendChild(modal);
 
-        botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
-        codigoAgenda = codigo;
+        botonCerrarModal = document.getElementById('cerrar_modal_detalle_visitante');
+        documentoVisitante = visitante;
         urlBase = url;
          
         eventoCerrarModal();
-        dibujarAgenda(codigo);
+        dibujarVisitante(visitante);
 
     } catch (error) {
         if(botonCerrarModal){
@@ -44,11 +44,11 @@ async function modalDetalleAgenda(codigo, url) {
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal  detalle agenda.'
+            mensaje: 'Error al cargar modal detalle visitante.'
         });
     }
 }
-export{modalDetalleAgenda}
+export{modalDetalleVisitante}
 
 function eventoCerrarModal(){
     botonCerrarModal.addEventListener('click', ()=>{
@@ -57,25 +57,16 @@ function eventoCerrarModal(){
     });
 }
 
-function dibujarAgenda() {
-    consultarAgenda(codigoAgenda, urlBase).then(respuesta=>{
+function dibujarVisitante() {
+    consultarVisitante(documentoVisitante, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            document.getElementById('titulo').textContent = respuesta.datos_agenda.titulo;
-            const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
-        
-            respuesta.datos_agenda.agendados.forEach((agendado, indice) => {
-                cuerpoTablaAgendados.innerHTML += `
-                    <tr>
-                        <td>${indice+1}</td>
-                        <td>${agendado.nombres}</td>
-                        <td>${agendado.apellidos}</td>
-                    </tr>`
-            });
-
-            document.getElementById('responsable').textContent = respuesta.datos_agenda.nombres_responsable+' '+respuesta.datos_agenda.apellidos_responsable;
-            document.getElementById('fecha_agenda').textContent = respuesta.datos_agenda.fecha;
-            document.getElementById('hora').textContent = respuesta.datos_agenda.hora;
-            document.getElementById('motivo').textContent = respuesta.datos_agenda.motivo;
+            document.getElementById('tipo_documento').textContent = respuesta.datos_visitante.tipo_documento
+            document.getElementById('numero_documento').textContent = respuesta.datos_visitante.numero_documento;
+            document.getElementById('nombres').textContent = respuesta.datos_visitante.nombres;
+            document.getElementById('apellidos').textContent = respuesta.datos_visitante.apellidos;
+            document.getElementById('telefono').textContent = respuesta.datos_visitante.telefono;
+            document.getElementById('correo_electronico').textContent = respuesta.datos_visitante.correo_electronico;
+            document.getElementById('motivo_ingreso').textContent = respuesta.datos_visitante.motivo_ingreso;
 
             contenedorModales.classList.add('mostrar');
 

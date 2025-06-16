@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
     $objetoServicio = new VisitanteService();
 
 	$operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
+
 	if($operacion == 'registrar_visitante'){
         $respuesta = $objetoServicio->sanitizarDatosVisitante();
         if ($respuesta['tipo'] == 'ERROR') {
@@ -26,7 +28,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	}
 	
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion']) && $_GET['operacion'] != '' ){
-	
+	$objetoVisitante = new VisitanteModel();
+    $objetoServicio = new VisitanteService();
+
+    $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+
+    if($operacion == 'consultar_visitantes'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        echo json_encode($objetoVisitante->consultarVisitantes($respuesta['parametros']));
+
+    }elseif($operacion == 'consultar_visitante'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['numero_documento'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoVisitante->consultarVisitante($respuesta['parametros']['numero_documento']));
+    }
 	
 }else{
 	echo "no post". $_SERVER['REQUEST_METHOD'];

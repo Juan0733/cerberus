@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoServicio = new NovedadVehiculoService();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
+    
     if($operacion == 'registrar_novedad_vehiculo') {
         $respuesta = $objetoServicio->sanitizarDatosNovedadVehiculo();
         if ($respuesta['tipo'] == 'ERROR') {

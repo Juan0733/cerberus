@@ -1,9 +1,9 @@
 const contenedorSpinner = document.getElementById("contenedor_spinner");
 
-async function consultarFuncionarios(brigadista, ubicacion, documento, urlBase) {
+async function consultarFuncionarios(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('consultar_funcionarios')+'&brigadista='+encodeURI(brigadista)+'&ubicacion='+encodeURI(ubicacion)+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('consultar_funcionarios')+'&brigadista='+encodeURI(parametros.brigadista)+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

@@ -2,7 +2,6 @@
 namespace app\models;
 
 use DateTime;
-use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
 
 class AgendaModel extends MainModel{
     private $objetoUsuario;

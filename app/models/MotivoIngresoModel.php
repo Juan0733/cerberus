@@ -10,7 +10,7 @@ class MotivoIngresoModel extends MainModel{
 
         $fechaRegistro = date('Y-m-d H:i:s');
         $sentenciaInsertar = "
-            INSERT motivos_ingreso(motivo, fecha_registro)
+            INSERT INTO motivos_ingreso(motivo, fecha_registro)
             VALUES('$motivo', '$fechaRegistro');";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);

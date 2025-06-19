@@ -1,4 +1,5 @@
 <?php
+
     // Calcular las fechas max y min
     $fechaActual = new DateTime();
     $fechaMinima = (clone $fechaActual)->modify('-3 year'); 

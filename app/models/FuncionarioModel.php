@@ -3,6 +3,183 @@ namespace app\models;
 use app\models\MainModel;
 
 class FuncionarioModel extends MainModel{
+    private $objetoUsuario;
+
+    public function __construct() {
+        $this->objetoUsuario = new UsuarioModel();
+    }
+    
+    public function registrarFuncionario($datosFuncionario){
+        $respuesta = $this->validarDuplicidadFuncionario($datosFuncionario['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $sentenciaInsertar = "
+            INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, fecha_registro, estado_usuario)
+            VALUES('{$datosFuncionario['tipo_documento']}', '{$datosFuncionario['numero_documento']}', '{$datosFuncionario['nombres']}', '{$datosFuncionario['apellidos']}', '{$datosFuncionario['telefono']}', '{$datosFuncionario['correo_electronico']}', '{$datosFuncionario['tipo_contrato']}', '{$datosFuncionario['brigadista']}', '{$datosFuncionario['rol']}', {$datosFuncionario['fecha_fin_contrato']}, {$datosFuncionario['contrasena']}, '$fechaRegistro', {$datosFuncionario['estado_usuario']});";
+        
+        $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            "titulo" => 'Registro Exitoso',
+            "mensaje"=> 'El funcionario fue registrado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function actualizarFuncionario($datosFuncionario){
+        $respuesta = $this->consultarFuncionario($datosFuncionario['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $rolActual = $respuesta['datos_funcionario']['rol'];
+        $respuesta = $this->validarRequerimientoContrasena($datosFuncionario, $rolActual);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+        
+
+        $sentenciaActualizar = "
+            UPDATE funcionarios
+            SET nombres = '{$datosFuncionario['nombres']}', apellidos = '{$datosFuncionario['apellidos']}', telefono = '{$datosFuncionario['telefono']}', correo_electronico = '{$datosFuncionario['correo_electronico']}', tipo_contrato = '{$datosFuncionario['tipo_contrato']}', rol = '{$datosFuncionario['rol']}', fecha_fin_contrato = {$datosFuncionario['fecha_fin_contrato']}, estado_usuario = {$datosFuncionario['estado_usuario']}";
+
+        if(isset($datosFuncionario['contrasena'])){
+            $sentenciaActualizar .= ", contrasena = {$datosFuncionario['contrasena']}";
+        }
+
+        $sentenciaActualizar .= " WHERE numero_documento = '{$datosFuncionario['numero_documento']}'";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Actualización Exitosa',
+            'mensaje' => 'El funcionario fue actualizado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    private function validarRequerimientoContrasena($datosFuncionario, $rolActual){
+        if($rolActual != 'coordinador' && $datosFuncionario['rol'] == 'coordinador' && !isset($datosFuncionario['contrasena'])){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Contraseña Requerida',
+                'mensaje' => 'Lo sentimos, pero es necesario que proporciones una contraseña para este usuario.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Contraseña No Requerida',
+            'mensaje' => 'No se requiere contraseña para este usuario.'
+        ];
+        return $respuesta;
+    }
+
+    private function validarDuplicidadFuncionario($funcionario){
+        $respuesta = $this->objetoUsuario->consultarUsuario($funcionario);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $grupoUsuario = $respuesta['usuario']['grupo'];
+            if($grupoUsuario == 'funcionarios'){
+                $respuesta = [
+                    'tipo' => "ERROR",
+                    'titulo' => 'Usuario Existente',
+                    'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el sistema como funcionario.'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = $this->objetoUsuario->eliminarUsuario($funcionario, $grupoUsuario);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Usuario No Existente',
+            "mensaje"=> 'El funcionario no se encuentra registrado en el sistema'
+        ];
+        return $respuesta;
+    }
+
+    public function habilitarFuncionario($datosFuncionario){
+        $respuesta = $this->consultarFuncionario($datosFuncionario['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoUsuario = $respuesta['datos_funcionario']['estado_usuario'];
+        if($estadoUsuario == 'ACTIVO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Usuario Activo',
+                'mensaje' => 'No se pudo realiza la habilitacion, porque el funcionario ya se encuentra activo'
+            ];
+            return $respuesta;
+        }
+
+        $sentenciaActualizar = "
+            UPDATE funcionarios SET contrasena = '{$datosFuncionario['contrasena']}', estado_usuario = 'ACTIVO' WHERE numero_documento = '{$datosFuncionario['numero_documento']}';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Activo',
+            'mensaje' => 'El funcionario fue habilitado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function inhabilitarFuncionario($funcionario){
+        $respuesta = $this->consultarFuncionario($funcionario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoUsuario = $respuesta['datos_funcionario']['estado_usuario'];
+        if($estadoUsuario == 'INACTIVO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Usuario Inactivo',
+                'mensaje' => 'No se pudo realiza la inhabilitacion, porque el funcionario ya se encuentra inactivo'
+            ];
+            return $respuesta;
+        }
+
+        $sentenciaActualizar = "
+            UPDATE funcionarios SET estado_usuario = 'INACTIVO' WHERE numero_documento = '$funcionario';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Inactivo',
+            'mensaje' => 'El funcionario fue inhabilitado correctamente.'
+        ];
+        return $respuesta;
+    }
 
     public function consultarFuncionarios($parametros){
         $sentenciaBuscar = "
@@ -20,6 +197,10 @@ class FuncionarioModel extends MainModel{
 
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
+        }
+
+        if(isset($parametros['rol'])){
+            $sentenciaBuscar .= " AND rol = '{$parametros['rol']}'";
         }
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
@@ -45,9 +226,48 @@ class FuncionarioModel extends MainModel{
             'tipo' => 'OK',
             'funcionarios' => $funcionarios
         ];
-
         return $respuesta;
     }
+
+    public function consultarFuncionario($documento){
+        $sentenciaBuscar = "
+            SELECT 
+                tipo_documento, 
+                numero_documento, 
+                nombres, apellidos, 
+                telefono, 
+                correo_electronico, 
+                tipo_contrato, 
+                brigadista, 
+                rol,
+                estado_usuario,
+                COALESCE(fecha_fin_contrato, 'N/A') AS fecha_fin_contrato
+            FROM funcionarios
+            WHERE numero_documento = '$documento';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No encontrados',
+                "mensaje"=> 'No se encontraron resultados.'
+            ];
+            return $respuesta;
+        }
+
+        $funcionario = $respuestaSentencia->fetch_assoc();
+        $respuesta = [
+            'tipo' => 'OK',
+            'datos_funcionario' => $funcionario
+        ];
+        return $respuesta;
+    }
+
 
     public function conteoTotalBrigadistas(){
         $sentenciaBuscar = "
@@ -69,5 +289,4 @@ class FuncionarioModel extends MainModel{
         ];
         return $respuesta;
     }
-
 }

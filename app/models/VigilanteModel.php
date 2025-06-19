@@ -66,6 +66,16 @@ class VigilanteModel extends MainModel{
             return $respuesta;
         }
 
+        $estadoUsuario = $respuesta['datos_vigilante']['estado_usuario'];
+        if($estadoUsuario == 'ACTIVO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Usuario Activo',
+                'mensaje' => 'No se pudo realiza la habilitacion, porque el vigilante ya se encuentra activo'
+            ];
+            return $respuesta;
+        }
+
         $sentenciaActualizar = "
             UPDATE vigilantes SET contrasena = '{$datosVigilante['contrasena']}', estado_usuario = 'ACTIVO' WHERE numero_documento = '{$datosVigilante['numero_documento']}';";
 
@@ -85,6 +95,16 @@ class VigilanteModel extends MainModel{
     public function inhabilitarVigilante($vigilante){
         $respuesta = $this->consultarVigilante($vigilante);
         if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoUsuario = $respuesta['datos_vigilante']['estado_usuario'];
+        if($estadoUsuario == 'INACTIVO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Usuario Inactivo',
+                'mensaje' => 'No se pudo realiza la inhabilitacion, porque el vigilante ya se encuentra inactivo'
+            ];
             return $respuesta;
         }
 
@@ -179,7 +199,7 @@ class VigilanteModel extends MainModel{
 
     public function consultarVigilante($documento){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol
+            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, estado_usuario
             FROM vigilantes
             WHERE numero_documento = '$documento';";
 
@@ -201,7 +221,7 @@ class VigilanteModel extends MainModel{
         $vigilante = $respuestaSentencia->fetch_assoc();
         $respuesta = [
             'tipo' => 'OK',
-            'datos_visitante' => $vigilante
+            'datos_vigilante' => $vigilante
         ];
         return $respuesta;
     }

@@ -4,7 +4,7 @@ namespace app\services;
 class VigilanteService{
 
     public function sanitizarDatosRegistroVigilante(){
-        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == '' ||  $_POST['contrasena'] == ''){
+        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == '' || $_POST['contrasena'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -284,7 +284,7 @@ class VigilanteService{
         }
 
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
-        $contrasena = $this->limpiarDatos($_POST['numero_documento']);
+        $contrasena = $this->limpiarDatos($_POST['contrasena']);
         unset($_POST['documento_visitante'], $_POST['contrasena']); 
 		
 		$datos = [
@@ -293,7 +293,7 @@ class VigilanteService{
 				'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "|[a-zA-Z0-9]{8,}",
+                'filtro' => "[a-zA-Z0-9]{8,}",
                 'cadena' => $contrasena
             ]
 		];

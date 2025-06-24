@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
     unset($_POST['operacion']);
 
 	if($operacion == 'registrar_visitante'){
-        $respuesta = $objetoServicio->sanitizarDatosVisitante();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroVisitante();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();

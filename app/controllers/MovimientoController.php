@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     unset($_POST['operacion']);
 
     if ($operacion == 'registrar_entrada_peatonal') {
-        $respuesta = $objetoServicio->sanitizarDatosMovimientoPeatonal();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroMovimientoPeatonal();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoMovimiento->registrarEntradaPeatonal($respuesta['datos_movimiento']));
         
     }elseif($operacion == 'registrar_entrada_vehicular') {
-        $respuesta = $objetoServicio->sanitizarDatosMovimientoVehicular();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroMovimientoVehicular();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -33,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoMovimiento->registrarEntradaVehicular($respuesta['datos_movimiento']));
     }elseif($operacion == "registrar_salida_peatonal"){
-         $respuesta = $objetoServicio->sanitizarDatosMovimientoPeatonal();
+         $respuesta = $objetoServicio->sanitizarDatosRegistroMovimientoPeatonal();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();
         }
         echo json_encode($objetoMovimiento->registrarSalidaPeatonal($respuesta['datos_movimiento']));
     }elseif($operacion == 'registrar_salida_vehicular'){
-        $respuesta = $objetoServicio->sanitizarDatosMovimientoVehicular();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroMovimientoVehicular();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();

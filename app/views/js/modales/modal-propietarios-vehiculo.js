@@ -39,7 +39,6 @@ async function modalPropietariosVehiculo(placa, url) {
 
         contenedorModales.appendChild(modal);
 
-        botonCerrarModal = document.getElementById('cerrar_modal_propietarios');
         document.getElementById('titulo_modal').textContent = 'Propietarios Vehículo '+placa.toUpperCase();
         contenedorInformacion = document.getElementById('cont_info_modales');
         urlBase = url;
@@ -48,8 +47,7 @@ async function modalPropietariosVehiculo(placa, url) {
         
         eventoCerrarModal(); 
         validarResolucion();
-
-           
+        
     } catch (error) {
         if(botonCerrarModal){
             botonCerrarModal.click();
@@ -66,6 +64,8 @@ async function modalPropietariosVehiculo(placa, url) {
 export { modalPropietariosVehiculo };
 
 function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_propietarios');
+    
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
@@ -79,9 +79,8 @@ function dibujarTablaPropietarios(){
                 <thead class="head-table">
                     <tr>
                         <th>No. Documento</th>
-                        <th>Nombre y Apellidos</th>
-                        <th>Telefono</th>
-                        <th>Correo Electrónico</th>
+                        <th>Nombres</th>
+                        <th>Teléfono</th>
                         <th>Ubicación</th>
                         <th>Acciones</th>
                     </tr>
@@ -102,10 +101,9 @@ function dibujarTablaPropietarios(){
                         <td>${propietario.numero_documento}</td>
                         <td>${propietario.nombres} ${propietario.apellidos}</td>
                         <td>${propietario.telefono}</td>
-                        <td>${propietario.correo_electronico}</td>
                         <td>${propietario.ubicacion}</td>
                         <td class="contenedor-colum-acciones-ptr">
-                            <ion-icon name="trash-outline" class="eliminar-propietario"></ion-icon>
+                            <ion-icon name="trash" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
                         </td>
                     </tr>`;
             });
@@ -141,13 +139,12 @@ function dibujarCardsPropietarios(){
                         </div>
                         
                         <div class="card-details">
-                            <p><strong>Télefono: </strong>${propietario.telefono}</p>
-                            <p><strong>Correo Electrónico: </strong>${propietario.correo_electronico}</p>
+                            <p><strong>Teléfono: </strong>${propietario.telefono}</p>
                             <p><strong>Ubicación: </strong>${propietario.ubicacion}</p>
                         </div>
 
                         <div class="contenedor-acciones">
-                            <ion-icon name="trash-outline" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
+                            <ion-icon name="trash" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
                         </div>
                     </div>`;
             });

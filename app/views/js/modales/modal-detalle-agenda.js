@@ -29,7 +29,6 @@ async function modalDetalleAgenda(codigo, url) {
 
         contenedorModales.appendChild(modal);
 
-        botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
         codigoAgenda = codigo;
         urlBase = url;
          
@@ -51,6 +50,8 @@ async function modalDetalleAgenda(codigo, url) {
 export{modalDetalleAgenda}
 
 function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
+    
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');

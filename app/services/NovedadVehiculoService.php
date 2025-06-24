@@ -2,7 +2,7 @@
 namespace app\services;
 
 class NovedadVehiculoService{
-    public function sanitizarDatosNovedadVehiculo(){
+    public function sanitizarDatosRegistroNovedadVehiculo(){
         if (!isset($_POST['documento_involucrado'], $_POST['propietario'], $_POST['tipo_novedad'], $_POST['numero_placa'],  $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['propietario'] == '' || $_POST['tipo_novedad'] == '' || $_POST['numero_placa'] == '' || $_POST['descripcion'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",

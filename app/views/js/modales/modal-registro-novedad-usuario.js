@@ -4,7 +4,6 @@ let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
-let descripcion;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
@@ -17,7 +16,6 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
-        contenedorSpinner.classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -26,14 +24,13 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
-        let documentoInvolucrado = document.getElementById('documento_involucrado'); 
-        let tipoNovedad = document.getElementById('tipo_novedad');
-        descripcion = document.getElementById('descripcion');
+        const inputDocumento = document.getElementById('documento_involucrado'); 
+        const inputTipoNovedad = document.getElementById('tipo_novedad');
 
-        documentoInvolucrado.value = documento;
-        documentoInvolucrado.setAttribute('readonly', '');
-        tipoNovedad.value = novedad;
-        tipoNovedad.setAttribute('readonly', '');
+        inputDocumento.value = documento;
+        inputDocumento.readOnly = true;
+        inputTipoNovedad.value = novedad;
+        inputTipoNovedad.readOnly = true;
 
         if(callback){
             funcionCallback = callback;
@@ -41,18 +38,22 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
 
         urlBase = url;
 
+        eventoCerrarModal();
+        eventoTextArea();
+        eventoRegistrarNovedadUsuario();
+
+        contenedorSpinner.classList.remove("mostrar_spinner");
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if(modalesExistentes.length > 1){
             modalesExistentes[modalesExistentes.length-2].style.display = 'none';
         }else{
             contenedorModales.classList.add('mostrar');
         }
-       
-        eventoCerrarModal();
-        eventoTextArea();
-        eventoRegistrarNovedadUsuario();
 
-           
+        setTimeout(()=>{
+            document.getElementById('fecha_suceso').focus();
+        }, 250)
+
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
 
@@ -92,10 +93,6 @@ function eventoRegistrarNovedadUsuario(){
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        if(!descripcion.reportValidity()){
-            return
-        }
-
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_usuario');
 
@@ -120,24 +117,25 @@ function eventoRegistrarNovedadUsuario(){
 }
 
 function eventoTextArea(){
+    const textAreaDescripcion = document.getElementById('descripcion');
     let temporizador;
     let primeraValidacion = true;
 
-    descripcion.addEventListener('keyup', ()=>{
+    textAreaDescripcion.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
             let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
     
-            if (!patron.test(descripcion.value)){
+            if (!patron.test(textAreaDescripcion.value)){
 
                 if(primeraValidacion){
-                    descripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
-                    descripcion.reportValidity();
+                    textAreaDescripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
+                    textAreaDescripcion.reportValidity();
                     primeraValidacion = false;
                 }
 
-            } else {
-                descripcion.setCustomValidity(""); 
+            }else {
+                textAreaDescripcion.setCustomValidity(""); 
                 primeraValidacion = true;
             }
         }, 1000);

@@ -47,7 +47,7 @@ function dibujarTablaVehiculos(){
                         <td>${vehiculo.tipo_vehiculo}</td>
                         <td>${vehiculo.ubicacion}</td>
                         <td class="contenedor-colum-acciones">
-                            <ion-icon name="eye-outline" class="ver-propietarios" data-vehiculo="${vehiculo.numero_placa}"></ion-icon>
+                            <ion-icon name="eye" class="ver-propietarios" data-vehiculo="${vehiculo.numero_placa}"></ion-icon>
                         </td>
                     </tr>`;
             });
@@ -81,7 +81,7 @@ function dibujarCardsVehiculos(){
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                         <div class="contenedor-acciones">
-                            <ion-icon name="eye-outline" class="ver-propietarios" data-vehiculo="${vehiculo.numero_placa}"></ion-icon>
+                            <ion-icon name="eye" class="ver-propietarios" data-vehiculo="${vehiculo.numero_placa}"></ion-icon>
                         </div>
                     </div>`;
             });

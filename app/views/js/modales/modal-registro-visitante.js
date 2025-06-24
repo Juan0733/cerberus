@@ -5,10 +5,9 @@ let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
 let urlBase;
-let caja01;
-let caja02;
-let caja03;
-let caja04;
+let inputTipoDocumento;
+let seccion01;
+let seccion02;
 let botonCancelar;
 let botonAtras;
 let botonSiguiente;
@@ -24,7 +23,6 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
-        contenedorSpinner.classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -34,25 +32,31 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
         contenedorModales.appendChild(modal);
 
         if(documento){
-            let documentoVisitante = document.getElementById('documento_visitante'); 
-            documentoVisitante.value = documento;
-            documentoVisitante.setAttribute('readonly', '');
+            const inputDocumento = document.getElementById('documento_visitante'); 
+            inputDocumento.value = documento;
+            inputDocumento.readOnly = true;
         }
 
         if(callback){
             funcionCallback = callback;
         }
 
-        caja01 = document.getElementById('caja_01');
-        caja02 = document.getElementById('caja_02');
-        caja03 = document.getElementById('caja_03');
-        caja04 = document.getElementById('caja_04');
+        inputTipoDocumento = document.getElementById('tipo_documento');
+        seccion01 = document.getElementsByClassName('seccion-01');
+        seccion02 = document.getElementsByClassName('seccion-02');
         botonCancelar = document.getElementById('btn_cancelar_visitante');
         botonAtras = document.getElementById('btn_atras_visitante');
         botonSiguiente = document.getElementById('btn_siguiente_visitante');
         botonRegistrar = document.getElementById('btn_registrar_visitante');
         urlBase = url;
         
+        eventoCerrarModal();
+        eventoRegistrarVisitante();
+        motrarCampos();
+        volverCampos();
+
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if (modalesExistentes.length > 1) {
             modalesExistentes[modalesExistentes.length-2].style.display = 'none';
@@ -61,15 +65,9 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
         } 
 
         setTimeout(()=>{
-            document.getElementById('nombres').focus();
+            inputTipoDocumento.focus();
         }, 250)
-       
-        eventoCerrarModal();
-        eventoRegistrarVisitante();
-        motrarCampos();
-        volverCampos();
-
-           
+ 
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
 
@@ -133,11 +131,13 @@ function eventoRegistrarVisitante(){
 }
 
 function motrarCampos() {
+    const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
+    const inputCorreo = document.getElementById('correo_electronico');
+
     botonSiguiente.addEventListener('click', ()=>{
-        let inputs = document.querySelectorAll('.campo-seccion-01');
         let validos = true;
 
-        for(const input of inputs) {
+        for(const input of inputsSeccion01) {
             if(!input.checkValidity()){
                 input.reportValidity();
                 validos = false;
@@ -146,13 +146,19 @@ function motrarCampos() {
         };
 
         if(validos){
-            caja01.style.display = 'none';
-            caja02.style.display = 'none';
+            for(const caja of seccion01){
+                caja.style.display = 'none';
+            }
+
+            for(const caja of seccion02){
+                caja.style.display = 'block';
+            }
+        
+            inputCorreo.focus();
+
             botonSiguiente.style.display = 'none';
             botonCancelar.style.display = 'none';
-            
-            caja03.style.display = 'flex';
-            caja04.style.display = 'flex';
+        
             botonRegistrar.style.display = 'flex';
             botonAtras.style.display = 'flex';
         }
@@ -161,13 +167,18 @@ function motrarCampos() {
 
 function volverCampos() {
     botonAtras.addEventListener('click', ()=>{
-        caja03.style.display = 'none';
-        caja04.style.display = 'none';
+        for(const caja of seccion02){
+            caja.style.display = 'none';
+        }
+
+        for(const caja of seccion01){
+            caja.style.display = 'block';
+        }
+
+        inputTipoDocumento.focus();
+
         botonAtras.style.display = 'none';
         botonRegistrar.style.display = 'none'
-
-        caja01.style.display = 'flex';
-        caja02.style.display = 'flex';
         botonSiguiente.style.display = 'flex';
         botonCancelar.style.display = 'flex';
     })
@@ -190,7 +201,6 @@ function alertaExito(respuesta){
         }
     })
 }
-
 
 function alertaError(respuesta){
     Swal.fire({

@@ -28,7 +28,6 @@ async function modalFuncionariosBrigadistas(url) {
 
         contenedorModales.appendChild(modal);
 
-        botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
         urlBase = url;
          
         eventoCerrarModal();
@@ -50,6 +49,8 @@ async function modalFuncionariosBrigadistas(url) {
 export { modalFuncionariosBrigadistas };
 
 function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
+    
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
@@ -60,7 +61,8 @@ function dibujarBrigadistas(){
     const parametros = {
         brigadista: 'SI',
         ubicacion: 'DENTRO',
-        documento: ''
+        documento: '',
+        rol: ''
     };
 
     consultarFuncionarios(parametros, urlBase).then(respuesta=>{

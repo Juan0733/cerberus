@@ -2,7 +2,6 @@
     
 <?php if($url[0] != 'login' && $url[0] != '404' && $url[0] != 'sesion-expirada' && $url[0] != 'acceso-denegado' && $url[0] != 'auto-registro-visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/menu-lateral-estilo.css">
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/modales-estilo.css"> 
 <?php endif; ?>
 
 <?php if($url[0] == 'login'): ?>
@@ -25,6 +24,9 @@
 
 <?php elseif($url[0] == 'visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/visitantes-estilo.css">
+
+<?php elseif($url[0] == 'funcionarios'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/funcionarios-estilo.css">
 
 <?php elseif($url[0] == 'vehiculos'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/vehiculos-estilo.css">

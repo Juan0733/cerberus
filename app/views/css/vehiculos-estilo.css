@@ -171,6 +171,145 @@
         text-align: center;
     }
 
+/* ---------------------------------------Estilos Modal propietarios vehiculo--------------------------------------------------*/
+
+    #contenedor_modales #modal_propietarios{
+        width: clamp(450px, 45%, 850px);
+    }
+
+    #contenedor_modales #modal_propietarios .contenedor-info-modal{
+        padding: 1em;
+    }
+
+    #contenedor_modales #modal_propietarios #cont_info_modales{
+        overflow-y: auto;
+        max-height: 450px;
+        width: 100%;
+    }
+    
+        #contenedor_modales #modal_propietarios #tabla_propietarios {
+            border-collapse: collapse;
+            border-radius: 20px;
+            background: var(--color-primario);
+            text-align: center;
+            width: 100%;
+        }
+
+            #contenedor_modales #modal_propietarios #tabla_propietarios tr{
+                border-bottom: 2px solid rgb(219, 219, 219);
+            }
+
+            #contenedor_modales #modal_propietarios #tabla_propietarios thead {
+                background-color: var(--color-secundario);
+                color: white;
+                cursor: pointer;
+                left: 0;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+                #modal_propietarios #tabla_propietarios thead th{
+                    font-weight: normal;
+                    padding: 8px;
+                    text-transform: capitalize;
+                }
+
+                #modal_propietarios #tabla_propietarios tbody td{
+                    padding: 8px;
+                }
+
+                    #tabla_propietarios tbody td .eliminar-propietario{
+                        color: red;
+                        font-size: 25px;
+                    }
+
+            #modal_propietarios #tabla_propietarios thead th:first-child {
+                border-radius: 20px 0 0 0;  
+            }
+
+            #modal_propietarios #tabla_propietarios thead th:last-child {
+                border-radius: 0 20px 0 0;  
+            }
+
+        
+        #contenedor_modales #modal_propietarios .document-card-propietario {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            margin:0 0 10px 0;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+  
+            #contenedor_modales #modal_propietarios .document-card-propietario .card-header {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 10px 0px 10px;
+            }
+  
+                #modal_propietarios .document-card-propietario .card-header .document-title {
+                    font-size: 1.1em;
+                    font-weight: bold;
+                    color: #333;
+                    margin: 0;
+                }
+  
+            #modal_propietarios .document-card-propietario .card-header .document-meta {
+                font-size: 0.9em;
+                color: #555;
+                margin: 5px 0;
+            }
+  
+        #contenedor_modales #modal_propietarios .document-card-propietario .card-details {
+            color: #555;
+            display: none;
+            flex-direction: column;
+            font-size: 0.9em;
+            transition: max-height 0.5s ease;
+        }
+  
+        #contenedor_modales #modal_propietarios .document-card-propietario.active .card-details {
+            display: flex;
+            padding: 10px 10px 0px 10px;
+        }
+
+
+        #contenedor_modales #modal_propietarios .document-card-propietario .contenedor-acciones {
+            color: var(--color-primario);
+            display: none;
+            font-size: 0.9em;
+            justify-content: end;
+            max-height: 0;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        #contenedor_modales #modal_propietarios .document-card-propietario.active .contenedor-acciones {
+            display: flex;
+            max-height: 150px;
+            padding: 0 10px 10px;
+        }
+
+            #modal_propietarios .document-card-propietario.active .contenedor-acciones .eliminar-propietario{
+                font-size: 25px;
+                color: red;
+            }
+
+        #contenedor_modales #modal_propietarios .document-card-propietario .toggle-icon {
+            font-size: 1.2em;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+  
+         #contenedor_modales #modal_propietarios .document-card-propietario.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
 @media(min-width: 768px) and (max-width: 1023px){
 
     #contenedor_principal #contenedor_filtros .buscar{
@@ -208,5 +347,10 @@
             #contenedor_principal #contenedor_filtros .buscar{
                 width: 100%;
             }
+
+    /* -------------------------------------------------- Estilos Modal propietario vehiculo ----------------------------------*/
+    #contenedor_modales #modal_propietarios{
+        width: clamp(300px, 92.5%, 500px);
+    }
 
 }

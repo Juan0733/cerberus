@@ -2,7 +2,7 @@
 namespace app\services;
 
 class NovedadUsuarioService{
-    public function sanitizarDatosNovedadUsuario(){
+    public function sanitizarDatosRegistroNovedadUsuario(){
         if (!isset($_POST['documento_involucrado'], $_POST['tipo_novedad'], $_POST['fecha_suceso'], $_POST['puerta_suceso'], $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['tipo_novedad'] == '' || $_POST['fecha_suceso'] == '' || $_POST['puerta_suceso'] == '' || $_POST['descripcion'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",

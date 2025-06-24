@@ -14,6 +14,7 @@ class ViewModel{
 			"entradas",
 			"salidas",
 			"visitantes",
+			"funcionarios",
 			"informes-listado",
 			"informes-grafica",
 			"agendas",
@@ -31,6 +32,7 @@ class ViewModel{
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
 					$vistasAccesibles[] = 'visitantes';
+					$vistasAccesibles[] = 'funcionarios';
 					$vistasAccesibles[] = 'informes-listado';
 					$vistasAccesibles[] = 'informes-grafica';
 					$vistasAccesibles[] = 'agendas';

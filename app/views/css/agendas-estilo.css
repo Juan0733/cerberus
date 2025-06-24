@@ -192,6 +192,262 @@
                     color: #fb2d2d;
                 }
 
+/*------------------------------------------------- Estilos Modal registrar agenda --------------------------------------------*/
+#contenedor_modales #modal_agenda{
+    width: clamp(450px, 32%, 650px);
+}
+
+    #contenedor_modales #modal_agenda #cont_info_modales{
+        width: 100%;
+    }
+
+        #contenedor_modales #modal_agenda #cont_info_modales #formulario_agenda{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+            #modal_agenda #cont_info_modales #formulario_agenda #contenedor_cajas_agenda{
+                align-items: end;
+                column-gap: 20px;
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                overflow-x: hidden;
+                padding: 1.5em;
+                row-gap: 20px;
+                width: 100%;
+            }
+
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda .seccion-individual, .seccion-grupal{
+                    display: none;
+                }
+
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda .input-caja-registro{
+                    animation: slideIn 0.5s ease-out;
+                    color: var(--color-placeholder);
+                    font-size: 16px;
+                    width: 100%;
+                }
+
+                    #formulario_agenda #contenedor_cajas_agenda .input-caja-registro .label-input{
+                        color: var(--color-placeholder);
+                        font-size: 20px;
+                        margin-bottom: 5px;
+                        padding-left: 10px;
+                    }
+                
+                    #formulario_agenda #contenedor_cajas_agenda .input-caja-registro .campo{
+                        background: var(--background-inputs);
+                        border: none;
+                        border-radius: 13px;
+                        font-size: 16px;
+                        height: 60px;
+                        margin-top: 5px;
+                        padding: 10px;
+                        width: 100%;
+                    }
+
+                    #formulario_agenda #contenedor_cajas_agenda .input-caja-registro .campo::placeholder{
+                        color: var(--color-placeholder);
+                        font-size: 16px;
+                    } 
+
+            #modal_agenda #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox{
+                animation: slideIn 0.5s ease-out;
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+                #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox .caja-checkbox{
+                    display: flex;
+                    align-items: center;
+                }
+
+                    #contenedor_cajas_agenda #contenedor_checkbox .caja-checkbox .checkbox{
+                        appearance: none; 
+                        border: none;
+                        border-radius: 13px;
+                        width: 60px;
+                        height: 60px;
+                        background: var(--background-inputs); 
+                        cursor: pointer;
+                    }
+
+                   #contenedor_cajas_agenda #contenedor_checkbox .caja-checkbox .checkbox:checked {
+                        background-color: var(--color-secundario);
+                    }
+
+                #modal_agenda #formulario_agenda #contenedor_cajas_agenda #caja_excel{
+                    animation: slideIn 0.5s ease-out;
+                    align-items: end;
+                    column-gap: 15px;
+                    width: 100%;
+                }
+
+                        #contenedor_cajas_agenda #caja_excel .input-caja-registro .campo{
+                            align-items: center;
+                            cursor: pointer;
+                            display: flex;
+                        }
+
+                        #contenedor_cajas_agenda #caja_excel .input-caja-registro .campo:hover{
+                            background-color: rgb(176, 176, 176);
+                            color: var(--color-primario);
+                        }
+
+                            #caja_excel .input-caja-registro .campo #plantilla_excel {
+                                display: none; 
+                            }
+
+                    #formulario_agenda #contenedor_cajas_agenda #caja_excel #btn_plantilla_excel{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: var( --color-terciario);
+                        border-radius: 13px;
+                        height: 60px;
+                        padding: 0 12px;
+                    }
+
+                        #contenedor_cajas_agenda #caja_excel #btn_plantilla_excel ion-icon{
+                            font-size: 30px;
+                        }
+
+                #modal_agenda #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo {
+                    animation: slideIn 0.5s ease-out;
+                    align-items: center;
+                    background: var(--background-inputs);
+                    border: none;
+                    border-radius: 13px;
+                    color: var(--color-placeholder);
+                    cursor: pointer;
+                    font-size: 16px;
+                    height: 60px;
+                    padding: 10px;
+                    width: 100%;
+                }
+
+                #modal_agenda #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo:hover{
+                    background-color: rgb(176, 176, 176);
+                    color: var(--color-primario);
+                }
+
+                    #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo ion-icon{
+                        font-size: 30px;
+                        margin-right: 20px;
+                    }
+                 
+            #modal_agenda #cont_info_modales #formulario_agenda #contenedor_btns_agenda {
+                display: flex;
+                width: 100%;
+            }
+
+                #cont_info_modales #formulario_agenda #contenedor_btns_agenda button {
+                    align-items: center;
+                    background-color: var(--color-btn-cancelar);
+                    border: none;
+                    color: var(--color-placeholder);
+                    display: flex;
+                    font-size: 20px;
+                    height: 60px;
+                    justify-content: center;
+                    width: 50%;
+                }
+
+                #cont_info_modales #formulario_agenda #contenedor_btns_agenda #btn_actualizar_agenda {
+                    display: none;
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                }
+                        
+                #cont_info_modales #formulario_agenda #contenedor_btns_agenda #btn_registrar_agenda {
+                    display: none;
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                }
+
+                #cont_info_modales #formulario_agenda #contenedor_btns_agenda #btn_siguiente_agenda {
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                }
+
+                #cont_info_modales #formulario_agenda #contenedor_btns_agenda #btn_atras_agenda {
+                    display: none;
+                }                  
+
+/*----------------------------------------------------- Estilos Modal detalle agenda -------------------------------------------*/
+#contenedor_modales #modal_detalle_agenda{
+    width: clamp(450px, 30%, 550px);
+}
+
+#contenedor_modales #modal_detalle_agenda #cont_info_modales{
+    align-items: start;
+    padding: 1.5em 1.5em 1em;
+}
+
+    #modal_detalle_agenda #cont_info_modales h3{
+        margin-bottom: 6px;
+    }
+
+    #modal_detalle_agenda #cont_info_modales p{
+        margin-bottom: 20px;
+    }
+
+    #modal_detalle_agenda #cont_info_modales #contenedor_agendados{
+        display: flex;
+        justify-content: center;
+        max-height: 200px;
+        margin-bottom: 12px;
+        overflow-y: auto;
+        width: 100%;
+    }
+ 
+    #contenedor_agendados #tabla_agendados {
+        border-collapse: collapse;
+        border-radius: 20px;
+        background: var(--color-primario);
+        text-align: center;
+        width: 100%;
+    }
+
+    #contenedor_agendados #tabla_agendados tr{
+        border-bottom: 2px solid rgb(219, 219, 219);
+    }
+
+    #contenedor_agendados #tabla_agendados thead {
+        background-color: var(--color-secundario);
+        color: white;
+        cursor: pointer;
+        left: 0;
+        position: sticky;
+        top: 0;
+    }
+
+        #contenedor_agendados #tabla_agendados thead th{
+            font-weight: normal;
+            padding: 8px;
+            text-transform: capitalize;
+        }
+
+        #contenedor_agendados #tabla_agendados tbody td{
+            padding: 2.5px 8px;
+        }
+
+        #contenedor_agendados #tabla_agendados thead th:first-child {
+            border-radius: 20px 0 0 0;  
+        }
+
+        #contenedor_agendados #tabla_agendados thead th:last-child {
+            border-radius: 0 20px 0 0;  
+        }
+
+    #modal_detalle_agenda #cont_info_modales #contenedor_fecha_agenda{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
 @media(min-width: 768px) and (max-width: 1023px){
 
     #contenedor_principal #contenedor_filtros .filtro{
@@ -279,6 +535,34 @@
                         margin-top: 5px;
                         font-size: 23px;
                     }
+
+    /* --------------------------------------------------- Estilo Modal registrar agenda --------------------------------------*/
+    #contenedor_modales #modal_agenda{
+        width: clamp(300px, 92.5%, 500px)!important;
+    }
+
+        #modal_agenda #cont_info_modales #formulario_agenda #contenedor_cajas_agenda{
+            padding: 1em;
+            row-gap: 10px;
+        }
+       
+            #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox{
+                flex-direction: column;
+                row-gap: 10px;
+            }
+
+    /* -------------------------------------------------- Estilos Modal detalle agenda ----------------------------------------*/
+    #contenedor_modales #modal_detalle_agenda{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #modal_detalle_agenda #cont_info_modales #contenedor_agendados{
+            max-height: 150px;
+        }
+
+        #modal_detalle_agenda #cont_info_modales #contenedor_fecha_agenda{
+            flex-direction: column;
+        }
 }
 
 

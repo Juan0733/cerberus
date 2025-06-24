@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     unset($_POST['operacion']);
     
     if($operacion == 'registrar_novedad_usuario') {
-        $respuesta = $objetoServicio->sanitizarDatosNovedadUsuario();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroNovedadUsuario();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();

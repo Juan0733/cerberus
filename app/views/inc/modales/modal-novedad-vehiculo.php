@@ -5,10 +5,10 @@
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
         <form  action="" id="formulario_novedad_vehiculo" method="post" >
-            <div id="caja_01">
+            <div id="contenedor_cajas_novedad_vehiculo">
                 <div class="input-caja-registro">
                     <label for="tipo_novedad" class="label-input">Tipo de novedad</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="tipo_novedad" id="tipo_novedad" tabindex="4">
+                    <input type="text" class="campo" inputmode="numeric" name="tipo_novedad" id="tipo_novedad" tabindex="4">
                 </div>
 
                 <div class="input-caja-registro">
@@ -18,7 +18,7 @@
                 
                 <div class="input-caja-registro">
                     <label for="documento_involucrado" class="label-input">Identificación del involucrado</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="documento_involucrado" id="documento_involucrado" pattern="[0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 15" placeholder="Ej: 123456" date="Numero de documento" tabindex="6" >
+                    <input type="text" class="campo" inputmode="numeric" name="documento_involucrado" id="documento_involucrado" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 15" placeholder="Ej: 123456" date="Numero de documento" tabindex="6" >
                 </div>
                 
                 <div class="input-caja-registro">

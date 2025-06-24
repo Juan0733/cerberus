@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     unset($_POST['operacion']);
     
     if($operacion == 'registrar_novedad_vehiculo') {
-        $respuesta = $objetoServicio->sanitizarDatosNovedadVehiculo();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroNovedadVehiculo();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();

@@ -3,7 +3,7 @@ namespace app\services;
 
 class MovimientoService{
 
-    public function sanitizarDatosMovimientoPeatonal(){
+    public function sanitizarDatosRegistroMovimientoPeatonal(){
         if (!isset($_POST['documento_peaton'], $_POST['observacion_peatonal']) || $_POST['documento_peaton'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -53,7 +53,7 @@ class MovimientoService{
         return $respuesta;
     }
 
-    public function sanitizarDatosMovimientoVehicular(){
+    public function sanitizarDatosRegistroMovimientoVehicular(){
         if (!isset($_POST['propietario'], $_POST['placa_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']) || $_POST['propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['pasajeros'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",

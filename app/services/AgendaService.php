@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class AgendaService{
 
-    public function sanitizarDatosAgenda(){
+    public function sanitizarDatosActualizacionAgenda(){
         if (!isset($_POST['codigo_agenda'], $_POST['motivo'], $_POST['titulo'], $_POST['fecha_agenda']) || $_POST['codigo_agenda'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -69,7 +69,7 @@ class AgendaService{
         return $respuesta;
     }
 
-    public function sanitizarDatosAgendaIndividual(){
+    public function sanitizarDatosRegistroAgendaIndividual(){
         if (!isset($_POST['tipo_documento'], $_POST['numero_documento'], $_POST['nombres'], $_POST['apellidos'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda']) || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -93,7 +93,7 @@ class AgendaService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -162,7 +162,7 @@ class AgendaService{
         return $respuesta;
     }
 
-    public function sanitizarDatosAgendaGrupal(){
+    public function sanitizarDatosRegistroAgendaGrupal(){
         if (!isset($_FILES['plantilla_excel'],  $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda']) || $_FILES['plantilla_excel'] == '' ||  $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",

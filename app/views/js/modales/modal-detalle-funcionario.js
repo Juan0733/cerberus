@@ -1,14 +1,14 @@
-import { consultarVisitante } from '../fetchs/visitantes-fetch.js';
+import { consultarFuncionario } from '../fetchs/funcionarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
-let documentoVisitante;
+let documentoFuncionario;
 let botonCerrarModal;
 let urlBase;
 
-async function modalDetalleVisitante(visitante, url) {
+async function modalDetalleFuncionario(funcionario, url) {
     try {
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-visitante.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-detalle-funcionario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -16,7 +16,7 @@ async function modalDetalleVisitante(visitante, url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_visitante';
+        modal.id = 'modal_detalle_funcionario';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
         
@@ -29,11 +29,11 @@ async function modalDetalleVisitante(visitante, url) {
 
         contenedorModales.appendChild(modal);
 
-        documentoVisitante = visitante;
+        documentoFuncionario = funcionario;
         urlBase = url;
          
         eventoCerrarModal();
-        dibujarVisitante();
+        dibujarFuncionario();
 
     } catch (error) {
         if(botonCerrarModal){
@@ -43,14 +43,14 @@ async function modalDetalleVisitante(visitante, url) {
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle visitante.'
+            mensaje: 'Error al cargar modal detalle funcionario.'
         });
     }
 }
-export{modalDetalleVisitante}
+export{modalDetalleFuncionario}
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_detalle_visitante');
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_funcionario');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
@@ -58,16 +58,19 @@ function eventoCerrarModal(){
     });
 }
 
-function dibujarVisitante() {
-    consultarVisitante(documentoVisitante, urlBase).then(respuesta=>{
+function dibujarFuncionario() {
+    consultarFuncionario(documentoFuncionario, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            document.getElementById('tipo_documento').textContent = respuesta.datos_visitante.tipo_documento
-            document.getElementById('numero_documento').textContent = respuesta.datos_visitante.numero_documento;
-            document.getElementById('nombres').textContent = respuesta.datos_visitante.nombres;
-            document.getElementById('apellidos').textContent = respuesta.datos_visitante.apellidos;
-            document.getElementById('telefono').textContent = respuesta.datos_visitante.telefono;
-            document.getElementById('correo_electronico').textContent = respuesta.datos_visitante.correo_electronico;
-            document.getElementById('motivo_ingreso').textContent = respuesta.datos_visitante.motivo_ingreso;
+            document.getElementById('tipo_documento').textContent = respuesta.datos_funcionario.tipo_documento
+            document.getElementById('numero_documento').textContent = respuesta.datos_funcionario.numero_documento;
+            document.getElementById('nombres').textContent = respuesta.datos_funcionario.nombres;
+            document.getElementById('apellidos').textContent = respuesta.datos_funcionario.apellidos;
+            document.getElementById('telefono').textContent = respuesta.datos_funcionario.telefono;
+            document.getElementById('correo_electronico').textContent = respuesta.datos_funcionario.correo_electronico;
+            document.getElementById('rol').textContent = respuesta.datos_funcionario.rol;
+            document.getElementById('brigadista').textContent = respuesta.datos_funcionario.brigadista;
+            document.getElementById('tipo_contrato').textContent = respuesta.datos_funcionario.tipo_contrato;
+            document.getElementById('fecha_fin_contrato').textContent = respuesta.datos_funcionario.fecha_fin_contrato_formateada;
 
             contenedorModales.classList.add('mostrar');
 

@@ -40,9 +40,9 @@ function dibujarAgendas(){
                             </div>
                             <div class="contenedor-icons">
                                 
-                                <ion-icon class="eliminar" name="trash-outline" data-codigo="${agenda.codigo_agenda}"></ion-icon>
-                                <ion-icon class="editar" name="create-outline" data-codigo="${agenda.codigo_agenda}"></ion-icon>
-                                <ion-icon class="ver" name="reader-outline" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                <ion-icon class="eliminar" name="trash" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                <ion-icon class="editar" name="create" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                <ion-icon class="ver" name="reader" data-codigo="${agenda.codigo_agenda}"></ion-icon>
                                 
                             </div>
                         </div>

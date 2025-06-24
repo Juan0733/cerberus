@@ -1,6 +1,7 @@
 <?php
 namespace app\models;
 use app\models\MainModel;
+use DateTime;
 
 class FuncionarioModel extends MainModel{
     private $objetoUsuario;
@@ -183,7 +184,7 @@ class FuncionarioModel extends MainModel{
 
     public function consultarFuncionarios($parametros){
         $sentenciaBuscar = "
-            SELECT numero_documento, nombres, apellidos, rol, telefono, correo_electronico, ubicacion 
+            SELECT tipo_documento, numero_documento, nombres, apellidos, rol, telefono, correo_electronico, ubicacion, estado_usuario 
             FROM funcionarios 
             WHERE 1=1";
         
@@ -261,6 +262,13 @@ class FuncionarioModel extends MainModel{
         }
 
         $funcionario = $respuestaSentencia->fetch_assoc();
+        if($funcionario['tipo_contrato'] == 'contratista'){
+            $fecha = new DateTime($funcionario['fecha_fin_contrato']);
+            $mes = MESES[$fecha->format('F')];
+            $fechaFormateada = $fecha->format('j').' de '.$mes.' del '.$fecha->format('Y');
+            $funcionario['fecha_fin_contrato_formateada'] = $fechaFormateada;
+        }
+        
         $respuesta = [
             'tipo' => 'OK',
             'datos_funcionario' => $funcionario

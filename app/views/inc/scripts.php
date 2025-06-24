@@ -5,24 +5,34 @@
 
 <?php if($url[0] == 'login'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-login/login.js"></script>
+
 <?php elseif($url[0] == 'inicio'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-inicio/inicio.js"></script>
+
 <?php elseif($url[0] == 'entradas'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-entradas/entrada-peatonal.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-entradas/entrada-vehicular.js"></script>
+
 <?php elseif($url[0] == 'salidas'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-peatonal.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-vehicular.js"></script>
+
 <?php elseif($url[0] == 'visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/visitantes.js"></script>
+
+<?php elseif($url[0] == 'funcionarios'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/funcionarios.js"></script>
+
 <?php elseif($url[0] == 'informes-listado'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-listado.js"></script>
+
 <?php elseif($url[0] == 'informes-grafica'): ?>
     <script src="<?php echo $urlBaseVariable; ?>app/views/js/librerias/chart.umd.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-grafica.js"></script>
+
 <?php elseif($url[0] == 'agendas'): ?>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script> 
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-agendas/agendas.js"></script>
+
 <?php elseif($url[0] == 'vehiculos'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos.js"></script>
 <?php endif; ?>

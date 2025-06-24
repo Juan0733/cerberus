@@ -29,7 +29,7 @@ class FuncionarioService{
 
         $datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -172,7 +172,7 @@ class FuncionarioService{
 
         $datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -270,7 +270,7 @@ class FuncionarioService{
     }
 
     public function sanitizarDatosActualizacionFuncionario(){
-        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['tipo_contrato'], $_POST['brigadista'], $_POST['rol']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['tipo_contrato'] == '' || $_POST['brigadista'] == '' || $_POST['rol'] == ''){
+        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['tipo_contrato'], $_POST['brigadista'], $_POST['rol']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['tipo_contrato'] == '' || $_POST['brigadista'] == '' || $_POST['rol'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -279,7 +279,6 @@ class FuncionarioService{
             return $respuesta;
         }
 
-        $tipoDocumento = $this->limpiarDatos($_POST['tipo_documento']);
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
         $nombres = $this->limpiarDatos($_POST['nombres']);
         $apellidos = $this->limpiarDatos($_POST['apellidos']);
@@ -290,13 +289,10 @@ class FuncionarioService{
         $rol = $this->limpiarDatos($_POST['rol']);
         $fechaFinContrato = 'NULL';
         $estadoUsuario = 'NULL';
+        $contrasena = 'NULL';
         unset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['tipo_contrato'], $_POST['brigadista'], $_POST['rol']); 
 
         $datos = [
-			[
-				'filtro' => "[A-Z]{2,3}",
-				'cadena' => $tipoDocumento
-            ],
             [
 				'filtro' => "[A-Za-z0-9]{6,15}",
 				'cadena' => $numeroDocumento
@@ -399,7 +395,12 @@ class FuncionarioService{
         ];
 
         if(!empty($contrasena)){
-            $datosFuncionario['contrasena'] = md5($contrasena); 
+            if($contrasena != 'NULL'){
+                $contrasena = md5($contrasena);
+                $contrasena = "'$contrasena'";
+            }
+
+            $datosFuncionario['contrasena'] = $contrasena;
         }
 
         $respuesta = [
@@ -487,6 +488,15 @@ class FuncionarioService{
 
             if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
                 $parametros['numero_documento'] = $numeroDocumento;
+            }
+        }
+
+        if(isset($_GET['rol'])){
+            $rol = $this->limpiarDatos($_GET['rol']);
+            unset($_GET['rol']);
+
+            if(preg_match('/^(coordinador|instructor|personal administrativo|personal aseo|soporte tecnico)$/', $rol)){
+                $parametros['rol'] = $rol;
             }
         }
 

@@ -157,7 +157,6 @@ class VehiculoModel extends MainModel {
                 COALESCE(fun.nombres, vis.nombres, vig.nombres, apr.nombres) AS nombres,
                 COALESCE(fun.apellidos, vis.apellidos, vig.apellidos, apr.apellidos) AS apellidos,
                 COALESCE(fun.telefono, vis.telefono, vig.telefono, apr.telefono) AS telefono,
-                COALESCE(fun.correo_electronico, vis.correo_electronico, vig.correo_electronico, apr.correo_electronico) AS correo_electronico,
                 COALESCE(fun.ubicacion, vis.ubicacion, vig.ubicacion, apr.ubicacion) AS ubicacion
             FROM vehiculos veh
             LEFT JOIN funcionarios fun ON veh.fk_usuario = fun.numero_documento

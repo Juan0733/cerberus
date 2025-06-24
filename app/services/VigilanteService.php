@@ -26,7 +26,7 @@ class VigilanteService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -116,7 +116,7 @@ class VigilanteService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -181,7 +181,7 @@ class VigilanteService{
     }
 
     public function sanitizarDatosActualizacionVigilante(){
-        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == ''){
+        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -190,7 +190,6 @@ class VigilanteService{
             return $respuesta;
         }
         
-        $tipoDocumento = $this->limpiarDatos($_POST['tipo_documento']);
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
         $nombres = $this->limpiarDatos($_POST['nombres']);
         $apellidos = $this->limpiarDatos($_POST['apellidos']);
@@ -199,13 +198,9 @@ class VigilanteService{
         $rol = $this->limpiarDatos($_POST['rol']);
         $contrasena = $this->limpiarDatos($_POST['contrasena']);
         
-        unset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['documento_visitante'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']); 
+        unset($_POST['nombres'], $_POST['apellidos'], $_POST['documento_visitante'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']); 
 		
 		$datos = [
-			[
-				'filtro' => "[A-Z]{2,3}",
-				'cadena' => $tipoDocumento
-            ],
             [
 				'filtro' => "[A-Za-z0-9]{6,15}",
 				'cadena' => $numeroDocumento
@@ -252,7 +247,6 @@ class VigilanteService{
         $estadoUsuario = 'ACTIVO';
 
         $datosVigilante = [
-            'tipo_documento' => $tipoDocumento,
             'numero_documento' => $numeroDocumento,
             'nombres' => $nombres,
             'apellidos' => $apellidos,

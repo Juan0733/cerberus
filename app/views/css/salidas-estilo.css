@@ -203,6 +203,83 @@
                     width: 100%;
                 }
 
+/*---------------------------------------------- Estilos Modal Novedad Vehiculo ----------------------------------------------- */
+#contenedor_modales #modal_novedad_vehiculo{
+    width: clamp(450px, 32%, 650px);
+}
+
+    #contenedor_modales #modal_novedad_vehiculo #cont_info_modales{
+        width: 100%;
+    }
+
+        #contenedor_modales #modal_novedad_vehiculo #cont_info_modales #formulario_novedad_vehiculo{
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+   
+            #modal_novedad_vehiculo #cont_info_modales #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo {
+                column-gap: 20px;
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                padding: 1.5em;
+                row-gap: 20px;
+                width: 100%;
+            }
+
+                #cont_info_modales #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo .input-caja-registro{
+                    animation: slideIn 0.5s ease-out;
+                    color: var(--color-placeholder);
+                    font-size: 16px;
+                }
+
+                    #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo .input-caja-registro .label-input{
+                        color: var(--color-placeholder);
+                        font-size: 20px;
+                        margin-bottom: 5px;
+                        padding-left: 10px;
+                    }
+                
+                    #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo .input-caja-registro .campo{
+                        background: var(--background-inputs);
+                        border: none;
+                        border-radius: 13px;
+                        font-size: 16px;
+                        height: 60px;
+                        margin-top: 5px;
+                        padding: 10px;
+                        width: 100%;
+                    }
+
+                    #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo .input-caja-registro .campo::placeholder{
+                        color: var(--color-placeholder);
+                        font-size: 16px;
+                    } 
+                 
+            #modal_novedad_vehiculo #cont_info_modales #formulario_novedad_vehiculo #contenedor_btns_novedad_vehiculo {
+                display: flex;
+                width: 100%;
+            }
+
+                #cont_info_modales #formulario_novedad_vehiculo #contenedor_btns_novedad_vehiculo button {
+                    align-items: center;
+                    background-color: var(--color-btn-cancelar);
+                    border: none;
+                    color: var(--color-placeholder);
+                    display: flex;
+                    font-size: 20px;
+                    height: 60px;
+                    justify-content: center;
+                    width: 50%;
+                }
+                        
+                #cont_info_modales #formulario_novedad_vehiculo #contenedor_btns_novedad_vehiculo #btn_registrar_novedad_vehiculo {
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                }
+
 @media((min-width: 768px) and (max-width: 1023px)){
     #contenedor_principal #contenedor_btns_formularios{
         height: 100vh;
@@ -268,6 +345,16 @@
                 #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular #contenedor_pasajeros{
                     max-height: 115px;
                 }     
+
+    /* ------------------------------------------------- Estilos Modal Novedad Vehiculo ---------------------------------------*/
+    #contenedor_modales #modal_novedad_vehiculo{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #modal_novedad_vehiculo #cont_info_modales #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo{
+            padding: 1em;
+            row-gap: 10px;
+        }
 }
 
         

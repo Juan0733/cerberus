@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     unset($_POST['operacion']);
 
     if($operacion == 'registrar_aprendiz'){
-        $respuesta = $objetoServicio->sanitizarDatosAprendiz();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAprendiz();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoAprendiz->registrarAprendiz($respuesta['datos_aprendiz']));
 
     }elseif($operacion == 'actualizar_aprendiz'){
-        $respuesta = $objetoServicio->sanitizarDatosAprendiz();
+        $respuesta = $objetoServicio->sanitizarDatosActualizacionAprendiz();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();

@@ -2,7 +2,7 @@
 namespace app\services;
 
 class VisitanteService{
-    public function sanitizarDatosVisitante(){
+    public function sanitizarDatosRegistroVisitante(){
         if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['documento_visitante'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['motivo_ingreso']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['documento_visitante'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['motivo_ingreso'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
@@ -24,7 +24,7 @@ class VisitanteService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -115,7 +115,6 @@ class VisitanteService{
     public function limpiarDatos($dato){
 		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
 
-
 		$dato=trim($dato);
 		$dato=stripslashes($dato);
 
@@ -128,6 +127,5 @@ class VisitanteService{
 
 		return $dato;
 	}
-    
 }
     

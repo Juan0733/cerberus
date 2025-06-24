@@ -2,7 +2,7 @@
 namespace app\services;
 
 class AprendizService{
-    public function sanitizarDatosAprendiz(){
+    public function sanitizarDatosRegistroAprendiz(){
         if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['numero_ficha'], $_POST['nombre_programa'], $_POST['fecha_fin_ficha']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['numero_ficha'] == '' || $_POST['nombre_programa'] == '' || $_POST['fecha_fin_ficha'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
@@ -25,7 +25,7 @@ class AprendizService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -77,7 +77,7 @@ class AprendizService{
         $apellidos = ucwords(strtolower($apellidos));
         $nombrePrograma = ucwords(strtolower($nombrePrograma));
 
-        $datosVisitante = [
+        $datosAprendiz = [
             'tipo_documento' => $tipoDocumento,
             'numero_documento' => $numeroDocumento,
             'nombres' => $nombres,
@@ -91,7 +91,95 @@ class AprendizService{
 
         $respuesta = [
             "tipo" => "OK",
-            "datos_aprendiz" => $datosVisitante
+            "datos_aprendiz" => $datosAprendiz
+        ];
+        return $respuesta;
+    }
+
+    public function sanitizarDatosActualizacionAprendiz(){
+        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['numero_ficha'], $_POST['nombre_programa'], $_POST['fecha_fin_ficha']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['numero_ficha'] == '' || $_POST['nombre_programa'] == '' || $_POST['fecha_fin_ficha'] == ''){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Campos Obligatorios',
+                "mensaje"=> 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
+            ];
+            return $respuesta;
+        }
+
+        $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
+        $nombres = $this->limpiarDatos($_POST['nombres']);
+        $apellidos = $this->limpiarDatos($_POST['apellidos']);
+        $telefono = $this->limpiarDatos($_POST['telefono']);
+        $correoElectronico = $this->limpiarDatos($_POST['correo_electronico']);
+        $numeroFicha = $this->limpiarDatos($_POST['numero_ficha']);
+        $nombrePrograma = $this->limpiarDatos($_POST['nombre_programa']);
+        $fechaFinFicha = $this->limpiarDatos($_POST['fecha_fin_ficha']);
+        unset($_POST['nombres'], $_POST['apellidos'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['numero_ficha'], $_POST['nombre_programa'], $_POST['fecha_fin_ficha']); 
+		
+		$datos = [
+            [
+				'filtro' => "[A-Za-z0-9]{6,15}",
+				'cadena' => $numeroDocumento
+            ],
+            [
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,50}",
+                'cadena' => $nombres
+            ],
+            [
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ ]{2,50}",
+                'cadena' => $apellidos
+            ],
+            [
+                'filtro' => "[0-9]{10}",
+                'cadena' => $telefono
+            ],
+            [
+                'filtro' => "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}",
+                'cadena' => $correoElectronico
+            ],
+            [
+                'filtro' => "[0-9]{7}",
+                'cadena' => $numeroFicha
+            ],
+            [
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'cadena' => $nombrePrograma
+            ],
+            [
+                'filtro' => '[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])',
+                'cadena' => $fechaFinFicha
+            ]
+		];
+
+        foreach ($datos as $dato) {
+			if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
+				$respuesta = [
+                    "tipo" => "ERROR",
+                    'titulo' => "Formato Inválido",
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                ];
+                return $respuesta;
+			}
+        }
+
+        $nombres = ucwords(strtolower($nombres));
+        $apellidos = ucwords(strtolower($apellidos));
+        $nombrePrograma = ucwords(strtolower($nombrePrograma));
+
+        $datosAprendiz = [
+            'numero_documento' => $numeroDocumento,
+            'nombres' => $nombres,
+            'apellidos' => $apellidos,
+            'telefono' => $telefono,
+            'correo_electronico' => $correoElectronico,
+            'numero_ficha' => $numeroFicha,
+            'nombre_programa' => $nombrePrograma,
+            'fecha_fin_ficha' => $fechaFinFicha
+        ];
+
+        $respuesta = [
+            "tipo" => "OK",
+            "datos_aprendiz" => $datosAprendiz
         ];
         return $respuesta;
     }
@@ -140,6 +228,5 @@ class AprendizService{
 
 		return $dato;
 	}
-    
 }
     

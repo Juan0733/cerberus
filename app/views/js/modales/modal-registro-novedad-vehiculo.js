@@ -3,8 +3,8 @@ import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 
 let contenedorModales;
 let modalesExistentes;
+let placaVehiculo;
 let botonCerrarModal;
-let descripcion;
 let urlBase;
 
 async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
@@ -20,29 +20,38 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         modal.id = 'modal_novedad_vehiculo';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
+        
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
+        }
+
         contenedorModales.appendChild(modal);
 
-        
-        let documentoInvolucrado = document.getElementById('documento_involucrado'); 
-        let tipoNovedad = document.getElementById('tipo_novedad');
-        let numeroPlaca = document.getElementById('numero_placa');
-        descripcion = document.getElementById("descripcion");
+        const inputDocumento = document.getElementById('documento_involucrado'); 
+        const inputTipoNovedad = document.getElementById('tipo_novedad');
+        const inputPlaca = document.getElementById('numero_placa');
 
-        documentoInvolucrado.value = documento;
-        documentoInvolucrado.setAttribute('readonly', '');
-        tipoNovedad.value = novedad;
-        tipoNovedad.setAttribute('readonly', '');
-        numeroPlaca.value = placa;
-        numeroPlaca.setAttribute('readonly', '')
+        inputDocumento.value = documento;
+        inputDocumento.readOnly = true;
+        inputTipoNovedad.value = novedad;
+        inputTipoNovedad.readOnly = true;
+        inputPlaca.value = placa;
+        inputPlaca.readOnly = true;
 
+        placaVehiculo = placa;
         urlBase = url;
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
        
         eventoCerrarModal();
         dibujarPropietarios(placa);
         eventoTextArea();
         eventoRegistrarNovedadVehiculo();
+
+        setTimeout(()=>{
+            document.getElementById('propietario').focus();
+        }, 250)
            
     } catch (error) {
         if(botonCerrarModal){
@@ -77,10 +86,6 @@ function eventoRegistrarNovedadVehiculo(){
     formularioNovedad.addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        if(!descripcion.reportValidty()){
-            return
-        }
-
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_vehiculo');
 
@@ -102,35 +107,35 @@ function eventoRegistrarNovedadVehiculo(){
 }
 
 function eventoTextArea(){
+    const textAreaDescripcion = document.getElementById("descripcion");
     let temporizador;
     let primeraValidacion = true;
 
-    descripcion.addEventListener('keyup', ()=>{
+    textAreaDescripcion.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
             let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
     
-            if (!patron.test(descripcion.value)){
-
+            if (!patron.test(textAreaDescripcion.value)){
                 if(primeraValidacion){
-                    descripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
-                    descripcion.reportValidity();
+                    textAreaDescripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
+                    textAreaDescripcion.reportValidity();
                     primeraValidacion = false;
                 }
 
             } else {
-                descripcion.setCustomValidity(""); 
+                textAreaDescripcion.setCustomValidity(""); 
                 primeraValidacion = true;
             }
         }, 1000);
     })
 }
 
-function dibujarPropietarios(placa){
+function dibujarPropietarios(){
     const selectPropietario = document.getElementById('propietario');
     propietario.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
 
-    consultarPropietarios(placa, urlBase).then(respuesta=>{
+    consultarPropietarios(placaVehiculo, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             respuesta.propietarios.forEach(propietario => {
                 selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
@@ -146,10 +151,8 @@ function dibujarPropietarios(placa){
                 botonCerrarModal.click();
                 alertaError(respuesta);
             }
-            
         }
     })
-
 }
 
 function alertaExito(respuesta){

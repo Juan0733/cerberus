@@ -211,6 +211,36 @@
         text-align: center;
     }
 
+/*----------------------------------------------------- Estilos Modal detalle visitante -------------------------------------------*/
+#contenedor_modales #modal_detalle_visitante{
+    width: clamp(450px, 30%, 550px);
+}
+
+#contenedor_modales #modal_detalle_visitante #cont_info_modales{
+    align-items: start;
+    padding: 1.5em 1.5em 1em;
+}
+
+    #modal_detalle_visitante #cont_info_modales h3{
+        margin-bottom: 6px;
+    }
+
+    #modal_detalle_visitante #cont_info_modales p{
+        margin-bottom: 20px;
+    }
+ 
+    #modal_detalle_visitante #cont_info_modales .caja-flex{
+        display: flex;
+        width: 100%;
+    }
+
+        #modal_detalle_visitante #cont_info_modales .caja-flex div{
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            width: 100%;
+        }
+
 @media(min-width: 768px) and (max-width: 1023px){
     #contenedor_principal #contenedor_filtros .filtro{
         width: 100%;
@@ -256,6 +286,15 @@
 
         #contenedor_principal #btn_crear_visitante_mobile{
             display: flex;
+        }
+
+ /* -------------------------------------------------- Estilos Modal detalle visitante ----------------------------------------*/
+    #contenedor_modales #modal_detalle_visitante{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #contenedor_modales #modal_detalle_visitante #cont_info_modales .caja-flex{
+            flex-direction: column;
         }
 
 }

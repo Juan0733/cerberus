@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     unset($_POST['operacion']);
 
     if($operacion == 'registrar_agenda_grupal'){
-        $respuesta = $objetoServicio->sanitizarDatosAgendaGrupal();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaGrupal();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoAgenda->registrarAgendaGrupal($respuesta['datos_agenda']));
 
     }elseif($operacion == 'registrar_agenda_individual'){
-        $respuesta = $objetoServicio->sanitizarDatosAgendaIndividual();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaIndividual();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoAgenda->registrarAgendaIndividual($respuesta['datos_agenda']));
 
     }elseif($operacion == 'actualizar_agenda'){
-        $respuesta = $objetoServicio->sanitizarDatosAgenda();
+        $respuesta = $objetoServicio->sanitizarDatosActualizacionAgenda();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();

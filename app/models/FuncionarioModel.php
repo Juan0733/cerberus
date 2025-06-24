@@ -39,20 +39,32 @@ class FuncionarioModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
-
         $rolActual = $respuesta['datos_funcionario']['rol'];
-        $respuesta = $this->validarRequerimientoContrasena($datosFuncionario, $rolActual);
-        if($respuesta['tipo'] == 'ERROR'){
+        $estadoUsuarioActual = $respuesta['datos_funcionario']['estado_usuario'];
+
+        if($rolActual != 'coordinador' && $datosFuncionario['rol'] == 'coordinador' && !isset($datosFuncionario['contrasena'])){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Contraseña Requerida',
+                'mensaje' => 'Lo sentimos, pero es necesario que proporciones una contraseña para este usuario.'
+            ];
             return $respuesta;
         }
-        
+
+        if($datosFuncionario['rol'] == 'coordinador' && $estadoUsuarioActual == NULL){
+            $datosFuncionario['estado_usuario'] = 'ACTIVO';
+        }
 
         $sentenciaActualizar = "
             UPDATE funcionarios
-            SET nombres = '{$datosFuncionario['nombres']}', apellidos = '{$datosFuncionario['apellidos']}', telefono = '{$datosFuncionario['telefono']}', correo_electronico = '{$datosFuncionario['correo_electronico']}', tipo_contrato = '{$datosFuncionario['tipo_contrato']}', rol = '{$datosFuncionario['rol']}', fecha_fin_contrato = {$datosFuncionario['fecha_fin_contrato']}, estado_usuario = {$datosFuncionario['estado_usuario']}";
+            SET nombres = '{$datosFuncionario['nombres']}', apellidos = '{$datosFuncionario['apellidos']}', telefono = '{$datosFuncionario['telefono']}', correo_electronico = '{$datosFuncionario['correo_electronico']}', tipo_contrato = '{$datosFuncionario['tipo_contrato']}', rol = '{$datosFuncionario['rol']}', fecha_fin_contrato = {$datosFuncionario['fecha_fin_contrato']}";
 
         if(isset($datosFuncionario['contrasena'])){
             $sentenciaActualizar .= ", contrasena = {$datosFuncionario['contrasena']}";
+        }
+
+        if(isset($datosFuncionario['estado_usuario'])){
+            $sentenciaActualizar .= ", estado_usuario = '{$datosFuncionario['estado_usuario']}'";
         }
 
         $sentenciaActualizar .= " WHERE numero_documento = '{$datosFuncionario['numero_documento']}'";
@@ -66,24 +78,6 @@ class FuncionarioModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Actualización Exitosa',
             'mensaje' => 'El funcionario fue actualizado correctamente.'
-        ];
-        return $respuesta;
-    }
-
-    private function validarRequerimientoContrasena($datosFuncionario, $rolActual){
-        if($rolActual != 'coordinador' && $datosFuncionario['rol'] == 'coordinador' && !isset($datosFuncionario['contrasena'])){
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Contraseña Requerida',
-                'mensaje' => 'Lo sentimos, pero es necesario que proporciones una contraseña para este usuario.'
-            ];
-            return $respuesta;
-        }
-
-        $respuesta = [
-            'tipo' => 'OK',
-            'titulo' => 'Contraseña No Requerida',
-            'mensaje' => 'No se requiere contraseña para este usuario.'
         ];
         return $respuesta;
     }

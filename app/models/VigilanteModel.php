@@ -156,7 +156,7 @@ class VigilanteModel extends MainModel{
 
     public function consultarVigilantes($parametros){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, ubicacion
+            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, ubicacion, estado_usuario, rol
             FROM vigilantes
             WHERE 1=1";
 

@@ -1,6 +1,7 @@
 <?php
 namespace app\models;
 use app\models\MainModel;
+use DateTime;
 
 class AprendizModel extends MainModel{
     private $objetoUsuario;
@@ -123,6 +124,10 @@ class AprendizModel extends MainModel{
             $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
         }
 
+        if(isset($parametros['numero_ficha'])){
+            $sentenciaBuscar .= " AND fk_ficha = '{$parametros['numero_ficha']}'";
+        }
+
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
@@ -171,6 +176,13 @@ class AprendizModel extends MainModel{
         }
 
         $aprendiz = $respuestaSentencia->fetch_assoc();
+        
+        $fecha = new DateTime($aprendiz['fecha_fin_ficha']);
+        $mes = MESES[$fecha->format('F')];
+        $fechaFormateada = $fecha->format('j').' de '.$mes.' del '.$fecha->format('Y');
+        $aprendiz['fecha_fin_ficha_formateada'] = $fechaFormateada;
+        
+
         $respuesta = [
             'tipo' => 'OK',
             'datos_aprendiz' => $aprendiz

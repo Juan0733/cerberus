@@ -69,10 +69,9 @@ async function modalActualizacionFuncionario(funcionario, callback, url) {
         botonAtras = document.getElementById('btn_atras_funcionario');
         botonSiguiente = document.getElementById('btn_siguiente_funcionario');
         botonRegistrar = document.getElementById('btn_registrar_funcionario');
-
         
         botonRegistrar.textContent = 'Actualizar';
-        document.getElementById('titulo_modal_funcionario').textContent = 'Actualizar Agenda'
+        document.getElementById('titulo_modal_funcionario').textContent = 'Actualizar Funcionario';
         
         documentoFuncionario = funcionario;
         funcionCallback = callback;
@@ -138,7 +137,6 @@ function dibujarFuncionario(){
             eventoSelectRol();
 
             if(datosFuncionario.tipo_contrato == 'contratista'){
-                console.log('hola')
                 inputFechaContrato.value = datosFuncionario.fecha_fin_contrato;
             }
 

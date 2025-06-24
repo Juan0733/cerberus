@@ -37,7 +37,7 @@
                 font-size: 25px;
             }
 
-    #contenedor_principal .btn-funcionario{
+    #contenedor_principal .btn-aprendiz{
         align-items: center;
         border: none;
         border-radius: 13px;
@@ -49,7 +49,7 @@
         width: 40px;
     }
 
-    #contenedor_principal #btn_crear_funcionario_mobile{
+    #contenedor_principal #btn_crear_aprendiz_mobile{
         display: none;
         height: 60px;
         left: 80%;
@@ -59,7 +59,7 @@
         z-index: 20;
     }
     
-        #contenedor_principal .btn-funcionario ion-icon{
+        #contenedor_principal .btn-aprendiz ion-icon{
             color: white;
             font-size: 25px;
         }
@@ -83,7 +83,7 @@
         background-color: rgb(180, 180, 180);
     }
 
-        #contenedor_principal #contenedor_tabla_cards #tabla_funcionarios {
+        #contenedor_principal #contenedor_tabla_cards #tabla_aprendices {
             border-collapse: collapse;
             border-radius: 20px;
             background: var(--color-primario);
@@ -91,11 +91,11 @@
             width: 100%;
         }
 
-            #contenedor_principal #contenedor_tabla_cards #tabla_funcionarios tr{
+            #contenedor_principal #contenedor_tabla_cards #tabla_aprendices tr{
                 border-bottom: 2px solid rgb(219, 219, 219);
             }
 
-            #contenedor_principal #contenedor_tabla_cards #tabla_funcionarios thead {
+            #contenedor_principal #contenedor_tabla_cards #tabla_aprendices thead {
                 background-color: var(--color-secundario);
                 color: white;
                 cursor: pointer;
@@ -106,46 +106,46 @@
                 z-index: 1;
             }
 
-                #contenedor_tabla_cards #tabla_funcionarios thead th{
+                #contenedor_tabla_cards #tabla_aprendices thead th{
                     font-weight: bolder;
                     padding: 1rem;
                 }
 
-                #contenedor_tabla_cards #tabla_funcionarios tbody td{
+                #contenedor_tabla_cards #tabla_aprendices tbody td{
                     padding: 1rem;
                 }
 
-                    #tabla_funcionarios tbody td ion-icon{
+                    #tabla_aprendices tbody td ion-icon{
                         cursor: pointer;
                         font-size: 25px;
                         margin-left: 8px;
                     }
 
-                    #tabla_funcionarios tbody td .ver-funcionario{
+                    #tabla_aprendices tbody td .ver-aprendiz{
                         color: var(--color-secundario);
                     }
 
-                    #tabla_funcionarios tbody td .editar-funcionario{
+                    #tabla_aprendices tbody td .editar-aprendiz{
                         color: var(--main-color);
                     }
 
-                    #tabla_funcionarios tbody td .inhabilitar-funcionario{
+                    #tabla_aprendices tbody td .inhabilitar-aprendiz{
                         color: #000000;
                     }
 
-                    #tabla_funcionarios tbody td .habilitar-funcionario{
+                    #tabla_aprendices tbody td .habilitar-aprendiz{
                         color: #feb211;
                     }
 
-                #contenedor_tabla_cards #tabla_funcionarios thead th:first-child {
+                #contenedor_tabla_cards #tabla_aprendices thead th:first-child {
                     border-radius: 20px 0 0 0;  
                 }
 
-                #contenedor_tabla_cards #tabla_funcionarios thead th:last-child {
+                #contenedor_tabla_cards #tabla_aprendices thead th:last-child {
                     border-radius: 0 20px 0 0;  
                 }
 
-    #contenedor_principal #contenedor_tabla_cards .document-card-funcionario{
+    #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz{
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -157,27 +157,27 @@
         width: 100%;
       }
   
-        #contenedor_principal #contenedor_tabla_cards .document-card-funcionario .card-header {
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz .card-header {
             padding: 10px 10px 0px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
   
-            #contenedor_tabla_cards .document-card-funcionario .card-header .document-title {
+            #contenedor_tabla_cards .document-card-aprendiz .card-header .document-title {
                 font-size: 1.1em;
                 font-weight: bold;
                 color: #333;
                 margin: 0;
             }
   
-            #contenedor_tabla_cards .document-card-funcionario .card-header .document-meta {
+            #contenedor_tabla_cards .document-card-aprendiz .card-header .document-meta {
                 font-size: 0.9em;
                 color: #555;
                 margin: 5px 0;
             }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-funcionario .card-details {
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz .card-details {
             display: none;
             color: #555;
             flex-direction: column;
@@ -185,12 +185,12 @@
             transition: max-height 0.5s ease;
         }
   
-        #contenedor_principal #contenedor_tabla_cards .document-card-funcionario.active .card-details {
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz.active .card-details {
             display: flex;
             padding: 10px;
         }
 
-        #contenedor_tabla_cards .document-card-funcionario .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-aprendiz .contenedor-acciones {
             display: none;
             justify-content: end;
             max-height: 0;
@@ -199,40 +199,40 @@
             margin-top: 10px;
         }
 
-        #contenedor_tabla_cards .document-card-funcionario.active .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones {
             column-gap: 10px;
             display: flex;
             max-height: 150px;
             padding: 0 10px 10px;
         }
 
-            #contenedor_tabla_cards .document-card-funcionario.active .contenedor-acciones ion-icon{
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones ion-icon{
                 font-size: 25px;
             }
 
-            #contenedor_tabla_cards .document-card-funcionario.active .contenedor-acciones .ver-funcionario{
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .ver-aprendiz{
                 color: var(--color-secundario);
             }
 
-            #contenedor_tabla_cards .document-card-funcionario.active .contenedor-acciones .editar-funcionario{
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .editar-aprendiz{
                 color: var(--main-color);
             }
 
-            #contenedor_tabla_cards .document-card-funcionario.active .contenedor-acciones .inhabilitar-funcionario{
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .inhabilitar-aprendiz{
                 color: #000000;
             }
 
-            #contenedor_tabla_cards .document-card-funcionario.active .contenedor-acciones .habilitar-funcionario{
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .habilitar-aprendiz{
                 color: #feb211;
             }
     
-        #contenedor_tabla_cards .document-card-funcionario .toggle-icon {
+        #contenedor_tabla_cards .document-card-aprendiz .toggle-icon {
             font-size: 1.2em;
             transform: rotate(0deg);
             transition: transform 0.5s ease;
         }
   
-        #contenedor_tabla_cards .document-card-funcionario.active .toggle-icon {
+        #contenedor_tabla_cards .document-card-aprendiz.active .toggle-icon {
             transform: rotate(180deg);
         }
 
@@ -243,53 +243,53 @@
         text-align: center;
     }
 
-/*----------------------------------------------------- Estilos Modal detalle funcionario -------------------------------------------*/
-#contenedor_modales #modal_detalle_funcionario{
+/*----------------------------------------------------- Estilos Modal detalle aprendiz -------------------------------------------*/
+#contenedor_modales #modal_detalle_aprendiz{
     width: clamp(450px, 30%, 550px);
 }
 
-#contenedor_modales #modal_detalle_funcionario #cont_info_modales{
+#contenedor_modales #modal_detalle_aprendiz #cont_info_modales{
     align-items: start;
     overflow-y: auto;
     max-height: 550px;
     padding: 1.5em 1.5em 1em;
 }
 
-    #modal_detalle_funcionario #cont_info_modales h3{
+    #modal_detalle_aprendiz #cont_info_modales h3{
         margin-bottom: 6px;
     }
 
-    #modal_detalle_funcionario #cont_info_modales p{
+    #modal_detalle_aprendiz #cont_info_modales p{
         margin-bottom: 20px;
     }
  
-    #modal_detalle_funcionario #cont_info_modales .caja-flex{
+    #modal_detalle_aprendiz #cont_info_modales .caja-flex{
         display: flex;
         width: 100%;
     }
 
-        #modal_detalle_funcionario #cont_info_modales .caja-flex div{
+        #modal_detalle_aprendiz #cont_info_modales .caja-flex div{
             display: flex;
             flex-direction: column;
             justify-content: end;
             width: 100%;
         }
 
-/*----------------------------------------------------- Estilos Modal registrar funcionario -------------------------------------------*/
-#contenedor_modales #modal_funcionario{
+/*----------------------------------------------------- Estilos Modal registrar aprendiz-------------------------------------------*/
+#contenedor_modales #modal_aprendiz{
     width: clamp(550px, 50%, 980px);
 }
-    #contenedor_modales #modal_funcionario #cont_info_modales{
+    #contenedor_modales #modal_aprendiz #cont_info_modales{
         width: 100%;
     }
 
-        #contenedor_modales #modal_funcionario #cont_info_modales #formulario_funcionario{
+        #contenedor_modales #modal_aprendiz #cont_info_modales #formulario_aprendiz{
             display: flex;
             flex-direction: column;
             width: 100%;
         }
 
-            #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario{
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
                 align-items: end;
                 column-gap: 20px;
                 display: grid;
@@ -301,35 +301,31 @@
                 width: 100%;
             }
 
-            #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario::-webkit-scrollbar{
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz::-webkit-scrollbar{
                 background: transparent;
                 width: 8px;
             }
 
-            #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario::-webkit-scrollbar-thumb{
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz::-webkit-scrollbar-thumb{
                 border-radius: 20px;
                 background-color: rgb(180, 180, 180);
             }
 
-                #formulario_funcionario #contenedor_cajas_funcionario  .input-caja-registro{
+                #formulario_aprendiz #contenedor_cajas_aprendiz  .input-caja-registro{
                     animation: slideIn 0.5s ease-out;
                     color: var(--color-placeholder);
                     font-size: 16px;
                     width: 100%;
                 }
-                
-                #formulario_funcionario #contenedor_cajas_funcionario  .input-caja-registro.oculta{
-                    display: none;
-                }
 
-                    #contenedor_cajas_funcionario  .input-caja-registro .label-input{
+                    #contenedor_cajas_aprendiz  .input-caja-registro .label-input{
                         color: var(--color-placeholder);
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
                     }
                 
-                    #contenedor_cajas_funcionario  .input-caja-registro .campo{
+                    #contenedor_cajas_aprendiz  .input-caja-registro .campo{
                         background: var(--background-inputs);
                         border: none;
                         border-radius: 13px;
@@ -340,17 +336,17 @@
                         width: 100%;
                     }
 
-                    #contenedor_cajas_funcionario .input-caja-registro .campo::placeholder{
+                    #contenedor_cajas_aprendiz .input-caja-registro .campo::placeholder{
                         color: var(--color-placeholder);
                         font-size: 16px;
                     }
 
-            #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario {
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz {
                 display: flex;
                 width: 100%;
             }
 
-                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario button {
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz button {
                     align-items: center;
                     background-color: var(--color-btn-cancelar);
                     border: none;
@@ -362,17 +358,17 @@
                     width: 50%;
                 }
 
-                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_atras_funcionario {
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_atras_aprendiz {
                     display: none;
                 }  
 
-                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_siguiente_funcionario {
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
                     background-color: var(--color-secundario);
                     color: var(--color-primario);
                     display: none;
                 }
 
-                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_registrar_funcionario{
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz{
                     background-color: var(--color-secundario);
                     color: var(--color-primario);
                 }
@@ -389,11 +385,11 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-funcionario{
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz{
             height: 65px;
         }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-funcionario.active{
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz.active{
             height: auto;
         }
 }
@@ -414,43 +410,43 @@
                 width: 100%;
             }
 
-            #contenedor_principal #contenedor_filtros #btn_crear_funcionario{
+            #contenedor_principal #contenedor_filtros #btn_crear_aprendiz{
                 display: none;
             }
 
 
-        #contenedor_principal #btn_crear_funcionario_mobile{
+        #contenedor_principal #btn_crear_aprendiz_mobile{
             display: flex;
         }
 
-/* ----------------------------------------- Estilos Modal registrar Funcionario ---------------------------------------------*/
-    #contenedor_modales #modal_funcionario{
+/* ----------------------------------------- Estilos Modal registrar Aprendiz ---------------------------------------------*/
+    #contenedor_modales #modal_aprendiz{
         width: clamp(300px, 92.5%, 500px);
     }
-        #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario{
+        #modal_vigilante #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
             grid-template-columns: repeat(1, 1fr);
             padding: 1em;
             row-gap: 10px;
         }
           
-            #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario .seccion-02, .seccion-03{
+            #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz .seccion-02, .seccion-03{
                 display: none;
             }
 
-        #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_siguiente_funcionario {
+        #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
             display: flex;
         }
 
-        #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_registrar_funcionario{
+        #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz{
             display: none;
         }
 
-    /* -------------------------------------------------- Estilos Modal detalle funcionario ----------------------------------------*/
-    #contenedor_modales #modal_detalle_funcionario{
+    /* -------------------------------------------------- Estilos Modal detalle aprendiz ----------------------------------------*/
+    #contenedor_modales #modal_detalle_aprendiz{
         width: clamp(300px, 92.5%, 500px);
     }
 
-        #contenedor_modales #modal_detalle_funcionario #cont_info_modales .caja-flex{
+        #contenedor_modales #modal_detalle_aprendiz #cont_info_modales .caja-flex{
             flex-direction: column;
         }
 }

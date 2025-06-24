@@ -288,8 +288,6 @@ class FuncionarioService{
         $brigadista = $this->limpiarDatos($_POST['brigadista']);
         $rol = $this->limpiarDatos($_POST['rol']);
         $fechaFinContrato = 'NULL';
-        $estadoUsuario = 'NULL';
-        $contrasena = 'NULL';
         unset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['tipo_contrato'], $_POST['brigadista'], $_POST['rol']); 
 
         $datos = [
@@ -357,7 +355,6 @@ class FuncionarioService{
             }
 
             $contrasena = $this->limpiarDatos($_POST['contrasena']);
-            $estadoUsuario = "'ACTIVO'";
             unset($_POST['contrasena']);
 
             $datos[] = [
@@ -390,16 +387,12 @@ class FuncionarioService{
             'tipo_contrato' => $tipoContrato,
             'brigadista' => $brigadista,
             'rol' => $rol,
-            'fecha_fin_contrato' => $fechaFinContrato,
-            'estado_usuario' => $estadoUsuario
+            'fecha_fin_contrato' => $fechaFinContrato
         ];
 
-        if(!empty($contrasena)){
-            if($contrasena != 'NULL'){
-                $contrasena = md5($contrasena);
-                $contrasena = "'$contrasena'";
-            }
-
+        if(isset($contrasena) && !empty($contrasena)){
+            $contrasena = md5($contrasena);
+            $contrasena = "'$contrasena'";
             $datosFuncionario['contrasena'] = $contrasena;
         }
 

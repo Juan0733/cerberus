@@ -3,7 +3,7 @@
     session_start();
 
     if(isset($_SESSION['datos_usuario'])){
-        $tiempoLimite = 28000;
+        $tiempoLimite = 432000;
         $tiempoTranscurrido = time() -  $_SESSION['datos_usuario']['hora_sesion'];
 
         if($tiempoTranscurrido > $tiempoLimite){

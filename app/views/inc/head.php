@@ -22,8 +22,14 @@
 <?php elseif($url[0] == 'salidas'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/salidas-estilo.css">
 
+<?php elseif($url[0] == 'aprendices'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/aprendices-estilo.css">
+
 <?php elseif($url[0] == 'visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/visitantes-estilo.css">
+
+<?php elseif($url[0] == 'vigilantes'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/vigilantes-estilo.css">
 
 <?php elseif($url[0] == 'funcionarios'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/funcionarios-estilo.css">

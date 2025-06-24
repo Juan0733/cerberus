@@ -11,7 +11,6 @@ class MovimientoModel extends MainModel{
         $this->objetoUsuario = new UsuarioModel();
         $this->objetoVisitante = new VisitanteModel();
         $this->objetoVehiculo = new VehiculoModel();
-
     }
 
     public function registrarEntradaPeatonal($datosEntrada){

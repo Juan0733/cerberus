@@ -244,7 +244,6 @@ class VigilanteService{
 
         $nombres = ucwords(strtolower($nombres));
         $apellidos = ucwords((strtolower($apellidos)));
-        $estadoUsuario = 'ACTIVO';
 
         $datosVigilante = [
             'numero_documento' => $numeroDocumento,
@@ -252,8 +251,7 @@ class VigilanteService{
             'apellidos' => $apellidos,
             'telefono' => $telefono,
             'correo_electronico' => $correoElectronico,
-            'rol' => $rol,
-            'estado_usuario' => $estadoUsuario
+            'rol' => $rol
         ];
 
         if(!empty($contrasena)){
@@ -343,7 +341,7 @@ class VigilanteService{
             $rol = $this->limpiarDatos($_GET['rol']);
             unset($_GET['rol']);
 
-            if(preg_match('/^(vigilante raso|jefe vigilantes)$/', $ubicacion)){
+            if(preg_match('/^(vigilante raso|jefe vigilantes)$/', $rol)){
                 $parametros['rol'] = $rol;
             }
         }

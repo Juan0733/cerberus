@@ -13,7 +13,9 @@ class ViewModel{
 			"inicio",
 			"entradas",
 			"salidas",
+			"aprendices",
 			"visitantes",
+			"vigilantes",
 			"funcionarios",
 			"informes-listado",
 			"informes-grafica",
@@ -31,7 +33,9 @@ class ViewModel{
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
+					$vistasAccesibles[] = 'aprendices';
 					$vistasAccesibles[] = 'visitantes';
+					$vistasAccesibles[] = 'vigilantes';
 					$vistasAccesibles[] = 'funcionarios';
 					$vistasAccesibles[] = 'informes-listado';
 					$vistasAccesibles[] = 'informes-grafica';
@@ -39,9 +43,6 @@ class ViewModel{
 					$vistasAccesibles[] = 'vehiculos';
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
-
-
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'bienestar aprendiz') {// --BIENESTAR APRENDIZ--
 
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'coordinador') {// --COORDINADORA--

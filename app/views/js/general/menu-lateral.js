@@ -4,7 +4,7 @@ let urlBase;
 
 const logo_sena = document.getElementById("logo_sena");
 const barraLateral = document.querySelector(".barra-lateral");
-const spans = document.querySelectorAll("span");
+const spans = barraLateral.querySelectorAll("span");
 const menu = document.querySelector(".cont-menu-icon");
 
 if(window.innerWidth < 1024){

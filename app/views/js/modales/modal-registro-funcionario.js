@@ -115,7 +115,7 @@ function eventoRegistrarFuncionario(){
     formularioFuncionario.addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        let formData = new FormData(formularioFuncionario);
+        let formData = new FormData();
         formData.append('operacion', 'registrar_funcionario');
         formData.append('tipo_documento', selectTipoDocumento.value);
         formData.append('numero_documento', document.getElementById('numero_documento').value);
@@ -244,10 +244,10 @@ function mostrarCampos(){
                     caja.style.display = 'block';
                 }
 
-                inputCorreo.focus();
-
                 botonCancelar.style.display = 'none';
                 botonAtras.style.display = 'flex';
+
+                inputCorreo.focus();
             }
             
         }else if(seccion02[0].style.display == 'block'){
@@ -268,10 +268,10 @@ function mostrarCampos(){
                     caja.style.display = 'block';
                 }
 
-                selectRol.focus();
-
                 botonSiguiente.style.display = 'none';
                 botonRegistrar.style.display = 'flex';
+
+                selectRol.focus();
             }
         }
     })
@@ -288,11 +288,11 @@ function volverCampos(){
             for(const caja of seccion01){
                 caja.style.display = 'block';
             }
-            
-            selectTipoDocumento.focus();
 
             botonAtras.style.display = 'none';
             botonCancelar.style.display = 'flex';
+
+            selectTipoDocumento.focus();
 
         }else if(seccion03[0].style.display == 'block'){
             for(const caja of seccion03){
@@ -303,10 +303,10 @@ function volverCampos(){
                 caja.style.display = 'block';
             }
 
-            inputCorreo.focus();
-
             botonRegistrar.style.display = 'none';
             botonSiguiente.style.display = 'flex';
+
+            inputCorreo.focus();
         }
     })
 }

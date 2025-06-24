@@ -206,6 +206,15 @@ class AprendizService{
             }
         }
 
+        if(isset($_GET['ficha'])){
+            $numeroFicha = $this->limpiarDatos($_GET['ficha']);
+            unset($_GET['ficha']);
+
+            if(preg_match('/^[0-9]+$/', $numeroFicha)){
+                $parametros['numero_ficha'] = $numeroFicha;
+            }
+        }
+
         return [
             'tipo' => 'OK',
             'parametros' => $parametros

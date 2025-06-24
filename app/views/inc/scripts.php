@@ -17,8 +17,14 @@
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-peatonal.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-salidas/salida-vehicular.js"></script>
 
+<?php elseif($url[0] == 'aprendices'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/aprendices.js"></script>
+
 <?php elseif($url[0] == 'visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/visitantes.js"></script>
+
+<?php elseif($url[0] == 'vigilantes'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/vigilantes.js"></script>
 
 <?php elseif($url[0] == 'funcionarios'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/funcionarios.js"></script>

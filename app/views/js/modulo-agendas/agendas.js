@@ -19,6 +19,8 @@ function dibujarAgendas(){
             contenedorCards.innerHTML = '';
 
             respuesta.agendas.forEach(agenda => {
+                const fecha = formatearFecha(agenda.fecha_agenda);
+
                 contenedorCards.innerHTML += `
                     <div class="card-agenda">
                         <div class="card-agenda-header">
@@ -29,12 +31,12 @@ function dibujarAgendas(){
                             <div class="contenedor-fecha-agenda">
                                 <div>
                                     <strong><p class="fecha-agenda">Fecha Agenda:</p></strong>
-                                    <p>${agenda.fecha}</p>
+                                    <p>${fecha.fecha_español}</p>
                                 </div>
                                 
                                 <div>
                                     <strong><p class="fecha-agenda">Hora Agenda:</p></strong>
-                                    <p>${agenda.hora}</p>
+                                    <p>${fecha.hora_español}</p>
                                 </div>
                                 
                             </div>
@@ -103,21 +105,32 @@ function eventoFecha(){
     const fechaFormateada = document.getElementById('fecha_formateada');
 
     inputFecha.addEventListener('change', ()=>{
-        const fechaDividida = inputFecha.value.split('-');
-        const objetoFecha = new Date(parseInt(fechaDividida[0]), parseInt(fechaDividida[1]) - 1, parseInt(fechaDividida[2]));
-        let opciones = { weekday: 'long' };
-        let dia = objetoFecha.toLocaleDateString('es-ES', opciones);
-        dia = dia.charAt(0).toUpperCase() + dia.slice(1);
-        opciones = { day: 'numeric', month: 'long' }
-        const fechaEspañol = objetoFecha.toLocaleDateString('es-ES', opciones);
-
-        nombreDia.textContent = dia;
-        fechaFormateada.textContent = fechaEspañol;
+        const fecha = formatearFecha(inputFecha.value);
+        nombreDia.textContent = fecha.dia_español;
+        fechaFormateada.textContent = fecha.fecha_español;
 
         parametros.fecha = inputFecha.value;
         dibujarAgendas();
     })
 }
+
+function formatearFecha(fecha){
+    const fechaDividida = fecha.split('-');
+    const objetoFecha = new Date(parseInt(fechaDividida[0]), parseInt(fechaDividida[1]) - 1, parseInt(fechaDividida[2]));
+
+    let opciones = { weekday: 'long' };
+    let diaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
+    diaEspañol = diaEspañol.charAt(0).toUpperCase() + diaEspañol.slice(1);
+
+    opciones = { day: 'numeric', month: 'long' }
+    const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
+
+    opciones = { hour: 'numeric', minute: '2-digit', hour12: true };
+    const horaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);
+
+    return {dia_español: diaEspañol, fecha_español: fechaEspañol, hora_español: horaEspañol};
+}
+
 
 function eventoBuscarDocumento(){
     const inputDocumento = document.getElementById('buscador_documento');

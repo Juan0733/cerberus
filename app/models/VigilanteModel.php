@@ -165,7 +165,7 @@ class VigilanteModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['rol'])){
@@ -183,7 +183,7 @@ class VigilanteModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron resultados.'
             ];
             return $respuesta;
@@ -212,8 +212,8 @@ class VigilanteModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
-                "mensaje"=> 'No se encontraron resultados.'
+                "titulo" => 'Vigilante No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del vigilante'
             ];
             return $respuesta;
         }
@@ -222,6 +222,35 @@ class VigilanteModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'datos_vigilante' => $vigilante
+        ];
+        return $respuesta;
+    }
+
+    public function establecerPuerta($puerta){
+        $_SESSION['datos_usuario']['puerta'] = $puerta;
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Cambio de Puerta',
+            'mensaje' => 'Se establecio la puerta correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function consultarPuertaActual(){
+        if(!isset($_SESSION['datos_usuario']['puerta'])){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Datos No Encontrados',
+                'mensaje' => 'No se encontro una puerta seleccionada actualmente.'
+            ];
+            return $respuesta;
+        }
+        
+        $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $respuesta = [
+            'tipo' => 'OK',
+            'puerta_actual' => $puertaActual
         ];
         return $respuesta;
     }

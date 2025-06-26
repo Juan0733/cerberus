@@ -121,11 +121,11 @@ class AprendizModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['numero_ficha'])){
-            $sentenciaBuscar .= " AND fk_ficha = '{$parametros['numero_ficha']}'";
+            $sentenciaBuscar .= " AND fk_ficha LIKE'{$parametros['numero_ficha']}%'";
         }
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10";
@@ -139,7 +139,7 @@ class AprendizModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron resultados.'
             ];
             return $respuesta;
@@ -169,20 +169,13 @@ class AprendizModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
-                "mensaje"=> 'No se encontraron resultados.'
+                "titulo" => 'Aprendiz No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del aprendiz.'
             ];
             return $respuesta;
         }
 
         $aprendiz = $respuestaSentencia->fetch_assoc();
-        
-        $fecha = new DateTime($aprendiz['fecha_fin_ficha']);
-        $mes = MESES[$fecha->format('F')];
-        $fechaFormateada = $fecha->format('j').' de '.$mes.' del '.$fecha->format('Y');
-        $aprendiz['fecha_fin_ficha_formateada'] = $fechaFormateada;
-        
-
         $respuesta = [
             'tipo' => 'OK',
             'datos_aprendiz' => $aprendiz

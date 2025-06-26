@@ -218,52 +218,6 @@ function alertaExito(respuesta){
     })
 }
 
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
-}
-
-function alertaAdvertencia(respuesta){
-    Swal.fire({
-        icon: "warning",
-        iconColor: "#feb211",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar',
-            cancelButton: 'btn-cancelar' 
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            if(respuesta.titulo == "Inhabilitar Usuario"){
-                inhabilitarVigilante(respuesta.documento, urlBase).then(datos=>{
-                    if(datos.tipo == 'OK'){
-                        alertaExito(datos);
-                        validarResolucion();
-                    }else if(datos.tipo == 'ERROR'){
-                        alertaError(datos);
-                    }
-                });
-                
-            }
-        } 
-    });
-}
-
-
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
@@ -273,5 +227,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoBuscarFicha();
     eventoCrearAprendiz();
     validarResolucion();
-    
 })

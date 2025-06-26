@@ -1,5 +1,6 @@
 import {conteoTipoUsuario} from '../fetchs/usuarios-fetch.js'
 import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js'
+import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let conteoAprendices;
 let barraAprendices;
@@ -116,6 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
     conteoMotos = document.getElementById('conteo_motos');
     barraMotos = document.getElementById('barra_motos');
     porcentajeMotos = document.getElementById('subtitle_barra_motos');
+
+    if(document.getElementById('puerta')){
+        modalSeleccionPuerta(urlBase);
+    }
 
     dibujarConteoUsuarios();
     dibujarConteoVehiculos();

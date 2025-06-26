@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-63;
 $ut=44;
-$ttffile='C:\xampp\htdocs\cerberus_v2\app\pdf\tfpdf/font/unifont/DejaVuSerifCondensed-Italic.ttf';
+$ttffile=__DIR__.'/DejaVuSerifCondensed-Italic.ttf';
 $originalsize=345324;
 $fontkey='dejavuI';
 ?>

@@ -50,7 +50,7 @@ function dibujarTablaVigilantes(){
             respuesta.vigilantes.forEach(vigilante => {
                 let acciones = `<ion-icon name="eye" class="ver-vigilante" data-vigilante="${vigilante.numero_documento}"></ion-icon>`
 
-                if(vigilante.rol == 'vigilante raso'){
+                if(vigilante.rol == 'VIGILANTE RASO'){
                     acciones += `<ion-icon name="create" class="editar-vigilante" data-vigilante="${vigilante.numero_documento}"></ion-icon>`;
 
                     if(vigilante.estado_usuario == 'ACTIVO'){
@@ -99,7 +99,7 @@ function dibujarCardsVigilantes(){
             respuesta.vigilantes.forEach(vigilante => {
                 let acciones = `<ion-icon name="eye" class="ver-vigilante" data-vigilante="${vigilante.numero_documento}"></ion-icon>`
 
-                if(vigilante.rol != 'jefe vigilantes'){
+                if(vigilante.rol == 'VIGILANTE RASO'){
                     acciones += `<ion-icon name="create" class="editar-vigilante" data-vigilante="${vigilante.numero_documento}"></ion-icon>`;
 
                     if(vigilante.estado_usuario == 'ACTIVO'){

@@ -15,7 +15,7 @@ class NovedadVehiculoService{
         $documentoInvolucrado = $this->limpiarDatos($_POST['documento_involucrado']);
         $propietario = $this->limpiarDatos($_POST['propietario']);
         $numeroPlaca = $this->limpiarDatos($_POST['numero_placa']);
-        $tipoNovedad = $this->limpiarDatos($_POST['tipo_novedad']);
+        $tipoNovedad = strtoupper($this->limpiarDatos($_POST['tipo_novedad']));
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
         unset($_POST['documento_involucrado'], $_POST['propietario'], $_POST['numero_placa'], $_POST['tipo_novedad'], $_POST['descripcion']);
 
@@ -29,7 +29,7 @@ class NovedadVehiculoService{
                 'cadena' => $propietario
             ],
             [
-                'filtro' => "[A-Za-z ]{1,50}",
+                'filtro' => "(VEHICULO PRESTADO)",
                 'cadena' => $tipoNovedad
             ],
             [
@@ -37,7 +37,7 @@ class NovedadVehiculoService{
                 'cadena' => $numeroPlaca
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $descripcion	
             ]
         ];
@@ -53,8 +53,8 @@ class NovedadVehiculoService{
 			}
         }
 
-        $tipoNovedad = strtoupper($tipoNovedad);
         $numeroPlaca = strtoupper($numeroPlaca);
+        $descripcion = trim(ucfirst(strtolower($descripcion)));
 
         $datosNovedad = [
             'documento_involucrado' => $documentoInvolucrado,
@@ -70,6 +70,52 @@ class NovedadVehiculoService{
         ];
         return $respuesta;
     }
+
+     public function sanitizarParametros(){
+        $parametros = [];
+
+        if(isset($_GET['codigo_novedad'])){
+            $codigoNovedad = $this->limpiarDatos($_GET['codigo_novedad']);
+            unset($_GET['codigo_novedad']);
+
+            if(preg_match('/^[A-Z0-9]{16}$/', $codigoNovedad)){
+                $parametros['codigo_novedad'] = $codigoNovedad;
+            }
+        }
+
+        if(isset($_GET['placa'])){
+            $numeroPlaca = $this->limpiarDatos($_GET['placa']);
+            unset($_GET['placa']);
+
+            if(preg_match('/^[A-Za-z0-9]{1,}$/', $numeroPlaca)){
+                $parametros['numero_placa'] = $numeroPlaca;
+            }
+        }
+
+        if(isset($_GET['tipo_novedad'])){
+            $tipoNovedad = $this->limpiarDatos($_GET['tipo_novedad']);
+            unset($_GET['tipo_novedad']);
+
+            if(preg_match('/^(VEHICULO PRESTADO)$/', $tipoNovedad)){
+                $parametros['tipo_novedad'] = $tipoNovedad;
+            }
+        }
+
+        if(isset($_GET['fecha'])){
+            $fecha = $this->limpiarDatos($_GET['fecha']);
+            unset($_GET['ficha']);
+
+            if(preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/', $fecha)){
+                $parametros['fecha'] = $fecha;
+            }
+        }
+
+        return [
+            'tipo' => 'OK',
+            'parametros' => $parametros
+        ];
+    }
+
 
     public function limpiarDatos($dato){
 		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];

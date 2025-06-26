@@ -102,7 +102,7 @@ class FichaModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 'tipo' => 'ERROR',
-                'titulo' => 'Datos No Encontrados',
+                'titulo' => 'Ficha No Encontrada',
                 'mensaje' => 'No se encontraron resultados'
             ];
             return $respuesta;

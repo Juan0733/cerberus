@@ -66,7 +66,6 @@ class MovimientoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
-        $tipoVehiculo = $respuesta['vehiculo']['tipo_vehiculo'];
 
         $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
@@ -74,7 +73,6 @@ class MovimientoModel extends MainModel{
 
         }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietario Incorrecto'){
             $datosVehiculo = [
-                'tipo_vehiculo' => $tipoVehiculo,
                 'numero_placa' => $datosEntrada['numero_placa'],
                 'propietario' => $datosEntrada['propietario']
             ];
@@ -328,7 +326,7 @@ class MovimientoModel extends MainModel{
     }
 
     public function validarPropiedadVehiculo($placa, $usuario){
-        $respuesta = $this->objetoVehiculo->consultarVehiculoPropietario($placa, $usuario);
+        $respuesta = $this->objetoVehiculo->consultarPropietarioVehiculo($placa, $usuario);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
@@ -344,7 +342,7 @@ class MovimientoModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Propietario Correcto',
-            'mensaje' => 'El propietario del vehiculo coincide con el usuario que intenta realizar el movimiento.'
+            'mensaje' => 'El propietario del vehículo coincide con el usuario que intenta realizar el movimiento.'
         ];
         return $respuesta;
     }
@@ -374,14 +372,14 @@ class MovimientoModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND mov.fk_usuario = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND mov.fk_usuario LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['numero_placa'])){
-            $sentenciaBuscar .= " AND mov.fk_vehiculo = '{$parametros['numero_placa']}'";
+            $sentenciaBuscar .= " AND mov.fk_vehiculo LIKE '{$parametros['numero_placa']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC LIMIT 10;";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -392,7 +390,7 @@ class MovimientoModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron resultados'
             ];
             return $respuesta;
@@ -404,15 +402,14 @@ class MovimientoModel extends MainModel{
             'tipo' => 'OK',
             'movimientos' => $movimientos
         ];
-
         return $respuesta;
     }
 
     public function consultarMovimientosUsuarios($parametros){
         $jornadas = [
-            'mañana' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
-            'tarde' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
-            'noche' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
+            'MAÑANA' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
+            'TARDE' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
+            'NOCHE' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
         ];
 
         $jornada = $parametros['jornada'];
@@ -457,7 +454,6 @@ class MovimientoModel extends MainModel{
             'tipo' => 'OK',
             'movimientos' => $movimientos
         ];
-
         return $respuesta;
     }
 }

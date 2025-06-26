@@ -1,14 +1,22 @@
+<?php
+    $titulo = str_replace("-", " ", $url[0]);
+    $titulo = ucwords(strtolower($titulo));
+    if($titulo == 'Informes Grafica'){
+        $titulo = 'Informes Gráfica';
+
+    }elseif($titulo == 'Novedades Vehiculo'){
+        $titulo = 'Novedades Vehículo';
+    }
+    
+    $primerNombre = explode(" ", $_SESSION['datos_usuario']['nombres'])[0];
+    $primerApellido = explode(" ", $_SESSION['datos_usuario']['apellidos'])[0];
+    $nombreUsuario = $primerNombre.' '.$primerApellido;
+?>
+
 <div id="nav_menu">
     <div id="cont_nombre_vista">
         <h1>
-            <?php
-                $titulo = str_replace("-", " ", $url[0]);
-                $titulo = ucwords(strtolower($titulo));
-                if($titulo == 'Informes Grafica'){
-                    $titulo = 'Informes Gráfica';
-                }
-                echo $titulo;
-            ?>
+            <?php echo $titulo; ?>
         </h1>
     </div>
     <div id="cont_info_usuario">
@@ -18,7 +26,7 @@
         </div>
         <div id="cont_perfil_user">
             <ion-icon name="person-outline"></ion-icon>
-            <p><?php echo $_SESSION['datos_usuario']['nombres'].' '.$_SESSION['datos_usuario']['apellidos']; ?></p>
+            <p><?php echo $nombreUsuario; ?></p>
         </div>
         <button id="btn_brigadistas">
             <ion-icon name="medkit"></ion-icon>

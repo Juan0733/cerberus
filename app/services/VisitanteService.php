@@ -48,7 +48,7 @@ class VisitanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivoIngreso
             ]
 		];
@@ -64,8 +64,9 @@ class VisitanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
+        $motivoIngreso = trim(ucfirst($motivoIngreso));
 
         $datosVisitante = [
             'tipo_documento' => $tipoDocumento,

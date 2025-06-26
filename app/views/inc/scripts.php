@@ -41,6 +41,12 @@
 
 <?php elseif($url[0] == 'vehiculos'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos.js"></script>
+
+<?php elseif($url[0] == 'novedades-usuario'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-novedades/novedades-usuario.js"></script>
+
+<?php elseif($url[0] == 'novedades-vehiculo'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-novedades/novedades-vehiculo.js"></script>
 <?php endif; ?>
 
 

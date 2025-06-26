@@ -53,7 +53,7 @@ class FuncionarioService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(planta|contratista)",
+                'filtro' => "(PLANTA|CONTRATISTA)",
                 'cadena' => $tipoContrato
             ],
             [
@@ -61,12 +61,12 @@ class FuncionarioService{
                 'cadena' => $brigadista
             ],
             [
-                'filtro' => '(instructor|coordinador|personal administrativo|soporte tecnico|personal aseo)',
+                'filtro' => '(INSTRUCTOR|COORDINADOR|PERSONAL ADMINISTRATIVO|SOPORTE TECNICO|PERSONAL ASEO)',
                 'cadena' => $rol
             ]
 		];
 
-        if($tipoContrato == 'contratista'){
+        if($tipoContrato == 'CONTRATISTA'){
             if(!isset($_POST['fecha_fin_contrato']) || $_POST['fecha_fin_contrato'] == ''){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -85,7 +85,7 @@ class FuncionarioService{
             ];
         }
 
-        if($rol == 'coordinador'){
+        if($rol == 'COORDINADOR'){
             if(!isset($_POST['contrasena']) || $_POST['contrasena'] == ''){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -116,8 +116,8 @@ class FuncionarioService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords(strtolower($apellidos));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords(strtolower($apellidos)));
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
         if($contrasena != 'NULL'){
             $contrasena = md5($contrasena);
@@ -196,7 +196,7 @@ class FuncionarioService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(planta|contratista)",
+                'filtro' => "(PLANTA|CONTRATISTA)",
                 'cadena' => $tipoContrato
             ],
             [
@@ -204,12 +204,12 @@ class FuncionarioService{
                 'cadena' => $brigadista
             ],
             [
-                'filtro' => '(instructor|coordinador|personal administrativo|soporte tecnico|personal aseo)',
+                'filtro' => '(INSTRUCTOR|COORDINADOR|PERSONAL ADMINISTRATIVO|SOPORTE TECNICO|PERSONAL ASEO)',
                 'cadena' => $rol
             ]
 		];
 
-        if($tipoContrato == 'contratista'){
+        if($tipoContrato == 'CONTRATISTA'){
             if(!isset($_POST['fecha_fin_contrato']) || $_POST['fecha_fin_contrato'] == ''){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -228,7 +228,7 @@ class FuncionarioService{
             ];
         }
 
-        if($rol == 'coordinador'){
+        if($rol == 'COORDINADOR'){
            $estadoUsuario = "'INACTIVO'";
         }
 		
@@ -243,8 +243,8 @@ class FuncionarioService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords(strtolower($apellidos));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords(strtolower($apellidos)));
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
         
         $datosFuncionario = [
@@ -312,7 +312,7 @@ class FuncionarioService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(planta|contratista)",
+                'filtro' => "(PLANTA|CONTRATISTA)",
                 'cadena' => $tipoContrato
             ],
             [
@@ -320,12 +320,12 @@ class FuncionarioService{
                 'cadena' => $brigadista
             ],
             [
-                'filtro' => '(instructor|coordinador|personal administrativo|soporte tecnico|personal aseo)',
+                'filtro' => '(INSTRUCTOR|COORDINADOR|PERSONAL ADMINISTRATIVO|SOPORTE TECNICO|PERSONAL ASEO)',
                 'cadena' => $rol
             ]
 		];
 
-        if($tipoContrato == 'contratista'){
+        if($tipoContrato == 'CONTRATISTA'){
             if(!isset($_POST['fecha_fin_contrato']) || $_POST['fecha_fin_contrato'] == ''){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -344,7 +344,7 @@ class FuncionarioService{
             ];
         }
 
-        if($rol == 'coordinador'){
+        if($rol == 'COORDINADOR'){
             if(!isset($_POST['contrasena'])){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -374,8 +374,8 @@ class FuncionarioService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords(strtolower($apellidos));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords(strtolower($apellidos)));
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
 
         $datosFuncionario = [
@@ -488,7 +488,7 @@ class FuncionarioService{
             $rol = $this->limpiarDatos($_GET['rol']);
             unset($_GET['rol']);
 
-            if(preg_match('/^(coordinador|instructor|personal administrativo|personal aseo|soporte tecnico)$/', $rol)){
+            if(preg_match('/^(COORDINADOR|INSTRUCTOR|PERSONAL ADMINISTRATIVO|PERSONAL ASEO|SOPORTE TECNICO)$/', $rol)){
                 $parametros['rol'] = $rol;
             }
         }

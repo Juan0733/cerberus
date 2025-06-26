@@ -50,7 +50,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(vigilante raso|jefe vigilantes)",
+                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
                 'cadena' => $rol
             ],
             [
@@ -70,8 +70,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
         $contrasena = md5($contrasena);
         $estadoUsuario = 'ACTIVO';
 
@@ -140,7 +140,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(vigilante raso|jefe vigilantes)",
+                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
                 'cadena' => $rol
             ]
 		];
@@ -156,8 +156,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
         $contrasena = 'NULL';
         $estadoUsuario = 'INACTIVO';
 
@@ -222,7 +222,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(vigilante raso|jefe vigilantes)",
+                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
                 'cadena' => $rol
             ],
             [
@@ -242,8 +242,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
 
         $datosVigilante = [
             'numero_documento' => $numeroDocumento,
@@ -315,6 +315,44 @@ class VigilanteService{
         return $respuesta;
     }
 
+     public function sanitizarDatosCambioPuerta(){
+        if(!isset($_POST['puerta']) || $_POST['puerta'] == '' ){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Campos Obligatorios',
+                "mensaje"=> 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
+            ];
+            return $respuesta;
+        }
+
+        $puerta = $this->limpiarDatos($_POST['puerta']);
+        unset($_POST['puerta']); 
+		
+		$datos = [
+            [
+				'filtro' => "PRINCIPAL|PEATONAL|GANADERIA",
+				'cadena' => $puerta
+            ]
+		];
+
+        foreach ($datos as $dato) {
+			if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
+				$respuesta = [
+                    "tipo" => "ERROR",
+                    'titulo' => "Formato Inválido",
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                ];
+                return $respuesta;
+			}
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            "puerta" => $puerta
+        ];
+        return $respuesta;
+    }
+
     public function sanitizarParametros()
     {
         $parametros = [];
@@ -341,7 +379,7 @@ class VigilanteService{
             $rol = $this->limpiarDatos($_GET['rol']);
             unset($_GET['rol']);
 
-            if(preg_match('/^(vigilante raso|jefe vigilantes)$/', $rol)){
+            if(preg_match('/^(VIGILANTE RASO|JEFE VIGILANTES)$/', $rol)){
                 $parametros['rol'] = $rol;
             }
         }

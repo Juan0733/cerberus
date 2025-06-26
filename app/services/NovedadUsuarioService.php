@@ -13,7 +13,7 @@ class NovedadUsuarioService{
         }
 
         $numeroDocumento = $this->limpiarDatos($_POST['documento_involucrado']);
-        $tipoNovedad = $this->limpiarDatos($_POST['tipo_novedad']);
+        $tipoNovedad = strtoupper($this->limpiarDatos($_POST['tipo_novedad']));
         $fechaSuceso = $this->limpiarDatos($_POST['fecha_suceso']);
         $puertaSuceso = $this->limpiarDatos($_POST['puerta_suceso']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
@@ -25,7 +25,7 @@ class NovedadUsuarioService{
                 'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "[A-Za-z ]{1,50}",
+                'filtro' => "(ENTRADA NO REGISTRADA|SALIDA NO REGISTRADA)",
                 'cadena' => $tipoNovedad
             ],
             [
@@ -33,11 +33,11 @@ class NovedadUsuarioService{
                 'cadena' => $fechaSuceso
             ],
             [
-                'filtro' => "(principal|ganaderia|peatonal)",
+                'filtro' => "(PRINCIPAL|GANADERIA|PEATONAL)",
                 'cadena' => $puertaSuceso
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $descripcion	
             ]
         ];
@@ -53,7 +53,8 @@ class NovedadUsuarioService{
 			}
         }
 
-        $tipoNovedad = strtoupper($tipoNovedad);
+        $puertaSuceso = strtoupper($puertaSuceso);
+        $descripcion = trim(ucfirst(strtolower($descripcion)));
 
         $datosNovedad = [
             'numero_documento' => $numeroDocumento,
@@ -70,9 +71,53 @@ class NovedadUsuarioService{
         return $respuesta;
     }
 
+    public function sanitizarParametros(){
+        $parametros = [];
+
+        if(isset($_GET['codigo_novedad'])){
+            $codigoNovedad = $this->limpiarDatos($_GET['codigo_novedad']);
+            unset($_GET['codigo_novedad']);
+
+            if(preg_match('/^[A-Z0-9]{16}$/', $codigoNovedad)){
+                $parametros['codigo_novedad'] = $codigoNovedad;
+            }
+        }
+
+        if(isset($_GET['documento'])){
+            $numeroDocumento = $this->limpiarDatos($_GET['documento']);
+            unset($_GET['documento']);
+
+            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
+                $parametros['numero_documento'] = $numeroDocumento;
+            }
+        }
+
+        if(isset($_GET['tipo_novedad'])){
+            $tipoNovedad = $this->limpiarDatos($_GET['tipo_novedad']);
+            unset($_GET['tipo_novedad']);
+
+            if(preg_match('/^(SALIDA NO REGISTRADA|ENTRADA NO REGISTRADA)$/', $tipoNovedad)){
+                $parametros['tipo_novedad'] = $tipoNovedad;
+            }
+        }
+
+        if(isset($_GET['fecha'])){
+            $fecha = $this->limpiarDatos($_GET['fecha']);
+            unset($_GET['ficha']);
+
+            if(preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/', $fecha)){
+                $parametros['fecha'] = $fecha;
+            }
+        }
+
+        return [
+            'tipo' => 'OK',
+            'parametros' => $parametros
+        ];
+    }
+
     public function limpiarDatos($dato){
 		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
 
 		$dato=trim($dato);
 		$dato=stripslashes($dato);

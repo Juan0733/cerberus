@@ -183,14 +183,14 @@ try {
     $parametros = $objetoServicio->sanitizarParametros()['parametros'];
 
     if(!isset($parametros['fecha_inicio']) || !isset($parametros['fecha_fin'])){
-        header("Location: ../../informes-tabla");
+        header("Location: ../../informes-listado");
         exit();
     }
 
     if(isset($parametros['numero_documento'])){
         $respuesta = $objetoUsuario->consultarUsuario($parametros['numero_documento']);
         if($respuesta['tipo'] == 'ERROR'){
-            header("Location: ../../informes-tabla");
+            header("Location: ../../informes-listado");
             exit();
         }
 
@@ -199,7 +199,7 @@ try {
     }elseif(isset($parametros['numero_placa'])){
         $respuesta = $objetoVehiculo->consultarVehiculo($parametros['numero_placa']);
         if($respuesta['tipo'] == 'ERROR'){
-            header("Location: ../../informes-tabla");
+            header("Location: ../../informes-listado");
             exit();
         }
 
@@ -211,14 +211,14 @@ try {
     
     $respuesta= $objetoMovimiento->consultarMovimientos($parametros);
     if($respuesta['tipo'] == 'ERROR'){
-        header("Location: ../../informes-tabla");
+        header("Location: ../../informes-listado");
         exit();
     }
 
     $pdf->generarPdf($respuesta['movimientos']);
 
 } catch (\Throwable $th) {
-    header("Location: ../../informes-tabla");
+    header("Location: ../../informes-listado");
     exit();
 }
 

@@ -36,7 +36,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
 	
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
+    $objetoNovedad= new NovedadUsuarioModel();
+    $objetoServicio = new NovedadUsuarioService();
 
-}else{
-	echo "no post". $_SERVER['REQUEST_METHOD'];
+    $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+
+    if($operacion == 'consultar_novedades_usuario'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['fecha'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoNovedad->consultarNovedadesUsuario($respuesta['parametros']));
+
+    }else if($operacion == 'consultar_novedad_usuario'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['codigo_novedad'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoNovedad->consultarNovedadUsuario($respuesta['parametros']['codigo_novedad']));
+    }
 }

@@ -14,8 +14,8 @@
             <label class="fechas_input" for="rol_filtro">Rol:</label>
             <select class="campo"  name="rol_filtro" id="rol_filtro" tabindex="8" required>
                 <option value="">Todos</option>
-                <option value="jefe vigilantes">Jefe Vigilantes</option>
-                <option value="vigilante raso">Vigilante Raso</option>
+                <option value="JEFE VIGILANTES">Jefe Vigilantes</option>
+                <option value="VIGILANTE RASO">Vigilante Raso</option>
             </select>
         </div>
 

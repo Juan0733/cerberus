@@ -127,11 +127,11 @@ function eventoRegistrarFuncionario(){
         formData.append('tipo_contrato', selectTipoContrato.value);
         formData.append('rol', selectRol.value);
 
-        if(selectTipoContrato.value == 'contratista'){
+        if(selectTipoContrato.value == 'CONTRATISTA'){
             formData.append('fecha_fin_contrato', inputFechaContrato.value);
         }
 
-        if(selectRol.value == 'coordinador'){
+        if(selectRol.value == 'COORDINADOR'){
             formData.append('contrasena', inputContrasena.value);
         }
 

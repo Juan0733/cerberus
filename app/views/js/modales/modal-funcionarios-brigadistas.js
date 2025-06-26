@@ -93,14 +93,7 @@ function dibujarBrigadistas(){
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Datos No Encontrados'){
-               contenedor.innerHTML = `
-                    <div class="document-card-brigadista">
-                        <div class="card-header">
-                            <div>
-                                <p class="document-meta">No hay brigadistas dentro del CAB</p>
-                            </div>
-                        </div>
-                    </div>`;
+               contenedor.innerHTML = `<p id="mensaje_respuesta">No hay brigadistas dentro del CAB</p>`;
 
                 contenedorModales.classList.add('mostrar');
 

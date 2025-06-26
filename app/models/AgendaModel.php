@@ -197,13 +197,13 @@ class AgendaModel extends MainModel{
                 WHERE DATE(a.fecha_agenda) = '{$parametros['fecha']}'";
 
         $rol = $_SESSION['datos_usuario']['rol'];
-        if($rol != 'jefe vigilantes' && $rol != 'vigilante raso'){
+        if($rol != 'JEFE VIGILANTES' && $rol != 'VIGILANTE RASO'){
             $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
-            $sentenciaBuscar .= " AND fk_usuario_sistema = '$usuarioSistema'";
+            $sentenciaBuscar .= " AND a.fk_usuario_sistema = '$usuarioSistema'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND fk_usuario = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND a.fk_usuario LIKE '{$parametros['numero_documento']}%'";
         }else{
             $sentenciaBuscar .= " AND a.fk_usuario = (
                 SELECT MIN(a2.fk_usuario)
@@ -213,7 +213,7 @@ class AgendaModel extends MainModel{
         }
 
         if(isset($parametros['titulo'])){
-            $sentenciaBuscar .= " AND titulo = '{$parametros['titulo']}'";
+            $sentenciaBuscar .= " AND a.titulo LIKE '{$parametros['titulo']}%'";
         }
 
         $sentenciaBuscar .= " ORDER BY a.fecha_registro DESC LIMIT 10;";
@@ -283,24 +283,17 @@ class AgendaModel extends MainModel{
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Agenda No Encontrada',
-                "mensaje"=> 'No se encontró la agenda solicitada.'
+                "mensaje"=> 'No se encontraron resultados de la agenda.'
             ];
             return $respuesta;
         }
 
         $resultados = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
-        $objetoFecha = new DateTime($resultados[0]['fecha_agenda']);
-        $mes = MESES[$objetoFecha->format('F')];  
-        $fechaFormateada = $objetoFecha->format('j') . ' de ' . $mes;
-
-        $horaFormateada = strtolower($objetoFecha->format('g:iA')); 
 
         $datosAgenda = [
             'titulo' => $resultados[0]['titulo'],
             'motivo' => $resultados[0]['motivo'],
             'fecha_agenda' => $resultados[0]['fecha_agenda'],
-            'fecha'=> $fechaFormateada,
-            'hora'=> $horaFormateada,
             'nombres_responsable'=> $resultados[0]['nombres_responsable'],
             'apellidos_responsable'=> $resultados[0]['apellidos_responsable'],
             'agendados' => []

@@ -46,7 +46,7 @@
                 <?php foreach($opcionesMenu as $clave => $opcion): ?>
                     <li class=" <?php echo $opcion['CLASE']; ?>">
                         <a href="<?php echo $opcion['URL'] == '#' ? $opcion['URL'] : $urlBaseVariable.$opcion['URL']; ?>" class="<?php echo $opcion['CLASE02']; ?>
-                            <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES'): ?>
+                            <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES' || $clave == 'NOVEDADES'): ?>
                                 <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
                                     <?php if ($subOpcion['URL'] == $urlActual): ?>
                                         <?php echo 'inbox'; ?>
@@ -61,7 +61,7 @@
                             <span><?php echo $opcion['TITULO']; ?></span>
                         </a>
 
-                        <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES'): ?>
+                        <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES' || $clave == 'NOVEDADES'): ?>
                             <ul class="<?php echo $opcion['CLASE03']; ?>">
                                 <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
                                     <li>

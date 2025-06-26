@@ -61,17 +61,23 @@ function eventoCerrarModal(){
 function dibujarFuncionario() {
     consultarFuncionario(documentoFuncionario, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            document.getElementById('tipo_documento').textContent = respuesta.datos_funcionario.tipo_documento
-            document.getElementById('numero_documento').textContent = respuesta.datos_funcionario.numero_documento;
-            document.getElementById('nombres').textContent = respuesta.datos_funcionario.nombres;
-            document.getElementById('apellidos').textContent = respuesta.datos_funcionario.apellidos;
-            document.getElementById('telefono').textContent = respuesta.datos_funcionario.telefono;
-            document.getElementById('correo_electronico').textContent = respuesta.datos_funcionario.correo_electronico;
-            document.getElementById('rol').textContent = respuesta.datos_funcionario.rol;
-            document.getElementById('brigadista').textContent = respuesta.datos_funcionario.brigadista;
-            document.getElementById('tipo_contrato').textContent = respuesta.datos_funcionario.tipo_contrato;
-            document.getElementById('fecha_fin_contrato').textContent = respuesta.datos_funcionario.fecha_fin_contrato_formateada;
-
+            const datosFuncionario = respuesta.datos_funcionario
+            document.getElementById('tipo_documento').textContent = datosFuncionario.tipo_documento
+            document.getElementById('numero_documento').textContent = datosFuncionario.numero_documento;
+            document.getElementById('nombres').textContent = datosFuncionario.nombres;
+            document.getElementById('apellidos').textContent = datosFuncionario.apellidos;
+            document.getElementById('telefono').textContent = datosFuncionario.telefono;
+            document.getElementById('correo_electronico').textContent = datosFuncionario.correo_electronico;
+            document.getElementById('rol').textContent = formatearString(datosFuncionario.rol);
+            document.getElementById('brigadista').textContent = formatearString(datosFuncionario.brigadista);
+            document.getElementById('tipo_contrato').textContent = formatearFecha(datosFuncionario.tipo_contrato);
+            
+            if(datosFuncionario.tipo_contrato == 'CONTRATISTA'){
+                document.getElementById('fecha_fin_contrato').textContent = formatearFecha(datosFuncionario.fecha_fin_contrato);
+            }else{
+                document.getElementById('fecha_fin_contrato').textContent = datosFuncionario.fecha_fin_contrato;
+            }
+            
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -85,6 +91,22 @@ function dibujarFuncionario() {
             }
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
+}
+
+function formatearFecha(fecha){
+    const fechaDividida = fecha.split('-');
+    const objetoFecha = new Date(parseInt(fechaDividida[0]), parseInt(fechaDividida[1]) - 1, parseInt(fechaDividida[2]));
+
+    const opciones = { day: 'numeric', month: 'long', year: 'numeric' }
+    const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
+
+    return fechaEspañol;
 }
 
 function alertaError(respuesta){

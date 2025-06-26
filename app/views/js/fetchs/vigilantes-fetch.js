@@ -97,6 +97,53 @@ async function inhabilitarVigilante(documento, urlBase) {
 }
 export{inhabilitarVigilante}
 
+async function establecerPuerta(datos, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
+            method: 'POST',
+            body: datos
+        });
+
+        if(!response.ok) throw new Error("Hubo un error en la solicitud");
+        
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{establecerPuerta}
+
+async function consultarPuerta(urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_puerta'));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarPuerta}
+
 async function consultarVigilantes(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");

@@ -51,10 +51,10 @@ function dibujarTablaFuncionarios(){
             respuesta.funcionarios.forEach(funcionario => {
                 let acciones = `<ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
 
-                if(funcionario.rol != 'subdirector'){
+                if(funcionario.rol != 'SUBDIRECTOR'){
                     acciones += `<ion-icon name="create" class="editar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
 
-                    if(funcionario.rol == 'coordinador'){
+                    if(funcionario.rol == 'COORDINADOR'){
                         if(funcionario.estado_usuario == 'ACTIVO'){
                         acciones += `<ion-icon name="lock-closed" class="inhabilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>` 
 
@@ -102,10 +102,10 @@ function dibujarCardsFuncionarios(){
             respuesta.funcionarios.forEach(funcionario => {
                 let acciones = `<ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
 
-                if(funcionario.rol != 'subdirector'){
+                if(funcionario.rol != 'SUBDIRECTOR'){
                     acciones += `<ion-icon name="create" class="editar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
 
-                    if(funcionario.rol == 'coordinador'){
+                    if(funcionario.rol == 'COORDINADOR'){
                         if(funcionario.estado_usuario == 'ACTIVO'){
                         acciones += `<ion-icon name="lock-closed" class="inhabilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>` 
 

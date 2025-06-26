@@ -653,10 +653,16 @@ main#cuerpo{
     #contenedor_modales #modal_brigadistas #cont_info_modales{
         display:  flex;
         flex-direction: column;
+        min-height: 250px;
         padding: 1em;
         row-gap: 5px;
         width: 100%;
     }
+
+        #contenedor_modales #modal_brigadistas #cont_info_modales #mensaje_respuesta{
+            align-items: center;
+            padding: 100px 0;
+        }
 
         #contenedor_modales #modal_brigadistas #cont_info_modales .document-card-brigadista {
             border: 1px solid #ddd;

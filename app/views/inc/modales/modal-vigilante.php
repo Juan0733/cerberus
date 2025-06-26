@@ -50,10 +50,10 @@
                     <label for="rol" class="label-input">Rol</label>
                     <select class="campo"  name="rol" id="rol" tabindex="7" required>
                         <option value="" selected disabled>Seleccionar</option>
-                        <?php if($_SESSION['datos_usuario']['rol'] == 'subdirector'): ?>
-                            <option value="jefe vigilantes">Jefe Vigilantes</option>
+                        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+                            <option value="JEFE VIGILANTES">Jefe Vigilantes</option>
                         <?php endif; ?>
-                        <option value="vigilante raso">Vigilante Raso</option>
+                        <option value="VIGILANTE RASO">Vigilante Raso</option>
                     </select>
                 </div>
                

@@ -33,7 +33,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -54,6 +54,7 @@ class AgendaService{
         }
 
         $titulo = ucwords(strtolower($titulo));
+        $motivo = trim(ucfirst(strtolower($motivo)));
 
         $datosAgenda = [
             'codigo_agenda' => $codigoAgenda,
@@ -79,7 +80,6 @@ class AgendaService{
           return $respuesta;
         }
 
-       
         $tipoDocumento = $this->limpiarDatos($_POST['tipo_documento']);
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
         $nombres = $this->limpiarDatos($_POST['nombres']);
@@ -121,7 +121,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -142,6 +142,7 @@ class AgendaService{
         }
 
         $titulo = ucwords(strtolower($titulo));
+        $motivo = trim(ucfirst(strtolower($motivo)));
 
         $datosAgenda = [
             'tipo_documento' => $tipoDocumento,
@@ -184,7 +185,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -252,7 +253,7 @@ class AgendaService{
                     $respuesta = [
                         "tipo" => "ERROR",
                         'titulo' => "Formato Inválido",
-                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".var_dump($agendados),
+                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                     ];
                     return $respuesta;
                 }
@@ -260,7 +261,8 @@ class AgendaService{
         }
 
         $titulo = ucwords(strtolower($titulo));
-        
+        $motivo = trim(ucfirst(strtolower($motivo)));
+
         $datosAgenda = [
             'agendados' => $agendados,
             'titulo' => $titulo,

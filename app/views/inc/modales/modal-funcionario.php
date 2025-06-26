@@ -62,8 +62,8 @@
                     <label for="tipo_contrato" class="label-input">Tipo contrato</label>
                     <select class="campo campo-seccion-02"  name="tipo_contrato" id="tipo_contrato" tabindex="7" required>
                         <option value="" selected disabled>Seleccionar</option>
-                        <option value="planta">Planta</option>
-                        <option value="contratista">Contratista</option>
+                        <option value="PLANTA">Planta</option>
+                        <option value="CONTRATISTA">Contratista</option>
                     </select>
                 </div>
             
@@ -71,11 +71,11 @@
                     <label for="rol" class="label-input">Rol</label>
                     <select class="campo"  name="rol" id="rol" tabindex="8" required>
                         <option value="" selected disabled>Seleccionar</option>
-                        <option value="coordinador">Coordinador</option>
-                        <option value="instructor">Instructor</option>
-                        <option value="personal administrativo">Personal Administrativo</option>
-                        <option value="personal aseo">Personal Aseo</option>
-                        <option value="soporte tecnico">Soporte Tecnico</option>
+                        <option value="COORDINADOR">Coordinador</option>
+                        <option value="INSTRUCTOR">Instructor</option>
+                        <option value="PERSONAL ADMINISTRATIVO">Personal Administrativo</option>
+                        <option value="PERSONAL ASEO">Personal Aseo</option>
+                        <option value="SOPORTE TECNICO">Soporte Tecnico</option>
                     </select>
                 </div>
 

@@ -14,12 +14,12 @@
             <label class="fechas_input" for="rol_filtro">Rol:</label>
             <select class="campo"  name="rol_filtro" id="rol_filtro" tabindex="8" required>
                 <option value="">Todos</option>
-                <option value="coordinador">Coordinador</option>
-                <option value="instructor">Instructor</option>
-                <option value="personal administrativo">Personal Administrativo</option>
-                <option value="personal aseo">Personal Aseo</option>
-                <option value="soporte tecnico">Soporte Tecnico</option>
-                <option value="subdirector">Subdirector</option>
+                <option value="COORDINADOR">Coordinador</option>
+                <option value="INSTRUCTOR">Instructor</option>
+                <option value="PERSONAL ADMINISTRATIVO">Personal Administrativo</option>
+                <option value="PERSONAL ASEO">Personal Aseo</option>
+                <option value="SOPORTE TECNICO">Soporte Tecnico</option>
+                <option value="SUBDIRECTOR">Subdirector</option>
             </select>
         </div>
 

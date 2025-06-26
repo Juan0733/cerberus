@@ -16,10 +16,10 @@
                     <label for="tipo_vehiculo" class="label-input">Tipo de vehículo</label>
                     <select class="campo"  name="tipo_vehiculo" id="tipo_vehiculo" tabindex="5" required>
                         <option value="">Selecciona el tipo de vehiculo.</option>
-                        <option value="Automóvil">Automóvil</option>
-                        <option value="Bus">Bus</option>
-                        <option value="Camión">Camión</option>
-                        <option value="Moto">Moto</option>
+                        <option value="AUTOMÓVIL">Automóvil</option>
+                        <option value="BUS">Bus</option>
+                        <option value="CAMIÓN">Camión</option>
+                        <option value="MOTO">Moto</option>
                     </select>
                 </div>
     

@@ -73,9 +73,9 @@ class AprendizService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords(strtolower($apellidos));
-        $nombrePrograma = ucwords(strtolower($nombrePrograma));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords(strtolower($apellidos)));
+        $nombrePrograma = trim(ucwords(strtolower($nombrePrograma)));
 
         $datosAprendiz = [
             'tipo_documento' => $tipoDocumento,
@@ -162,9 +162,9 @@ class AprendizService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords(strtolower($apellidos));
-        $nombrePrograma = ucwords(strtolower($nombrePrograma));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords(strtolower($apellidos)));
+        $nombrePrograma = trim(ucwords(strtolower($nombrePrograma)));
 
         $datosAprendiz = [
             'numero_documento' => $numeroDocumento,

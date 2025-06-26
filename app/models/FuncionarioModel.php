@@ -42,7 +42,7 @@ class FuncionarioModel extends MainModel{
         $rolActual = $respuesta['datos_funcionario']['rol'];
         $estadoUsuarioActual = $respuesta['datos_funcionario']['estado_usuario'];
 
-        if($rolActual != 'coordinador' && $datosFuncionario['rol'] == 'coordinador' && !isset($datosFuncionario['contrasena'])){
+        if($rolActual != 'COORDINADOR' && $datosFuncionario['rol'] == 'COORDINADOR' && !isset($datosFuncionario['contrasena'])){
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Contraseña Requerida',
@@ -51,7 +51,7 @@ class FuncionarioModel extends MainModel{
             return $respuesta;
         }
 
-        if($datosFuncionario['rol'] == 'coordinador' && $estadoUsuarioActual == NULL){
+        if($datosFuncionario['rol'] == 'COORDINADOR' && $estadoUsuarioActual == NULL){
             $datosFuncionario['estado_usuario'] = 'ACTIVO';
         }
 
@@ -191,7 +191,7 @@ class FuncionarioModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND numero_documento LIKE'{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['rol'])){
@@ -209,7 +209,7 @@ class FuncionarioModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron resultados.'
             ];
             return $respuesta;
@@ -249,20 +249,13 @@ class FuncionarioModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
-                "mensaje"=> 'No se encontraron resultados.'
+                "titulo" => 'Funcionario No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del funcionario.'
             ];
             return $respuesta;
         }
 
         $funcionario = $respuestaSentencia->fetch_assoc();
-        if($funcionario['tipo_contrato'] == 'contratista'){
-            $fecha = new DateTime($funcionario['fecha_fin_contrato']);
-            $mes = MESES[$fecha->format('F')];
-            $fechaFormateada = $fecha->format('j').' de '.$mes.' del '.$fecha->format('Y');
-            $funcionario['fecha_fin_contrato_formateada'] = $fechaFormateada;
-        }
-        
         $respuesta = [
             'tipo' => 'OK',
             'datos_funcionario' => $funcionario

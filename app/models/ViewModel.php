@@ -21,6 +21,8 @@ class ViewModel{
 			"informes-grafica",
 			"agendas",
 			"vehiculos",
+			"novedades-usuario",
+			"novedades-vehiculo",
 			"auto-registro-visitantes"
 		];
 
@@ -29,7 +31,7 @@ class ViewModel{
 			$vistasAccesibles = ['login', 'sesion-expirada', 'acceso-denegado', 'auto-registro-visitantes'];
 
 			if(isset($_SESSION['datos_usuario'])){
-				if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes') {// --JEFE DE VIGILANTES--
+				if ($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES') {// --JEFE DE VIGILANTES--
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
@@ -41,6 +43,8 @@ class ViewModel{
 					$vistasAccesibles[] = 'informes-grafica';
 					$vistasAccesibles[] = 'agendas';
 					$vistasAccesibles[] = 'vehiculos';
+					$vistasAccesibles[] = 'novedades-usuario';
+					$vistasAccesibles[] = 'novedades-vehiculo';
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
 
@@ -69,7 +73,7 @@ class ViewModel{
 
 	public function obtenerMenuOpciones(){
 		if(isset($_SESSION['datos_usuario'])){
-			if ($_SESSION['datos_usuario']['rol'] == 'jefe vigilantes' ) {
+			if ($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' ) {
 				$listMenu = [
 					"INICIO" => [
 						"TITULO" => 'Inicio',
@@ -135,17 +139,17 @@ class ViewModel{
 						"CLASE02" => 'sub-menu-link',
 						"CLASE03" => 'sub-menu-list',
 						"URL" => '#',
-						"ICON" => 'analytics-outline',
+						"ICON" => 'receipt-outline',
 						"SUBMENU" => [
 							"TABLA" => [
 								"TITULO" => 'Listado',
 								"URL" => 'informes-listado',
-								"ICON" => 'person-outline'
+								"ICON" => 'clipboard-outline'
 							],
 							"GRAFICA" => [
 								"TITULO" => 'Gráfica',
 								"URL" => 'informes-grafica',
-								"ICON" => 'person-outline'
+								"ICON" => 'analytics-outline'
 							],
 						]
 					],
@@ -158,13 +162,26 @@ class ViewModel{
 					],
 					"NOVEDADES" => [
 						"TITULO" => 'Novedades',
-						"CLASE" => '',
-						"CLASE02" => '',
-						"URL" => 'listado-novedades',
-						"ICON" => 'receipt-outline'
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'megaphone-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'novedades-usuario',
+								"ICON" => 'person-outline'
+							],
+							"VEHICULO" => [
+								"TITULO" => 'Vehículo',
+								"URL" => 'novedades-vehiculo',
+								"ICON" => 'car-outline'
+							]
+						]
 					]
 				];
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'subdirector' ) {
+			}elseif ($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' ) {
 
 			} else {
 			}

@@ -35,7 +35,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     }
 
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
+    $objetoNovedad= new NovedadVehiculoModel();
+    $objetoServicio = new NovedadVehiculoService();
 
+    $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+
+    if($operacion == 'consultar_novedades_vehiculo'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['fecha'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoNovedad->consultarNovedadesVehiculo($respuesta['parametros']));
+
+    }else if($operacion == 'consultar_novedad_vehiculo'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['codigo_novedad'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoNovedad->consultarNovedadVehiculo($respuesta['parametros']['codigo_novedad']));
+    }
 }else{
 	echo "no post". $_SERVER['REQUEST_METHOD'];
 }

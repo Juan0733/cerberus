@@ -78,9 +78,28 @@ class UsuarioModel extends MainModel{
 
         $respuesta = [
             "tipo"=>"OK",
-            "titulo" => 'Cambio Éxitoso',
-            "mensaje"=> 'El usuario fue cambiado de grupo exitosamente.',
-            "icono" => "success",
+            "titulo" => 'Cambio Exitoso',
+            "mensaje"=> 'El usuario fue eliminado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    private function actualizarFechaSesion($usuario, $tabla){
+        $fechaUltimaSesion = date('Y-m-d H:i:s');
+
+        $sentenciaActualizar = "
+            UPDATE $tabla 
+            SET fecha_ultima_sesion = '$fechaUltimaSesion';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Actualización Exitosa',
+            'mensaje' => 'La fecha de la ultima sesión fue actualizada correctamente.'
         ];
         return $respuesta;
     }
@@ -98,7 +117,7 @@ class UsuarioModel extends MainModel{
                 $sentenciaBuscar = "
                     SELECT `numero_documento` 
                     FROM `$tabla` 
-                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector');";
+                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR');";
             }
             
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
@@ -127,7 +146,6 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
-
     public function validarContrasenaLogin($datosLogin){
         $tablas = ['vigilantes', 'funcionarios'];
         foreach ($tablas as $tabla) {
@@ -141,7 +159,7 @@ class UsuarioModel extends MainModel{
                 $sentenciaBuscar = "
                     SELECT * 
                     FROM `$tabla` 
-                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO' AND (rol = 'coordinador' OR rol = 'subdirector');";
+                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR');";
             }
 
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
@@ -157,12 +175,18 @@ class UsuarioModel extends MainModel{
                 $datosUsuario['panel_acceso'] = 'inicio';
 
                 session_regenerate_id(true);
-                setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 29000, "/");
+                setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 44000, "/");
+
+                $respuesta = $this->actualizarFechaSesion($datosUsuario['numero_documento'], $tabla);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
                 $_SESSION['datos_usuario'] = $datosUsuario;
 
                 $respuesta = [
                     'tipo' => 'OK',
-                    'titulo' => 'Login Éxitoso',
+                    'titulo' => 'Login Exitoso',
                     'mensaje' => 'Usuario autorizado para acceder a cerberus',
                     'ruta' => $datosUsuario['panel_acceso']
                 ];
@@ -212,7 +236,7 @@ class UsuarioModel extends MainModel{
 
         $respuesta = [
             'tipo' => "OK",
-            'titulo'=> "Conteo Éxitoso",
+            'titulo'=> "Conteo Exitoso",
             'mensaje' => "El conteo de usuarios fue realizado con éxito.",
             'total_usuarios' => $totalUsuarios
         ];
@@ -247,7 +271,6 @@ class UsuarioModel extends MainModel{
         }
 
         foreach ($usuarios as &$usuario) {
-            // Se calcula el porcentaje de cada tipo de usuario que se encuentran dentro del sena sobre el total general de usuarios.
             if($usuario['cantidad'] < 1){
                 $porcentaje = 0;
             }else{
@@ -262,7 +285,7 @@ class UsuarioModel extends MainModel{
 
         $respuesta = [
             'tipo' => "OK",
-            'titulo'=> "Conteo Éxitoso",
+            'titulo'=> "Conteo Exitoso",
             'mensaje' => "El conteo de usuarios fue realizado con éxito.",
             'usuarios' => $usuarios
         ];

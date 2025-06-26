@@ -52,6 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         }
 
 		echo json_encode($objetoVigilante->habilitarVigilante($respuesta['datos_vigilante']));
+
+	}elseif($operacion == 'establecer_puerta'){
+        $respuesta = $objetoServicio->sanitizarDatosCambioPuerta();
+        if ($respuesta['tipo'] == 'ERROR'){
+            echo json_encode($respuesta);
+            exit();
+        }
+
+		echo json_encode($objetoVigilante->establecerPuerta($respuesta['puerta']));
 	}
 	
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion']) && $_GET['operacion'] != '' ){
@@ -94,6 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         }
 
         echo json_encode($objetoVigilante->inhabilitarVigilante($respuesta['parametros']['numero_documento']));
+
+    }elseif($operacion == 'consultar_puerta'){
+        echo json_encode($objetoVigilante->consultarPuertaActual());
     }
 	
 }else{

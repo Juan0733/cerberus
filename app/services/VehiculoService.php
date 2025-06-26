@@ -3,7 +3,6 @@ namespace app\services;
 
 class VehiculoService{
 
-
     public function sanitizarDatosRegistroVehiculo(){
         if (!isset($_POST['propietario'], $_POST['numero_placa'], $_POST['tipo_vehiculo']) || $_POST['propietario'] == '' || $_POST['numero_placa'] == '' || $_POST['tipo_vehiculo'] == '') {
             $respuesta = [
@@ -29,7 +28,7 @@ class VehiculoService{
                 'cadena' => $numeroPlaca
             ],
             [
-                'filtro' => "(Automóvil|Moto|Camión|Bus)",
+                'filtro' => "(AUTOMÓVIL|MOTO|CAMIÓN|BUS)",
                 'cadena' => $tipoVehiculo
             ]
         ];

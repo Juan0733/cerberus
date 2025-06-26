@@ -91,8 +91,8 @@ class MotivoIngresoModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 'tipo' => 'ERROR',
-                'titulo' => 'Datos No Encontrados',
-                'mensaje' => 'No se encontraron resultados'
+                'titulo' => 'Motivo No Encontrado',
+                'mensaje' => 'No se encontraron resultados del motivo'
             ];
             return $respuesta;
         }

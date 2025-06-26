@@ -16,23 +16,29 @@ class VehiculoModel extends MainModel {
             return $respuesta;
         }
 
-        $respuesta = $this->validarLimiteVehiculos($datosVehiculo['propietario']);
-        if($respuesta['tipo'] == 'ERROR'){
+        $respuesta = $this->consultarVehiculo($datosVehiculo['numero_placa']);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $datosVehiculo['ubicacion'] = $respuesta['datos_vehiculo']['ubicacion'];
+            $datosVehiculo['tipo_vehiculo'] = $respuesta['datos_vehiculo']['tipo_vehiculo'];
+
+            $respuesta = $this->validarDuplicidadPropietarios($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
         }
-
-        $respuesta = $this->validarDuplicidadVehiculo($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
-
+        
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
+        if(!isset($datosVehiculo['ubicacion'])){
+            $datosVehiculo['ubicacion'] = 'FUERA';
+        }
         $sentenciaInsertar = "
-            INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, fk_usuario_sistema) 
-            VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '$usuarioSistema');";
+            INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, ubicacion, fk_usuario_sistema) 
+            VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '{$datosVehiculo['ubicacion']}', '$usuarioSistema');";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if ($respuesta['tipo'] == 'ERROR') {
@@ -41,8 +47,8 @@ class VehiculoModel extends MainModel {
 
         $respuesta = [
             "tipo"=>"OK",
-            "titulo" => 'Registro Éxitoso',
-            "mensaje"=> 'El vehiculo fue registrado correctamente.'
+            "titulo" => 'Registro Exitoso',
+            "mensaje"=> 'El vehículo fue registrado correctamente.'
         ];
         return $respuesta;
     }
@@ -54,11 +60,11 @@ class VehiculoModel extends MainModel {
             WHERE 1=1";
 
         if(isset($parametros['numero_placa'])){
-            $sentenciaBuscar .= " AND numero_placa = '{$parametros['numero_placa']}'";
+            $sentenciaBuscar .= " AND numero_placa LIKE '{$parametros['numero_placa']}%'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND fk_usuario = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND fk_usuario LIKE '{$parametros['numero_documento']}%'";
         }
 
         $sentenciaBuscar .= " 
@@ -105,25 +111,24 @@ class VehiculoModel extends MainModel {
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Vehículo No Encontrado',
-                "mensaje"=> 'Lo sentimos, parece que el vehiculo de placas '.$placa.' no se encuentra registrado en el sistema.'
+                "mensaje"=> 'Lo sentimos, parece que el vehículo de placas '.$placa.' no se encuentra registrado en el sistema.'
             ];
             return $respuesta;
         }
 
         $datosVehiculo = $respuestaSentencia->fetch_assoc();
         $respuesta = [
-            "tipo"=>"OK",
-            "vehiculo" => $datosVehiculo
+            "tipo" => "OK",
+            "datos_vehiculo" => $datosVehiculo
         ];
         return $respuesta;
     }
 
-    public function consultarVehiculoPropietario($placa, $propietario){
+    public function consultarPropietarioVehiculo($placa, $propietario){
         $sentenciaBuscar = "
             SELECT numero_placa, tipo_vehiculo, ubicacion
             FROM vehiculos 
-            WHERE numero_placa = '$placa' AND fk_usuario = '$propietario'
-            GROUP BY numero_placa, tipo_vehiculo, ubicacion;";
+            WHERE numero_placa = '$placa' AND fk_usuario = '$propietario';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if ($respuesta['tipo'] == 'ERROR') {
@@ -135,7 +140,7 @@ class VehiculoModel extends MainModel {
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
-                "mensaje"=> 'No se encontro datos relacionados con el vehiculo de placas '.$placa.' y el usuario con número de  documento '.$propietario.'.'
+                "mensaje"=> 'No se encontro datos relacionados con el vehículo de placas '.$placa.' y el usuario con número de  documento '.$propietario.'.'
             ];
             return $respuesta;
         }
@@ -148,7 +153,7 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
-    public function consultarPropietariosVehiculo($placa){
+    public function consultarPropietarios($placa){
         $sentenciaBuscar = "
             SELECT 
                 veh.tipo_vehiculo,
@@ -188,8 +193,8 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
-    protected function validarDuplicidadVehiculo($placa, $propietario){
-        $respuesta = $this->consultarVehiculoPropietario($placa, $propietario);
+    private function validarDuplicidadPropietarios($placa, $propietario){
+        $respuesta = $this->consultarPropietarioVehiculo($placa, $propietario);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
@@ -210,7 +215,7 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
-    public function validarLimiteVehiculos($documento){
+    private function validarLimiteVehiculos($documento){
         $parametros = [
             'numero_documento' => $documento
         ];
@@ -246,8 +251,8 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
-    public function validarCantidadPropietarios($placa){
-        $respuesta = $this->consultarPropietariosVehiculo($placa);
+    private function validarLimitePropietarios($placa){
+        $respuesta = $this->consultarPropietarios($placa);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -265,13 +270,13 @@ class VehiculoModel extends MainModel {
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Propietarios Suficientes',
-            "mensaje"=> 'El vehículo tiene suficientes propietarios..'
+            "mensaje"=> 'El vehículo tiene suficientes propietarios.'
         ];
         return $respuesta;
     }
 
     public function eliminarPropiedadVehiculo($propietario, $placa){
-        $respuesta = $this->validarCantidadPropietarios($placa);
+        $respuesta = $this->validarLimitePropietarios($placa);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -288,8 +293,8 @@ class VehiculoModel extends MainModel {
 
         $respuesta = [
             "tipo"=>"OK",
-            "titulo" => 'Eliminación Éxitosa',
-            "mensaje"=> 'El propietario del vehiculo fue eliminado correctamente.'
+            "titulo" => 'Eliminación Exitosa',
+            "mensaje"=> 'El propietario del vehículo fue eliminado correctamente.'
         ];
         return $respuesta;
     }
@@ -329,7 +334,6 @@ class VehiculoModel extends MainModel {
         }
 
         foreach ($vehiculos as &$vehiculo) {
-            // Se calcula el porcentaje de cada tipo de vehiculo que se encuentran dentro del sena sobre el total general de vehiculos.
             if($vehiculo['cantidad'] < 1){
                 $porcentaje = 0;
             }else{
@@ -341,8 +345,8 @@ class VehiculoModel extends MainModel {
 
         $respuesta = [
             'tipo' => "OK",
-            'titulo'=> "Conteo Éxitoso",
-            'mensaje' => "El conteo de vehiculos fue realizado con éxito.",
+            'titulo'=> "Conteo Exitoso",
+            'mensaje' => "El conteo de vehículos fue realizado con éxito.",
             'vehiculos' => $vehiculos
         ];
         return $respuesta;
@@ -361,8 +365,8 @@ class VehiculoModel extends MainModel {
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Ubicacion Actualizada',
-            'mensaje' => 'La ubicacion del vehiculo fue actualizada correctamente.'
+            'titulo' => 'Ubicación Actualizada',
+            'mensaje' => 'La ubicación del vehículo fue actualizada correctamente.'
         ];
         return $respuesta;
     }

@@ -45,6 +45,12 @@
 
 <?php elseif($url[0] == 'agendas'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/agendas-estilo.css">
+
+<?php elseif($url[0] == 'novedades-usuario'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/novedades-usuario-estilo.css">
+
+<?php elseif($url[0] == 'novedades-vehiculo'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/novedades-vehiculo-estilo.css">
 <?php endif; ?>
 
 <link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">

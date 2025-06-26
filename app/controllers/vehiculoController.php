@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 			exit();
 		}
 
-		echo json_encode($objetoVehiculo->consultarPropietariosVehiculo($respuesta['parametros']['numero_placa']));
+		echo json_encode($objetoVehiculo->consultarPropietarios($respuesta['parametros']['numero_placa']));
 
 	}elseif($operacion == 'consultar_vehiculos'){
 		$respuesta = $objetoServicio->sanitizarParametros();

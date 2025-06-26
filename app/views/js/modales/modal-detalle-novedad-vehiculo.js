@@ -1,14 +1,14 @@
-import { consultarAprendiz } from '../fetchs/aprendices-fetch.js';
+import { consultarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
-let documentoAprendiz;
+let codigoNovedad;
 let botonCerrarModal;
 let urlBase;
 
-async function modalDetalleAprendiz(aprendiz, url) {
+async function modalDetalleNovedadVehiculo(novedad, url) {
     try {
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-aprendiz.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-detalle-novedad-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -16,7 +16,7 @@ async function modalDetalleAprendiz(aprendiz, url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_aprendiz';
+        modal.id = 'modal_detalle_novedad_vehiculo';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
         
@@ -29,11 +29,11 @@ async function modalDetalleAprendiz(aprendiz, url) {
 
         contenedorModales.appendChild(modal);
 
-        documentoAprendiz = aprendiz;
+        codigoNovedad = novedad;
         urlBase = url;
          
         eventoCerrarModal();
-        dibujarAprendiz();
+        dibujarNovedad();
 
     } catch (error) {
         if(botonCerrarModal){
@@ -43,14 +43,14 @@ async function modalDetalleAprendiz(aprendiz, url) {
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle aprendiz.'
+            mensaje: 'Error al cargar modal detalle novedad vehiculo.'
         });
     }
 }
-export{modalDetalleAprendiz}
+export{modalDetalleNovedadVehiculo}
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_detalle_aprendiz');
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_novedad_vehiculo');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
@@ -58,20 +58,22 @@ function eventoCerrarModal(){
     });
 }
 
-function dibujarAprendiz() {
-    consultarAprendiz(documentoAprendiz, urlBase).then(respuesta=>{
+function dibujarNovedad() {
+    consultarNovedadVehiculo(codigoNovedad, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            const datosAprendiz = respuesta.datos_aprendiz;
-            document.getElementById('tipo_documento').textContent = datosAprendiz.tipo_documento
-            document.getElementById('numero_documento').textContent = datosAprendiz.numero_documento;
-            document.getElementById('nombres').textContent = datosAprendiz.nombres;
-            document.getElementById('apellidos').textContent = datosAprendiz.apellidos;
-            document.getElementById('telefono').textContent = datosAprendiz.telefono;
-            document.getElementById('correo_electronico').textContent = datosAprendiz.correo_electronico;
-            document.getElementById('numero_ficha').textContent = datosAprendiz.numero_ficha;
-            document.getElementById('nombre_programa').textContent = datosAprendiz.nombre_programa;
-            document.getElementById('fecha_fin_ficha').textContent = formatearFecha(datosAprendiz.fecha_fin_ficha);
-
+            const datosNovedad = respuesta.datos_novedad;
+            console.log(datosNovedad);
+            
+            document.getElementById('tipo_novedad').textContent = formatearString(datosNovedad.tipo_novedad);
+            document.getElementById('tipo_vehiculo').textContent = formatearString(datosNovedad.tipo_vehiculo);
+            document.getElementById('placa_vehiculo').textContent = datosNovedad.fk_vehiculo;
+            document.getElementById('involucrado').textContent = datosNovedad.nombres_involucrado+' '+datosNovedad.apellidos_involucrado;
+            document.getElementById('propietario_autorizador').textContent = datosNovedad.nombres_autorizador+' '+datosNovedad.apellidos_autorizador;
+            document.getElementById('puerta_registro').textContent = formatearString(datosNovedad.puerta_registro);
+            document.getElementById('responsable').textContent = datosNovedad.nombres_responsable+' '+datosNovedad.apellidos_responsable;
+            document.getElementById('fecha_registro').textContent = formatearFecha(datosNovedad.fecha_registro);
+            document.getElementById('descripcion').textContent = datosNovedad.descripcion;
+            
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -85,6 +87,12 @@ function dibujarAprendiz() {
             }
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function formatearFecha(fecha){

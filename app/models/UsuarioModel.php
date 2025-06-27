@@ -201,6 +201,103 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
+    public function validarPermisosUsuario($permiso){
+        $rolesPermisos = [
+            'JEFE VIGILANTES' => ['consultar_agendas', 'consultar_agenda', 'consultar_aprendices', 'consultar_aprendiz', 
+            'consultar_funcionarios', 'consultar_funcionario', 'conteo_total_brigadistas', 'registrar_entrada_peatonal', 
+            'registrar_salida_peatonal', 'registrar_entrada_vehicular', 'registrar_salida_vehicular', 'validar_usuario_apto_entrada', 
+            'validar_usuario_apto_salida', 'consultar_movimientos', 'generar_informe_pdf', 'registrar_novedad_usuario', 'consultar_novedades_usuario', 
+            'consultar_novedad_usuario', 'registrar_novedad_vehiculo', 'consultar_novedades_vehiculo', 'consultar_novedad_vehiculo', 
+            'validar_usuario', 'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 
+            'registrar_vehiculo', 'consultar_vehiculos', 'consultar_vehiculo', 'consultar_propietarios', 'eliminar_propietario_vehiculo', 
+            'conteo_tipo_vehiculo', 'registrar_vigilante', 'actualizar_vigilante', 'guardar_puerta', 'habilitar_vigilante', 
+            'inhabilitar_vigilante', 'consultar_vigilantes', 'consultar_vigilante', 'consultar_puerta', 'registrar_visitante', 
+            'consultar_visitantes', 'consultar_visitante'],
+            
+            'VIGILANTE RASO' => ['consultar_agendas', 'consultar_agenda', 'consultar_aprendices', 'consultar_aprendiz', 
+            'consultar_funcionarios', 'consultar_funcionario', 'conteo_total_brigadistas', 'registrar_entrada_peatonal', 
+            'registrar_salida_peatonal', 'registrar_entrada_vehicular', 'registrar_salida_vehicular', 'validar_usuario_apto_entrada', 
+            'validar_usuario_apto_salida', 'registrar_novedad_usuario', 'registrar_novedad_vehiculo', 'validar_usuario', 
+            'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 'registrar_vehiculo', 
+            'consultar_vehiculos', 'consultar_vehiculo', 'consultar_propietarios', 'conteo_tipo_vehiculo', 'guardar_puerta', 
+            'consultar_vigilantes', 'consultar_vigilante', 'consultar_puerta', 'registrar_visitante', 'consultar_visitantes', 
+            'consultar_visitante'],
+            
+            'COORDINADOR' => ['registrar_agenda', 'actualizar_agenda', 'eliminar_agenda', 'consultar_agendas', 'consultar_agenda', 
+            'registrar_aprendiz', 'actualizar_aprendiz', 'consultar_aprendices', 'consultar_aprendiz', 'consultar_fichas', 
+            'consultar_ficha', 'consultar_funcionarios', 'consultar_funcionario', 'conteo_total_brigadistas',  'validar_usuario', 
+            'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 'registrar_vehiculo', 
+            'conteo_tipo_vehiculo', 'guardar_puerta', 'consultar_vigilantes', 'consultar_vigilante', 'registrar_visitante', 
+            'consultar_visitantes', 'consultar_visitante'],
+            
+            'SUBDIRECTOR'=>['registrar_agenda', 'actualizar_agenda', 'eliminar_agenda', 'consultar_agendas', 'consultar_agenda', 
+            'registrar_aprendiz', 'actualizar_aprendiz', 'consultar_aprendices', 'consultar_aprendiz', 'consultar_fichas', 
+            'consultar_ficha', 'registrar_funcionario', 'actualizar_funcionario', 'consultar_funcionarios', 'consultar_funcionario', 
+            'conteo_total_brigadistas',  'consultar_movimientos', 'consultar_movimientos_usuarios', 'generar_informe_pdf', 'consultar_novedades_usuario', 
+            'consultar_novedad_usuario', 'consultar_novedades_vehiculo', 'consultar_novedad_vehiculo', 'validar_usuario', 
+            'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 'registrar_vehiculo', 
+            'consultar_vehiculos', 'consultar_vehiculo', 'consultar_propietarios', 'eliminar_propietario_vehiculo', 
+            'conteo_tipo_vehiculo', 'registrar_vigilante', 'actualizar_vigilante', 'habilitar_vigilante', 'inhabilitar_vigilante', 
+            'consultar_vigilantes', 'consultar_vigilante', 'registrar_visitante', 'consultar_visitantes', 'consultar_visitante'],
+            
+            'INVITADO' => ['registrar_aprendiz', 'consultar_fichas', 'consultar_ficha', 'auto_registrar_funcionario',  
+            'auto_registrar_vigilante', 'registrar_visitante', 'consultar_motivos_ingreso']
+        ];
+
+        if(isset($_SESSION['datos_usuario'])){
+            $rol = $_SESSION['datos_usuario']['rol'];
+            if(!in_array($permiso, $rolesPermisos[$rol])){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Acceso Denegado',
+                    'mensaje'  => 'Lo sentimimos, no tienes acceso a este recurso'
+                ];
+                return $respuesta;
+            }
+
+        }else{
+            if(!in_array($permiso, $rolesPermisos['INVITADO'])){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Acceso Denegado',
+                    'mensaje'  => 'Lo sentimimos, no tienes acceso a este recurso'
+                ];
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Acceso Permitido',
+            'mensaje'  => 'Tienes acceso a este recurso'
+        ];
+        return $respuesta;
+    }
+
+    public function validarTiempoSesion(){
+        if(isset($_SESSION['datos_usuario'])){
+            $tiempoLimite = 43200;
+            $tiempoTranscurrido = time() -  $_SESSION['datos_usuario']['hora_sesion'];
+
+            if($tiempoTranscurrido > $tiempoLimite){
+                $this->cerrarSesion();
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Sesión Expirada',
+                    'mensaje' => 'La sesión ha expirado, vuelve a ingresar al sistema.'
+                ];
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Sesión Vigente',
+            'mensaje' => 'La sesión no ha expirado'
+        ];
+        return $respuesta;
+    }
+
     public function cerrarSesion(){
         session_unset();
         session_destroy();

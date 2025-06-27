@@ -153,8 +153,9 @@ main#cuerpo{
                     width: 40px;
                 }
 
-                    #cont_info_usuario #btn_puerta i{
-                        font-size: 30px;
+                    #cont_info_usuario #btn_puerta svg{
+                        height: 30px;
+                        width: 30px;
                     }
 
                 #cont_info_usuario #btn_notificaciones{
@@ -739,7 +740,7 @@ main#cuerpo{
                 align-items: center;
                 column-gap: 20px;
                 display: flex;
-                width: 80%;
+                width: 100%;
             }
 
                 #formulario_puerta #contenedor_cajas_puerta .caja-checkbox .label-input{

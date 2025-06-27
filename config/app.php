@@ -1,7 +1,9 @@
 <?php
 
  /* -------------Nombre Sesion y APP---------------- */
+ 	session_start();
 	const APP_NOMBRE = "Cerberus";
+
 
 /*--------------Variables-------------------- */
 	$urlBaseVariable = './';

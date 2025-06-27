@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php require_once '../../../../config/app.php' ?>
 
 <div class="contenedor-titulo-modal">
     <h2 class="titulo-modal" id="titulo_modal_vigilante">Registrar Vigilante</h2>

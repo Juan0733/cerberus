@@ -11,6 +11,18 @@ use app\models\UsuarioModel;
 use app\models\VehiculoModel;
 use app\services\MovimientoService;
 
+$respuesta = $objetoUsuario->validarTiempoSesion();
+if($respuesta['tipo'] == 'ERROR'){
+    header('Location: ../../sesion-expirada');
+    exit();
+}
+
+$respuesta = $objetoUsuario->validarPermisosUsuario('generar_informe_pdf');
+if($respuesta['tipo'] == 'ERROR'){
+    header('Location: ../../acceso-denegado');
+    exit();
+}
+
 class PDF extends tFPDF{
     public $usuario;
     public $vehiculo;

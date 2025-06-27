@@ -1,10 +1,9 @@
 <?php
 require_once "../../config/app.php";
-require_once "../views/inc/session_start.php";
 require_once "../../autoload.php";
 
-
 use app\models\NovedadVehiculoModel;
+use app\models\UsuarioModel;
 use app\services\NovedadVehiculoService;
 
 header('Content-Type: application/json; charset=utf-8');
@@ -12,9 +11,22 @@ header('Content-Type: application/json; charset=utf-8');
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     $objetoNovedad= new NovedadVehiculoModel();
     $objetoServicio = new NovedadVehiculoService();
+    $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
     unset($_POST['operacion']);
+
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
     
     if($operacion == 'registrar_novedad_vehiculo') {
         $respuesta = $objetoServicio->sanitizarDatosRegistroNovedadVehiculo();
@@ -37,9 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $objetoNovedad= new NovedadVehiculoModel();
     $objetoServicio = new NovedadVehiculoService();
+    $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     unset($_GET['operacion']);
+
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
 
     if($operacion == 'consultar_novedades_vehiculo'){
         $respuesta = $objetoServicio->sanitizarParametros();

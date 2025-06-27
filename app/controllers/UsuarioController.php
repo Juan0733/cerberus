@@ -1,6 +1,5 @@
 <?php
 require_once "../../config/app.php";
-require_once "../views/inc/session_start.php";
 require_once "../../autoload.php";
 
 use app\models\UsuarioModel;
@@ -13,8 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	$objetoUsuario = new UsuarioModel();
 	$objetoServicio = new UsuarioService();
 
-	$operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
-	unset($_POST['operacion']);
+    $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    unset($_POST['operacion']);
+
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
 
 	if($operacion == 'validar_usuario'){
 		$respuesta = $objetoServicio->sanitizarUsuarioLogin();
@@ -43,6 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 
 	$operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
 	unset($_GET['operacion']);
+
+	$respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
 	
 	if($operacion == 'conteo_total_usuarios'){
 		echo json_encode($objetoUsuario->conteoTotalUsuarios());

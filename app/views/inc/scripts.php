@@ -1,6 +1,6 @@
 <?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/menu-lateral.js"></script>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteos.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteos-multitud-brigadistas.js"></script>
 <?php endif; ?>
 
 <?php if($url[0] == 'login'): ?>

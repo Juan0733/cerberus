@@ -4,8 +4,6 @@ use app\models\ViewModel;
 require_once "./config/app.php";
 require_once "./autoload.php";
 
-
-
 if(isset($_GET['views'])){
     $url=explode("/", $_GET['views']);
 
@@ -17,8 +15,10 @@ if(isset($_GET['views'])){
     $url=["login"];
 }
 
-require_once "./app/views/inc/session_start.php";
-
+if($url[0] == 'login' && isset($_SESSION['datos_usuario'])){
+    header('Location: '.$urlBaseVariable.$_SESSION['datos_usuario']['panel_acceso']);
+    exit();
+}
 
 if (count($url) == 1){
     $urlBaseVariable = '';

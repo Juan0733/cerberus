@@ -249,6 +249,11 @@
         margin-right: 10px;
         margin-left: 5px;
     }
+
+.menu #cont_info_usuario-mobil ion-icon{
+    font-size: 30px;
+}
+
  .menu #cont_info_usuario-mobil #btn_notificaciones_mobile{
     border: 2px solid;
     border-color: white ;
@@ -300,6 +305,10 @@
     margin-right: 15px;
 }
 
+    .menu #cont_info_usuario-mobil #btn_puerta_mobile svg{
+        height: 30px;
+        width: 30px;
+    }
 
 
 

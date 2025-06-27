@@ -28,15 +28,21 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
         </div> 
 
-        <button class="btn-funcionario" id="btn_crear_funcionario">
-            <ion-icon name="add-outline"></ion-icon>
-        </button>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+            <button class="btn-funcionario" id="btn_crear_funcionario">
+                <ion-icon name="add-outline"></ion-icon>
+            </button>
+        <?php endif; ?>
+       
     </div>
 
     <div id="contenedor_tabla_cards">
     </div>
 
-    <button class="btn-funcionario" id="btn_crear_funcionario_mobile">
-        <ion-icon name="add-outline"></ion-icon>
-    </button>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <button class="btn-funcionario" id="btn_crear_funcionario_mobile">
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
+    <?php endif; ?>
+    
 </div>

@@ -24,9 +24,11 @@
             <input type="text" name="buscador_titulo" id="buscador_titulo" placeholder="Buscar Titulo Agenda">
         </div>
 
-        <button class="btn-agenda" id="btn_crear_agenda">
-            <ion-icon name="add-outline"></ion-icon>
-        </button>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+            <button class="btn-agenda" id="btn_crear_agenda">
+                <ion-icon name="add-outline"></ion-icon>
+            </button>
+        <?php endif; ?>
     </div>
 
     <div id="contenedor_fecha_actual">
@@ -42,9 +44,12 @@
         </div>
     </div>
 
-    <button class="btn-agenda" id="btn_crear_agenda_mobile">
-        <ion-icon name="add-outline"></ion-icon>
-    </button>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+        <button class="btn-agenda" id="btn_crear_agenda_mobile">
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
+    <?php endif; ?>
+    
 </div>
 
 

@@ -67,7 +67,7 @@ function dibujarVigilante() {
             document.getElementById('apellidos').textContent = respuesta.datos_vigilante.apellidos;
             document.getElementById('telefono').textContent = respuesta.datos_vigilante.telefono;
             document.getElementById('correo_electronico').textContent = respuesta.datos_vigilante.correo_electronico;
-            document.getElementById('rol').textContent = respuesta.datos_vigilante.rol;
+            document.getElementById('rol').textContent = formatearString(respuesta.datos_vigilante.rol);
 
             contenedorModales.classList.add('mostrar');
 
@@ -78,10 +78,15 @@ function dibujarVigilante() {
             }else{
                 botonCerrarModal.click();
                 alertaError(respuesta);
-                
             }
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function alertaError(respuesta){

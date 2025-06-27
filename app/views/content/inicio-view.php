@@ -2,6 +2,7 @@
     $fecha = new DateTime();
     $mes = MESES[$fecha->format('F')];
     $fecha = $mes . ' ' . $fecha->format('d').' '.$fecha->format('Y');  
+    $primerNombreUsuario = explode(' ', $_SESSION['datos_usuario']['nombres'])[0];
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
@@ -12,7 +13,7 @@
 
 <div id="contenedor_principal">
     <div id="contenedor_saludo">
-        <h1 id="saludo_home">Hola <?php echo $_SESSION['datos_usuario']['nombres']?>!</h1>
+        <h1>Hola <?php echo $primerNombreUsuario; ?>!</h1>
         <p id="bienvenida">Bienvenido a Cerberus</p>
     </div>
 

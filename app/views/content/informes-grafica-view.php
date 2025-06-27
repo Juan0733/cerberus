@@ -25,8 +25,8 @@
             <div class="filtro">
                 <label class="fechas_input" for="tipo_movimiento">Movimiento:</label>
                 <select id="tipo_movimiento" name="tipo_movimiento">
-                    <option value="entrada">Entradas</option>
-                    <option value="salida">Salidas</option>
+                    <option value="ENTRADA">Entradas</option>
+                    <option value="SALIDA">Salidas</option>
                 </select>
             </div>
         </div>

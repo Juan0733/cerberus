@@ -4,31 +4,30 @@ namespace app\models;
 
 class ViewModel{
 
-	/*---------- Modelo obtener vista ----------*/
 	public function obtenerVista($vista){
 		$vistasExistentes = [
-			"login",
-			"sesion-expirada",
+			"agendas",
 			"acceso-denegado",
-			"inicio",
-			"entradas",
-			"salidas",
 			"aprendices",
-			"visitantes",
-			"vigilantes",
+			"auto-registro-visitantes",
+			"entradas",
 			"funcionarios",
+			"inicio",
 			"informes-listado",
 			"informes-grafica",
-			"agendas",
-			"vehiculos",
+			"login",
 			"novedades-usuario",
 			"novedades-vehiculo",
-			"auto-registro-visitantes"
+			"sesion-expirada",
+			"salidas",
+			"vehiculos",
+			"visitantes",
+			"vigilantes",
 		];
 
 		if(in_array($vista, $vistasExistentes)){
 
-			$vistasAccesibles = ['login', 'sesion-expirada', 'acceso-denegado', 'auto-registro-visitantes'];
+			$vistasAccesibles = ['acceso-denegado', 'auto-registro-visitantes', 'login', 'sesion-expirada'];
 
 			if(isset($_SESSION['datos_usuario'])){
 				if ($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES') {// --JEFE DE VIGILANTES--
@@ -40,20 +39,42 @@ class ViewModel{
 					$vistasAccesibles[] = 'vigilantes';
 					$vistasAccesibles[] = 'funcionarios';
 					$vistasAccesibles[] = 'informes-listado';
-					$vistasAccesibles[] = 'informes-grafica';
 					$vistasAccesibles[] = 'agendas';
 					$vistasAccesibles[] = 'vehiculos';
 					$vistasAccesibles[] = 'novedades-usuario';
 					$vistasAccesibles[] = 'novedades-vehiculo';
 
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'vigilante raso') {// --VIGILANTE--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO') {// --VIGILANTE--
+					$vistasAccesibles[] = 'inicio';
+					$vistasAccesibles[] = 'entradas';
+					$vistasAccesibles[] = 'salidas';
+					$vistasAccesibles[] = 'aprendices';
+					$vistasAccesibles[] = 'visitantes';
+					$vistasAccesibles[] = 'vigilantes';
+					$vistasAccesibles[] = 'funcionarios';
+					$vistasAccesibles[] = 'agendas';
+					$vistasAccesibles[] = 'vehiculos';
 
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'COORDINADOR') {// --COORDINADORA--
+					$vistasAccesibles[] = 'inicio';
+					$vistasAccesibles[] = 'aprendices';
+					$vistasAccesibles[] = 'visitantes';
+					$vistasAccesibles[] = 'vigilantes';
+					$vistasAccesibles[] = 'funcionarios';
+					$vistasAccesibles[] = 'agendas';
 
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'coordinador') {// --COORDINADORA--
-
-
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'subdirector') {// --SUBDIRECTOR--
-					
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR') {// --SUBDIRECTOR--
+					$vistasAccesibles[] = 'inicio';
+					$vistasAccesibles[] = 'aprendices';
+					$vistasAccesibles[] = 'visitantes';
+					$vistasAccesibles[] = 'vigilantes';
+					$vistasAccesibles[] = 'funcionarios';
+					$vistasAccesibles[] = 'informes-listado';
+					$vistasAccesibles[] = 'informes-grafica';
+					$vistasAccesibles[] = 'agendas';
+					$vistasAccesibles[] = 'vehiculos';
+					$vistasAccesibles[] = 'novedades-usuario';
+					$vistasAccesibles[] = 'novedades-vehiculo';
 				}
 			}
 			
@@ -73,6 +94,7 @@ class ViewModel{
 
 	public function obtenerMenuOpciones(){
 		if(isset($_SESSION['datos_usuario'])){
+
 			if ($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' ) {
 				$listMenu = [
 					"INICIO" => [
@@ -95,6 +117,213 @@ class ViewModel{
 						"CLASE02" => '',
 						"URL" => 'salidas',
 						"ICON" => 'exit-outline'
+					],
+					"USUARIOS" => [
+						"TITULO" => 'Usuarios',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'people-outline',
+						"SUBMENU" => [
+							"APRENDRIZ" => [
+								"TITULO" => 'Aprendices',
+								"URL" => 'aprendices',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIO" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
+								"ICON" => 'person-outline'
+							],
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
+								"ICON" => 'person-outline'
+							]
+						]
+					],
+					"VEHICULOS" => [
+						"TITULO" => 'Vehiculos',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'vehiculos',
+						"ICON" => 'car-outline',
+					],
+					"INFORMES" => [
+						"TITULO" => 'Informes',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'receipt-outline',
+						"SUBMENU" => [
+							"TABLA" => [
+								"TITULO" => 'Listado',
+								"URL" => 'informes-listado',
+								"ICON" => 'clipboard-outline'
+							]
+						]
+					],
+					"AGENDAS" => [
+						"TITULO" => 'Agendas',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'agendas',
+						"ICON" => 'calendar-outline'
+					],
+					"NOVEDADES" => [
+						"TITULO" => 'Novedades',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'megaphone-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'novedades-usuario',
+								"ICON" => 'person-outline'
+							],
+							"VEHICULO" => [
+								"TITULO" => 'Vehículo',
+								"URL" => 'novedades-vehiculo',
+								"ICON" => 'car-outline'
+							]
+						]
+					]
+				];
+
+			}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO' ) {
+				$listMenu = [
+					"INICIO" => [
+						"TITULO" => 'Inicio',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'inicio',
+						"ICON" => 'grid-outline'
+					],
+					"ENTRADAS" => [
+						"TITULO" => 'Entradas',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'entradas',
+						"ICON" => 'enter-outline'
+					],
+					"SALIDAS" => [
+						"TITULO" => 'Salidas',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'salidas',
+						"ICON" => 'exit-outline'
+					],
+					"USUARIOS" => [
+						"TITULO" => 'Usuarios',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'people-outline',
+						"SUBMENU" => [
+							"APRENDRIZ" => [
+								"TITULO" => 'Aprendices',
+								"URL" => 'aprendices',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIO" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
+								"ICON" => 'person-outline'
+							],
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
+								"ICON" => 'person-outline'
+							]
+						]
+					],
+					"VEHICULOS" => [
+						"TITULO" => 'Vehiculos',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'vehiculos',
+						"ICON" => 'car-outline',
+					],
+					"AGENDAS" => [
+						"TITULO" => 'Agendas',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'agendas',
+						"ICON" => 'calendar-outline'
+					],
+				];
+				
+			}elseif($_SESSION['datos_usuario']['rol'] == 'COORDINADOR') {
+				$listMenu = [
+					"INICIO" => [
+						"TITULO" => 'Inicio',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'inicio',
+						"ICON" => 'grid-outline'
+					],
+					"USUARIOS" => [
+						"TITULO" => 'Usuarios',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'people-outline',
+						"SUBMENU" => [
+							"APRENDRIZ" => [
+								"TITULO" => 'Aprendices',
+								"URL" => 'aprendices',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIO" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
+								"ICON" => 'person-outline'
+							],
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
+								"ICON" => 'person-outline'
+							]
+						]
+					],
+					"AGENDAS" => [
+						"TITULO" => 'Agendas',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'agendas',
+						"ICON" => 'calendar-outline'
+					]
+				];
+
+			}elseif($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'){
+				$listMenu = [
+					"INICIO" => [
+						"TITULO" => 'Inicio',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'inicio',
+						"ICON" => 'grid-outline'
 					],
 					"USUARIOS" => [
 						"TITULO" => 'Usuarios',
@@ -181,9 +410,6 @@ class ViewModel{
 						]
 					]
 				];
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' ) {
-
-			} else {
 			}
 
 			return $listMenu;

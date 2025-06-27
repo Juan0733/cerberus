@@ -24,15 +24,19 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
         </div> 
 
-        <button class="btn-vigilante" id="btn_crear_vigilante">
-            <ion-icon name="add-outline"></ion-icon>
-        </button>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+            <button class="btn-vigilante" id="btn_crear_vigilante">
+                <ion-icon name="add-outline"></ion-icon>
+            </button>
+        <?php endif; ?>
     </div>
 
     <div id="contenedor_tabla_cards">
     </div>
 
-    <button class="btn-vigilante" id="btn_crear_vigilante_mobile">
-        <ion-icon name="add-outline"></ion-icon>
-    </button>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <button class="btn-vigilante" id="btn_crear_vigilante_mobile">
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
+    <?php endif; ?>
 </div>

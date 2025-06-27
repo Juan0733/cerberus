@@ -444,7 +444,6 @@ function alertaAdvertencia(respuesta){
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     documentoPropietario = document.getElementById('documento_propietario');

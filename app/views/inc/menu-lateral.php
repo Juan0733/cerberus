@@ -1,12 +1,7 @@
 <?php
     $urlActual = $url[0];
-     $titulo = str_replace("-", " ", $url[0]);
+    $titulo = explode("-", $url[0])[0];
     $titulo = ucwords(strtolower($titulo));
-    if($titulo == 'Informes Grafica'){
-        $titulo = 'Informes Gráfica';
-    }elseif($titulo == 'Novedades Vehiculo'){
-        $titulo = 'Novedades Vehículo';
-    }
 ?>
 
 <div class="menu">

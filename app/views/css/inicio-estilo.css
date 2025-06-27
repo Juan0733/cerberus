@@ -1,253 +1,171 @@
-.contenedor-bienvenida {
-    width: 100%;
-    overflow-y: auto;
-    max-height: 100vh;
-}
-
-.titulo_multi_detalle_02 {
-    display: none;
-}
-
-.cont-grafica-card {
-    display: none;
-}
-
-.cont_saludo {
-    margin-bottom: 26px;
-    margin-top: 26px;
-}
-
-h1#saludo_home {
-    color: var(--color-terciario);
-    font-size: clamp(34px, 80%, 70px);
-    margin: 0;
-}
-
-p#bienvenida {
-    margin: 0;
-    font-size: clamp(14px, 80%, 28px);
-}
-
-#buscar-persona {
-    margin: 0px 0px 20px 0px;
-    padding: 0;
-}
-
-#buscar-persona form {
-    width: 100%;
+#contenedor_principal {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-#buscar-persona form .cont_buscador {
+    flex-direction: column;
     width: 100%;
-    background: var(--background-inputs);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 15px;
 }
 
-.cont_buscador ion-icon {
-    color: var(--color-placeholder);
-    font-size: 22px;
-}
-
-.cont_buscador input {
-    width: 100%;
-    height: 3em;
-    border: none;
-    margin-right: 11px;
-    border-radius: 10px;
-    padding: 5px 0px 0px 15px;
-    background: #d1d3d400;
-}
-
-
-
-#cont_multi {
-    border: 2px solid var(--color-terciario);
-    border-radius: 20px;
-    padding: 5px;
-}
-
-#cont_multi h4 {
-    margin: 0;
-    margin-left: 10px;
-}
-
-#cont_multi canvas {
-    margin: 0;
-    height: 200px !important;
-    border-radius: 20px;
-    background: var(--color-transparente);
-}
-
-#contenedor-ppal-panel h3 {
-    margin: 10px;
-    font-size: 18px;
-}
-
-#contenedor_cartas_multitudes .caja {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    justify-items: center;
-}
-
-#contenedor_cartas_multitudes .caja * {
-    color: white;
-}
-
-#contenedor_cartas_multitudes div.caja .card1 {
-    margin: 0px;
-    margin-right: 7px;
-}
-
-#contenedor_cartas_multitudes div.caja .card {
-    width: 47.5vw;
-    height: clamp(177px, 25.5vw, 198px);
-    background: linear-gradient(to bottom, var(--color-secundario) 3%, var(--color-terciario) 97%);
-    margin-bottom: 7px;
-    border-radius: 20px;
-    padding: 20px 12px;
-}
-
-#contenedor_cartas_multitudes .activada * {
-    color: var(--color-terciario);
-}
-
-#contenedor_cartas_multitudes div.caja .activada {
-    width: 45vw;
-    height: clamp(177px, 25.5vw, 198px);
-    background: var(--color-transparente);
-    margin-bottom: 7px;
-    border-radius: 20px;
-    border: 2px solid var(--color-terciario);
-    padding: 20px 12px;
-}
-
-div.caja .card p {
-    font-size: clamp(10px, 2.6vw, 16px);
-    margin: 0 0 5px 0;
-}
-
-div.caja .card .titulo-card {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.card .titulo-card ion-icon {
-    font-size: clamp(26px, 2.6vw, 36px);
-    margin-right: 5px;
-}
-
-.card .titulo-card h3 {
-    font-size: clamp(16px, 4.6vw, 36px);
-    margin: 0;
-}
-
-div.caja .card .cantidad-titulo {
-    font-size: clamp(14px, 3.5vw, 28px);
-    margin: 0;
-}
-
-div.caja .card .cantidad {
-    font-size: clamp(14px, 3.5vw, 20px);
-    margin: 5PX 0 5px 5px;
-}
-
-div.caja .card .cantidad-barra {
-    width: 95%;
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-bottom: 5px;
-    height: 3px;
-    background: var(--background-inputs);
-}
-
-div.caja .card .cantidad-barra .barra {
-    height: 100%;
-    width: 0%;
-    background-color: var(--color-secundario);
-}
-
-div.caja .card .subtitle {
-    width: 95%;
-    border-radius: 5px;
-    margin-left: 5px;
-    font-size: clamp(10px, 2.6vw, 16px);
-}
-
-/* 💻 RESPONSIVE PARA ESCRITORIO */
-@media (width > 780px) {
-    .contenedor-bienvenida {
-        width: 100%;
-        overflow-y: auto;
-        max-height: 100vh;
+    #contenedor_principal #contenedor_saludo{
+        margin: 16px 0;
+        padding-left: 35px;
     }
 
-    .cont_saludo {
-        display: block;
-    }
+        #contenedor_principal #contenedor_saludo h1 {
+            color: var(--color-terciario);
+            font-size: clamp(34px, 80%, 70px);
+            margin: 0;
+        }
 
-    #buscar-persona {
-        display: block;
-    }
+        #contenedor_principal #contenedor_saludo p {
+            margin: 0;
+            font-size: clamp(14px, 80%, 28px);
+        }
 
-    .titulo_multi_detalle {
+    #contenedor_principal #contador_multitud_mobile{
         display: none;
-    }
-
-    #contenedor-ppal-panel {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #contenedor-ppal-panel h3 {
-        font-size: 28px;
-    }
-
-    .contenedor_grafica {
-        width: 34.1%;
-    }
-
-    #cont_multi {
-        width: 100%;
-        padding: 5px;
-    }
-
-    #cont_multi canvas {
-        width: 100% !important;
-    }
-
-    #contenedor_cartas_multitudes {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    #contenedor_cartas_multitudes .caja {
-        grid-template-columns: repeat(3, 1fr);
-        width: 90%;
-        gap: 20px;
-    }
-
-    #contenedor_cartas_multitudes div.caja .card,
-    #contenedor_cartas_multitudes div.caja .activada {
-        width: 85%;
-        padding: 20px;
-        height: auto;
-    }
-
-    .titulo_multi_detalle_02 {
-        display: flex;
-        color: black !important;
+        font-size:  1.1em;
+        font-weight: bolder;
         margin: 0 0 10px 0;
     }
+
+    #contenedor_principal #contenedor_cartas_multitudes {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+        #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
+            max-height: 66vh;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            overflow-y: auto;
+            overflow-x: hidden;
+            gap: 2em;
+            grid-auto-rows: min-content;
+            width: 100%;
+        }
+
+        #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards::-webkit-scrollbar{
+            background: transparent;
+            width: 8px;
+        }
+
+        #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards::-webkit-scrollbar-thumb{
+            border-radius: 20px;
+            background-color: rgb(180, 180, 180);
+        }
+    
+            #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards .card-multitud{
+                background: var(--color-transparente);
+                border-radius: 20px;
+                border: 2px solid var(--color-terciario);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin: 0 auto;
+                padding: 1em;
+                row-gap: 10px;
+                width: clamp(280px, 85%, 600px);
+            }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud *{
+                    color: var(--color-terciario);
+                }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud .contenedor-titulo {
+                    align-items: center;
+                    column-gap: 10px;
+                    display: flex;
+                    margin-bottom: 10px;
+                }
+
+                    #contenedor_cards .card-multitud .contenedor-titulo h2{
+                        font-size: 1.8em;
+                    }
+
+                    #contenedor_cards .card-multitud .contenedor-titulo ion-icon {
+                        font-size: 38px;
+                    }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h3{
+                    font-size: 1.5em;
+                }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h4{
+                    font-size: 1.2em;
+                }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud .contenedor-barra {
+                    width: 95%;
+                    border-radius: 5px;
+                    height: 3px;
+                    background: var(--background-inputs);
+                }
+
+                    #contenedor_cards .card-multitud .contenedor-barra .barra {
+                        height: 100%;
+                        width: 0%;
+                        background-color: var(--color-secundario);
+                    }
+
+@media(min-width: 768px) and (max-width: 1023px){
+    #contenedor_principal #contenedor_saludo{
+        margin: 0 0 16px 0;
+        padding: 0;
+    }
+
+    #contenedor_principal #contador_multitud_mobile{
+        display: flex;
+    }
+
+    #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
+        max-height: 76vh;
+        margin: 0 auto;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+    }
+
+        #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards .card-multitud{
+            margin: 0;
+            width: 100%;
+        }
 }
+
+@media(max-width: 767px){
+    #contenedor_principal{
+        width: clamp(260px, 100%, 600px);
+    }
+        #contenedor_principal #contenedor_saludo{
+            padding: 0;
+            margin: 0 0 16px 0;
+        }
+
+        #contenedor_principal #contador_multitud_mobile{
+            display: flex;
+        }
+
+            #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
+                max-height: 78vh;
+                grid-template-columns: 100%;
+                gap: 1em;
+                width: 100%;
+            }
+
+                #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards .card-multitud{
+                    width: 100%;
+                }
+
+                    #contenedor_cards .card-multitud .contenedor-titulo h2{
+                        font-size: 1.5em;
+                    }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h3{
+                    font-size: 1.2em;
+                }
+
+                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h4{
+                    font-size: 1em;
+                }
+}
+
+

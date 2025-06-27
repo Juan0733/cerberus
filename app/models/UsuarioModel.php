@@ -171,7 +171,6 @@ class UsuarioModel extends MainModel{
             if ($respuestaSentencia->num_rows > 0) {
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
                 $datosUsuario['hora_sesion'] = time();
-                $datosUsuario['puerta'] = 'peatonal';
                 $datosUsuario['panel_acceso'] = 'inicio';
 
                 session_regenerate_id(true);

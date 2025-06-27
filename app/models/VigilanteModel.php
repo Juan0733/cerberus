@@ -226,13 +226,13 @@ class VigilanteModel extends MainModel{
         return $respuesta;
     }
 
-    public function establecerPuerta($puerta){
+    public function guardarPuerta($puerta){
         $_SESSION['datos_usuario']['puerta'] = $puerta;
 
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Cambio de Puerta',
-            'mensaje' => 'Se establecio la puerta correctamente.'
+            'mensaje' => 'La puerta se guardo correctamente.'
         ];
         return $respuesta;
     }
@@ -241,7 +241,7 @@ class VigilanteModel extends MainModel{
         if(!isset($_SESSION['datos_usuario']['puerta'])){
             $respuesta = [
                 'tipo' => 'ERROR',
-                'titulo' => 'Datos No Encontrados',
+                'titulo' => 'Puerta No Encontrada',
                 'mensaje' => 'No se encontro una puerta seleccionada actualmente.'
             ];
             return $respuesta;

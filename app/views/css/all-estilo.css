@@ -140,23 +140,36 @@ main#cuerpo{
                         margin-right: 10px;
                         margin-left: 5px;
                     }
-                #cont_info_usuario #cont_icon_notificaciones{
+
+                #cont_info_usuario #btn_puerta{
+                    align-items: center;
+                    border-radius: 50px;
+                    background: #D9D9D9;
+                    cursor: pointer;
+                    display: flex;
+                    height: 40px;
+                    justify-content: center;
+                    margin-right: 20px;
+                    width: 40px;
+                }
+
+                    #cont_info_usuario #btn_puerta i{
+                        font-size: 30px;
+                    }
+
+                #cont_info_usuario #btn_notificaciones{
                     background: #D9D9D9;
                     width: 40px;
+                    cursor: pointer;
                     height: 40px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    position: relative;
                     border-radius: 50px;
                     
-                }
-
-                    #cont_icon_notificaciones {
-                        position: relative;
-                        display: inline-block;
-                    }
-                    
-                    #notification_count {
+                }                    
+                    #cont_info_usuario #btn_notificaciones #contador_notificaciones {
                         position: absolute;
                         top: -5px;
                         right: -10px;
@@ -193,16 +206,13 @@ main#cuerpo{
                     display: flex;
                     align-items: center;
                     height: 40px;
+                    cursor: pointer;
                     background: #EC8103;
                     border-radius: 50px;
                     border: none;
                     margin-right: 20px;
                 }
 
-                #cont_info_usuario #btn_brigadistas:hover{
-                    background-color: #c36a04;
-                    cursor: pointer;
-                }
                     #btn_brigadistas ion-icon{
                         font-size: 32px;
                         color: var(--color-primario);
@@ -230,7 +240,6 @@ main#cuerpo{
 }
 
     #contenedor_spinner #spinner {
-        animation: spin 1s infinite;
         border-radius: 13px;
         background-color: var(--color-secundario);
         bottom: 50%;
@@ -241,6 +250,10 @@ main#cuerpo{
         top: 45%;
         width: 70px;
         z-index: 2100;
+    }
+
+    #contenedor_spinner.mostrar_spinner #spinner{
+        animation: spin 1s infinite;
     }
 
 #contenedor_spinner.mostrar_spinner{
@@ -385,6 +398,7 @@ main#cuerpo{
                     align-items: center;
                     background-color: var(--color-btn-cancelar);
                     border: none;
+                    cursor: pointer;
                     color: var(--color-placeholder);
                     display: flex;
                     font-size: 20px;
@@ -463,6 +477,7 @@ main#cuerpo{
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;
@@ -540,6 +555,7 @@ main#cuerpo{
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;
@@ -694,6 +710,85 @@ main#cuerpo{
                     margin-top: 5px;
                 }
 
+/*------------------------------------------------- Estilos Modal seleccionar puerta --------------------------------------------*/
+#contenedor_modales #modal_puerta{
+    width: clamp(450px, 32%, 650px);
+}
+
+    #contenedor_modales #modal_puerta #cont_info_modales{
+        width: 100%;
+    }
+
+        #contenedor_modales #modal_puerta #cont_info_modales #formulario_puerta{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+            #modal_puerta #cont_info_modales #formulario_puerta #contenedor_cajas_puerta{
+                column-gap: 20px;
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                padding: 1.5em;
+                row-gap: 20px;
+                width: 100%;
+            }
+
+            #cont_info_modales #formulario_puerta #contenedor_cajas_puerta .caja-checkbox{
+                animation: slideIn 0.5s ease-out;
+                align-items: center;
+                column-gap: 20px;
+                display: flex;
+                width: 80%;
+            }
+
+                #formulario_puerta #contenedor_cajas_puerta .caja-checkbox .label-input{
+                    color: var(--color-placeholder);
+                    font-size: 20px;
+                }
+
+                #formulario_puerta #contenedor_cajas_puerta .caja-checkbox .checkbox-puerta{
+                    appearance: none; 
+                    border: none;
+                    border-radius: 13px;
+                    width: 60px;
+                    height: 60px;
+                    background: var(--background-inputs); 
+                    cursor: pointer;
+                }
+                    
+                #formulario_puerta #contenedor_cajas_puerta .caja-checkbox .checkbox-puerta:checked {
+                    background-color: var(--color-secundario);
+                }
+
+                #formulario_puerta #contenedor_cajas_puerta .caja-checkbox ion-icon{
+                    color: var(--color-btn-cancelar);
+                    font-size: 50px;
+                }
+                 
+            #modal_puerta #cont_info_modales #formulario_puerta #contenedor_btns_puerta {
+                display: flex;
+                width: 100%;
+            }
+
+                #cont_info_modales #formulario_puerta #contenedor_btns_puerta button {
+                    align-items: center;
+                    background-color: var(--color-btn-cancelar);
+                    border: none;
+                    color: var(--color-placeholder);
+                    display: flex;
+                    font-size: 20px;
+                    height: 60px;
+                    justify-content: center;
+                    width: 50%;
+                }
+   
+                #cont_info_modales #formulario_puerta #contenedor_btns_puerta #btn_guardar_puerta {
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                }
+
+
 @media(min-width: 768px) and (max-width: 1023px){
     main#cuerpo{
         display: block;
@@ -781,6 +876,16 @@ main#cuerpo{
     }
 
         #modal_habilitar_usuario #cont_info_modales #formulario_habilitar_usuario #contenedor_cajas_habilitar{
+            padding: 1em;
+            row-gap: 10px;
+        }
+
+    /* ------------------------------------------------- Estilos Modal Seleccionar Puerta ---------------------------------------*/
+    #contenedor_modales #modal_puerta{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #modal_puerta #cont_info_modales #formulario_puerta #contenedor_cajas_puerta{
             padding: 1em;
             row-gap: 10px;
         }

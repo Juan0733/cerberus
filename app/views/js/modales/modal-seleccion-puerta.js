@@ -1,8 +1,9 @@
-import { consultarPuerta, establecerPuerta } from "../fetchs/vigilantes-fetch.js";
+import { consultarPuerta, guardarPuerta } from "../fetchs/vigilantes-fetch.js";
 
 let contenedorModales;
 let modalesExistentes;
-let codigoNovedad;
+let puertaActual;
+let puertaNueva;
 let botonCerrarModal;
 let urlBase;
 
@@ -16,7 +17,7 @@ async function modalSeleccionPuerta(url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_seleccion_puerta';
+        modal.id = 'modal_puerta';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
         
@@ -28,11 +29,14 @@ async function modalSeleccionPuerta(url) {
         }
 
         contenedorModales.appendChild(modal);
+
         urlBase = url;
 
+        eventoCerrarModal();
         consultarPuertaActual();
+        eventoSeleccionarPuerta();
+        eventoGuardarPuerta();
          
-        contenedorModales.classList.add('mostrar');
     } catch (error) {
         if(botonCerrarModal){
             botonCerrarModal.click();
@@ -47,12 +51,62 @@ async function modalSeleccionPuerta(url) {
 }
 export{modalSeleccionPuerta}
 
-function  consultarPuertaActual(params) {
+function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_puerta');
+
+        botonCerrarModal.addEventListener('click', ()=>{
+            if(puertaActual){
+                modalesExistentes[modalesExistentes.length-1].remove();
+                contenedorModales.classList.remove('mostrar');
+            }
+        });
+    
+    document.getElementById('btn_cancelar_puerta').addEventListener('click', ()=>{
+        botonCerrarModal.click();
+    });
+}
+
+function  consultarPuertaActual() {
     consultarPuerta(urlBase).then(respuesta=>{
         if(respuesta['tipo'] == 'OK'){
-            document.getElementById(respuesta.puerta.toLower()).checked = true;
+            puertaActual = respuesta.puerta_actual;
+            puertaNueva = respuesta.puerta_actual;
+            document.getElementById(puertaActual.toLowerCase()).checked = true;
+            document.getElementById('icono_puerta_'+puertaActual.toLowerCase()).style.color = 'var(--color-secundario)';
+    
+        }else if(respuesta.tipo == 'ERROR' && respuesta.titulo == 'Puerta No Encontrada'){
+            puertaActual = '';
+            puertaNueva = '';
         }
+
+        contenedorModales.classList.add('mostrar');
     })
+}
+
+function eventoSeleccionarPuerta() {
+    const inputsCheckbox = document.querySelectorAll('.checkbox-puerta');
+    const iconosPuerta = document.querySelectorAll('.icono-puerta');
+
+    inputsCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('change', ()=>{
+            iconosPuerta.forEach(icono => {
+                icono.removeAttribute('style');
+            });
+
+            if (checkbox.checked){
+                puertaNueva = checkbox.value;
+                document.getElementById('icono_puerta_'+puertaNueva.toLowerCase()).style.color = 'var(--color-secundario)';
+                inputsCheckbox.forEach(input => {
+                    if(input != checkbox){
+                        input.checked = false;
+                    }
+                });
+
+            }else{
+                puertaNueva = '';
+            }
+        })
+    });
 }
 
 function eventoGuardarPuerta(){
@@ -61,20 +115,40 @@ function eventoGuardarPuerta(){
     formulario.addEventListener('submit', (e)=>{
         e.preventDefault();
 
+        if(!puertaNueva){
+            return;
+        }
+        
+        const formData = new FormData();
+
+        formData.append('operacion', 'guardar_puerta');
+        formData.append('puerta', puertaNueva);
+
+        guardarPuerta(formData, urlBase).then(respuesta=>{
+            if(respuesta.tipo == 'OK'){
+                alertaExito(respuesta);
+                puertaActual = puertaNueva;
+                botonCerrarModal.click();
+            }
+        })
     })
 }
 
-function alertaError(respuesta){
+function alertaExito(respuesta){
     Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
+        toast: true, 
+        position: 'top-end', 
+        icon: 'success',
+        iconColor: "#2db910",
+        color: '#F3F4F4',
+        background: '#001629',
+        timer: 5000,
+        timerProgressBar: true,
+        title: respuesta.mensaje,
+        showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
         }
-    });
+    })
 }
 

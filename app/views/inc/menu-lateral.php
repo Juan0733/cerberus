@@ -1,33 +1,42 @@
 <?php
     $urlActual = $url[0];
+     $titulo = str_replace("-", " ", $url[0]);
+    $titulo = ucwords(strtolower($titulo));
+    if($titulo == 'Informes Grafica'){
+        $titulo = 'Informes Gráfica';
+    }elseif($titulo == 'Novedades Vehiculo'){
+        $titulo = 'Novedades Vehículo';
+    }
 ?>
 
 <div class="menu">
-        <div class="cont-menu-icon">
+    <div class="cont-menu-icon">
+        <ion-icon name="grid-outline" class="icon-menu"></ion-icon>
+        <ion-icon name="close-outline" class="icon-close-menu"></ion-icon>
+    </div>
+    
+    <div id="cont_nombre_vista_menu">
+        <h1><?php echo $titulo; ?></h1>
+    </div>
 
-            <ion-icon name="grid-outline" class="icon-menu"></ion-icon>
-            <ion-icon name="close-outline" class="icon-close-menu"></ion-icon>
+    <div id="cont_info_usuario-mobil">
+        <div id="btn_brigadistas_mobile">
+            <ion-icon name="medkit"></ion-icon>
         </div>
-        
-        <div id="cont_nombre_vista_menu">
-            <h1>
-                <?php
-                    $titulo = str_replace("-", " ", $url[0]);
-                    $titulo = ucwords(strtolower($titulo));
-                    if($titulo == 'Informes Grafica'){
-                        $titulo = 'Informes Gráfica';
-                    }
-                    echo $titulo;
-                ?>
-            </h1>
-        </div>
-        <div id="cont_info_usuario-mobil">
-            
-            <div id="cont_icon_notificaciones-mobil">
-                    <ion-icon name="notifications-outline" ></ion-icon>
-                    <span id="notification_count">5</span> 
+
+        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
+            <div id="btn_puerta_mobile">
+                <i class='bx  bxs-door'></i>   
             </div>
-        </div>
+        <?php endif; ?>
+
+        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+            <div id="btn_notificaciones_mobile">
+                <ion-icon name="notifications" ></ion-icon>
+                <span id="contador_notificaciones_mobile">0</span> 
+            </div>
+        <?php endif; ?>
+    </div>
 </div>
 
     <div class="barra-lateral mini-barra-lateral">

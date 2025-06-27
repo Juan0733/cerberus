@@ -97,7 +97,7 @@ async function inhabilitarVigilante(documento, urlBase) {
 }
 export{inhabilitarVigilante}
 
-async function establecerPuerta(datos, urlBase) {
+async function guardarPuerta(datos, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
@@ -120,7 +120,7 @@ async function establecerPuerta(datos, urlBase) {
         })
     }
 }
-export{establecerPuerta}
+export{guardarPuerta}
 
 async function consultarPuerta(urlBase) {
     try {

@@ -180,7 +180,7 @@ function eventoSelectRol(){
     const cajasContrasena = document.getElementsByClassName('input-caja-contrasena');
 
     selectRol.addEventListener('change', ()=>{
-        if(selectRol.value == 'coordinador'){
+        if(selectRol.value == 'COORDINADOR'){
             for(const caja of cajasContrasena){
                 caja.style.display = 'block';
                 caja.classList.add('seccion-03');
@@ -204,7 +204,7 @@ function eventoSelectContrato(){
     const cajaFecha = document.getElementById('input_caja_fecha');
 
     selectTipoContrato.addEventListener('change', ()=>{
-        if(selectTipoContrato.value == 'contratista'){
+        if(selectTipoContrato.value == 'CONTRATISTA'){
             inputFechaContrato.required = true;
             inputFechaContrato.classList.add('campo-seccion-02');
             cajaFecha.style.display = 'block';

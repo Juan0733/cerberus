@@ -115,8 +115,8 @@ function eventoFecha(){
 }
 
 function formatearFecha(fecha){
-    const fechaDividida = fecha.split('-');
-    const objetoFecha = new Date(parseInt(fechaDividida[0]), parseInt(fechaDividida[1]) - 1, parseInt(fechaDividida[2]));
+   
+    const objetoFecha = new Date(fecha.replace(' ', 'T'));
 
     let opciones = { weekday: 'long' };
     let diaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);

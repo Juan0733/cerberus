@@ -315,7 +315,7 @@ class VigilanteService{
         return $respuesta;
     }
 
-     public function sanitizarDatosCambioPuerta(){
+     public function sanitizarDatosPuerta(){
         if(!isset($_POST['puerta']) || $_POST['puerta'] == '' ){
             $respuesta = [
                 "tipo" => "ERROR",

@@ -32,10 +32,18 @@
             <ion-icon name="medkit"></ion-icon>
             <p id="contador_brigadistas"></p>
         </button>
-        <div id="cont_icon_notificaciones">
-            <ion-icon name="notifications-outline" ></ion-icon>
-            <span id="notification_count">5</span> 
-        </div>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
+            <div id="btn_puerta">
+                <i class='bx  bxs-door'  style='color:#4b3a3a'></i>   
+            </div>
+        <?php endif; ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+            <div id="btn_notificaciones">
+                <ion-icon name="notifications-outline" ></ion-icon>
+                <span id="contador_notificaciones">0</span> 
+            </div>
+        <?php endif; ?>
+        
     </div>
 </div>
 

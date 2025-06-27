@@ -15,7 +15,7 @@ const parametros = {
 }
 
 function validarResolucion(){
-    if(window.innerWidth > 1024){
+    if(window.innerWidth >= 1024){
         dibujarTablaMovimientos();
     }else{
         dibujarCardsMovimientos();

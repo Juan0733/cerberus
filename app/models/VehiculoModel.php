@@ -1,6 +1,8 @@
 <?php
 
-namespace app\models; 
+namespace app\models;
+
+use DateTime;
 
 class VehiculoModel extends MainModel {
 
@@ -370,5 +372,80 @@ class VehiculoModel extends MainModel {
         ];
         return $respuesta;
     }
-    
+
+    public function consultarNotificacionesVehiculo(){
+        $objetoFecha = new DateTime();
+        $fechaActual = $objetoFecha->format('Y-m-d H:i:s');
+        $fechaMenos16H = (clone $objetoFecha)->modify('-16 hours')->format('Y-m-d H:i:s');
+        $fechaMenos1H = (clone $objetoFecha)->modify('-1 hours')->format('Y-m-d H:i:s');
+
+        $notificaciones = [];
+
+        $sentenciaBuscar = "
+           SELECT 
+                veh.numero_placa, 
+                ppv.estado_permiso, 
+                mov.fecha_ultimo_movimiento AS fecha_ultima_entrada, 
+                ppv.fecha_registro AS fecha_permiso
+            FROM (
+                SELECT numero_placa
+                FROM vehiculos
+                WHERE ubicacion = 'DENTRO'
+                GROUP BY numero_placa
+            ) veh
+            INNER JOIN (
+                SELECT fk_vehiculo, MAX(fecha_registro) AS fecha_ultimo_movimiento
+                FROM movimientos
+                GROUP BY fk_vehiculo
+            ) mov ON veh.numero_placa = mov.fk_vehiculo
+            LEFT JOIN (
+                SELECT p1.*
+                FROM permisos_vehiculos p1
+                INNER JOIN (
+                    SELECT fk_vehiculo, MAX(fecha_registro) AS fecha_ultimo_permiso
+                    FROM permisos_vehiculos
+                    WHERE tipo_permiso = 'PERMANENCIA'
+                    GROUP BY fk_vehiculo
+                ) ult ON p1.fk_vehiculo = ult.fk_vehiculo 
+                    AND p1.fecha_registro = ult.fecha_ultimo_permiso
+            ) ppv ON veh.numero_placa = ppv.fk_vehiculo
+            WHERE 
+                mov.fecha_ultimo_movimiento < '$fechaMenos16H'
+                AND (
+                    ppv.estado_permiso IS NULL 
+                    OR ppv.estado_permiso = 'DESAPROBADO'
+                    OR (ppv.estado_permiso = 'PENDIENTE' AND ppv.fecha_registro < '$fechaMenos1H') 
+                    OR (ppv.estado_permiso = 'APROBADO' AND ppv.fecha_fin_permiso < '$fechaActual')
+                );";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows > 0){
+            $vehiculos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+            foreach ($vehiculos as &$vehiculo) {
+                $fechaUltimaEntrada = new DateTime($vehiculo['fecha_ultima_entrada']);
+                $fechaPermiso = new DateTime($vehiculo['fecha_permiso']);
+
+                $diferencia = $fechaUltimaEntrada->diff($objetoFecha);
+                $horasPermanencia = ($diferencia->days * 24) + $diferencia->h;
+                $vehiculo['horas_permanencia'] = $horasPermanencia;
+
+                if(($vehiculo['estado_permiso'] == 'DESAPROBADO') && $fechaPermiso < $fechaUltimaEntrada){
+                   $vehiculo['estado_permiso'] = NULL;
+                }
+
+                $notificaciones[] = $vehiculo;
+            };
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'notificaciones_vehiculo' => $notificaciones
+        ];
+        return $respuesta;
+    }
 }

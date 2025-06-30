@@ -24,7 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     }
 
     $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
-    if($respuesta['tipo'] == 'ERROR'){
+    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        return $respuesta;
+        
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
         header('Location: ../../acceso-denegado');
         exit();
     }
@@ -75,7 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
     }
 
     $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
-    if($respuesta['tipo'] == 'ERROR'){
+    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        return $respuesta;
+        
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
         header('Location: ../../acceso-denegado');
         exit();
     }

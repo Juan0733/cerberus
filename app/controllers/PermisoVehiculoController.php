@@ -2,15 +2,15 @@
 require_once "../../config/app.php";
 require_once "../../autoload.php";
 
-use app\models\NovedadUsuarioModel;
+use app\models\PermisoVehiculoModel;
 use app\models\UsuarioModel;
-use app\services\NovedadUsuarioService;
+use app\services\PermisoVehiculoService;
 
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
-    $objetoNovedad= new NovedadUsuarioModel();
-    $objetoServicio = new NovedadUsuarioService();
+    $objetoPermiso = new PermisoVehiculoModel();
+    $objetoServicio = new PermisoVehiculoService();
     $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
@@ -31,29 +31,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         exit();
     }
     
-    if($operacion == 'registrar_novedad_usuario') {
-        $respuesta = $objetoServicio->sanitizarDatosRegistroNovedadUsuario();
+    if($operacion == 'registrar_permiso_usuario') {
+        $respuesta = $objetoServicio->sanitizarDatosRegistroPermisoVehiculo();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();
         }
 
-        echo json_encode($objetoNovedad->registrarNovedadUsuario($respuesta['datos_novedad']));
+        echo json_encode($objetoPermiso->registrarPermisoVehiculo($respuesta['datos_permiso']));
         
-    } else {
-        $respuesta = [
-            "tipo" => "ERROR",
-            "titulo" => 'Operación no válida',
-            "mensaje" => 'Lo sentimos, la operación solicitada no es válida.'
-        ];
-        echo json_encode($respuesta);
     }
-
-
 	
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
-    $objetoNovedad= new NovedadUsuarioModel();
-    $objetoServicio = new NovedadUsuarioService();
+    $objetoPermiso = new PermisoVehiculoModel();
+    $objetoServicio = new PermisoVehiculoService();
     $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
@@ -74,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         exit();
     }
 
-    if($operacion == 'consultar_novedades_usuario'){
+    if($operacion == 'consultar_permisos_usuarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['fecha'])){
             $respuesta = [
@@ -87,11 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             exit();
         }
 
-        echo json_encode($objetoNovedad->consultarNovedadesUsuario($respuesta['parametros']));
+        echo json_encode($objetoPermiso->consultarPermisosVehiculos($respuesta['parametros']));
 
-    }else if($operacion == 'consultar_novedad_usuario'){
+    }else if($operacion == 'aprobar_permiso_usuario'){
         $respuesta = $objetoServicio->sanitizarParametros();
-        if(!isset($respuesta['parametros']['codigo_novedad'])){
+        if(!isset($respuesta['parametros']['codigo_permiso'])){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Error De Parámetros',
@@ -102,6 +93,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             exit();
         }
 
-        echo json_encode($objetoNovedad->consultarNovedadUsuario($respuesta['parametros']['codigo_novedad']));
+        echo json_encode($objetoPermiso->aprobarPermisoVehiculo($respuesta['parametros']['codigo_permiso']));
+
+    }else if($operacion == 'desaprobar_permiso_usuario'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['codigo_permiso'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoPermiso->desaprobarPermisoVehiculo($respuesta['parametros']['codigo_permiso']));
+
+    }else if($operacion == 'consultar_permiso_usuario'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['codigo_permiso'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoPermiso->consultarPermisoVehiculo($respuesta['parametros']['codigo_permiso']));
+
+    }else if($operacion == 'consultar_notificaciones_permisos_vehiculo'){
+
+        echo json_encode($objetoPermiso->consultarNotificacionesPermisosVehiculo());
     }
 }

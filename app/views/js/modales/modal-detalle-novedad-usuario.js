@@ -95,11 +95,10 @@ function formatearString(cadena) {
 }
 
 function formatearFecha(fecha){
-    const fechaDividida = fecha.split('-');
-    const objetoFecha = new Date(parseInt(fechaDividida[0]), parseInt(fechaDividida[1]) - 1, parseInt(fechaDividida[2]));
+    const objetoFecha = new Date(fecha.replace(' ', 'T'));
 
-    const opciones = { day: 'numeric', month: 'long', year: 'numeric' }
-    const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
+    const opciones = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+    const fechaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);
 
     return fechaEspañol;
 }

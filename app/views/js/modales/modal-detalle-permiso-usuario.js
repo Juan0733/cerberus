@@ -1,14 +1,14 @@
-import { consultarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
+import { consultarPermisoUsuario } from '../fetchs/permisos-usuarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
-let codigoNovedad;
+let codigoPermiso;
 let botonCerrarModal;
 let urlBase;
 
-async function modalDetalleNovedadVehiculo(novedad, url) {
+async function modalDetallePermisoUsuario(permiso, url) {
     try {
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-novedad-vehiculo.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-detalle-permiso-usuario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -16,7 +16,7 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_novedad_vehiculo';
+        modal.id = 'modal_detalle_permiso_usuario';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
         
@@ -29,11 +29,11 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
 
         contenedorModales.appendChild(modal);
 
-        codigoNovedad = novedad;
+        codigoPermiso = permiso;
         urlBase = url;
          
         eventoCerrarModal();
-        dibujarNovedad();
+        dibujarPermiso();
 
     } catch (error) {
         if(botonCerrarModal){
@@ -43,14 +43,14 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle novedad vehiculo.'
+            mensaje: 'Error al cargar modal detalle permiso usuario.'
         });
     }
 }
-export{modalDetalleNovedadVehiculo}
+export{modalDetallePermisoUsuario}
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_detalle_novedad_vehiculo');
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_permiso_usuario');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
@@ -58,21 +58,20 @@ function eventoCerrarModal(){
     });
 }
 
-function dibujarNovedad() {
-    consultarNovedadVehiculo(codigoNovedad, urlBase).then(respuesta=>{
+function dibujarPermiso() {
+    consultarPermisoUsuario(codigoPermiso, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            const datosNovedad = respuesta.datos_novedad;
-            console.log(datosNovedad);
-            
-            document.getElementById('tipo_novedad').textContent = formatearString(datosNovedad.tipo_novedad);
-            document.getElementById('tipo_vehiculo').textContent = formatearString(datosNovedad.tipo_vehiculo);
-            document.getElementById('placa_vehiculo').textContent = datosNovedad.fk_vehiculo;
-            document.getElementById('involucrado').textContent = datosNovedad.nombres_involucrado+' '+datosNovedad.apellidos_involucrado;
-            document.getElementById('propietario_autorizador').textContent = datosNovedad.nombres_autorizador+' '+datosNovedad.apellidos_autorizador;
-            document.getElementById('puerta_registro').textContent = formatearString(datosNovedad.puerta_registro);
-            document.getElementById('responsable').textContent = datosNovedad.nombres_responsable+' '+datosNovedad.apellidos_responsable;
-            document.getElementById('fecha_registro').textContent = formatearFecha(datosNovedad.fecha_registro);
-            document.getElementById('descripcion').textContent = datosNovedad.descripcion;
+            const datosPermiso = respuesta.datos_permiso;
+
+            document.getElementById('tipo_permiso').textContent = formatearString(datosPermiso.tipo_permiso);
+            document.getElementById('solicitante').textContent = datosPermiso.nombres_solicitante+' '+datosPermiso.apellidos_solicitante;
+            document.getElementById('fecha_registro').textContent = formatearFecha(datosPermiso.fecha_registro);
+            document.getElementById('fecha_fin_permiso').textContent = datosPermiso.tipo_permiso == 'PERMANENCIA' ? formatearFecha(datosPermiso.fecha_fin_permiso) : datosPermiso.fecha_fin_permiso;
+            document.getElementById('fecha_aprobacion').textContent = datosPermiso.fecha_aprobacion != 'N/A' ? formatearFecha(datosPermiso.fecha_aprobacion) : datosPermiso.fecha_aprobacion;
+            document.getElementById('fecha_desaprobacion').textContent = datosPermiso.fecha_desaprobacion != 'N/A' ? formatearFecha(datosPermiso.fecha_desaprobacion) : datosPermiso.fecha_desaprobacion;
+            document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
+            document.getElementById('responsable').textContent = datosPermiso.nombres_responsable+' '+datosPermiso.apellidos_responsable;
+            document.getElementById('descripcion').textContent = datosPermiso.descripcion;
             
             contenedorModales.classList.add('mostrar');
 

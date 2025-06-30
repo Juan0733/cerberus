@@ -8,7 +8,10 @@
             <div id="contenedor_cajas_novedad_vehiculo">
                 <div class="input-caja-registro">
                     <label for="tipo_novedad" class="label-input">Tipo de novedad</label>
-                    <input type="text" class="campo" inputmode="numeric" name="tipo_novedad" id="tipo_novedad" tabindex="4">
+                    <select class="campo campo-seccion-01"  name="tipo_novedad" id="tipo_novedad" tabindex="4" required>
+                        <option value="" selected disabled>Seleccionar</option>
+                        <option value="VEHICULO PRESTADO">Vehiculo prestado</option>
+                    </select>
                 </div>
 
                 <div class="input-caja-registro">

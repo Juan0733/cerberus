@@ -1,9 +1,9 @@
 <?php
 namespace app\services;
 
-class NovedadUsuarioService{
-    public function sanitizarDatosRegistroNovedadUsuario(){
-        if (!isset($_POST['documento_involucrado'], $_POST['tipo_novedad'], $_POST['fecha_suceso'], $_POST['puerta_suceso'], $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['tipo_novedad'] == '' || $_POST['fecha_suceso'] == '' || $_POST['puerta_suceso'] == '' || $_POST['descripcion'] == '') {
+class PermisoUsuarioService{
+    public function sanitizarDatosRegistroPermisoUsuario(){
+        if (!isset($_POST['documento_solicitante'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['documento_solicitante'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '' ) {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -12,12 +12,11 @@ class NovedadUsuarioService{
             return $respuesta;
         }
 
-        $numeroDocumento = $this->limpiarDatos($_POST['documento_involucrado']);
-        $tipoNovedad = $this->limpiarDatos($_POST['tipo_novedad']);
-        $fechaSuceso = $this->limpiarDatos($_POST['fecha_suceso']);
-        $puertaSuceso = $this->limpiarDatos($_POST['puerta_suceso']);
+        $numeroDocumento = $this->limpiarDatos($_POST['documento_solicitante']);
+        $tipoPermiso = $this->limpiarDatos($_POST['tipo_permiso']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
-        unset($_POST['documento_involucrado'], $_POST['tipo_novedad'], $_POST['fecha_suceso'], $_POST['puerta_suceso'], $_POST['descripcion']);
+        $fechaFinPermiso = $this->limpiarDatos($_POST['fecha_fin_permiso']);
+        unset($_POST['documento_solicitante'], $_POST['descripcion'], $_POST['fecha_fin_permiso']);
 
         $datos = [
             [
@@ -25,16 +24,12 @@ class NovedadUsuarioService{
                 'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "(ENTRADA NO REGISTRADA|SALIDA NO REGISTRADA)",
-                'cadena' => $tipoNovedad
+                'filtro' => "(PERMANENCIA)",
+                'cadena' => $tipoPermiso
             ],
             [
                 'filtro' => "[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])",
-                'cadena' => $fechaSuceso
-            ],
-            [
-                'filtro' => "(PRINCIPAL|GANADERIA|PEATONAL)",
-                'cadena' => $puertaSuceso
+                'cadena' => $fechaFinPermiso
             ],
             [
                 'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
@@ -53,20 +48,18 @@ class NovedadUsuarioService{
 			}
         }
 
-        $puertaSuceso = strtoupper($puertaSuceso);
         $descripcion = trim(ucfirst(strtolower($descripcion)));
 
-        $datosNovedad = [
+        $datosPermiso = [
             'numero_documento' => $numeroDocumento,
-            'tipo_novedad' => $tipoNovedad,
-            'fecha_suceso' => $fechaSuceso,
-            'puerta_suceso' => $puertaSuceso,
-            'descripcion' => $descripcion
+            'tipo_permiso' => $tipoPermiso,
+            'descripcion' => $descripcion,
+            'fecha_fin_permiso' => $fechaFinPermiso,
         ];
 
         $respuesta = [
             "tipo" => "OK",
-            "datos_novedad" => $datosNovedad
+            "datos_permiso" => $datosPermiso
         ];
         return $respuesta;
     }
@@ -74,12 +67,21 @@ class NovedadUsuarioService{
     public function sanitizarParametros(){
         $parametros = [];
 
-        if(isset($_GET['codigo_novedad'])){
-            $codigoNovedad = $this->limpiarDatos($_GET['codigo_novedad']);
-            unset($_GET['codigo_novedad']);
+        if(isset($_GET['codigo_permiso'])){
+            $codigoPermiso = $this->limpiarDatos($_GET['codigo_permiso']);
+            unset($_GET['codigo_permiso']);
 
-            if(preg_match('/^[A-Z0-9]{16}$/', $codigoNovedad)){
-                $parametros['codigo_novedad'] = $codigoNovedad;
+            if(preg_match('/^[A-Z0-9]{16}$/', $codigoPermiso)){
+                $parametros['codigo_permiso'] = $codigoPermiso;
+            }
+        }
+
+        if(isset($_GET['tipo_permiso'])){
+            $tipoPermiso = $this->limpiarDatos($_GET['tipo_permiso']);
+            unset($_GET['tipo_permiso']);
+
+            if(preg_match('/^(PERMANENCIA)$/', $tipoPermiso)){
+                $parametros['tipo_permiso'] = $tipoPermiso;
             }
         }
 
@@ -92,12 +94,12 @@ class NovedadUsuarioService{
             }
         }
 
-        if(isset($_GET['tipo_novedad'])){
-            $tipoNovedad = $this->limpiarDatos($_GET['tipo_novedad']);
-            unset($_GET['tipo_novedad']);
+        if(isset($_GET['estado'])){
+            $estadoPermiso = $this->limpiarDatos($_GET['estado']);
+            unset($_GET['estado']);
 
-            if(preg_match('/^(SALIDA NO REGISTRADA|ENTRADA NO REGISTRADA)$/', $tipoNovedad)){
-                $parametros['tipo_novedad'] = $tipoNovedad;
+            if(preg_match('/^(APROBADO|DESAPROBADO|PENDIENTE)$/', $estadoPermiso)){
+                $parametros['estado_permiso'] = $estadoPermiso;
             }
         }
 

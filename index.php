@@ -58,7 +58,7 @@ if($vista == "app/views/content/404-view.php"){
         <main class="cuerpo-contenedor" id="cuerpo">
             <?php
                 $opcionesMenu =  $objetoView->obtenerMenuOpciones();
-                include "./app/views/inc/menu-lateral.php";
+                include "app/views/inc/menu-lateral.php";
             ?>      
             <section class="full-width pageContent scroll" id="contenedor_pagina">
                 
@@ -70,7 +70,12 @@ if($vista == "app/views/content/404-view.php"){
             </section>
         </main>
         
-           
+        <?php 
+            if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'){
+                include "app/views/inc/modales/modal-notificaciones.php";
+            }
+        ?>
+            
         <div id="contenedor_modales">
         </div>
     <?php endif; ?>

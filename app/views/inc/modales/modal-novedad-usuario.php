@@ -1,6 +1,5 @@
 <?php
-
-    // Calcular las fechas max y min
+    require_once "../../../../config/app.php";
     $fechaActual = new DateTime();
     $fechaMinima = (clone $fechaActual)->modify('-3 year'); 
     $fechaMaxima = $fechaActual;
@@ -18,7 +17,11 @@
             <div id="contenedor_cajas_novedad_usuario" >
                 <div class="input-caja-registro">
                     <label for="tipo_novedad" class="label-input">Tipo de novedad</label>
-                    <input type="text" class="campo" inputmode="numeric" name="tipo_novedad" id="tipo_novedad" tabindex="4" required>
+                    <select class="campo campo-seccion-01"  name="tipo_novedad" id="tipo_novedad" tabindex="4" required>
+                        <option value="" selected disabled>Seleccionar</option>
+                        <option value="ENTRADA NO REGISTRADA">Entrada no registrada</option>
+                        <option value="SALIDA NO REGISTRADA">Salida no registrada</option>
+                    </select>
                 </div>
                 
                 <div class="input-caja-registro">

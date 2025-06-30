@@ -15,7 +15,7 @@ class NovedadVehiculoService{
         $documentoInvolucrado = $this->limpiarDatos($_POST['documento_involucrado']);
         $propietario = $this->limpiarDatos($_POST['propietario']);
         $numeroPlaca = $this->limpiarDatos($_POST['numero_placa']);
-        $tipoNovedad = strtoupper($this->limpiarDatos($_POST['tipo_novedad']));
+        $tipoNovedad = $this->limpiarDatos($_POST['tipo_novedad']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
         unset($_POST['documento_involucrado'], $_POST['propietario'], $_POST['numero_placa'], $_POST['tipo_novedad'], $_POST['descripcion']);
 

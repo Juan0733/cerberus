@@ -6,6 +6,9 @@
 
     }elseif($titulo == 'Novedades Vehiculo'){
         $titulo = 'Novedades Vehículo';
+
+    }elseif($titulo == 'Permisos Vehiculo'){
+        $titulo = 'Permisos Vehículo';
     }
     
     $primerNombre = explode(" ", $_SESSION['datos_usuario']['nombres'])[0];

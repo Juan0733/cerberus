@@ -1,6 +1,14 @@
 <?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/menu-lateral.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteos-multitud-brigadistas.js"></script>
+
+    <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/notificaciones-jefe.js"></script>
+
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/notificaciones-subdirector.js"></script>
+    <?php endif; ?>
+
 <?php endif; ?>
 
 <?php if($url[0] == 'login'): ?>
@@ -74,6 +82,14 @@
 
     <?php elseif($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos-raso.js"></script>
+    <?php endif; ?>
+
+<?php elseif($url[0] == 'permisos-usuario'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-subdirector.js"></script>
+
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-jefe.js"></script>
     <?php endif; ?>
 <?php endif; ?>
 

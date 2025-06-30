@@ -1,6 +1,8 @@
 <?php
 namespace app\models;
 
+use DateTime;
+
 class UsuarioModel extends MainModel{
 
     public function consultarUsuario($usuario){
@@ -202,68 +204,29 @@ class UsuarioModel extends MainModel{
     }
 
     public function validarPermisosUsuario($permiso){
-        $rolesPermisos = [
-            'JEFE VIGILANTES' => ['consultar_agendas', 'consultar_agenda', 'consultar_aprendices', 'consultar_aprendiz', 
-            'consultar_funcionarios', 'consultar_funcionario', 'conteo_total_brigadistas', 'registrar_entrada_peatonal', 
-            'registrar_salida_peatonal', 'registrar_entrada_vehicular', 'registrar_salida_vehicular', 'validar_usuario_apto_entrada', 
-            'validar_usuario_apto_salida', 'consultar_movimientos', 'generar_informe_pdf', 'registrar_novedad_usuario', 'consultar_novedades_usuario', 
-            'consultar_novedad_usuario', 'registrar_novedad_vehiculo', 'consultar_novedades_vehiculo', 'consultar_novedad_vehiculo', 
-            'validar_usuario', 'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 
-            'registrar_vehiculo', 'consultar_vehiculos', 'consultar_vehiculo', 'consultar_propietarios', 'eliminar_propietario_vehiculo', 
-            'conteo_tipo_vehiculo', 'registrar_vigilante', 'actualizar_vigilante', 'guardar_puerta', 'habilitar_vigilante', 
-            'inhabilitar_vigilante', 'consultar_vigilantes', 'consultar_vigilante', 'consultar_puerta', 'registrar_visitante', 
-            'consultar_visitantes', 'consultar_visitante'],
-            
-            'VIGILANTE RASO' => ['consultar_agendas', 'consultar_agenda', 'consultar_aprendices', 'consultar_aprendiz', 
-            'consultar_funcionarios', 'consultar_funcionario', 'conteo_total_brigadistas', 'registrar_entrada_peatonal', 
-            'registrar_salida_peatonal', 'registrar_entrada_vehicular', 'registrar_salida_vehicular', 'validar_usuario_apto_entrada', 
-            'validar_usuario_apto_salida', 'registrar_novedad_usuario', 'registrar_novedad_vehiculo', 'validar_usuario', 
-            'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 'registrar_vehiculo', 
-            'consultar_vehiculos', 'consultar_vehiculo', 'consultar_propietarios', 'conteo_tipo_vehiculo', 'guardar_puerta', 
-            'consultar_vigilantes', 'consultar_vigilante', 'consultar_puerta', 'registrar_visitante', 'consultar_visitantes', 
-            'consultar_visitante'],
-            
-            'COORDINADOR' => ['registrar_agenda', 'actualizar_agenda', 'eliminar_agenda', 'consultar_agendas', 'consultar_agenda', 
-            'registrar_aprendiz', 'actualizar_aprendiz', 'consultar_aprendices', 'consultar_aprendiz', 'consultar_fichas', 
-            'consultar_ficha', 'consultar_funcionarios', 'consultar_funcionario', 'conteo_total_brigadistas',  'validar_usuario', 
-            'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 'registrar_vehiculo', 
-            'conteo_tipo_vehiculo', 'guardar_puerta', 'consultar_vigilantes', 'consultar_vigilante', 'registrar_visitante', 
-            'consultar_visitantes', 'consultar_visitante'],
-            
-            'SUBDIRECTOR'=>['registrar_agenda', 'actualizar_agenda', 'eliminar_agenda', 'consultar_agendas', 'consultar_agenda', 
-            'registrar_aprendiz', 'actualizar_aprendiz', 'consultar_aprendices', 'consultar_aprendiz', 'consultar_fichas', 
-            'consultar_ficha', 'registrar_funcionario', 'actualizar_funcionario', 'consultar_funcionarios', 'consultar_funcionario', 
-            'conteo_total_brigadistas',  'consultar_movimientos', 'consultar_movimientos_usuarios', 'generar_informe_pdf', 'consultar_novedades_usuario', 
-            'consultar_novedad_usuario', 'consultar_novedades_vehiculo', 'consultar_novedad_vehiculo', 'validar_usuario', 
-            'validar_contrasena', 'conteo_total_usuarios', 'conteo_tipo_usuario', 'cerrar_sesion', 'registrar_vehiculo', 
-            'consultar_vehiculos', 'consultar_vehiculo', 'consultar_propietarios', 'eliminar_propietario_vehiculo', 
-            'conteo_tipo_vehiculo', 'registrar_vigilante', 'actualizar_vigilante', 'habilitar_vigilante', 'inhabilitar_vigilante', 
-            'consultar_vigilantes', 'consultar_vigilante', 'registrar_visitante', 'consultar_visitantes', 'consultar_visitante'],
-            
-            'INVITADO' => ['registrar_aprendiz', 'consultar_fichas', 'consultar_ficha', 'auto_registrar_funcionario',  
-            'auto_registrar_vigilante', 'registrar_visitante', 'consultar_motivos_ingreso']
-        ];
-
+        $rol = 'INVITADO';
         if(isset($_SESSION['datos_usuario'])){
             $rol = $_SESSION['datos_usuario']['rol'];
-            if(!in_array($permiso, $rolesPermisos[$rol])){
-                $respuesta = [
-                    'tipo' => 'ERROR',
-                    'titulo' => 'Acceso Denegado',
-                    'mensaje'  => 'Lo sentimimos, no tienes acceso a este recurso'
-                ];
-                return $respuesta;
-            }
+        }
 
-        }else{
-            if(!in_array($permiso, $rolesPermisos['INVITADO'])){
-                $respuesta = [
-                    'tipo' => 'ERROR',
-                    'titulo' => 'Acceso Denegado',
-                    'mensaje'  => 'Lo sentimimos, no tienes acceso a este recurso'
-                ];
-                return $respuesta;
-            }
+        $sentenciaBuscar = "
+            SELECT rol
+            FROM roles_permisos
+            WHERE rol = '$rol' AND permiso = '$permiso';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Acceso Denegado',
+                'mensaje' => 'Lo sentimos, no tienes acceso a este recurso'
+            ];
+            return $respuesta;
         }
 
         $respuesta = [
@@ -384,6 +347,88 @@ class UsuarioModel extends MainModel{
             'titulo'=> "Conteo Exitoso",
             'mensaje' => "El conteo de usuarios fue realizado con éxito.",
             'usuarios' => $usuarios
+        ];
+        return $respuesta;
+    }
+
+    public function consultarNotificacionesUsuario(){
+        $tablas = ['vigilantes', 'visitantes', 'funcionarios', 'aprendices'];
+        $objetoFecha = new DateTime();
+        $fechaActual = $objetoFecha->format('Y-m-d H:i:s');
+        $fechaMenos16H = (clone $objetoFecha)->modify('-16 hours')->format('Y-m-d H:i:s');
+        $fechaMenos1H = (clone $objetoFecha)->modify('-1 hours')->format('Y-m-d H:i:s');
+
+        $notificaciones = [];
+
+        foreach ($tablas as $tabla) {
+            $sentenciaBuscar = "
+                SELECT 
+                    usu.numero_documento, 
+                    ppu.estado_permiso, 
+                    ppu.fecha_registro AS fecha_permiso, 
+                    mov.fecha_registro AS fecha_ultima_entrada
+                FROM 
+                    $tabla usu
+                INNER JOIN (
+                    SELECT m1.*
+                    FROM movimientos m1
+                    INNER JOIN (
+                        SELECT fk_usuario, MAX(fecha_registro) AS fecha_ultimo_movimiento
+                        FROM movimientos
+                        GROUP BY fk_usuario
+                    ) ult ON m1.fk_usuario = ult.fk_usuario 
+                        AND m1.fecha_registro = ult.fecha_ultimo_movimiento
+                    WHERE m1.tipo_movimiento = 'ENTRADA'
+                ) mov ON usu.numero_documento = mov.fk_usuario
+                LEFT JOIN (
+                    SELECT p1.*
+                    FROM permisos_usuarios p1
+                    INNER JOIN (
+                        SELECT fk_usuario, MAX(fecha_registro) AS fecha_ultimo_permiso
+                        FROM permisos_usuarios
+                        WHERE tipo_permiso = 'PERMANENCIA'
+                        GROUP BY fk_usuario
+                    ) ult ON p1.fk_usuario = ult.fk_usuario 
+                        AND p1.fecha_registro = ult.fecha_ultimo_permiso
+                ) ppu ON usu.numero_documento = ppu.fk_usuario
+                WHERE 
+                    usu.ubicacion = 'DENTRO'
+                    AND mov.fecha_registro < '$fechaMenos16H'
+                    AND (
+                        ppu.estado_permiso IS NULL 
+                        OR ppu.estado_permiso = 'DESAPROBADO'
+                        OR (ppu.estado_permiso = 'PENDIENTE' AND ppu.fecha_registro < '$fechaMenos1H') 
+                        OR (ppu.estado_permiso = 'APROBADO' AND ppu.fecha_fin_permiso < '$fechaActual')
+                    );";
+
+            $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+            $respuestaSentencia = $respuesta['respuesta_sentencia'];
+            if($respuestaSentencia->num_rows > 0){
+                $usuarios = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+                foreach ($usuarios as &$usuario) {
+                    $fechaUltimaEntrada = new DateTime($usuario['fecha_ultima_entrada']);
+                    $fechaPermiso = new DateTime($usuario['fecha_permiso']);
+
+                    $diferencia = $fechaUltimaEntrada->diff($objetoFecha);
+                    $horasPermanencia = ($diferencia->days * 24) + $diferencia->h;
+                    $usuario['horas_permanencia'] = $horasPermanencia;
+
+                    if(($usuario['estado_permiso'] == 'DESAPROBADO') && $fechaPermiso < $fechaUltimaEntrada){
+                        $usuario['estado_permiso'] = NULL;
+                    }
+
+                    $notificaciones[] = $usuario;
+                };
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'notificaciones_usuario' => $notificaciones
         ];
         return $respuesta;
     }

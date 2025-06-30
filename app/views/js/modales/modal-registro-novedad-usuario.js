@@ -30,7 +30,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         inputDocumento.value = documento;
         inputDocumento.readOnly = true;
         inputTipoNovedad.value = novedad;
-        inputTipoNovedad.readOnly = true;
+        inputTipoNovedad.disabled = true;
 
         if(callback){
             funcionCallback = callback;

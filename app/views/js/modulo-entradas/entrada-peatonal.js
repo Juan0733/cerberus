@@ -163,7 +163,7 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Salida No Registrada"){
-                modalRegistroNovedadUsuario(urlBase, 'Salida no registrada',  respuesta.documento);
+                modalRegistroNovedadUsuario(urlBase, 'SALIDA NO REGISTRADA',  respuesta.documento);
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento);

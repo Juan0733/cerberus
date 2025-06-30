@@ -432,13 +432,13 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Entrada No Registrada"){
-                modalRegistroNovedadUsuario( urlBase, 'Entrada no registrada',  respuesta.documento, respuesta.callback);
+                modalRegistroNovedadUsuario( urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Vehículo No Encontrado"){
                 modalRegistroVehiculo(urlBase, respuesta.vehiculo, respuesta.callback);
             }else if(respuesta.titulo == "Propietario Incorrecto"){
-                modalRegistroNovedadVehiculo(urlBase, 'Vehiculo prestado', respuesta.documento, respuesta.vehiculo);
+                modalRegistroNovedadVehiculo(urlBase, 'VEHICULO PRESTADO', respuesta.documento, respuesta.vehiculo);
             }
         } 
     });

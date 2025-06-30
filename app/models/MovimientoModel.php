@@ -379,7 +379,11 @@ class MovimientoModel extends MainModel{
             $sentenciaBuscar .= " AND mov.fk_vehiculo LIKE '{$parametros['numero_placa']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC";
+        
+        if(!isset($parametros['pdf'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

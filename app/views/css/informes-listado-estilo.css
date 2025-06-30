@@ -55,6 +55,7 @@
             border: none;
             border-radius: 13px;
             background-color: red;
+            cursor: pointer;
             display: flex;
             height: 40px;
             justify-content: center;

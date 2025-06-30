@@ -1,9 +1,9 @@
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function registrarVehiculo(datos, urlBase) {
+async function registrarPermisoUsuario(datos, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php', {
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php', {
             method: 'POST',
             body: datos
         });
@@ -23,32 +23,13 @@ async function registrarVehiculo(datos, urlBase) {
         })
     }
 }
-export{registrarVehiculo}
 
-async function conteoTipoVehiculo(urlBase) {
-    try {
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('conteo_tipo_vehiculo'));
+export{registrarPermisoUsuario}
 
-        if(!response.ok) throw new Error("Error en la solicitud");
-
-        const data = await response.json();
-
-        return data;
-        
-    } catch (error) {
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
-    }
-}
-export{conteoTipoVehiculo}
-
-async function consultarVehiculos(parametros, urlBase) {
+async function consultarPermisosUsuarios(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_permisos_usuarios')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -65,12 +46,12 @@ async function consultarVehiculos(parametros, urlBase) {
         })
     }
 }
-export{consultarVehiculos}
+export{consultarPermisosUsuarios}
 
-async function consultarVehiculo(placa, urlBase) {
+async function consultarPermisoUsuario(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculo')+'&placa='+encodeURI(placa));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -87,12 +68,12 @@ async function consultarVehiculo(placa, urlBase) {
         })
     }
 }
-export{consultarVehiculo}
+export{consultarPermisoUsuario}
 
-async function consultarPropietarios(placa, urlBase) {
+async function aprobarPermisoUsuario(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_propietarios')+'&placa='+encodeURI(placa));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('aprobar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -109,12 +90,12 @@ async function consultarPropietarios(placa, urlBase) {
         })
     }
 }
-export{consultarPropietarios}
+export{aprobarPermisoUsuario}
 
-async function eliminarPropietarioVehiculo(placa, documento, urlBase) {
+async function desaprobarPermisoUsuario(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('eliminar_propietario_vehiculo')+'&placa='+encodeURI(placa)+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('desaprobar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -131,12 +112,12 @@ async function eliminarPropietarioVehiculo(placa, documento, urlBase) {
         })
     }
 }
-export{eliminarPropietarioVehiculo}
+export{desaprobarPermisoUsuario}
 
-async function consultarNotificacionesVehiculo(urlBase) {
+async function consultarNotificacionesPermisosUsuario(urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_notificaciones_vehiculo'));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_notificaciones_permisos_usuario'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -153,7 +134,7 @@ async function consultarNotificacionesVehiculo(urlBase) {
         })
     }
 }
-export{consultarNotificacionesVehiculo}
+export{consultarNotificacionesPermisosUsuario}
 
 function alertaError(respuesta){
     Swal.fire({
@@ -168,7 +149,3 @@ function alertaError(respuesta){
         }
     });
 }
-
-
-
-

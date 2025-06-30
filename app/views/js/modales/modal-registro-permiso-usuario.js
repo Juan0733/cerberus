@@ -1,15 +1,17 @@
-import {registrarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
-import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
+import {registrarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
-let placaVehiculo;
 let botonCerrarModal;
+let funcionCallback;
 let urlBase;
 
-async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
+async function modalRegistroPermisoUsuario(url, permiso=false, documento=false, callback) {
     try {
-        const response = await fetch(url+'app/views/inc/modales/modal-novedad-vehiculo.php');
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(url+'app/views/inc/modales/modal-permiso-usuario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -17,10 +19,10 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_novedad_vehiculo';
+        modal.id = 'modal_permiso_usuario';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
-        
+
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if(modalesExistentes.length > 0){
            for (let i = 0; i < modalesExistentes.length; i++) {
@@ -30,30 +32,35 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
 
         contenedorModales.appendChild(modal);
 
-        const inputDocumento = document.getElementById('documento_involucrado'); 
-        const inputTipoNovedad = document.getElementById('tipo_novedad');
-        const inputPlaca = document.getElementById('numero_placa');
+        if(documento){
+            const inputDocumento = document.getElementById('documento_solicitante'); 
+            inputDocumento.value = documento;
+            inputDocumento.readOnly = true;
+        }
 
-        inputDocumento.value = documento;
-        inputDocumento.readOnly = true;
-        inputTipoNovedad.value = novedad;
-        inputTipoNovedad.disabled = true;
-        inputPlaca.value = placa;
-        inputPlaca.readOnly = true;
+        if(permiso){
+            const inputTipoPermiso = document.getElementById('tipo_permiso');
+            inputTipoPermiso.value = permiso;
+            inputTipoPermiso.disabled = true;
+        }
 
-        placaVehiculo = placa;
+        funcionCallback = callback;
         urlBase = url;
-       
-        eventoCerrarModal();
-        dibujarPropietarios(placa);
-        eventoTextArea();
-        eventoRegistrarNovedadVehiculo();
 
+        eventoCerrarModal();
+        eventoTextArea();
+        eventoRegistrarPermisoUsuario();
+
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        contenedorModales.classList.add('mostrar');
+        
         setTimeout(()=>{
-            document.getElementById('propietario').focus();
+            document.getElementById('fecha_fin_permiso').focus();
         }, 250)
-           
+
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -61,39 +68,41 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
        console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro novedad vehículo'
+            mensaje: 'Error al cargar modal registro permiso permanencia usuario.'
         });
     }
     
 }
-export { modalRegistroNovedadVehiculo };
+export { modalRegistroPermisoUsuario };
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_novedad_vehiculo');
+    botonCerrarModal = document.getElementById('cerrar_modal_permiso_usuario');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
+        
     });
 
-    document.getElementById('btn_cancelar_novedad_vehiculo').addEventListener('click', ()=>{
+    document.getElementById('btn_cancelar_permiso_usuario').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
 
-function eventoRegistrarNovedadVehiculo(){
-    let formularioNovedad = document.getElementById('formulario_novedad_vehiculo');
-    formularioNovedad.addEventListener('submit', (e)=>{
+function eventoRegistrarPermisoUsuario(){
+    let formularioPermisoUsuario = document.getElementById('formulario_permiso_usuario');
+    formularioPermisoUsuario.addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        let formData = new FormData(formularioNovedad);
-        formData.append('operacion', 'registrar_novedad_vehiculo');
+        let formData = new FormData(formularioPermisoUsuario);
+        formData.append('operacion', 'registrar_permiso_usuario');
 
-        registrarNovedadVehiculo(formData, urlBase).then(respuesta=>{
+        registrarPermisoUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
-                
+                funcionCallback();
+
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){
                     window.location.replace(urlBase+'sesion-expirada');
@@ -107,7 +116,7 @@ function eventoRegistrarNovedadVehiculo(){
 }
 
 function eventoTextArea(){
-    const textAreaDescripcion = document.getElementById("descripcion");
+    const textAreaDescripcion = document.getElementById('descripcion');
     let temporizador;
     let primeraValidacion = true;
 
@@ -117,41 +126,18 @@ function eventoTextArea(){
             let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}$/;
     
             if (!patron.test(textAreaDescripcion.value)){
+
                 if(primeraValidacion){
                     textAreaDescripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
                     textAreaDescripcion.reportValidity();
                     primeraValidacion = false;
                 }
 
-            } else {
+            }else {
                 textAreaDescripcion.setCustomValidity(""); 
                 primeraValidacion = true;
             }
         }, 1000);
-    })
-}
-
-function dibujarPropietarios(){
-    const selectPropietario = document.getElementById('propietario');
-    propietario.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
-
-    consultarPropietarios(placaVehiculo, urlBase).then(respuesta=>{
-        if(respuesta.tipo == 'OK'){
-            respuesta.propietarios.forEach(propietario => {
-                selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
-            });
-
-            contenedorModales.classList.add('mostrar');
-
-        }else if(respuesta.tipo == 'ERROR'){
-            if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-
-            }else{
-                botonCerrarModal.click();
-                alertaError(respuesta);
-            }
-        }
     })
 }
 
@@ -186,6 +172,3 @@ function alertaError(respuesta){
         }
     });
 }
-
-
-

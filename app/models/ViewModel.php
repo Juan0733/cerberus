@@ -23,6 +23,7 @@ class ViewModel{
 			"vehiculos",
 			"visitantes",
 			"vigilantes",
+			"permisos-usuario"
 		];
 
 		if(in_array($vista, $vistasExistentes)){
@@ -43,6 +44,8 @@ class ViewModel{
 					$vistasAccesibles[] = 'vehiculos';
 					$vistasAccesibles[] = 'novedades-usuario';
 					$vistasAccesibles[] = 'novedades-vehiculo';
+					$vistasAccesibles[] = 'permisos-usuario';
+					$vistasAccesibles[] = 'permisos-vehiculo';
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO') {// --VIGILANTE--
 					$vistasAccesibles[] = 'inicio';
@@ -75,6 +78,8 @@ class ViewModel{
 					$vistasAccesibles[] = 'vehiculos';
 					$vistasAccesibles[] = 'novedades-usuario';
 					$vistasAccesibles[] = 'novedades-vehiculo';
+					$vistasAccesibles[] = 'permisos-usuario';
+					$vistasAccesibles[] = 'permisos-vehiculo';
 				}
 			}
 			
@@ -196,7 +201,28 @@ class ViewModel{
 								"ICON" => 'car-outline'
 							]
 						]
+					],
+					"PERMISOS" => [
+						"TITULO" => 'Permisos',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'hand-right-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'permisos-usuario',
+								"ICON" => 'person-outline'
+							],
+							"VEHICULO" => [
+								"TITULO" => 'Vehículo',
+								"URL" => 'permisos-vehiculo',
+								"ICON" => 'car-outline'
+							]
+						]
 					]
+
 				];
 
 			}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO' ) {
@@ -405,6 +431,26 @@ class ViewModel{
 							"VEHICULO" => [
 								"TITULO" => 'Vehículo',
 								"URL" => 'novedades-vehiculo',
+								"ICON" => 'car-outline'
+							]
+						]
+					],
+					"PERMISOS" => [
+						"TITULO" => 'Permisos',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'hand-right-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'permisos-usuario',
+								"ICON" => 'person-outline'
+							],
+							"VEHICULO" => [
+								"TITULO" => 'Vehículo',
+								"URL" => 'permisos-vehiculo',
 								"ICON" => 'car-outline'
 							]
 						]

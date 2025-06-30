@@ -23,7 +23,6 @@
             <div id="btn_puerta_mobile">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                 fill="#ffffff" viewBox="0 0 24 24" >
-                <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
                 <path d="M2 20H22V22H2z"></path><path d="m20,4c0-1.1-.9-2-2-2H6c-1.1,0-2,.9-2,2v15h16V4Zm-3,8h-2v-2h2v2Z"></path>
                 </svg>   
             </div>
@@ -54,7 +53,7 @@
                 <?php foreach($opcionesMenu as $clave => $opcion): ?>
                     <li class=" <?php echo $opcion['CLASE']; ?>">
                         <a href="<?php echo $opcion['URL'] == '#' ? $opcion['URL'] : $urlBaseVariable.$opcion['URL']; ?>" class="<?php echo $opcion['CLASE02']; ?>
-                            <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES' || $clave == 'NOVEDADES'): ?>
+                            <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES' || $clave == 'NOVEDADES' || $clave == 'PERMISOS'): ?>
                                 <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
                                     <?php if ($subOpcion['URL'] == $urlActual): ?>
                                         <?php echo 'inbox'; ?>
@@ -69,7 +68,7 @@
                             <span><?php echo $opcion['TITULO']; ?></span>
                         </a>
 
-                        <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES' || $clave == 'NOVEDADES'): ?>
+                        <?php if ($clave == 'USUARIOS' || $clave == 'INFORMES' || $clave == 'NOVEDADES' || $clave == 'PERMISOS'): ?>
                             <ul class="<?php echo $opcion['CLASE03']; ?>">
                                 <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
                                     <li>

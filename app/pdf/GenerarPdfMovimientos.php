@@ -11,18 +11,6 @@ use app\models\UsuarioModel;
 use app\models\VehiculoModel;
 use app\services\MovimientoService;
 
-$respuesta = $objetoUsuario->validarTiempoSesion();
-if($respuesta['tipo'] == 'ERROR'){
-    header('Location: ../../sesion-expirada');
-    exit();
-}
-
-$respuesta = $objetoUsuario->validarPermisosUsuario('generar_informe_pdf');
-if($respuesta['tipo'] == 'ERROR'){
-    header('Location: ../../acceso-denegado');
-    exit();
-}
-
 class PDF extends tFPDF{
     public $usuario;
     public $vehiculo;
@@ -192,7 +180,21 @@ try {
     $objetoVehiculo = new VehiculoModel();
     $objetoMovimiento = new MovimientoModel();
     $objetoServicio = new MovimientoService();
+
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        header('Location: ../../sesion-expirada');
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario('generar_pdf_movimientos');
+    if($respuesta['tipo'] == 'ERROR'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
+    
     $parametros = $objetoServicio->sanitizarParametros()['parametros'];
+    $parametros['pdf'] = 'SI';
 
     if(!isset($parametros['fecha_inicio']) || !isset($parametros['fecha_fin'])){
         header("Location: ../../informes-listado");

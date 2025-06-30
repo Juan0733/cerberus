@@ -24,7 +24,6 @@
             padding: 0 10px;
             height: 40px;
             width: clamp(220px, 20%, 600px);
-            
         }
 
             #contenedor_filtros  .filtro input, select{
@@ -38,33 +37,32 @@
                 font-size: 25px;
             }
 
-    #contenedor_principal .btn-visitante{
-        align-items: center;
-        border: none;
-        border-radius: 13px;
-        background-color: var(--color-secundario);
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        height: 40px;
-        padding: 0 8px;
-        width: 40px;
-    }
-
-    #contenedor_principal #btn_crear_visitante_mobile{
-        display: none;
-        height: 60px;
-        left: 80%;
-        position: fixed;
-        top: 88.5%;
-        width: 60px;
-        z-index: 20;
-    }
-    
-        #contenedor_principal .btn-visitante ion-icon{
-            color: white;
-            font-size: 25px;
+        #contenedor_principal .btn-permiso{
+            align-items: center;
+            border: none;
+            border-radius: 13px;
+            background-color: var(--color-secundario);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            height: 40px;
+            padding: 0 8px;
+            width: 40px;
         }
+
+        #contenedor_principal #btn_crear_permiso_mobile{
+            display: none;
+            height: 60px;
+            left: 80%;
+            position: fixed;
+            top: 88.5%;
+            width: 60px;
+            z-index: 20;
+        }
+            #contenedor_principal .btn-permiso ion-icon{
+                color: white;
+                font-size: 25px;
+            }
 
     #contenedor_principal #contenedor_tabla_cards{
         align-items: center;
@@ -85,7 +83,7 @@
         background-color: rgb(180, 180, 180);
     }
 
-        #contenedor_principal #contenedor_tabla_cards #tabla_visitantes {
+        #contenedor_principal #contenedor_tabla_cards #tabla_permisos_usuario {
             border-collapse: collapse;
             border-radius: 20px;
             background: var(--color-primario);
@@ -93,11 +91,11 @@
             width: 100%;
         }
 
-            #contenedor_principal #contenedor_tabla_cards #tabla_visitantes tr{
+            #contenedor_principal #contenedor_tabla_cards #tabla_permisos_usuario tr{
                 border-bottom: 2px solid rgb(219, 219, 219);
             }
 
-            #contenedor_principal #contenedor_tabla_cards #tabla_visitantes thead {
+            #contenedor_principal #contenedor_tabla_cards #tabla_permisos_usuario thead {
                 background-color: var(--color-secundario);
                 color: white;
                 cursor: pointer;
@@ -108,29 +106,42 @@
                 z-index: 1;
             }
 
-                #contenedor_tabla_cards #tabla_visitantes thead th{
+                #contenedor_tabla_cards #tabla_permisos_usuario thead th{
                     font-weight: bolder;
                     padding: 1rem;
                 }
 
-                #contenedor_tabla_cards #tabla_visitantes tbody td{
+                #contenedor_tabla_cards #tabla_permisos_usuario tbody td{
                     padding: 1rem;
                 }
 
-                    #tabla_visitantes tbody td ion-icon{
+                    #tabla_permisos_usuario tbody td ion-icon{
+                        cursor: pointer;
                         font-size: 25px;
+                        margin-left: 8px;
+                    }
+
+                    #tabla_permisos_usuario tbody td .ver-permiso{
                         color: var(--color-secundario);
                     }
 
-                #contenedor_tabla_cards #tabla_visitantes thead th:first-child {
+                    #tabla_permisos_usuario tbody td .aprobar-permiso{
+                        color: var(--color-terciario);
+                    }
+
+                    #tabla_permisos_usuario tbody td .desaprobar-permiso{
+                        color: red;
+                    }
+
+                #contenedor_tabla_cards #tabla_permisos_usuario thead th:first-child {
                     border-radius: 20px 0 0 0;  
                 }
 
-                #contenedor_tabla_cards #tabla_visitantes thead th:last-child {
+                #contenedor_tabla_cards #tabla_permisos_usuario thead th:last-child {
                     border-radius: 0 20px 0 0;  
                 }
 
-    #contenedor_principal #contenedor_tabla_cards .document-card-visitante {
+    #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario{
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -142,27 +153,27 @@
         width: 100%;
       }
   
-        #contenedor_principal #contenedor_tabla_cards .document-card-visitante .card-header {
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario .card-header {
             padding: 10px 10px 0px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
   
-            #contenedor_tabla_cards .document-card-visitante .card-header .document-title {
+            #contenedor_tabla_cards .document-card-permiso-usuario .card-header .document-title {
                 font-size: 1.1em;
                 font-weight: bold;
                 color: #333;
                 margin: 0;
             }
   
-            #contenedor_tabla_cards .document-card-visitante .card-header .document-meta {
+            #contenedor_tabla_cards .document-card-permiso-usuario .card-header .document-meta {
                 font-size: 0.9em;
                 color: #555;
                 margin: 5px 0;
             }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-visitante .card-details {
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario .card-details {
             display: none;
             color: #555;
             flex-direction: column;
@@ -170,12 +181,12 @@
             transition: max-height 0.5s ease;
         }
   
-        #contenedor_principal #contenedor_tabla_cards .document-card-visitante.active .card-details {
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario.active .card-details {
             display: flex;
             padding: 10px;
         }
 
-        #contenedor_tabla_cards .document-card-visitante .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-permiso-usuario .contenedor-acciones {
             display: none;
             justify-content: end;
             max-height: 0;
@@ -184,24 +195,36 @@
             margin-top: 10px;
         }
 
-        #contenedor_tabla_cards .document-card-visitante.active .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones {
+            column-gap: 10px;
             display: flex;
             max-height: 150px;
             padding: 0 10px 10px;
         }
 
-            #contenedor_tabla_cards .document-card-visitante.active .contenedor-acciones .ver-visitante{
+            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones ion-icon{
                 font-size: 25px;
+            }
+
+            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones .ver-permiso{
                 color: var(--color-secundario);
             }
+
+            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones .aprobar-permiso{
+                color: var(--color-terciario);
+            }
+
+            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones .desaprobar-permiso{
+                color: red;
+            }
     
-        #contenedor_tabla_cards .document-card-visitante .toggle-icon {
+        #contenedor_tabla_cards .document-card-permiso-usuario .toggle-icon {
             font-size: 1.2em;
             transform: rotate(0deg);
             transition: transform 0.5s ease;
         }
   
-        #contenedor_tabla_cards .document-card-visitante.active .toggle-icon {
+        #contenedor_tabla_cards .document-card-permiso-usuario.active .toggle-icon {
             transform: rotate(180deg);
         }
 
@@ -212,30 +235,32 @@
         text-align: center;
     }
 
-/*----------------------------------------------------- Estilos Modal detalle visitante -------------------------------------------*/
-#contenedor_modales #modal_detalle_visitante{
+/*----------------------------------------------------- Estilos Modal detalle permiso Usuario -------------------------------------------*/
+#contenedor_modales #modal_detalle_permiso_usuario{
     width: clamp(450px, 30%, 550px);
 }
 
-#contenedor_modales #modal_detalle_visitante #cont_info_modales{
+#contenedor_modales #modal_detalle_permiso_usuario #cont_info_modales{
     align-items: start;
+    overflow-y: auto;
+    max-height: 550px;
     padding: 1.5em 1.5em 1em;
 }
 
-    #modal_detalle_visitante #cont_info_modales h3{
+    #modal_detalle_permiso_usuario #cont_info_modales h3{
         margin-bottom: 6px;
     }
 
-    #modal_detalle_visitante #cont_info_modales p{
+    #modal_detalle_permiso_usuario #cont_info_modales p{
         margin-bottom: 20px;
     }
  
-    #modal_detalle_visitante #cont_info_modales .caja-flex{
+    #modal_detalle_permiso_usuario #cont_info_modales .caja-flex{
         display: flex;
         width: 100%;
     }
 
-        #modal_detalle_visitante #cont_info_modales .caja-flex div{
+        #modal_detalle_permiso_usuario #cont_info_modales .caja-flex div{
             display: flex;
             flex-direction: column;
             justify-content: end;
@@ -254,14 +279,13 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-visitante{
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario{
             height: 65px;
         }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-visitante.active{
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario.active{
             height: auto;
         }
-
 }
 
 @media(max-width: 767px){
@@ -280,22 +304,21 @@
                 width: 100%;
             }
 
-            #contenedor_principal #contenedor_filtros #btn_crear_visitante{
+            #contenedor_principal #contenedor_filtros #btn_crear_permiso{
                 display: none;
             }
 
 
-        #contenedor_principal #btn_crear_visitante_mobile{
+        #contenedor_principal #btn_crear_permiso_mobile{
             display: flex;
         }
 
- /* -------------------------------------------------- Estilos Modal detalle visitante ----------------------------------------*/
-    #contenedor_modales #modal_detalle_visitante{
+    /* -------------------------------------------------- Estilos Modal detalle permiso Usuario ----------------------------------------*/
+    #contenedor_modales #modal_detalle_permiso_usuario{
         width: clamp(300px, 92.5%, 500px);
     }
 
-        #contenedor_modales #modal_detalle_visitante #cont_info_modales .caja-flex{
+        #contenedor_modales #modal_detalle_permiso_usuario #cont_info_modales .caja-flex{
             flex-direction: column;
         }
-
 }

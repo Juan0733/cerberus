@@ -34,11 +34,11 @@
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+            <input type="text" name="buscador_placa" id="buscador_placa" placeholder="Buscar Placa">
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
-            <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario">
+            <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo">
                 <ion-icon name="add-outline"></ion-icon>
             </button>
         <?php endif; ?>
@@ -48,7 +48,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
-        <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario_mobile">
+        <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo_mobile">
             <ion-icon name="add-outline"></ion-icon>
         </button>
     <?php endif; ?>

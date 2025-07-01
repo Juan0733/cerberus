@@ -237,7 +237,6 @@ function alertaAdvertencia(datos){
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
     urlBase = document.getElementById('url_base').value;
     contenedorCards = document.getElementById('contenedor_cards');

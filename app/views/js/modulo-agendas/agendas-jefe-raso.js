@@ -134,8 +134,6 @@ function eventoCrearAgenda(){
     })
 }
 
-
-
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",

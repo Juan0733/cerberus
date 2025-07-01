@@ -23,7 +23,8 @@ class ViewModel{
 			"vehiculos",
 			"visitantes",
 			"vigilantes",
-			"permisos-usuario"
+			"permisos-usuario",
+			"permisos-vehiculo"
 		];
 
 		if(in_array($vista, $vistasExistentes)){

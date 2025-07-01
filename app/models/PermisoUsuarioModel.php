@@ -38,10 +38,11 @@ class PermisoUsuarioModel extends MainModel{
 
     public function aprobarPermisoUsuario($codigoPermiso){
         $fechaActual = date('Y-m-d H:i:s');
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
         $sentenciaActualizar = "
             UPDATE permisos_usuarios 
-            SET estado_permiso = 'APROBADO', fecha_aprobacion = '$fechaActual'
+            SET estado_permiso = 'APROBADO', fecha_atencion = '$fechaActual', fk_usuario_atencio = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -59,10 +60,11 @@ class PermisoUsuarioModel extends MainModel{
 
      public function desaprobarPermisoUsuario($codigoPermiso){
         $fechaActual = date('Y-m-d H:i:s');
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
         $sentenciaActualizar = "
             UPDATE permisos_usuarios 
-            SET estado_permiso = 'DESAPROBADO', fecha_desaprobacion = '$fechaActual'
+            SET estado_permiso = 'DESAPROBADO', fecha_atencion = '$fechaActual', fk_usuario_atencion = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -82,39 +84,39 @@ class PermisoUsuarioModel extends MainModel{
     public function consultarPermisosUsuarios($parametros){
         $sentenciaBuscar = "
             SELECT 
-                ppu.codigo_permiso,
-                ppu.tipo_permiso, 
-                ppu.estado_permiso,
-                ppu.fecha_registro,
-                ppu.fk_usuario,
-                ppu.fk_usuario_sistema,
+                pu.codigo_permiso,
+                pu.tipo_permiso, 
+                pu.estado_permiso,
+                pu.fecha_registro,
+                pu.fk_usuario,
+                pu.fk_usuario_sistema,
                 COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
                 COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos
-            FROM permisos_usuarios ppu
-            LEFT JOIN funcionarios fun ON ppu.fk_usuario = fun.numero_documento
-            LEFT JOIN visitantes vis ON ppu.fk_usuario = vis.numero_documento
-            LEFT JOIN vigilantes vig ON ppu.fk_usuario = vig.numero_documento
-            LEFT JOIN aprendices apr ON ppu.fk_usuario = apr.numero_documento
-            WHERE DATE(ppu.fecha_registro) = '{$parametros['fecha']}'";
+            FROM permisos_usuarios pu
+            LEFT JOIN funcionarios fun ON pu.fk_usuario = fun.numero_documento
+            LEFT JOIN visitantes vis ON pu.fk_usuario = vis.numero_documento
+            LEFT JOIN vigilantes vig ON pu.fk_usuario = vig.numero_documento
+            LEFT JOIN aprendices apr ON pu.fk_usuario = apr.numero_documento
+            WHERE DATE(pu.fecha_registro) = '{$parametros['fecha']}'";
 
         if(isset($parametros['tipo_permiso'])){
-            $sentenciaBuscar .= " AND ppu.tipo_permiso = '{$parametros['tipo_permiso']}'";
+            $sentenciaBuscar .= " AND pu.tipo_permiso = '{$parametros['tipo_permiso']}'";
         }
 
         if(isset($parametros['codigo_permiso'])){
-            $sentenciaBuscar .= " AND ppu.codigo_permiso = '{$parametros['codigo_permiso']}'";
+            $sentenciaBuscar .= " AND pu.codigo_permiso = '{$parametros['codigo_permiso']}'";
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND ppu.fk_usuario LIKE '{$parametros['numero_documento']}%'";
+            $sentenciaBuscar .= " AND pu.fk_usuario LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['estado_permiso'])){
-            $sentenciaBuscar .= " AND ppu.estado_permiso = '{$parametros['estado_permiso']}'";
+            $sentenciaBuscar .= " AND pu.estado_permiso = '{$parametros['estado_permiso']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY ppu.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY pu.fecha_registro DESC LIMIT 10;";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -142,25 +144,28 @@ class PermisoUsuarioModel extends MainModel{
     public function consultarPermisoUsuario($codigoPermiso){
         $sentenciaBuscar = "
             SELECT 
-                ppu.codigo_permiso, 
-                ppu.tipo_permiso,
-                ppu.estado_permiso,  
-                ppu.fecha_registro,
-                ppu.descripcion,
-                vig1.nombres AS nombres_responsable,
-                vig1.apellidos AS apellidos_responsable,
-                COALESCE(ppu.fecha_fin_permiso, 'N/A') AS fecha_fin_permiso,
-                COALESCE(ppu.fecha_aprobacion, 'N/A') AS fecha_aprobacion,
-                COALESCE(ppu.fecha_desaprobacion, 'N/A') AS fecha_desaprobacion,
-                COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_solicitante,
-                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_solicitante
-            FROM permisos_usuarios ppu
-            INNER JOIN vigilantes vig1 ON ppu.fk_usuario_sistema = vig1.numero_documento
-            LEFT JOIN funcionarios fun ON ppu.fk_usuario = fun.numero_documento
-            LEFT JOIN visitantes vis ON ppu.fk_usuario = vis.numero_documento
-            LEFT JOIN vigilantes vig ON ppu.fk_usuario = vig.numero_documento
-            LEFT JOIN aprendices apr ON ppu.fk_usuario = apr.numero_documento
-            WHERE ppu.codigo_permiso = '$codigoPermiso'";
+                pu.codigo_permiso, 
+                pu.tipo_permiso,
+                pu.estado_permiso,  
+                pu.fecha_registro,
+                pu.descripcion,
+                COALESCE(pu.fecha_fin_permiso, 'N/A') AS fecha_fin_permiso,
+                COALESCE(pu.fecha_atencion, 'N/A') AS fecha_atencion,
+                COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_beneficiario,
+                COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_beneficiario,
+                COALESCE(fun2.nombres, vig2.nombres) AS nombres_solicitante,
+                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_solicitante,
+                COALESCE(fun3.nombres, 'N/A') AS nombres_responsable,
+                COALESCE(fun3.apellidos, 'N/A') AS apellidos_responsable
+            FROM permisos_usuarios pu
+            LEFT JOIN funcionarios fun1 ON pu.fk_usuario = fun1.numero_documento
+            LEFT JOIN visitantes vis1 ON pu.fk_usuario = vis1.numero_documento
+            LEFT JOIN vigilantes vig1 ON pu.fk_usuario = vig1.numero_documento
+            LEFT JOIN aprendices apr1 ON pu.fk_usuario = apr1.numero_documento
+            LEFT JOIN funcionarios fun2 ON pu.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN vigilantes vig2 ON pu.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN funcionarios fun3 ON pu.fk_usuario_atencion = fun3.numero_documento
+            WHERE pu.codigo_permiso = '$codigoPermiso'";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

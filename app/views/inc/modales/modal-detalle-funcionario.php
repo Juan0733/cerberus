@@ -4,6 +4,9 @@
 </div>
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
+        <div id="contenedor_cajas">
+            
+        </div>
         <div class="caja-flex">
             <div>
                 <h3>Tipo Documento:</h3>

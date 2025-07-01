@@ -91,6 +91,14 @@
     <?php elseif($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-jefe.js"></script>
     <?php endif; ?>
+
+<?php elseif($url[0] == 'permisos-vehiculo'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-vehiculo-subdirector.js"></script>
+
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-vehiculo-jefe.js"></script>
+    <?php endif; ?>
 <?php endif; ?>
 
 <script src="<?php echo $urlBaseVariable; ?>app/views/js/librerias/sweetalert2.all.min.js" ></script>

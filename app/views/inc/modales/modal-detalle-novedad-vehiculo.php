@@ -26,7 +26,7 @@
         </div>
         <div class="caja-flex">
             <div>
-                <h3>Propietario Autorizador:</h3>
+                <h3>Autorizador:</h3>
                 <p id="propietario_autorizador"></p>
             </div>
             <div>
@@ -41,7 +41,7 @@
                 <p id="fecha_registro"></p>
             </div>
             <div>
-                <h3>Responsable:</h3>
+                <h3>Responsable Registro:</h3>
                 <p id="responsable"></p>
             </div>
         </div>

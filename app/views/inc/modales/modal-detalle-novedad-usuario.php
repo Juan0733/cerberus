@@ -40,11 +40,11 @@
 
         <div class="caja-flex">
             <div>
-                <h3>Responsable:</h3>
+                <h3>Responsable Registro:</h3>
                 <p id="responsable"></p>
             </div>
         </div>
-         <div class="caja-flex">
+        <div class="caja-flex">
             <div>
                 <h3>Descripción:</h3>
                 <p id="descripcion"></p>

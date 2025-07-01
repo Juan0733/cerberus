@@ -54,6 +54,9 @@
 
 <?php elseif($url[0] == 'permisos-usuario'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/permisos-usuario-estilo.css">
+
+<?php elseif($url[0] == 'permisos-vehiculo'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/permisos-vehiculo-estilo.css">
 <?php endif; ?>
 
 <link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">

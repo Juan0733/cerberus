@@ -37,7 +37,7 @@
                 font-size: 25px;
             }
 
-        #contenedor_principal .btn-permiso-usuario{
+        #contenedor_principal .btn-permiso-vehiculo{
             align-items: center;
             border: none;
             border-radius: 13px;
@@ -50,7 +50,7 @@
             width: 40px;
         }
 
-        #contenedor_principal #btn_crear_permiso_usuario_mobile{
+        #contenedor_principal #btn_crear_permiso__vehiculo_mobile{
             display: none;
             height: 60px;
             left: 80%;
@@ -59,7 +59,7 @@
             width: 60px;
             z-index: 20;
         }
-            #contenedor_principal .btn-permiso-usuario ion-icon{
+            #contenedor_principal .btn-permiso-vehiculo ion-icon{
                 color: white;
                 font-size: 25px;
             }
@@ -83,7 +83,7 @@
         background-color: rgb(180, 180, 180);
     }
 
-        #contenedor_principal #contenedor_tabla_cards #tabla_permisos_usuario {
+        #contenedor_principal #contenedor_tabla_cards #tabla_permisos_vehiculo {
             border-collapse: collapse;
             border-radius: 20px;
             background: var(--color-primario);
@@ -91,11 +91,11 @@
             width: 100%;
         }
 
-            #contenedor_principal #contenedor_tabla_cards #tabla_permisos_usuario tr{
+            #contenedor_principal #contenedor_tabla_cards #tabla_permisos_vehiculo tr{
                 border-bottom: 2px solid rgb(219, 219, 219);
             }
 
-            #contenedor_principal #contenedor_tabla_cards #tabla_permisos_usuario thead {
+            #contenedor_principal #contenedor_tabla_cards #tabla_permisos_vehiculo thead {
                 background-color: var(--color-secundario);
                 color: white;
                 cursor: pointer;
@@ -106,42 +106,42 @@
                 z-index: 1;
             }
 
-                #contenedor_tabla_cards #tabla_permisos_usuario thead th{
+                #contenedor_tabla_cards #tabla_permisos_vehiculo thead th{
                     font-weight: bolder;
                     padding: 1rem;
                 }
 
-                #contenedor_tabla_cards #tabla_permisos_usuario tbody td{
+                #contenedor_tabla_cards #tabla_permisos_vehiculo tbody td{
                     padding: 1rem;
                 }
 
-                    #tabla_permisos_usuario tbody td ion-icon{
+                    #tabla_permisos_vehiculo tbody td ion-icon{
                         cursor: pointer;
                         font-size: 25px;
                         margin-left: 8px;
                     }
 
-                    #tabla_permisos_usuario tbody td .ver-permiso{
+                    #tabla_permisos_vehiculo tbody td .ver-permiso{
                         color: var(--color-secundario);
                     }
 
-                    #tabla_permisos_usuario tbody td .aprobar-permiso{
+                    #tabla_permisos_vehiculo tbody td .aprobar-permiso{
                         color: var(--color-terciario);
                     }
 
-                    #tabla_permisos_usuario tbody td .desaprobar-permiso{
+                    #tabla_permisos_vehiculo tbody td .desaprobar-permiso{
                         color: red;
                     }
 
-                #contenedor_tabla_cards #tabla_permisos_usuario thead th:first-child {
+                #contenedor_tabla_cards #tabla_permisos_vehiculo thead th:first-child {
                     border-radius: 20px 0 0 0;  
                 }
 
-                #contenedor_tabla_cards #tabla_permisos_usuario thead th:last-child {
+                #contenedor_tabla_cards #tabla_permisos_vehiculo thead th:last-child {
                     border-radius: 0 20px 0 0;  
                 }
 
-    #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario{
+    #contenedor_principal #contenedor_tabla_cards .document-card-permiso-vehiculo{
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -153,27 +153,27 @@
         width: 100%;
       }
   
-        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario .card-header {
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-vehiculo .card-header {
             padding: 10px 10px 0px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
   
-            #contenedor_tabla_cards .document-card-permiso-usuario .card-header .document-title {
+            #contenedor_tabla_cards .document-card-permiso-vehiculo .card-header .document-title {
                 font-size: 1.1em;
                 font-weight: bold;
                 color: #333;
                 margin: 0;
             }
   
-            #contenedor_tabla_cards .document-card-permiso-usuario .card-header .document-meta {
+            #contenedor_tabla_cards .document-card-permiso-vehiculo .card-header .document-meta {
                 font-size: 0.9em;
                 color: #555;
                 margin: 5px 0;
             }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario .card-details {
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-vehiculo .card-details {
             display: none;
             color: #555;
             flex-direction: column;
@@ -181,12 +181,12 @@
             transition: max-height 0.5s ease;
         }
   
-        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario.active .card-details {
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-vehiculo.active .card-details {
             display: flex;
             padding: 10px;
         }
 
-        #contenedor_tabla_cards .document-card-permiso-usuario .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-permiso-vehiculo .contenedor-acciones {
             display: none;
             justify-content: end;
             max-height: 0;
@@ -195,36 +195,36 @@
             margin-top: 10px;
         }
 
-        #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones {
+        #contenedor_tabla_cards .document-card-permiso-vehiculo.active .contenedor-acciones {
             column-gap: 10px;
             display: flex;
             max-height: 150px;
             padding: 0 10px 10px;
         }
 
-            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones ion-icon{
+            #contenedor_tabla_cards .document-card-permiso-vehiculo.active .contenedor-acciones ion-icon{
                 font-size: 25px;
             }
 
-            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones .ver-permiso{
+            #contenedor_tabla_cards .document-card-permiso-vehiculo.active .contenedor-acciones .ver-permiso{
                 color: var(--color-secundario);
             }
 
-            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones .aprobar-permiso{
+            #contenedor_tabla_cards .document-card-permiso-vehiculo.active .contenedor-acciones .aprobar-permiso{
                 color: var(--color-terciario);
             }
 
-            #contenedor_tabla_cards .document-card-permiso-usuario.active .contenedor-acciones .desaprobar-permiso{
+            #contenedor_tabla_cards .document-card-permiso-vehiculo.active .contenedor-acciones .desaprobar-permiso{
                 color: red;
             }
     
-        #contenedor_tabla_cards .document-card-permiso-usuario .toggle-icon {
+        #contenedor_tabla_cards .document-card-permiso-vehiculo .toggle-icon {
             font-size: 1.2em;
             transform: rotate(0deg);
             transition: transform 0.5s ease;
         }
   
-        #contenedor_tabla_cards .document-card-permiso-usuario.active .toggle-icon {
+        #contenedor_tabla_cards .document-card-permiso-vehiculo.active .toggle-icon {
             transform: rotate(180deg);
         }
 
@@ -236,18 +236,18 @@
     }
 
 /*----------------------------------------------------- Estilos Modal detalle permiso Usuario -------------------------------------------*/
-#contenedor_modales #modal_detalle_permiso_usuario{
+#contenedor_modales #modal_detalle_permiso_vehiculo{
     width: clamp(450px, 30%, 550px);
 }
 
-#contenedor_modales #modal_detalle_permiso_usuario #cont_info_modales{
+#contenedor_modales #modal_detalle_permiso_vehiculo #cont_info_modales{
     align-items: start;
     overflow-y: auto;
     max-height: 550px;
     padding: 1.5em 1.5em 1em;
 }
-
-    #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas{
+ 
+    #modal_detalle_permiso_vehiculo #cont_info_modales #contenedor_cajas{
         column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -255,7 +255,7 @@
         width: 100%;
     }
 
-        #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas .caja{
+        #modal_detalle_permiso_vehiculo #cont_info_modales #contenedor_cajas .caja{
             align-items: start;
             display: flex;
             flex-direction: column;
@@ -275,11 +275,11 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario{
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-vehiculo{
             height: 65px;
         }
 
-        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-usuario.active{
+        #contenedor_principal #contenedor_tabla_cards .document-card-permiso-vehiculo.active{
             height: auto;
         }
 }
@@ -300,21 +300,21 @@
                 width: 100%;
             }
 
-            #contenedor_principal #contenedor_filtros #btn_crear_permiso_usuario{
+            #contenedor_principal #contenedor_filtros #btn_crear_permiso_vehiculo{
                 display: none;
             }
 
 
-        #contenedor_principal #btn_crear_permiso_usuario_mobile{
+        #contenedor_principal #btn_crear_permiso_vehiculo_mobile{
             display: flex;
         }
 
     /* -------------------------------------------------- Estilos Modal detalle permiso Usuario ----------------------------------------*/
-    #contenedor_modales #modal_detalle_permiso_usuario{
+    #contenedor_modales #modal_detalle_permiso_vehiculo{
         width: clamp(300px, 92.5%, 500px);
     }
 
-       #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas{
-        grid-template-columns: repeat(1, 1fr);
-       }
+        #modal_detalle_permiso_vehiculo #cont_info_modales #contenedor_cajas{
+            grid-template-columns: repeat(1, 1fr);
+        }
 }

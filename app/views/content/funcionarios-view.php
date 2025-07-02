@@ -1,0 +1,48 @@
+<input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
+<div id="contenedor_principal">
+    <div id="contenedor_filtros">
+        <div class="filtro">
+            <label class="fechas_input" for="ubicacion">Ubicación:</label>
+            <select id="ubicacion" name="ubicacion">
+                <option value="">Todas</option>
+                <option value="DENTRO">Dentro</option>
+                <option value="FUERA">Fuera</option>
+            </select>
+        </div>
+
+        <div class="filtro">
+            <label class="fechas_input" for="rol_filtro">Rol:</label>
+            <select class="campo"  name="rol_filtro" id="rol_filtro" tabindex="8" required>
+                <option value="">Todos</option>
+                <option value="COORDINADOR">Coordinador</option>
+                <option value="INSTRUCTOR">Instructor</option>
+                <option value="PERSONAL ADMINISTRATIVO">Personal Administrativo</option>
+                <option value="PERSONAL ASEO">Personal Aseo</option>
+                <option value="SOPORTE TECNICO">Soporte Tecnico</option>
+                <option value="SUBDIRECTOR">Subdirector</option>
+            </select>
+        </div>
+
+        <div class="filtro">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+        </div> 
+
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+            <button class="btn-funcionario" id="btn_crear_funcionario">
+                <ion-icon name="add-outline"></ion-icon>
+            </button>
+        <?php endif; ?>
+       
+    </div>
+
+    <div id="contenedor_tabla_cards">
+    </div>
+
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <button class="btn-funcionario" id="btn_crear_funcionario_mobile">
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
+    <?php endif; ?>
+    
+</div>

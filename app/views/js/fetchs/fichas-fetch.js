@@ -1,0 +1,59 @@
+const contenedorSpinner = document.getElementById("contenedor_spinner");
+
+async function consultarFichas(urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/FichaController.php?operacion='+encodeURI('consultar_fichas'));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarFichas}
+
+async function consultarFicha(ficha, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/FichaController.php?operacion='+encodeURI('consultar_ficha')+'&ficha='+encodeURI(ficha));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarFicha}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}

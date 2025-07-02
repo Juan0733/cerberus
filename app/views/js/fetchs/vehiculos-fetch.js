@@ -17,6 +17,10 @@ async function registrarVehiculo(datos, urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
     }
 }
 export{registrarVehiculo}
@@ -33,6 +37,10 @@ async function conteoTipoVehiculo(urlBase) {
         
     } catch (error) {
         console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
     }
 }
 export{conteoTipoVehiculo}
@@ -51,6 +59,10 @@ async function consultarVehiculos(parametros, urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
     }
 }
 export{consultarVehiculos}
@@ -69,6 +81,10 @@ async function consultarVehiculo(placa, urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
     }
 }
 export{consultarVehiculo}
@@ -87,6 +103,10 @@ async function consultarPropietarios(placa, urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
     }
 }
 export{consultarPropietarios}
@@ -112,6 +132,25 @@ async function eliminarPropietarioVehiculo(placa, documento, urlBase) {
     }
 }
 export{eliminarPropietarioVehiculo}
+
+async function consultarNotificacionesVehiculo(urlBase) {
+    try {
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_notificaciones_vehiculo'));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        return data;
+        
+    } catch (error) {
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarNotificacionesVehiculo}
 
 function alertaError(respuesta){
     Swal.fire({

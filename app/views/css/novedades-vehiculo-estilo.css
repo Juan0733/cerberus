@@ -1,0 +1,269 @@
+#contenedor_principal {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+    #contenedor_principal #contenedor_filtros {
+        column-gap: 10px;
+        display: flex;
+        justify-content: end;
+        padding: 1rem 0;
+        width: 100%;
+    }
+
+        #contenedor_principal #contenedor_filtros .filtro{
+            align-items: center;
+            border: 1px solid #d8d8d8;
+            border-radius: 13px;
+            background: white;
+            display: flex;
+            font-size: 17px;
+            gap: 0.5rem;
+            padding: 0 10px;
+            height: 40px;
+            width: clamp(220px, 20%, 600px);
+        }
+
+            #contenedor_filtros  .filtro input, select{
+                border: none;
+                font-size: 17px;
+                outline: none;
+                width: 100%;
+            }
+
+            #contenedor_principal #contenedor_filtros .filtro ion-icon{
+                font-size: 25px;
+            }
+
+    #contenedor_principal #contenedor_tabla_cards{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        max-height: 75vh;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar{
+        background: transparent;
+        width: 8px;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        background-color: rgb(180, 180, 180);
+    }
+
+        #contenedor_principal #contenedor_tabla_cards #tabla_novedades_vehiculo {
+            border-collapse: collapse;
+            border-radius: 20px;
+            background: var(--color-primario);
+            text-align: center;
+            width: 100%;
+        }
+
+            #contenedor_principal #contenedor_tabla_cards #tabla_novedades_vehiculo tr{
+                border-bottom: 2px solid rgb(219, 219, 219);
+            }
+
+            #contenedor_principal #contenedor_tabla_cards #tabla_novedades_vehiculo thead {
+                background-color: var(--color-secundario);
+                color: white;
+                cursor: pointer;
+                font-size: 1em;
+                left: 0;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+                #contenedor_tabla_cards #tabla_novedades_vehiculo thead th{
+                    font-weight: bolder;
+                    padding: 1rem;
+                }
+
+                #contenedor_tabla_cards #tabla_novedades_vehiculo tbody td{
+                    padding: 1rem;
+                }
+
+                    #tabla_novedades_vehiculo tbody td ion-icon{
+                        cursor: pointer;
+                        font-size: 25px;
+                        margin-left: 8px;
+                    }
+
+                    #tabla_novedades_vehiculo tbody td .ver-novedad{
+                        color: var(--color-secundario);
+                    }
+
+                #contenedor_tabla_cards #tabla_novedades_vehiculo thead th:first-child {
+                    border-radius: 20px 0 0 0;  
+                }
+
+                #contenedor_tabla_cards #tabla_novedades_vehiculo thead th:last-child {
+                    border-radius: 0 20px 0 0;  
+                }
+
+    #contenedor_principal #contenedor_tabla_cards .document-card-novedad-vehiculo{
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        margin:0 0 10px 0;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card-novedad-vehiculo .card-header {
+            padding: 10px 10px 0px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+  
+            #contenedor_tabla_cards .document-card-novedad-vehiculo .card-header .document-title {
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #333;
+                margin: 0;
+            }
+  
+            #contenedor_tabla_cards .document-card-novedad-vehiculo .card-header .document-meta {
+                font-size: 0.9em;
+                color: #555;
+                margin: 5px 0;
+            }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card-novedad-vehiculo .card-details {
+            display: none;
+            color: #555;
+            flex-direction: column;
+            font-size: 0.9em;
+            transition: max-height 0.5s ease;
+        }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card-novedad-vehiculo.active .card-details {
+            display: flex;
+            padding: 10px;
+        }
+
+        #contenedor_tabla_cards .document-card-novedad-vehiculo .contenedor-acciones {
+            display: none;
+            justify-content: end;
+            max-height: 0;
+            font-size: 0.9em;
+            color: var(--color-primario);
+            margin-top: 10px;
+        }
+
+        #contenedor_tabla_cards .document-card-novedad-vehiculo.active .contenedor-acciones {
+            column-gap: 10px;
+            display: flex;
+            max-height: 150px;
+            padding: 0 10px 10px;
+        }
+
+            #contenedor_tabla_cards .document-card-novedad-vehiculo.active .contenedor-acciones ion-icon{
+                font-size: 25px;
+            }
+
+            #contenedor_tabla_cards .document-card-novedad-vehiculo.active .contenedor-acciones .ver-novedad{
+                color: var(--color-secundario);
+            }
+    
+        #contenedor_tabla_cards .document-card-novedad-vehiculo .toggle-icon {
+            font-size: 1.2em;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+  
+        #contenedor_tabla_cards .document-card-novedad-vehiculo.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+    #contenedor_principal #contenedor_tabla_cards #mensaje_respuesta{
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+/*----------------------------------------------------- Estilos Modal detalle novedad Vehiculo -------------------------------------------*/
+#contenedor_modales #modal_detalle_novedad_vehiculo{
+    width: clamp(450px, 30%, 550px);
+}
+
+#contenedor_modales #modal_detalle_novedad_vehiculo #cont_info_modales{
+    align-items: start;
+    overflow-y: auto;
+    max-height: 550px;
+    padding: 1.5em 1.5em 1em;
+}
+
+    #modal_detalle_novedad_vehiculo #cont_info_modales #contenedor_cajas{
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 20px;
+        row-gap: 20px;
+        width: 100%;
+    }
+
+    #modal_detalle_novedad_vehiculo #cont_info_modales .caja{
+        align-items: start;
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+        width: 100%;
+    }
+
+@media(min-width: 768px) and (max-width: 1023px){
+    #contenedor_principal #contenedor_filtros .filtro{
+        width: 100%;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards{
+        align-items: start;
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card-novedad-vehiculo{
+            height: 65px;
+        }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card-novedad-vehiculo.active{
+            height: auto;
+        }
+}
+
+@media(max-width: 767px){
+    #contenedor_principal{
+        flex-direction: column;
+        row-gap: 10px;
+        width: clamp(260px, 100%, 600px);
+    }
+
+        #contenedor_principal #contenedor_filtros{
+            flex-direction: column;
+            row-gap: 10px;
+        }
+
+            #contenedor_principal #contenedor_filtros .filtro{
+                width: 100%;
+            }
+
+    /* -------------------------------------------------- Estilos Modal detalle novedad vehiculo ----------------------------------------*/
+    #contenedor_modales #modal_detalle_novedad_vehiculo{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #modal_detalle_novedad_vehiculo #cont_info_modales #contenedor_cajas{
+            grid-template-columns: repeat(1, 1fr);
+        }
+}

@@ -20,13 +20,12 @@
                 <label class="fechas_input" for="puerta">Puerta:</label>
                 <select id="puerta" name="puerta">
                     <option value="">Todas</option>
-                    <option value="peatonal">Peatonal</option>
-                    <option value="ganaderia">Vehicular ganaderia</option>
-                    <option value="principal">Vehicular principal</option>
+                    <option value="PEATONAL">Peatonal</option>
+                    <option value="GANADERIA">Vehicular ganaderia</option>
+                    <option value="PRINCIPAL">Vehicular principal</option>
                 </select>
             </div>
         </div>
-            
 
         <div class="caja-flex" id="caja_02">
             <div class="buscar filtro" id="contendor_documento">

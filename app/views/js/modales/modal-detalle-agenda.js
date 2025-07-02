@@ -29,7 +29,6 @@ async function modalDetalleAgenda(codigo, url) {
 
         contenedorModales.appendChild(modal);
 
-        botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
         codigoAgenda = codigo;
         urlBase = url;
          
@@ -51,6 +50,8 @@ async function modalDetalleAgenda(codigo, url) {
 export{modalDetalleAgenda}
 
 function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_agenda');
+    
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
@@ -60,10 +61,12 @@ function eventoCerrarModal(){
 function dibujarAgenda() {
     consultarAgenda(codigoAgenda, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            document.getElementById('titulo').textContent = respuesta.datos_agenda.titulo;
+            const datosAgenda = respuesta.datos_agenda;
+            document.getElementById('titulo').textContent = datosAgenda.titulo;
+            
             const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
         
-            respuesta.datos_agenda.agendados.forEach((agendado, indice) => {
+            datosAgenda.agendados.forEach((agendado, indice) => {
                 cuerpoTablaAgendados.innerHTML += `
                     <tr>
                         <td>${indice+1}</td>
@@ -72,10 +75,12 @@ function dibujarAgenda() {
                     </tr>`
             });
 
-            document.getElementById('responsable').textContent = respuesta.datos_agenda.nombres_responsable+' '+respuesta.datos_agenda.apellidos_responsable;
-            document.getElementById('fecha_agenda').textContent = respuesta.datos_agenda.fecha;
-            document.getElementById('hora').textContent = respuesta.datos_agenda.hora;
-            document.getElementById('motivo').textContent = respuesta.datos_agenda.motivo;
+            const fecha = formatearFecha(datosAgenda.fecha_agenda);
+
+            document.getElementById('responsable').textContent = datosAgenda.nombres_responsable+' '+datosAgenda.apellidos_responsable;
+            document.getElementById('fecha_agenda').textContent = fecha.fecha_español;
+            document.getElementById('hora').textContent = fecha.hora_español;
+            document.getElementById('motivo').textContent = datosAgenda.motivo;
 
             contenedorModales.classList.add('mostrar');
 
@@ -90,6 +95,18 @@ function dibujarAgenda() {
             }
         }
     })
+}
+
+function formatearFecha(fecha){
+    const objetoFecha = new Date(fecha.replace(' ', 'T'));
+
+    let opciones = { day: 'numeric', month: 'long' }
+    const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
+
+    opciones = { hour: 'numeric', minute: '2-digit', hour12: true };
+    const horaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);
+
+    return {fecha_español: fechaEspañol, hora_español: horaEspañol};
 }
 
 function alertaError(respuesta){

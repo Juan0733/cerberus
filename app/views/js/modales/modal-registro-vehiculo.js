@@ -1,10 +1,9 @@
 import {registrarVehiculo, consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVisitante} from './modal-registro-visitante.js'
 
-let documentoPropietario;
-let numeroPlaca;
 let contenedorModales;
 let modalesExistentes;
+let inputDocumento;
 let botonCerrarModal;
 let funcionCallback;
 let urlBase;
@@ -19,7 +18,6 @@ async function modalRegistroVehiculo(url, placa=false, callback=false) {
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
         const contenidoModal = await response.text();
-        contenedorSpinner.classList.remove("mostrar_spinner");
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
@@ -28,19 +26,24 @@ async function modalRegistroVehiculo(url, placa=false, callback=false) {
         contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
-        numeroPlaca = document.getElementById('numero_placa'); 
+        
         if(placa){
+            const numeroPlaca = document.getElementById('numero_placa'); 
             numeroPlaca.value = placa;
-            numeroPlaca.setAttribute('readonly', '');
+            numeroPlaca.readOnly = true;
         }
 
         if(callback){
             funcionCallback = callback;
         }
 
-        documentoPropietario = document.getElementById('propietario');
+        inputDocumento = document.getElementById('propietario');
         urlBase = url;
+        
+        eventoCerrarModal();
+        eventoRegistrarVehiculo();
 
+        contenedorSpinner.classList.remove("mostrar_spinner");
         modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
         if (modalesExistentes.length > 1) {
             modalesExistentes[modalesExistentes.length-2].style.display = 'none';
@@ -49,11 +52,8 @@ async function modalRegistroVehiculo(url, placa=false, callback=false) {
         } 
     
         setTimeout(()=>{
-            documentoPropietario.focus();
+            inputDocumento.focus();
         }, 250)
-        
-        eventoCerrarModal();
-        eventoRegistrarVehiculo();
 
            
     } catch (error) {
@@ -111,7 +111,7 @@ function eventoRegistrarVehiculo(){
                     window.location.replace(urlBase+'sesion-expirada');
 
                 }else if(respuesta.titulo == "Usuario No Encontrado"){
-                    respuesta.documento = documentoPropietario.value
+                    respuesta.documento = inputDocumento.value
                     alertaAdvertencia(respuesta);
 
                 }else{

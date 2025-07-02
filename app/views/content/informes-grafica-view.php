@@ -25,8 +25,8 @@
             <div class="filtro">
                 <label class="fechas_input" for="tipo_movimiento">Movimiento:</label>
                 <select id="tipo_movimiento" name="tipo_movimiento">
-                    <option value="entrada">Entradas</option>
-                    <option value="salida">Salidas</option>
+                    <option value="ENTRADA">Entradas</option>
+                    <option value="SALIDA">Salidas</option>
                 </select>
             </div>
         </div>
@@ -35,9 +35,9 @@
             <div class="filtro">
                 <label class="fechas_input" for="jornada">Jornada:</label>
                 <select id="jornada" name="jornada">
-                    <option value="mañana" <?php echo $jornada == 'mañana' ? 'selected' : ''; ?>>Mañana</option>
-                    <option value="tarde" <?php echo $jornada == 'tarde' ? 'selected' : ''; ?>>Tarde</option>
-                    <option value="noche" <?php echo $jornada == 'noche' ? 'selected' : ''; ?>>Noche</option>
+                    <option value="MAÑANA" <?php echo $jornada == 'mañana' ? 'selected' : ''; ?>>Mañana</option>
+                    <option value="TARDE" <?php echo $jornada == 'tarde' ? 'selected' : ''; ?>>Tarde</option>
+                    <option value="NOCHE" <?php echo $jornada == 'noche' ? 'selected' : ''; ?>>Noche</option>
                 </select>
             </div>
 
@@ -45,9 +45,9 @@
                 <label class="fechas_input" for="puerta">Puerta:</label>
                 <select id="puerta" name="puerta">
                     <option value="">Todas</option>
-                    <option value="peatonal">Peatonal</option>
-                    <option value="ganaderia">Vehicular ganaderia</option>
-                    <option value="principal">Vehicular principal</option>
+                    <option value="PEATONAL">Peatonal</option>
+                    <option value="GANADERIA">Vehicular ganaderia</option>
+                    <option value="PRINCIPAL">Vehicular principal</option>
                 </select>
             </div>
         </div>

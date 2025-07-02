@@ -4,9 +4,9 @@ let contenedorModales;
 let modalesExistentes;
 let codigoAgenda;
 let botonCerrarModal;
-let titulo;
-let fechAgenda;
-let motivo;
+let inputTitulo;
+let inputFechAgenda;
+let textAreaMotivo;
 let checkIndividual;
 let checkGrupal;
 let funcionCallback;
@@ -37,11 +37,11 @@ async function modalActualizarAgenda(codigo, callback, url) {
 
         document.getElementById('btn_siguiente_agenda').style.display = 'none';
         document.getElementById('btn_actualizar_agenda').style.display = 'flex';
-        document.getElementById('titulo_modal').textContent = 'Actualizar Agenda'
+        document.getElementById('titulo_modal_agenda').textContent = 'Actualizar Agenda'
 
-        titulo =  document.getElementById('titulo_agenda');
-        fechAgenda = document.getElementById('fecha_agenda');
-        motivo = document.getElementById('motivo');
+        inputTitulo =  document.getElementById('titulo_agenda');
+        inputFechAgenda = document.getElementById('fecha_agenda');
+        textAreaMotivo = document.getElementById('motivo');
         checkIndividual = document.getElementById('individual');
         checkGrupal = document.getElementById('grupal');
     
@@ -49,15 +49,15 @@ async function modalActualizarAgenda(codigo, callback, url) {
         funcionCallback = callback;
         urlBase = url;
 
-        setTimeout(()=>{
-           titulo.focus();
-        }, 250)
-        
         eventoCerrarModal();
         dibujarAgenda();
         eventoTextArea();
         eventoActualizarAgenda();
            
+        setTimeout(()=>{
+           titulo.focus();
+        }, 250)
+        
     } catch (error) {
         if(botonCerrarModal){
             botonCerrarModal.click();
@@ -87,10 +87,10 @@ function eventoCerrarModal(){
 function dibujarAgenda(){
     consultarAgenda(codigoAgenda, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            titulo.value = respuesta.datos_agenda.titulo;
-            fechAgenda.value = respuesta.datos_agenda.fecha_agenda;
-            motivo.value = respuesta.datos_agenda.motivo;
-            fechAgenda.min = respuesta.datos_agenda.fecha_agenda;
+            inputTitulo.value = respuesta.datos_agenda.titulo;
+            inputFechAgenda.value = respuesta.datos_agenda.fecha_agenda;
+            textAreaMotivo.value = respuesta.datos_agenda.motivo;
+            inputFechAgenda.min = respuesta.datos_agenda.fecha_agenda;
             checkIndividual.disabled = true;
             checkGrupal.disabled = true;
 
@@ -127,9 +127,9 @@ function eventoActualizarAgenda(){
 
         formData.append('operacion', 'actualizar_agenda');
         formData.append('codigo_agenda', codigoAgenda)
-        formData.append('titulo', titulo.value);
-        formData.append('fecha_agenda', fechAgenda.value);
-        formData.append('motivo', motivo.value);
+        formData.append('titulo', inputTitulo.value);
+        formData.append('fecha_agenda', inputFechAgenda.value);
+        formData.append('motivo', textAreaMotivo.value);
 
         actualizarAgenda(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
@@ -153,21 +153,21 @@ function eventoTextArea(){
     let temporizador;
     let primeraValidacion = true;
 
-    motivo.addEventListener('keyup', ()=>{
+    textAreaMotivo.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
             let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
     
-            if (!patron.test(motivo.value)){
+            if (!patron.test(textAreaMotivo.value)){
 
                 if(primeraValidacion){
-                    motivo.setCustomValidity("Debes digitar solo números y letras, mínimo 5 y máximo 100 caracteres");
-                    motivo.reportValidity();
+                    textAreaMotivo.setCustomValidity("Debes digitar solo números y letras, mínimo 5 y máximo 100 caracteres");
+                    textAreaMotivo.reportValidity();
                     primeraValidacion = false;
                 }
 
             }else {
-                motivo.setCustomValidity(""); 
+                textAreaMotivo.setCustomValidity(""); 
                 primeraValidacion = true;
             }
         }, 1000);

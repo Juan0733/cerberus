@@ -6,7 +6,7 @@
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
         <form action="" id="formulario_vehiculo" method="post" >
-            <div id="caja_01">
+            <div id="contenedor_cajas_vehiculo">
                 <div class="input-caja-registro">
                     <label for="propietario" class="label-input">Propietario del vehículo</label>
                     <input type="text" class="campo" inputmode="numeric" name="propietario" id="propietario" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="4" required>
@@ -16,10 +16,10 @@
                     <label for="tipo_vehiculo" class="label-input">Tipo de vehículo</label>
                     <select class="campo"  name="tipo_vehiculo" id="tipo_vehiculo" tabindex="5" required>
                         <option value="">Selecciona el tipo de vehiculo.</option>
-                        <option value="Automóvil">Automóvil</option>
-                        <option value="Bus">Bus</option>
-                        <option value="Camión">Camión</option>
-                        <option value="Moto">Moto</option>
+                        <option value="AUTOMÓVIL">Automóvil</option>
+                        <option value="BUS">Bus</option>
+                        <option value="CAMIÓN">Camión</option>
+                        <option value="MOTO">Moto</option>
                     </select>
                 </div>
     

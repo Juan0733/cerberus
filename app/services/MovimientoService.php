@@ -3,7 +3,7 @@ namespace app\services;
 
 class MovimientoService{
 
-    public function sanitizarDatosMovimientoPeatonal(){
+    public function sanitizarDatosRegistroMovimientoPeatonal(){
         if (!isset($_POST['documento_peaton'], $_POST['observacion_peatonal']) || $_POST['documento_peaton'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -23,7 +23,7 @@ class MovimientoService{
                 'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,150}",
                 'cadena' => $observacion
             ]
         ];
@@ -40,6 +40,9 @@ class MovimientoService{
         }
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
+        if($observacion != 'NULL'){
+            $observacion = trim(ucfirst(strtolower($observacion)));
+        }
 
         $datosMovimiento = [
             'numero_documento' => $numeroDocumento,
@@ -53,7 +56,7 @@ class MovimientoService{
         return $respuesta;
     }
 
-    public function sanitizarDatosMovimientoVehicular(){
+    public function sanitizarDatosRegistroMovimientoVehicular(){
         if (!isset($_POST['propietario'], $_POST['placa_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']) || $_POST['propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['pasajeros'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -79,7 +82,7 @@ class MovimientoService{
                 'cadena' => $placaVehiculo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,150}",
                 'cadena' => $observacion
             ]
         ];
@@ -128,6 +131,10 @@ class MovimientoService{
         }
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
+        if($observacion != 'NULL'){
+            $observacion = trim(ucfirst(strtolower($observacion)));
+        }
+
         $placaVehiculo = strtoupper($placaVehiculo);
 
         $datosMovimiento = [
@@ -151,7 +158,7 @@ class MovimientoService{
             $puerta = $this->limpiarDatos($_GET['puerta']);
             unset($_GET['puerta']);
 
-            if(preg_match('/^(peatonal|ganaderia|principal)$/', $puerta)){
+            if(preg_match('/^(PEATONAL|PRINCIPAL|GANADERIA)$/', $puerta)){
                 $parametros['puerta'] = $puerta;
             }
         }
@@ -169,7 +176,7 @@ class MovimientoService{
             $jornada = $this->limpiarDatos($_GET['jornada']);
             unset($_GET['jornada']);
 
-            if(preg_match('/^(mañana|tarde|noche)$/', $jornada)){
+            if(preg_match('/^(MAÑANA|TARDE|NOCHE)$/', $jornada)){
                 $parametros['jornada'] = $jornada;
             }
         }
@@ -178,7 +185,7 @@ class MovimientoService{
             $tipoMovimiento = $this->limpiarDatos($_GET['tipo_movimiento']);
             unset($_GET['tipo_movimiento']);
 
-            if(preg_match('/^(entrada|salida)$/', $tipoMovimiento)){
+            if(preg_match('/^(ENTRADA|SALIDA)$/', $tipoMovimiento)){
                 $parametros['tipo_movimiento'] = $tipoMovimiento;
             }
         }
@@ -227,7 +234,6 @@ class MovimientoService{
 
     public function limpiarDatos($dato){
 		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
 
 		$dato=trim($dato);
 		$dato=stripslashes($dato);

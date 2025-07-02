@@ -112,6 +112,25 @@ async function cerrarSesion(urlBase) {
 }
 export{cerrarSesion}
 
+async function consultarNotificacionesUsuario(urlBase) {
+    try {
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('consultar_notificaciones_usuario'));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        return data;
+        
+    } catch (error) {
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarNotificacionesUsuario}
+
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",

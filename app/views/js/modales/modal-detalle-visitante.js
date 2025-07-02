@@ -29,12 +29,11 @@ async function modalDetalleVisitante(visitante, url) {
 
         contenedorModales.appendChild(modal);
 
-        botonCerrarModal = document.getElementById('cerrar_modal_detalle_visitante');
         documentoVisitante = visitante;
         urlBase = url;
          
         eventoCerrarModal();
-        dibujarVisitante(visitante);
+        dibujarVisitante();
 
     } catch (error) {
         if(botonCerrarModal){
@@ -51,6 +50,8 @@ async function modalDetalleVisitante(visitante, url) {
 export{modalDetalleVisitante}
 
 function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_visitante');
+
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');

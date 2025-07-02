@@ -54,7 +54,7 @@ function dibujarTablaVisitantes(){
                         <td>${visitante.telefono}</td>
                         <td>${visitante.ubicacion}</td>
                         <td class="contenedor-colum-acciones">
-                            <ion-icon name="eye-outline" class="ver-visitante" data-visitante="${visitante.numero_documento}"></ion-icon>
+                            <ion-icon name="eye" class="ver-visitante" data-visitante="${visitante.numero_documento}"></ion-icon>
                         </td>
                     </tr>`;
             });
@@ -62,7 +62,7 @@ function dibujarTablaVisitantes(){
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
             }else{
                 cuerpoTabla.innerHTML = `
                     <tr>
@@ -92,7 +92,7 @@ function dibujarCardsVisitantes(){
                             <p><strong>Ubicación:</strong>${visitante.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
-                            <ion-icon name="eye-outline" class="ver-visitante" data-visitante="${visitante.numero_documento}"></ion-icon>
+                            <ion-icon name="eye" class="ver-visitante" data-visitante="${visitante.numero_documento}"></ion-icon>
                         </div>
                     </div>`;
             });

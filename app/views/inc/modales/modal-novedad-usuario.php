@@ -1,5 +1,5 @@
 <?php
-    // Calcular las fechas max y min
+    require_once "../../../../config/app.php";
     $fechaActual = new DateTime();
     $fechaMinima = (clone $fechaActual)->modify('-3 year'); 
     $fechaMaxima = $fechaActual;
@@ -14,15 +14,19 @@
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
         <form  id="formulario_novedad_usuario" method="post" >
-            <div id="caja_01" >
+            <div id="contenedor_cajas_novedad_usuario" >
                 <div class="input-caja-registro">
                     <label for="tipo_novedad" class="label-input">Tipo de novedad</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="tipo_novedad" id="tipo_novedad" tabindex="4" required>
+                    <select class="campo campo-seccion-01"  name="tipo_novedad" id="tipo_novedad" tabindex="4" required>
+                        <option value="" selected disabled>Seleccionar</option>
+                        <option value="ENTRADA NO REGISTRADA">Entrada no registrada</option>
+                        <option value="SALIDA NO REGISTRADA">Salida no registrada</option>
+                    </select>
                 </div>
                 
                 <div class="input-caja-registro">
                     <label for="documento_involucrado" class="label-input">Identificación del involucrado</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="documento_involucrado" id="documento_involucrado" pattern="[A-Z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 numeros y máximo 15 numeros" placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
+                    <input type="text" class="campo" inputmode="numeric" name="documento_involucrado" id="documento_involucrado" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 numeros y máximo 15 numeros" placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
                 </div>
 
                 <div class="input-caja-registro">
@@ -44,9 +48,9 @@
                     <label for="puerta_suceso" class="label-input">Puerta del suceso</label>
                     <select class="campo"  name="puerta_suceso" id="puerta_suceso" tabindex="7" required>
                         <option value="" disabled selected>Selecciona una puerta</option>
-                        <option value="ganaderia">Puerta de ganaderia</option>
-                        <option value="principal">Puerta principal</option>
-                        <option value="peatonal">Puerta peatonal</option>
+                        <option value="PEATONAL">Peatonal</option>
+                        <option value="GANADERIA">Vehicular ganaderia</option>
+                        <option value="PRINCIPAL">Vehicular principal</option>
                     </select>
                 </div>
 

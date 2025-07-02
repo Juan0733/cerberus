@@ -4,7 +4,7 @@ namespace app\services;
 class VigilanteService{
 
     public function sanitizarDatosRegistroVigilante(){
-        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == '' ||  $_POST['contrasena'] == ''){
+        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == '' || $_POST['contrasena'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -26,7 +26,7 @@ class VigilanteService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -50,7 +50,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(vigilante raso|jefe vigilantes)",
+                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
                 'cadena' => $rol
             ],
             [
@@ -70,8 +70,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
         $contrasena = md5($contrasena);
         $estadoUsuario = 'ACTIVO';
 
@@ -116,7 +116,7 @@ class VigilanteService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -140,7 +140,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(vigilante raso|jefe vigilantes)",
+                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
                 'cadena' => $rol
             ]
 		];
@@ -156,8 +156,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
         $contrasena = 'NULL';
         $estadoUsuario = 'INACTIVO';
 
@@ -181,7 +181,7 @@ class VigilanteService{
     }
 
     public function sanitizarDatosActualizacionVigilante(){
-        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == ''){
+        if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['rol'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -190,7 +190,6 @@ class VigilanteService{
             return $respuesta;
         }
         
-        $tipoDocumento = $this->limpiarDatos($_POST['tipo_documento']);
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
         $nombres = $this->limpiarDatos($_POST['nombres']);
         $apellidos = $this->limpiarDatos($_POST['apellidos']);
@@ -199,13 +198,9 @@ class VigilanteService{
         $rol = $this->limpiarDatos($_POST['rol']);
         $contrasena = $this->limpiarDatos($_POST['contrasena']);
         
-        unset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['documento_visitante'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']); 
+        unset($_POST['nombres'], $_POST['apellidos'], $_POST['documento_visitante'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['rol'], $_POST['contrasena']); 
 		
 		$datos = [
-			[
-				'filtro' => "[A-Z]{2,3}",
-				'cadena' => $tipoDocumento
-            ],
             [
 				'filtro' => "[A-Za-z0-9]{6,15}",
 				'cadena' => $numeroDocumento
@@ -227,7 +222,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(vigilante raso|jefe vigilantes)",
+                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
                 'cadena' => $rol
             ],
             [
@@ -247,19 +242,16 @@ class VigilanteService{
 			}
         }
 
-        $nombres = ucwords(strtolower($nombres));
-        $apellidos = ucwords((strtolower($apellidos)));
-        $estadoUsuario = 'ACTIVO';
+        $nombres = trim(ucwords(strtolower($nombres)));
+        $apellidos = trim(ucwords((strtolower($apellidos))));
 
         $datosVigilante = [
-            'tipo_documento' => $tipoDocumento,
             'numero_documento' => $numeroDocumento,
             'nombres' => $nombres,
             'apellidos' => $apellidos,
             'telefono' => $telefono,
             'correo_electronico' => $correoElectronico,
-            'rol' => $rol,
-            'estado_usuario' => $estadoUsuario
+            'rol' => $rol
         ];
 
         if(!empty($contrasena)){
@@ -284,7 +276,7 @@ class VigilanteService{
         }
 
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
-        $contrasena = $this->limpiarDatos($_POST['numero_documento']);
+        $contrasena = $this->limpiarDatos($_POST['contrasena']);
         unset($_POST['documento_visitante'], $_POST['contrasena']); 
 		
 		$datos = [
@@ -293,7 +285,7 @@ class VigilanteService{
 				'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "|[a-zA-Z0-9]{8,}",
+                'filtro' => "[a-zA-Z0-9]{8,}",
                 'cadena' => $contrasena
             ]
 		];
@@ -319,6 +311,44 @@ class VigilanteService{
         $respuesta = [
             "tipo" => "OK",
             "datos_vigilante" => $datosVigilante
+        ];
+        return $respuesta;
+    }
+
+     public function sanitizarDatosPuerta(){
+        if(!isset($_POST['puerta']) || $_POST['puerta'] == '' ){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Campos Obligatorios',
+                "mensaje"=> 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
+            ];
+            return $respuesta;
+        }
+
+        $puerta = $this->limpiarDatos($_POST['puerta']);
+        unset($_POST['puerta']); 
+		
+		$datos = [
+            [
+				'filtro' => "PRINCIPAL|PEATONAL|GANADERIA",
+				'cadena' => $puerta
+            ]
+		];
+
+        foreach ($datos as $dato) {
+			if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
+				$respuesta = [
+                    "tipo" => "ERROR",
+                    'titulo' => "Formato Inválido",
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                ];
+                return $respuesta;
+			}
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            "puerta" => $puerta
         ];
         return $respuesta;
     }
@@ -349,7 +379,7 @@ class VigilanteService{
             $rol = $this->limpiarDatos($_GET['rol']);
             unset($_GET['rol']);
 
-            if(preg_match('/^(vigilante raso|jefe vigilantes)$/', $ubicacion)){
+            if(preg_match('/^(VIGILANTE RASO|JEFE VIGILANTES)$/', $rol)){
                 $parametros['rol'] = $rol;
             }
         }

@@ -2,7 +2,6 @@
     
 <?php if($url[0] != 'login' && $url[0] != '404' && $url[0] != 'sesion-expirada' && $url[0] != 'acceso-denegado' && $url[0] != 'auto-registro-visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/menu-lateral-estilo.css">
-    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/modales-estilo.css"> 
 <?php endif; ?>
 
 <?php if($url[0] == 'login'): ?>
@@ -10,6 +9,12 @@
 
 <?php elseif($url[0] == '404'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/404-estilo.css">
+
+<?php elseif($url[0] == 'acceso-denegado'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/acceso-denegado-estilo.css">
+
+<?php elseif($url[0] == 'sesion-expirada'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/sesion-expirada-estilo.css">
 
 <?php elseif($url[0] == 'auto-registro-visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/auto-registro-visitantes-estilo.css">
@@ -23,8 +28,17 @@
 <?php elseif($url[0] == 'salidas'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/salidas-estilo.css">
 
+<?php elseif($url[0] == 'aprendices'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/aprendices-estilo.css">
+
 <?php elseif($url[0] == 'visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/visitantes-estilo.css">
+
+<?php elseif($url[0] == 'vigilantes'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/vigilantes-estilo.css">
+
+<?php elseif($url[0] == 'funcionarios'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/funcionarios-estilo.css">
 
 <?php elseif($url[0] == 'vehiculos'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/vehiculos-estilo.css">
@@ -37,7 +51,19 @@
 
 <?php elseif($url[0] == 'agendas'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/agendas-estilo.css">
+
+<?php elseif($url[0] == 'novedades-usuario'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/novedades-usuario-estilo.css">
+
+<?php elseif($url[0] == 'novedades-vehiculo'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/novedades-vehiculo-estilo.css">
+
+<?php elseif($url[0] == 'permisos-usuario'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/permisos-usuario-estilo.css">
+
+<?php elseif($url[0] == 'permisos-vehiculo'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/permisos-vehiculo-estilo.css">
 <?php endif; ?>
 
-<link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">
+<link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_c_negro.png">
 <title> SENA CAB | <?php echo APP_NOMBRE;?></title>

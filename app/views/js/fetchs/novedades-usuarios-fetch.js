@@ -26,6 +26,50 @@ async function registrarNovedadUsuario(datos, urlBase) {
 
 export{registrarNovedadUsuario}
 
+async function consultarNovedadesUsuario(parametros, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedades_usuario')+'&documento='+encodeURI(parametros.documento)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarNovedadesUsuario}
+
+async function consultarNovedadUsuario(codigoNovedad, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedad_usuario')+'&codigo_novedad='+encodeURI(codigoNovedad));
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarNovedadUsuario}
+
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",

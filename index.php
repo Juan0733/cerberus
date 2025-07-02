@@ -4,8 +4,6 @@ use app\models\ViewModel;
 require_once "./config/app.php";
 require_once "./autoload.php";
 
-
-
 if(isset($_GET['views'])){
     $url=explode("/", $_GET['views']);
 
@@ -17,8 +15,10 @@ if(isset($_GET['views'])){
     $url=["login"];
 }
 
-require_once "./app/views/inc/session_start.php";
-
+if($url[0] == 'login' && isset($_SESSION['datos_usuario'])){
+    header('Location: '.$urlBaseVariable.$_SESSION['datos_usuario']['panel_acceso']);
+    exit();
+}
 
 if (count($url) == 1){
     $urlBaseVariable = '';
@@ -58,7 +58,7 @@ if($vista == "app/views/content/404-view.php"){
         <main class="cuerpo-contenedor" id="cuerpo">
             <?php
                 $opcionesMenu =  $objetoView->obtenerMenuOpciones();
-                include "./app/views/inc/menu-lateral.php";
+                include "app/views/inc/menu-lateral.php";
             ?>      
             <section class="full-width pageContent scroll" id="contenedor_pagina">
                 
@@ -70,7 +70,12 @@ if($vista == "app/views/content/404-view.php"){
             </section>
         </main>
         
-           
+        <?php 
+            if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'){
+                include "app/views/inc/modales/modal-notificaciones.php";
+            }
+        ?>
+            
         <div id="contenedor_modales">
         </div>
     <?php endif; ?>

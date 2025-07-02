@@ -11,7 +11,6 @@ class MovimientoModel extends MainModel{
         $this->objetoUsuario = new UsuarioModel();
         $this->objetoVisitante = new VisitanteModel();
         $this->objetoVehiculo = new VehiculoModel();
-
     }
 
     public function registrarEntradaPeatonal($datosEntrada){
@@ -67,7 +66,6 @@ class MovimientoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
-        $tipoVehiculo = $respuesta['vehiculo']['tipo_vehiculo'];
 
         $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
@@ -75,7 +73,6 @@ class MovimientoModel extends MainModel{
 
         }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietario Incorrecto'){
             $datosVehiculo = [
-                'tipo_vehiculo' => $tipoVehiculo,
                 'numero_placa' => $datosEntrada['numero_placa'],
                 'propietario' => $datosEntrada['propietario']
             ];
@@ -93,7 +90,7 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', '{$datosEntrada['observacion']}');";
+            VALUES ('$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'PROPIETARIO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['grupo_propietario']}', '{$datosEntrada['observacion']}');";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -113,7 +110,7 @@ class MovimientoModel extends MainModel{
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', '{$datosEntrada['observacion']}')";
+                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'PASAJERO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', '{$datosEntrada['observacion']}')";
             
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -200,7 +197,7 @@ class MovimientoModel extends MainModel{
 
         $sentenciaInsertar = "
             INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-            VALUES ('$tipoMovimiento', '{$datosSalida['propietario']}', '{$datosSalida['numero_placa']}', 'Propietario', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosSalida['grupo_propietario']}', {$datosSalida['observacion']});";
+            VALUES ('$tipoMovimiento', '{$datosSalida['propietario']}', '{$datosSalida['numero_placa']}', 'PROPIETARIO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosSalida['grupo_propietario']}', {$datosSalida['observacion']});";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -220,7 +217,7 @@ class MovimientoModel extends MainModel{
         foreach($datosSalida['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
                 INSERT INTO movimientos(tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, grupo_usuario, observacion) 
-                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosSalida['numero_placa']}', 'Pasajero', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', {$datosSalida['observacion']})";
+                VALUES ('$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosSalida['numero_placa']}', 'PASAJERO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['grupo_pasajero']}', {$datosSalida['observacion']})";
             
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -329,7 +326,7 @@ class MovimientoModel extends MainModel{
     }
 
     public function validarPropiedadVehiculo($placa, $usuario){
-        $respuesta = $this->objetoVehiculo->consultarVehiculoPropietario($placa, $usuario);
+        $respuesta = $this->objetoVehiculo->consultarPropietarioVehiculo($placa, $usuario);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
@@ -345,7 +342,7 @@ class MovimientoModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Propietario Correcto',
-            'mensaje' => 'El propietario del vehiculo coincide con el usuario que intenta realizar el movimiento.'
+            'mensaje' => 'El propietario del vehículo coincide con el usuario que intenta realizar el movimiento.'
         ];
         return $respuesta;
     }
@@ -375,14 +372,18 @@ class MovimientoModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND mov.fk_usuario = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND mov.fk_usuario LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['numero_placa'])){
-            $sentenciaBuscar .= " AND mov.fk_vehiculo = '{$parametros['numero_placa']}'";
+            $sentenciaBuscar .= " AND mov.fk_vehiculo LIKE '{$parametros['numero_placa']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC";
+        
+        if(!isset($parametros['pdf'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -393,7 +394,7 @@ class MovimientoModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron resultados'
             ];
             return $respuesta;
@@ -405,15 +406,14 @@ class MovimientoModel extends MainModel{
             'tipo' => 'OK',
             'movimientos' => $movimientos
         ];
-
         return $respuesta;
     }
 
     public function consultarMovimientosUsuarios($parametros){
         $jornadas = [
-            'mañana' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
-            'tarde' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
-            'noche' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
+            'MAÑANA' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
+            'TARDE' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
+            'NOCHE' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
         ];
 
         $jornada = $parametros['jornada'];
@@ -458,7 +458,6 @@ class MovimientoModel extends MainModel{
             'tipo' => 'OK',
             'movimientos' => $movimientos
         ];
-
         return $respuesta;
     }
 }

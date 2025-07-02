@@ -43,6 +43,7 @@
         border: none;
         border-radius: 13px;
         background-color: var(--color-secundario);
+        cursor: pointer;
         display: flex;
         justify-content: center;
         height: 40px;
@@ -211,6 +212,32 @@
         text-align: center;
     }
 
+/*----------------------------------------------------- Estilos Modal detalle visitante -------------------------------------------*/
+#contenedor_modales #modal_detalle_visitante{
+    width: clamp(450px, 30%, 550px);
+}
+
+#contenedor_modales #modal_detalle_visitante #cont_info_modales{
+    align-items: start;
+    padding: 1.5em 1.5em 1em;
+}
+
+    #modal_detalle_visitante #cont_info_modales #contenedor_cajas{
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
+        width: 100%;
+    }
+
+        #modal_detalle_visitante #cont_info_modales #contenedor_cajas .caja{
+            align-items: start;
+            display: flex;
+            flex-direction: column;
+            row-gap: 6px;
+            width: 100%;
+        }
+
 @media(min-width: 768px) and (max-width: 1023px){
     #contenedor_principal #contenedor_filtros .filtro{
         width: 100%;
@@ -257,5 +284,14 @@
         #contenedor_principal #btn_crear_visitante_mobile{
             display: flex;
         }
+
+ /* -------------------------------------------------- Estilos Modal detalle visitante ----------------------------------------*/
+    #contenedor_modales #modal_detalle_visitante{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+       #modal_detalle_visitante #cont_info_modales #contenedor_cajas{
+            grid-template-columns: repeat(1, 1fr);
+       }
 
 }

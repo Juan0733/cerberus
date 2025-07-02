@@ -15,7 +15,7 @@ const parametros = {
 }
 
 function validarResolucion(){
-    if(window.innerWidth > 1024){
+    if(window.innerWidth >= 1024){
         dibujarTablaMovimientos();
     }else{
         dibujarCardsMovimientos();
@@ -155,7 +155,7 @@ function eventoGenerarInforme(){
     const botoInforme = document.getElementById('btn_informe');
 
     botoInforme.addEventListener('click', ()=>{
-        window.location.href = urlBase+'app/pdf/GenerarInforme.php?puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa);
+        window.location.href = urlBase+'app/pdf/GenerarPdfMovimientos.php?puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa);
     })
 
     document.getElementById('btn_informe_mobile').addEventListener('click', ()=>{

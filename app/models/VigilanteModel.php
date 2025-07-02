@@ -66,6 +66,16 @@ class VigilanteModel extends MainModel{
             return $respuesta;
         }
 
+        $estadoUsuario = $respuesta['datos_vigilante']['estado_usuario'];
+        if($estadoUsuario == 'ACTIVO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Usuario Activo',
+                'mensaje' => 'No se pudo realiza la habilitacion, porque el vigilante ya se encuentra activo'
+            ];
+            return $respuesta;
+        }
+
         $sentenciaActualizar = "
             UPDATE vigilantes SET contrasena = '{$datosVigilante['contrasena']}', estado_usuario = 'ACTIVO' WHERE numero_documento = '{$datosVigilante['numero_documento']}';";
 
@@ -85,6 +95,16 @@ class VigilanteModel extends MainModel{
     public function inhabilitarVigilante($vigilante){
         $respuesta = $this->consultarVigilante($vigilante);
         if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoUsuario = $respuesta['datos_vigilante']['estado_usuario'];
+        if($estadoUsuario == 'INACTIVO'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Usuario Inactivo',
+                'mensaje' => 'No se pudo realiza la inhabilitacion, porque el vigilante ya se encuentra inactivo'
+            ];
             return $respuesta;
         }
 
@@ -136,7 +156,7 @@ class VigilanteModel extends MainModel{
 
     public function consultarVigilantes($parametros){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, ubicacion
+            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, ubicacion, estado_usuario, rol
             FROM vigilantes
             WHERE 1=1";
 
@@ -145,7 +165,7 @@ class VigilanteModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND numero_documento = '{$parametros['numero_documento']}'";
+            $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['rol'])){
@@ -163,7 +183,7 @@ class VigilanteModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron resultados.'
             ];
             return $respuesta;
@@ -179,7 +199,7 @@ class VigilanteModel extends MainModel{
 
     public function consultarVigilante($documento){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol
+            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, estado_usuario
             FROM vigilantes
             WHERE numero_documento = '$documento';";
 
@@ -192,8 +212,8 @@ class VigilanteModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
-                "mensaje"=> 'No se encontraron resultados.'
+                "titulo" => 'Vigilante No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del vigilante'
             ];
             return $respuesta;
         }
@@ -201,7 +221,36 @@ class VigilanteModel extends MainModel{
         $vigilante = $respuestaSentencia->fetch_assoc();
         $respuesta = [
             'tipo' => 'OK',
-            'datos_visitante' => $vigilante
+            'datos_vigilante' => $vigilante
+        ];
+        return $respuesta;
+    }
+
+    public function guardarPuerta($puerta){
+        $_SESSION['datos_usuario']['puerta'] = $puerta;
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Cambio de Puerta',
+            'mensaje' => 'La puerta se guardo correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function consultarPuertaActual(){
+        if(!isset($_SESSION['datos_usuario']['puerta'])){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Puerta No Encontrada',
+                'mensaje' => 'No se encontro una puerta seleccionada actualmente.'
+            ];
+            return $respuesta;
+        }
+        
+        $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $respuesta = [
+            'tipo' => 'OK',
+            'puerta_actual' => $puertaActual
         ];
         return $respuesta;
     }

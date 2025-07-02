@@ -1,9 +1,9 @@
 <?php
 require_once "../../config/app.php";
-require_once "../views/inc/session_start.php";
 require_once "../../autoload.php";
 
 use app\models\VisitanteModel;
+use app\models\UsuarioModel;
 use app\services\VisitanteService;
 
 
@@ -13,12 +13,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	
 	$objetoVisitante = new VisitanteModel();
     $objetoServicio = new VisitanteService();
+    $objetoUsuario = new UsuarioModel();
 
-	$operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
+    $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
     unset($_POST['operacion']);
 
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        return $respuesta;
+        
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
+
 	if($operacion == 'registrar_visitante'){
-        $respuesta = $objetoServicio->sanitizarDatosVisitante();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroVisitante();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
             exit();
@@ -30,9 +46,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion']) && $_GET['operacion'] != '' ){
 	$objetoVisitante = new VisitanteModel();
     $objetoServicio = new VisitanteService();
+    $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     unset($_GET['operacion']);
+
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        return $respuesta;
+        
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
 
     if($operacion == 'consultar_visitantes'){
         $respuesta = $objetoServicio->sanitizarParametros();

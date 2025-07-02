@@ -3,7 +3,7 @@
     <div id="contenedor_filtros">
         <div class="buscar">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Persona">
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Propietario">
         </div>
 
         <div class="buscar">

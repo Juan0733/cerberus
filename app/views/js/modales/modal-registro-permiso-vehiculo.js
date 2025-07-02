@@ -1,0 +1,213 @@
+import {registrarPermisoVehiculo} from '../fetchs/permisos-vehiculos-fetch.js';
+import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
+
+let contenedorModales;
+let modalesExistentes;
+let botonCerrarModal;
+let inputPlaca;
+let selectTipoPermiso;
+let funcionCallback;
+let urlBase;
+
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
+async function modalRegistroPermisoVehiculo(url, permiso=false, placa=false, callback) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(url+'app/views/inc/modales/modal-permiso-vehiculo.php');
+
+        if(!response.ok) throw new Error('Hubo un error en la solicitud');
+
+        const contenidoModal = await response.text();
+        const modal = document.createElement('div');
+            
+        modal.classList.add('contenedor-ppal-modal');
+        modal.id = 'modal_permiso_vehiculo';
+        modal.innerHTML = contenidoModal;
+        contenedorModales = document.getElementById('contenedor_modales');
+
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
+        }
+
+        contenedorModales.appendChild(modal);
+
+        inputPlaca = document.getElementById('numero_placa');
+        selectTipoPermiso = document.getElementById('tipo_permiso');
+
+        funcionCallback = callback;
+        urlBase = url;
+
+        if(placa){ 
+            inputPlaca.value = placa;
+            inputPlaca.readOnly = true;
+            dibujarPropietarios();
+        }
+
+        if(permiso){
+            selectTipoPermiso.value = permiso;
+            selectTipoPermiso.disabled = true;
+        }
+
+        eventoCerrarModal();
+        eventoTextArea();
+        eventoInputPlaca();
+        eventoRegistrarPermisoVehiculo();
+
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        contenedorModales.classList.add('mostrar');
+        
+        setTimeout(()=>{
+            document.getElementById('propietario').focus();
+        }, 250)
+
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
+        if(botonCerrarModal){
+            botonCerrarModal.click();
+        }
+
+       console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Modal',
+            mensaje: 'Error al cargar modal registro permiso vehículo.'
+        });
+    }
+    
+}
+export { modalRegistroPermisoVehiculo };
+
+function eventoCerrarModal(){
+    botonCerrarModal = document.getElementById('cerrar_modal_permiso_vehiculo');
+
+    botonCerrarModal.addEventListener('click', ()=>{
+        modalesExistentes[modalesExistentes.length-1].remove();
+        contenedorModales.classList.remove('mostrar');
+        
+    });
+
+    document.getElementById('btn_cancelar_permiso_vehiculo').addEventListener('click', ()=>{
+        botonCerrarModal.click();
+    });
+}
+
+function eventoInputPlaca(){
+    let temporizador;
+    
+    inputPlaca.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(dibujarPropietarios, 500)
+    })
+}
+
+function dibujarPropietarios(){
+    const selectPropietario = document.getElementById('propietario');
+    selectPropietario.innerHTML += '<option value="" disabled selected>Seleccionar</option>'
+
+    console.log(urlBase);
+
+    consultarPropietarios(inputPlaca.value, urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            respuesta.propietarios.forEach(propietario => {
+                selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}`
+            });
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else{
+                botonCerrarModal.click();
+                alertaError(respuesta);
+            }
+        }
+    })
+}
+
+function eventoRegistrarPermisoVehiculo(){
+    let formularioPermisoVehiculo = document.getElementById('formulario_permiso_vehiculo');
+    formularioPermisoVehiculo.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        let formData = new FormData(formularioPermisoVehiculo);
+        formData.append('operacion', 'registrar_permiso_vehiculo');
+        formData.append('tipo_permiso', selectTipoPermiso.value);
+
+        registrarPermisoVehiculo(formData, urlBase).then(respuesta=>{
+            if(respuesta.tipo == "OK" ){
+                alertaExito(respuesta);
+                botonCerrarModal.click();
+                funcionCallback();
+
+            }else if(respuesta.tipo == "ERROR"){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
+                }
+            }
+        });
+    })
+}
+
+function eventoTextArea(){
+    const textAreaDescripcion = document.getElementById('descripcion');
+    let temporizador;
+    let primeraValidacion = true;
+
+    textAreaDescripcion.addEventListener('keyup', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}$/;
+    
+            if (!patron.test(textAreaDescripcion.value)){
+
+                if(primeraValidacion){
+                    textAreaDescripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
+                    textAreaDescripcion.reportValidity();
+                    primeraValidacion = false;
+                }
+
+            }else {
+                textAreaDescripcion.setCustomValidity(""); 
+                primeraValidacion = true;
+            }
+        }, 1000);
+    })
+}
+
+function alertaExito(respuesta){
+    Swal.fire({
+        toast: true, 
+        position: 'top-end', 
+        icon: 'success',
+        iconColor: "#2db910",
+        color: '#F3F4F4',
+        background: '#001629',
+        timer: 5000,
+        timerProgressBar: true,
+        title: respuesta.mensaje,
+        showConfirmButton: false,   
+        customClass: {
+            popup: 'alerta-contenedor',
+        }
+    })
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}

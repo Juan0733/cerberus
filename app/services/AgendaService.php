@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class AgendaService{
 
-    public function sanitizarDatosAgenda(){
+    public function sanitizarDatosActualizacionAgenda(){
         if (!isset($_POST['codigo_agenda'], $_POST['motivo'], $_POST['titulo'], $_POST['fecha_agenda']) || $_POST['codigo_agenda'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -33,7 +33,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -54,6 +54,7 @@ class AgendaService{
         }
 
         $titulo = ucwords(strtolower($titulo));
+        $motivo = trim(ucfirst(strtolower($motivo)));
 
         $datosAgenda = [
             'codigo_agenda' => $codigoAgenda,
@@ -69,7 +70,7 @@ class AgendaService{
         return $respuesta;
     }
 
-    public function sanitizarDatosAgendaIndividual(){
+    public function sanitizarDatosRegistroAgendaIndividual(){
         if (!isset($_POST['tipo_documento'], $_POST['numero_documento'], $_POST['nombres'], $_POST['apellidos'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda']) || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -79,7 +80,6 @@ class AgendaService{
           return $respuesta;
         }
 
-       
         $tipoDocumento = $this->limpiarDatos($_POST['tipo_documento']);
         $numeroDocumento = $this->limpiarDatos($_POST['numero_documento']);
         $nombres = $this->limpiarDatos($_POST['nombres']);
@@ -93,7 +93,7 @@ class AgendaService{
 		
 		$datos = [
 			[
-				'filtro' => "[A-Z]{2,3}",
+				'filtro' => "(CC|CE|TI|PP|PEP)",
 				'cadena' => $tipoDocumento
             ],
             [
@@ -121,7 +121,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -142,6 +142,7 @@ class AgendaService{
         }
 
         $titulo = ucwords(strtolower($titulo));
+        $motivo = trim(ucfirst(strtolower($motivo)));
 
         $datosAgenda = [
             'tipo_documento' => $tipoDocumento,
@@ -162,7 +163,7 @@ class AgendaService{
         return $respuesta;
     }
 
-    public function sanitizarDatosAgendaGrupal(){
+    public function sanitizarDatosRegistroAgendaGrupal(){
         if (!isset($_FILES['plantilla_excel'],  $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda']) || $_FILES['plantilla_excel'] == '' ||  $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -184,7 +185,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -252,7 +253,7 @@ class AgendaService{
                     $respuesta = [
                         "tipo" => "ERROR",
                         'titulo' => "Formato Inválido",
-                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".var_dump($agendados),
+                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                     ];
                     return $respuesta;
                 }
@@ -260,7 +261,8 @@ class AgendaService{
         }
 
         $titulo = ucwords(strtolower($titulo));
-        
+        $motivo = trim(ucfirst(strtolower($motivo)));
+
         $datosAgenda = [
             'agendados' => $agendados,
             'titulo' => $titulo,

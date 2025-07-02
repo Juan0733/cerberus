@@ -1,0 +1,433 @@
+#contenedor_principal {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+    #contenedor_principal #contenedor_filtros {
+        column-gap: 10px;
+        display: flex;
+        justify-content: end;
+        padding: 1rem 0;
+        width: 100%;
+    }
+
+        #contenedor_principal #contenedor_filtros .filtro{
+            align-items: center;
+            border: 1px solid #d8d8d8;
+            border-radius: 13px;
+            background: white;
+            display: flex;
+            font-size: 17px;
+            gap: 0.5rem;
+            padding: 0 10px;
+            height: 40px;
+            width: clamp(220px, 20%, 600px);
+        }
+
+            #contenedor_filtros  .filtro input, select{
+                border: none;
+                font-size: 17px;
+                outline: none;
+                width: 100%;
+            }
+
+            #contenedor_principal #contenedor_filtros .filtro ion-icon{
+                font-size: 25px;
+            }
+
+    #contenedor_principal .btn-aprendiz{
+        align-items: center;
+        border: none;
+        border-radius: 13px;
+        background-color: var(--color-secundario);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        height: 40px;
+        padding: 0 8px;
+        width: 40px;
+    }
+
+    #contenedor_principal #btn_crear_aprendiz_mobile{
+        display: none;
+        height: 60px;
+        left: 80%;
+        position: fixed;
+        top: 88.5%;
+        width: 60px;
+        z-index: 20;
+    }
+    
+        #contenedor_principal .btn-aprendiz ion-icon{
+            color: white;
+            font-size: 25px;
+        }
+
+    #contenedor_principal #contenedor_tabla_cards{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        max-height: 75vh;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar{
+        background: transparent;
+        width: 8px;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        background-color: rgb(180, 180, 180);
+    }
+
+        #contenedor_principal #contenedor_tabla_cards #tabla_aprendices {
+            border-collapse: collapse;
+            border-radius: 20px;
+            background: var(--color-primario);
+            text-align: center;
+            width: 100%;
+        }
+
+            #contenedor_principal #contenedor_tabla_cards #tabla_aprendices tr{
+                border-bottom: 2px solid rgb(219, 219, 219);
+            }
+
+            #contenedor_principal #contenedor_tabla_cards #tabla_aprendices thead {
+                background-color: var(--color-secundario);
+                color: white;
+                cursor: pointer;
+                font-size: 1em;
+                left: 0;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+                #contenedor_tabla_cards #tabla_aprendices thead th{
+                    font-weight: bolder;
+                    padding: 1rem;
+                }
+
+                #contenedor_tabla_cards #tabla_aprendices tbody td{
+                    padding: 1rem;
+                }
+
+                    #tabla_aprendices tbody td ion-icon{
+                        cursor: pointer;
+                        font-size: 25px;
+                        margin-left: 8px;
+                    }
+
+                    #tabla_aprendices tbody td .ver-aprendiz{
+                        color: var(--color-secundario);
+                    }
+
+                    #tabla_aprendices tbody td .editar-aprendiz{
+                        color: var(--main-color);
+                    }
+
+                #contenedor_tabla_cards #tabla_aprendices thead th:first-child {
+                    border-radius: 20px 0 0 0;  
+                }
+
+                #contenedor_tabla_cards #tabla_aprendices thead th:last-child {
+                    border-radius: 0 20px 0 0;  
+                }
+
+    #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz{
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        margin:0 0 10px 0;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz .card-header {
+            padding: 10px 10px 0px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+  
+            #contenedor_tabla_cards .document-card-aprendiz .card-header .document-title {
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #333;
+                margin: 0;
+            }
+  
+            #contenedor_tabla_cards .document-card-aprendiz .card-header .document-meta {
+                font-size: 0.9em;
+                color: #555;
+                margin: 5px 0;
+            }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz .card-details {
+            display: none;
+            color: #555;
+            flex-direction: column;
+            font-size: 0.9em;
+            transition: max-height 0.5s ease;
+        }
+  
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz.active .card-details {
+            display: flex;
+            padding: 10px;
+        }
+
+        #contenedor_tabla_cards .document-card-aprendiz .contenedor-acciones {
+            display: none;
+            justify-content: end;
+            max-height: 0;
+            font-size: 0.9em;
+            color: var(--color-primario);
+            margin-top: 10px;
+        }
+
+        #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones {
+            column-gap: 10px;
+            display: flex;
+            max-height: 150px;
+            padding: 0 10px 10px;
+        }
+
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones ion-icon{
+                font-size: 25px;
+            }
+
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .ver-aprendiz{
+                color: var(--color-secundario);
+            }
+
+            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .editar-aprendiz{
+                color: var(--main-color);
+            }
+    
+        #contenedor_tabla_cards .document-card-aprendiz .toggle-icon {
+            font-size: 1.2em;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+  
+        #contenedor_tabla_cards .document-card-aprendiz.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+    #contenedor_principal #contenedor_tabla_cards #mensaje_respuesta{
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+/*----------------------------------------------------- Estilos Modal detalle aprendiz -------------------------------------------*/
+#contenedor_modales #modal_detalle_aprendiz{
+    width: clamp(450px, 30%, 550px);
+}
+
+#contenedor_modales #modal_detalle_aprendiz #cont_info_modales{
+    align-items: start;
+    overflow-y: auto;
+    max-height: 550px;
+    padding: 1.5em 1.5em 1em;
+}
+
+    #modal_detalle_aprendiz #cont_info_modales #contenedor_cajas{
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
+        width: 100%;
+    }
+
+        #modal_detalle_aprendiz #cont_info_modales #contenedor_cajas .caja{
+            align-items: start;
+            display: flex;
+            flex-direction: column;
+            row-gap: 6px;
+            width: 100%;
+        }
+
+/*----------------------------------------------------- Estilos Modal registrar aprendiz-------------------------------------------*/
+#contenedor_modales #modal_aprendiz{
+    width: clamp(550px, 50%, 980px);
+}
+    #contenedor_modales #modal_aprendiz #cont_info_modales{
+        width: 100%;
+    }
+
+        #contenedor_modales #modal_aprendiz #cont_info_modales #formulario_aprendiz{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
+                align-items: end;
+                column-gap: 20px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                max-height: 570px;
+                overflow-y: auto;
+                padding: 1.5em;
+                row-gap: 20px;
+                width: 100%;
+            }
+
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz::-webkit-scrollbar{
+                background: transparent;
+                width: 8px;
+            }
+
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz::-webkit-scrollbar-thumb{
+                border-radius: 20px;
+                background-color: rgb(180, 180, 180);
+            }
+
+                #formulario_aprendiz #contenedor_cajas_aprendiz  .input-caja-registro{
+                    animation: slideIn 0.5s ease-out;
+                    color: var(--color-placeholder);
+                    font-size: 16px;
+                    width: 100%;
+                }
+
+                    #contenedor_cajas_aprendiz  .input-caja-registro .label-input{
+                        color: var(--color-placeholder);
+                        font-size: 20px;
+                        margin-bottom: 5px;
+                        padding-left: 10px;
+                    }
+                
+                    #contenedor_cajas_aprendiz  .input-caja-registro .campo{
+                        background: var(--background-inputs);
+                        border: none;
+                        border-radius: 13px;
+                        font-size: 16px;
+                        height: 60px;
+                        margin-top: 5px;
+                        padding: 10px;
+                        width: 100%;
+                    }
+
+                    #contenedor_cajas_aprendiz .input-caja-registro .campo::placeholder{
+                        color: var(--color-placeholder);
+                        font-size: 16px;
+                    }
+
+            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz {
+                display: flex;
+                width: 100%;
+            }
+
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz button {
+                    align-items: center;
+                    background-color: var(--color-btn-cancelar);
+                    border: none;
+                    color: var(--color-placeholder);
+                    display: flex;
+                    font-size: 20px;
+                    height: 60px;
+                    justify-content: center;
+                    width: 50%;
+                }
+
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_atras_aprendiz {
+                    display: none;
+                }  
+
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                    display: none;
+                }
+
+                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz{
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
+                }
+
+@media(min-width: 768px) and (max-width: 1023px){
+    #contenedor_principal #contenedor_filtros .filtro{
+        width: 100%;
+    }
+
+    #contenedor_principal #contenedor_tabla_cards{
+        align-items: start;
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz{
+            height: 65px;
+        }
+
+        #contenedor_principal #contenedor_tabla_cards .document-card-aprendiz.active{
+            height: auto;
+        }
+}
+
+@media(max-width: 767px){
+    #contenedor_principal{
+        flex-direction: column;
+        row-gap: 10px;
+        width: clamp(260px, 100%, 600px);
+    }
+
+        #contenedor_principal #contenedor_filtros{
+            flex-direction: column;
+            row-gap: 10px;
+        }
+
+            #contenedor_principal #contenedor_filtros .filtro{
+                width: 100%;
+            }
+
+            #contenedor_principal #contenedor_filtros #btn_crear_aprendiz{
+                display: none;
+            }
+
+
+        #contenedor_principal #btn_crear_aprendiz_mobile{
+            display: flex;
+        }
+
+/* ----------------------------------------- Estilos Modal registrar Aprendiz ---------------------------------------------*/
+    #contenedor_modales #modal_aprendiz{
+        width: clamp(300px, 92.5%, 500px);
+    }
+        #modal_vigilante #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
+            grid-template-columns: repeat(1, 1fr);
+            padding: 1em;
+            row-gap: 10px;
+        }
+          
+            #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz .seccion-02, .seccion-03{
+                display: none;
+            }
+
+        #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
+            display: flex;
+        }
+
+        #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz{
+            display: none;
+        }
+
+    /* -------------------------------------------------- Estilos Modal detalle aprendiz ----------------------------------------*/
+    #contenedor_modales #modal_detalle_aprendiz{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #modal_detalle_aprendiz #cont_info_modales #contenedor_cajas{
+            grid-template-columns: repeat(1, 1fr);
+        }
+}

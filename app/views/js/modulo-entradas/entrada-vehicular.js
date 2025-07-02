@@ -320,7 +320,7 @@ function eventoTextArea(){
     observacion.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}$/;
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,150}$/;
     
             if (!patron.test(observacion.value)){
 
@@ -425,7 +425,7 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Salida No Registrada"){
-                modalRegistroNovedadUsuario( urlBase, 'Salida no registrada',  respuesta.documento, respuesta.callback);
+                modalRegistroNovedadUsuario( urlBase, 'SALIDA NO REGISTRADA',  respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Vehículo No Encontrado"){

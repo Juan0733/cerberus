@@ -1,10 +1,10 @@
 <?php
 require_once "../../config/app.php";
-require_once "../views/inc/session_start.php";
 require_once "../../autoload.php";
 
 use app\models\AgendaModel;
 use app\services\AgendaService;
+use app\models\UsuarioModel;
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -12,12 +12,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 	
 	$objetoAgenda = new AgendaModel();
     $objetoServicio = new AgendaService();
+    $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
     unset($_POST['operacion']);
 
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        return $respuesta;
+        
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
+
     if($operacion == 'registrar_agenda_grupal'){
-        $respuesta = $objetoServicio->sanitizarDatosAgendaGrupal();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaGrupal();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -26,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoAgenda->registrarAgendaGrupal($respuesta['datos_agenda']));
 
     }elseif($operacion == 'registrar_agenda_individual'){
-        $respuesta = $objetoServicio->sanitizarDatosAgendaIndividual();
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaIndividual();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -35,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoAgenda->registrarAgendaIndividual($respuesta['datos_agenda']));
 
     }elseif($operacion == 'actualizar_agenda'){
-        $respuesta = $objetoServicio->sanitizarDatosAgenda();
+        $respuesta = $objetoServicio->sanitizarDatosActualizacionAgenda();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
@@ -47,9 +63,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $objetoAgenda = new AgendaModel();
     $objetoServicio = new AgendaService();
+    $objetoUsuario = new UsuarioModel();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     unset($_GET['operacion']);
+
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
+    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        return $respuesta;
+        
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
+        header('Location: ../../acceso-denegado');
+        exit();
+    }
 
     if($operacion == 'eliminar_agenda'){
         $respuesta = $objetoServicio->sanitizarParametros();

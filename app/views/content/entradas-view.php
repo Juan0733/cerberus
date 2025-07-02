@@ -17,8 +17,8 @@
             <form action="" method="post" id="formulario_peatonal" class="formulario">
                 <h1 class="titulo-formulario">Entrada Peatonal</h1>
                 <div class="input-caja">
-                    <label for="documento_peaton">Numero documento</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
+                    <label for="documento_peaton">Número documento</label>
+                    <input type="text" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
                 </div>
                 <div class="input-caja">
                     <label for="observacion_peatonal">Observación</label>
@@ -39,12 +39,12 @@
                 <div class="caja-flex">
                     <div class="input-caja " id="caja_placa_vehiculo">
                         <label for="placa_vehiculo">Placa vehículo</label>
-                        <input type="tel" class="campo input-placa"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, máximo 6 caracteres." minlength="5" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
+                        <input type="text" class="campo input-placa"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, máximo 6 caracteres." minlength="5" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
                     </div>
 
                     <div class="input-caja">
                         <label for="documento_propietario">Propietario vehículo</label>
-                        <input type="tel" class="campo" inputmode="numeric" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> <!-- se pasa como paremtro el estado en el cual debe de estar el vehiculo para poder ser llamado -->
+                        <input type="text" class="campo" inputmode="numeric" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> 
                         <datalist id="lista_propietarios">
                         </datalist>
                     </div>  
@@ -53,7 +53,7 @@
                 <form action="" method="post" id='formulario_pasajeros' class="caja-flex">
                     <div class="input-caja">
                         <label for="documento_pasajero">Doc. Pasajero</label>
-                        <input type="tel" class="campo" inputmode="numeric" name="documento_pasajero" id="documento_pasajero" pattern="[A-za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="3" required>
+                        <input type="text" class="campo" inputmode="numeric" name="documento_pasajero" id="documento_pasajero" pattern="[A-za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="3" required>
                     </div>
 
                     <button type="submit" id="btn_agregar_pasajero">
@@ -77,7 +77,7 @@
                 
                 <div class="input-caja">
                     <label for="observacion_vehicular">Observación</label>
-                    <textarea class="campo" inputmode="numeric" name="observacion_vehicular" id="observacion_vehicular" placeholder="Escribe aquí..." tabindex="4"></textarea>
+                    <textarea class="campo" name="observacion_vehicular" id="observacion_vehicular" placeholder="Escribe aquí..." tabindex="4"></textarea>
                 </div>
 
                 <button type="button" class="btn-registrar" id="registrar_entrada">Registrar</button>

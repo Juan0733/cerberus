@@ -37,7 +37,6 @@ function dibujarTablaPermisos(){
                         <th>Tipo Doc.</th>
                         <th>Número Doc.</th>
                         <th>Nombres</th>
-                        <th>Apellidos</th>
                         <th>Estado Permiso</th>
                         <th>Acciones</th>
                     </tr>
@@ -69,8 +68,7 @@ function dibujarTablaPermisos(){
                         <td>${permiso.tipo_documento}</td>
                         <td>${permiso.fk_usuario}</td>
                         <td>${permiso.nombres}</td>
-                        <td>${permiso.apellidos}</td>
-                         <td>${permiso.estado_permiso}</td>
+                        <td>${permiso.estado_permiso}</td>
                         <td class="contenedor-colum-acciones">
                             ${acciones}
                         </td>
@@ -231,6 +229,20 @@ function toggleCard() {
                 card.classList.toggle('active');
             }
         });
+    });
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
     });
 }
 

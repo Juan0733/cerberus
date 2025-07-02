@@ -130,14 +130,6 @@
                         color: var(--main-color);
                     }
 
-                    #tabla_aprendices tbody td .inhabilitar-aprendiz{
-                        color: #000000;
-                    }
-
-                    #tabla_aprendices tbody td .habilitar-aprendiz{
-                        color: #feb211;
-                    }
-
                 #contenedor_tabla_cards #tabla_aprendices thead th:first-child {
                     border-radius: 20px 0 0 0;  
                 }
@@ -218,14 +210,6 @@
             #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .editar-aprendiz{
                 color: var(--main-color);
             }
-
-            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .inhabilitar-aprendiz{
-                color: #000000;
-            }
-
-            #contenedor_tabla_cards .document-card-aprendiz.active .contenedor-acciones .habilitar-aprendiz{
-                color: #feb211;
-            }
     
         #contenedor_tabla_cards .document-card-aprendiz .toggle-icon {
             font-size: 1.2em;
@@ -256,23 +240,19 @@
     padding: 1.5em 1.5em 1em;
 }
 
-    #modal_detalle_aprendiz #cont_info_modales h3{
-        margin-bottom: 6px;
-    }
-
-    #modal_detalle_aprendiz #cont_info_modales p{
-        margin-bottom: 20px;
-    }
- 
-    #modal_detalle_aprendiz #cont_info_modales .caja-flex{
-        display: flex;
+    #modal_detalle_aprendiz #cont_info_modales #contenedor_cajas{
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
         width: 100%;
     }
 
-        #modal_detalle_aprendiz #cont_info_modales .caja-flex div{
+        #modal_detalle_aprendiz #cont_info_modales #contenedor_cajas .caja{
+            align-items: start;
             display: flex;
             flex-direction: column;
-            justify-content: end;
+            row-gap: 6px;
             width: 100%;
         }
 
@@ -447,7 +427,7 @@
         width: clamp(300px, 92.5%, 500px);
     }
 
-        #contenedor_modales #modal_detalle_aprendiz #cont_info_modales .caja-flex{
-            flex-direction: column;
+        #modal_detalle_aprendiz #cont_info_modales #contenedor_cajas{
+            grid-template-columns: repeat(1, 1fr);
         }
 }

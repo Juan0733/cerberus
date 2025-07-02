@@ -135,17 +135,14 @@ export{eliminarPropietarioVehiculo}
 
 async function consultarNotificacionesVehiculo(urlBase) {
     try {
-        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_notificaciones_vehiculo'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
         const data = await response.json();
-        contenedorSpinner.classList.remove("mostrar_spinner");
         return data;
         
     } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Petición',

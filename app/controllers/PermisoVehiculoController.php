@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         exit();
     }
     
-    if($operacion == 'registrar_permiso_usuario') {
+    if($operacion == 'registrar_permiso_vehiculo') {
         $respuesta = $objetoServicio->sanitizarDatosRegistroPermisoVehiculo();
         if ($respuesta['tipo'] == 'ERROR') {
             echo json_encode($respuesta);
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         exit();
     }
 
-    if($operacion == 'consultar_permisos_usuarios'){
+    if($operacion == 'consultar_permisos_vehiculos'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['fecha'])){
             $respuesta = [
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoPermiso->consultarPermisosVehiculos($respuesta['parametros']));
 
-    }else if($operacion == 'aprobar_permiso_usuario'){
+    }else if($operacion == 'aprobar_permiso_vehiculo'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['codigo_permiso'])){
             $respuesta = [
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoPermiso->aprobarPermisoVehiculo($respuesta['parametros']['codigo_permiso']));
 
-    }else if($operacion == 'desaprobar_permiso_usuario'){
+    }else if($operacion == 'desaprobar_permiso_vehiculo'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['codigo_permiso'])){
             $respuesta = [
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoPermiso->desaprobarPermisoVehiculo($respuesta['parametros']['codigo_permiso']));
 
-    }else if($operacion == 'consultar_permiso_usuario'){
+    }else if($operacion == 'consultar_permiso_vehiculo'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['codigo_permiso'])){
             $respuesta = [
@@ -126,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoPermiso->consultarPermisoVehiculo($respuesta['parametros']['codigo_permiso']));
 
     }else if($operacion == 'consultar_notificaciones_permisos_vehiculo'){
-
         echo json_encode($objetoPermiso->consultarNotificacionesPermisosVehiculo());
     }
 }

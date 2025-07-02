@@ -70,12 +70,12 @@ function dibujarFuncionario() {
             document.getElementById('correo_electronico').textContent = datosFuncionario.correo_electronico;
             document.getElementById('rol').textContent = formatearString(datosFuncionario.rol);
             document.getElementById('brigadista').textContent = formatearString(datosFuncionario.brigadista);
-            document.getElementById('tipo_contrato').textContent = formatearFecha(datosFuncionario.tipo_contrato);
+            document.getElementById('tipo_contrato').textContent = formatearString(datosFuncionario.tipo_contrato);
             
             if(datosFuncionario.tipo_contrato == 'CONTRATISTA'){
                 document.getElementById('fecha_fin_contrato').textContent = formatearFecha(datosFuncionario.fecha_fin_contrato);
             }else{
-                document.getElementById('fecha_fin_contrato').textContent = datosFuncionario.fecha_fin_contrato;
+                document.getElementById('caja_fecha_fin_contrato').style.display='none';;
             }
             
             contenedorModales.classList.add('mostrar');

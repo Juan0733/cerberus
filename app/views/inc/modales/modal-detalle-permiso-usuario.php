@@ -45,10 +45,10 @@
                 <h3>Responsable Desaprobacion:</h3>
                 <p id="responsable_desaprobacion"></p>
             </div>
-            <div class="caja">
-                <h3>Descripción:</h3>
-                <p id="descripcion"></p>
-            </div>
+        </div>
+        <div class="caja">
+            <h3>Descripción:</h3>
+            <p id="descripcion"></p>
         </div>
     </div>
 </div>

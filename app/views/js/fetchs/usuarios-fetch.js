@@ -114,17 +114,14 @@ export{cerrarSesion}
 
 async function consultarNotificacionesUsuario(urlBase) {
     try {
-        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('consultar_notificaciones_usuario'));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
         const data = await response.json();
-        contenedorSpinner.classList.remove("mostrar_spinner");
         return data;
         
     } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Petición',

@@ -1,18 +1,20 @@
-import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
+import {registrarPermisoVehiculo} from '../fetchs/permisos-vehiculos-fetch.js';
+import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let selectTipoNovedad;
+let inputPlaca;
+let selectTipoPermiso;
 let funcionCallback;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false) {
+async function modalRegistroPermisoVehiculo(url, permiso=false, placa=false, callback) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-permiso-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -20,39 +22,46 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_novedad_usuario';
+        modal.id = 'modal_permiso_vehiculo';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
-        contenedorModales.appendChild(modal);
 
-        const inputDocumento = document.getElementById('documento_involucrado'); 
-        selectTipoNovedad = document.getElementById('tipo_novedad');
-
-        inputDocumento.value = documento;
-        inputDocumento.readOnly = true;
-        selectTipoNovedad.value = novedad;
-        selectTipoNovedad.disabled = true;
-
-        if(callback){
-            funcionCallback = callback;
+        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+        if(modalesExistentes.length > 0){
+           for (let i = 0; i < modalesExistentes.length; i++) {
+                modalesExistentes[i].remove();
+            }
         }
 
+        contenedorModales.appendChild(modal);
+
+        inputPlaca = document.getElementById('numero_placa');
+        selectTipoPermiso = document.getElementById('tipo_permiso');
+
+        funcionCallback = callback;
         urlBase = url;
+
+        if(placa){ 
+            inputPlaca.value = placa;
+            inputPlaca.readOnly = true;
+            dibujarPropietarios();
+        }
+
+        if(permiso){
+            selectTipoPermiso.value = permiso;
+            selectTipoPermiso.disabled = true;
+        }
 
         eventoCerrarModal();
         eventoTextArea();
-        eventoRegistrarNovedadUsuario();
+        eventoInputPlaca();
+        eventoRegistrarPermisoVehiculo();
 
         contenedorSpinner.classList.remove("mostrar_spinner");
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 1){
-            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
-        }else{
-            contenedorModales.classList.add('mostrar');
-        }
-
+        contenedorModales.classList.add('mostrar');
+        
         setTimeout(()=>{
-            document.getElementById('fecha_suceso').focus();
+            document.getElementById('propietario').focus();
         }, 250)
 
     } catch (error) {
@@ -65,47 +74,74 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
        console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro novedad usuario.'
+            mensaje: 'Error al cargar modal registro permiso vehículo.'
         });
     }
     
 }
-export { modalRegistroNovedadUsuario };
+export { modalRegistroPermisoVehiculo };
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_novedad_usuario');
+    botonCerrarModal = document.getElementById('cerrar_modal_permiso_vehiculo');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
-        if(modalesExistentes.length > 0) {
-            modalesExistentes[modalesExistentes.length-1].style.display = 'block';
-        }else{
-            contenedorModales.classList.remove('mostrar');
-        }
+        contenedorModales.classList.remove('mostrar');
+        
     });
 
-    document.getElementById('btn_cancelar_novedad_usuario').addEventListener('click', ()=>{
+    document.getElementById('btn_cancelar_permiso_vehiculo').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
 
-function eventoRegistrarNovedadUsuario(){
-    let formularioNovedad = document.getElementById('formulario_novedad_usuario');
-    formularioNovedad.addEventListener('submit', (e)=>{
+function eventoInputPlaca(){
+    let temporizador;
+    
+    inputPlaca.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(dibujarPropietarios, 500)
+    })
+}
+
+function dibujarPropietarios(){
+    const selectPropietario = document.getElementById('propietario');
+    selectPropietario.innerHTML += '<option value="" disabled selected>Seleccionar</option>'
+
+    console.log(urlBase);
+
+    consultarPropietarios(inputPlaca.value, urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            respuesta.propietarios.forEach(propietario => {
+                selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}`
+            });
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else{
+                botonCerrarModal.click();
+                alertaError(respuesta);
+            }
+        }
+    })
+}
+
+function eventoRegistrarPermisoVehiculo(){
+    let formularioPermisoVehiculo = document.getElementById('formulario_permiso_vehiculo');
+    formularioPermisoVehiculo.addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        let formData = new FormData(formularioNovedad);
-        formData.append('operacion', 'registrar_novedad_usuario');
-        formData.append('tipo_novedad', selectTipoNovedad.value);
+        let formData = new FormData(formularioPermisoVehiculo);
+        formData.append('operacion', 'registrar_permiso_vehiculo');
+        formData.append('tipo_permiso', selectTipoPermiso.value);
 
-        registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
+        registrarPermisoVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 botonCerrarModal.click();
-                if(funcionCallback){
-                    funcionCallback();
-                }
-                
+                funcionCallback();
+
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){
                     window.location.replace(urlBase+'sesion-expirada');
@@ -175,6 +211,3 @@ function alertaError(respuesta){
         }
     });
 }
-
-
-

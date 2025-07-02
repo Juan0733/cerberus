@@ -3,6 +3,7 @@ import {registrarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let selectTipoPermiso;
 let funcionCallback;
 let urlBase;
 
@@ -38,10 +39,10 @@ async function modalRegistroPermisoUsuario(url, permiso=false, documento=false, 
             inputDocumento.readOnly = true;
         }
 
+        selectTipoPermiso = document.getElementById('tipo_permiso');
         if(permiso){
-            const inputTipoPermiso = document.getElementById('tipo_permiso');
-            inputTipoPermiso.value = permiso;
-            inputTipoPermiso.disabled = true;
+            selectTipoPermiso.value = permiso;
+            selectTipoPermiso.disabled = true;
         }
 
         funcionCallback = callback;
@@ -96,6 +97,7 @@ function eventoRegistrarPermisoUsuario(){
 
         let formData = new FormData(formularioPermisoUsuario);
         formData.append('operacion', 'registrar_permiso_usuario');
+        formData.append('tipo_permiso', selectTipoPermiso.value);
 
         registrarPermisoUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){

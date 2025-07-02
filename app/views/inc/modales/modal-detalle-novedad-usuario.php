@@ -4,51 +4,39 @@
 </div>
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
-        <div class="caja-flex">
-            <div>
+        <div id="contenedor_cajas">
+            <div class="caja">
                 <h3>Tipo Novedad:</h3>
                 <p id="tipo_novedad"></p>
             </div>
-            <div>
+            <div class="caja">
                 <h3>Involucrado:</h3>
                 <p id="involucrado"></p>
             </div>
-           
-        </div>
-        <div class="caja-flex">
-            <div>
+            <div class="caja">
                 <h3>Puerta Registro:</h3>
                 <p id="puerta_registro"></p>
             </div>
-
-            <div>
+            <div class="caja">
                 <h3>Puerta Suceso:</h3>
                 <p id="puerta_suceso"></p>
             </div>
-        </div>
-        <div class="caja-flex">
-            <div>
+            <div class="caja">
                 <h3>Fecha Suceso:</h3>
                 <p id="fecha_suceso"></p>
             </div>
-
-              <div>
+            <div class="caja">
                 <h3>Fecha Registro:</h3>
                 <p id="fecha_registro"></p>
             </div>
-        </div>
-
-        <div class="caja-flex">
-            <div>
+            <div class="caja">
                 <h3>Responsable Registro:</h3>
                 <p id="responsable"></p>
             </div>
         </div>
-        <div class="caja-flex">
-            <div>
-                <h3>Descripción:</h3>
-                <p id="descripcion"></p>
-            </div>
+        <div class="caja">
+            <h3>Descripción:</h3>
+            <p id="descripcion"></p>
         </div>
     </div>
 </div>

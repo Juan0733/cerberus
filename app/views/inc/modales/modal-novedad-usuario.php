@@ -48,8 +48,8 @@
                     <label for="puerta_suceso" class="label-input">Puerta del suceso</label>
                     <select class="campo"  name="puerta_suceso" id="puerta_suceso" tabindex="7" required>
                         <option value="" disabled selected>Selecciona una puerta</option>
-                        <option value="GANADERIA">Vehicular ganaderia</option>
                         <option value="PEATONAL">Peatonal</option>
+                        <option value="GANADERIA">Vehicular ganaderia</option>
                         <option value="PRINCIPAL">Vehicular principal</option>
                     </select>
                 </div>

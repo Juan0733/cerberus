@@ -15,7 +15,7 @@
             </div>
             <div>
                 <h3>Tipo Vehiculo:</h3>
-                <p id="solicitante"></p>
+                <p id="tipo_vehiculo"></p>
             </div>
             <div class='caja'>
                 <h3>Número Placa:</h3>
@@ -45,16 +45,16 @@
                 <h3>Fecha Desaprobacion:</h3>
                 <p id="fecha_desaprobacion"></p>
             </div>
-            <div class='caja'>
+            <div id="caja_responsable_aprobacion" class='caja'>
                 <h3>Responsable Aprobación:</h3>
                 <p id="responsable_aprobacion"></p>
             </div>
-            <div class='caja'>
+            <div id="caja_responsable_desaprobacion" class='caja'>
                 <h3>Responsable Desaprobación:</h3>
                 <p id="responsable_desaprobacion"></p>
             </div>
         </div>
-        <div>
+        <div class="caja">
             <h3>Descripción:</h3>
             <p id="descripcion"></p>
         </div>

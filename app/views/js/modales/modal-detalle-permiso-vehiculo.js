@@ -62,11 +62,11 @@ function dibujarPermiso() {
     consultarPermisoVehiculo(codigoPermiso, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosPermiso = respuesta.datos_permiso;
-
+            console.log(datosPermiso);
             document.getElementById('tipo_permiso').textContent = formatearString(datosPermiso.tipo_permiso);
             document.getElementById('solicitante').textContent = datosPermiso.nombres_solicitante+' '+datosPermiso.apellidos_solicitante;
             document.getElementById('tipo_vehiculo').textContent = formatearString(datosPermiso.tipo_vehiculo);
-            document.getElementById('numero_placa').textContent = formatearString(datosPermiso.fk_vehiculo);
+            document.getElementById('numero_placa').textContent = datosPermiso.fk_vehiculo;
             document.getElementById('propietario').textContent = datosPermiso.nombres_propietario + datosPermiso.apellidos_propietario;
             document.getElementById('fecha_registro').textContent = formatearFecha(datosPermiso.fecha_registro);
             document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
@@ -74,7 +74,7 @@ function dibujarPermiso() {
             document.getElementById('descripcion').textContent = datosPermiso.descripcion;
 
             if(datosPermiso.tipo_permiso == 'PERMANENCIA'){
-                document.getElementById('fecha_fin_permiso').textContent =formatearFecha(datosPermiso.fecha_fin_permiso);
+                document.getElementById('fecha_fin_permiso').textContent = formatearFecha(datosPermiso.fecha_fin_permiso);
             }else{
                 document.getElementById('caja_fecha_fin_permiso').style.display = 'none';
             }

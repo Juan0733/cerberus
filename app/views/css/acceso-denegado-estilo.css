@@ -1,0 +1,46 @@
+
+
+/* Fondo general */
+body {
+    margin: 0;
+    padding: 0;
+    background: url('../img/fondo-login.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    text-align: center;
+}
+
+h1 {
+    font-size: 60px;
+    color: red;
+    margin: 0;
+}
+
+/* Mensaje */
+p {
+    font-size: 28px;
+    color: white;
+    margin: 15px 0 30px;
+}
+
+/* Botón OK */
+a {
+    display: inline-block;
+    padding: 12px 35px;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: background 0.3s ease;
+}
+
+a:hover {
+    background-color: rgb(201, 1, 1);
+}

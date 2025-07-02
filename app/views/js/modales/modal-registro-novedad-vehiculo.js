@@ -4,6 +4,7 @@ import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 let contenedorModales;
 let modalesExistentes;
 let placaVehiculo;
+let selectTipoNovedad;
 let botonCerrarModal;
 let urlBase;
 
@@ -31,13 +32,13 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         contenedorModales.appendChild(modal);
 
         const inputDocumento = document.getElementById('documento_involucrado'); 
-        const inputTipoNovedad = document.getElementById('tipo_novedad');
         const inputPlaca = document.getElementById('numero_placa');
+        selectTipoNovedad = document.getElementById('tipo_novedad');
 
         inputDocumento.value = documento;
         inputDocumento.readOnly = true;
-        inputTipoNovedad.value = novedad;
-        inputTipoNovedad.disabled = true;
+        selectTipoNovedad.value = novedad;
+        selectTipoNovedad.disabled = true;
         inputPlaca.value = placa;
         inputPlaca.readOnly = true;
 
@@ -88,6 +89,7 @@ function eventoRegistrarNovedadVehiculo(){
 
         let formData = new FormData(formularioNovedad);
         formData.append('operacion', 'registrar_novedad_vehiculo');
+        formData.append('tipo_novedad', selectTipoNovedad.value);
 
         registrarNovedadVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){

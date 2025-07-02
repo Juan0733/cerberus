@@ -17,7 +17,7 @@
             <form action="" method="post" id="formulario_peatonal" class="formulario">
                 <h1 class="titulo-formulario">Entrada Peatonal</h1>
                 <div class="input-caja">
-                    <label for="documento_peaton">Numero documento</label>
+                    <label for="documento_peaton">Número documento</label>
                     <input type="text" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
                 </div>
                 <div class="input-caja">

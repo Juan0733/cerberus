@@ -251,17 +251,18 @@
         column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 20px;
         row-gap: 20px;
         width: 100%;
     }
 
-        #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas .caja{
-            align-items: start;
-            display: flex;
-            flex-direction: column;
-            row-gap: 6px;
-            width: 100%;
-        }
+    #modal_detalle_permiso_usuario #cont_info_modales .caja{
+        align-items: start;
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+        width: 100%;
+    }
 
 @media(min-width: 768px) and (max-width: 1023px){
     #contenedor_principal #contenedor_filtros .filtro{

@@ -40,7 +40,7 @@ function dibujarNotificaciones(){
                                         <h3>Solicitud Permiso Vehículo</h3>
                                         <p>Se ha solicitado un permiso de tipo ${notificacion.tipo_permiso}, para el vehículo con número de placa <strong>${notificacion.fk_vehiculo}</strong></p>
                                         <div id="contenedor_btns_notificacion">
-                                            <button class="btn-ver-permiso-vehiculo data-permiso="${notificacion.codigo_permiso}" >Solicitar permiso</button>
+                                            <button class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}" >Ver detalle</button>
                                         </div>
                                     </div>
                                 </div>`
@@ -69,9 +69,11 @@ function formatearString(cadena) {
 }
 
 function eventoAbrirModal(){
-    const botonNotificacion = document.getElementById('btn_notificaciones');
+    document.getElementById('btn_notificaciones').addEventListener('click', ()=>{
+        contenedorModal.classList.add('mostrar');
+    })
 
-    botonNotificacion.addEventListener('click', ()=>{
+    document.getElementById('btn_notificaciones').addEventListener('click', ()=>{
         contenedorModal.classList.add('mostrar');
     })
 }

@@ -171,7 +171,7 @@ function eventoBuscarDocumento(){
 }
 
 function eventoCrearPermisoUsuario(){
-    const botonCrearPermiso = document.getElementById('btn_crear_usuario_permiso');
+    const botonCrearPermiso = document.getElementById('btn_crear_permiso_usuario');
 
     botonCrearPermiso.addEventListener('click', ()=>{
         modalRegistroPermisoUsuario(urlBase, '', '', validarResolucion);

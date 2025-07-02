@@ -37,7 +37,6 @@ function dibujarTablaPermisos(){
                         <th>Tipo Doc.</th>
                         <th>Número Doc.</th>
                         <th>Nombres</th>
-                        <th>Apellidos</th>
                         <th>Estado Permiso</th>
                         <th>Acciones</th>
                     </tr>
@@ -63,8 +62,7 @@ function dibujarTablaPermisos(){
                         <td>${permiso.tipo_documento}</td>
                         <td>${permiso.fk_usuario}</td>
                         <td>${permiso.nombres}</td>
-                        <td>${permiso.apellidos}</td>
-                         <td>${permiso.estado_permiso}</td>
+                        <td>${permiso.estado_permiso}</td>
                         <td class="contenedor-colum-acciones">
                             <ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>
                         </td>
@@ -173,7 +171,7 @@ function eventoBuscarPlaca(){
 }
 
 function eventoCrearPermisoVehiculo(){
-    const botonCrearPermiso = document.getElementById('btn_crear_vehiculo_permiso');
+    const botonCrearPermiso = document.getElementById('btn_crear_permiso_vehiculo');
 
     botonCrearPermiso.addEventListener('click', ()=>{
         modalRegistroPermisoVehiculo(urlBase, '', '', validarResolucion);

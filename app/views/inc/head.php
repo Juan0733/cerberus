@@ -10,6 +10,12 @@
 <?php elseif($url[0] == '404'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/404-estilo.css">
 
+<?php elseif($url[0] == 'acceso-denegado'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/acceso-denegado-estilo.css">
+
+<?php elseif($url[0] == 'sesion-expirada'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/sesion-expirada-estilo.css">
+
 <?php elseif($url[0] == 'auto-registro-visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/auto-registro-visitantes-estilo.css">
 
@@ -59,5 +65,5 @@
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/permisos-vehiculo-estilo.css">
 <?php endif; ?>
 
-<link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_dalle_cerberus.png">
+<link rel="icon" type="image/x-icon" href="<?php echo  $urlBaseVariable; ?>app/views/img/logo_c_negro.png">
 <title> SENA CAB | <?php echo APP_NOMBRE;?></title>

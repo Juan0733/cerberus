@@ -3,21 +3,21 @@ namespace app\services;
 
 class PermisoVehiculoService{
     public function sanitizarDatosRegistroPermisoVehiculo(){
-        if (!isset($_POST['documento_propietario'], $_POST['placa_vehiculo'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['documento_propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '' ) {
+        if(!isset($_POST['propietario'], $_POST['numero_placa'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['propietario'] == '' || $_POST['numero_placa'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '' ) {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
-                "mensaje" => 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
+                "mensaje" => 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'.implode(' ',$_POST)
             ];
             return $respuesta;
         }
 
-        $numeroDocumento = $this->limpiarDatos($_POST['documento_propietario']);
-        $numeroPlaca = $this->limpiarDatos($_POST['placa_vehiculo']);
+        $numeroDocumento = $this->limpiarDatos($_POST['propietario']);
+        $numeroPlaca = $this->limpiarDatos($_POST['numero_placa']);
         $tipoPermiso = $this->limpiarDatos($_POST['tipo_permiso']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
         $fechaFinPermiso = $this->limpiarDatos($_POST['fecha_fin_permiso']);
-        unset($_POST['documento_propietario'], $_POST['placa_vehiculo'], $_POST['descripcion'], $_POST['fecha_fin_permiso']);
+        unset($_POST['propietario'], $_POST['numero_placa'], $_POST['descripcion'], $_POST['fecha_fin_permiso']);
 
         $datos = [
             [
@@ -57,7 +57,7 @@ class PermisoVehiculoService{
 
         $datosPermiso = [
             'numero_documento' => $numeroDocumento,
-            'mumero_placa' => $numeroPlaca,
+            'numero_placa' => $numeroPlaca,
             'tipo_permiso' => $tipoPermiso,
             'descripcion' => $descripcion,
             'fecha_fin_permiso' => $fechaFinPermiso,

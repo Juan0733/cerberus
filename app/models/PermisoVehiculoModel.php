@@ -4,13 +4,21 @@ namespace app\models;
 
 class PermisoVehiculoModel extends MainModel{
     private $objetoUsuario;
+    private $objetoVehiculo;
+    
 
     public function __construct() {
         $this->objetoUsuario = new UsuarioModel();
+        $this->objetoVehiculo = new VehiculoModel();
     }
 
     public function registrarPermisoVehiculo($datosPermiso){
         $respuesta = $this->objetoUsuario->consultarUsuario($datosPermiso['numero_documento']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoVehiculo->consultarPropietarioVehiculo($datosPermiso['numero_placa'], $datosPermiso['numero_documento']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -37,6 +45,21 @@ class PermisoVehiculoModel extends MainModel{
     }
 
     public function aprobarPermisoVehiculo($codigoPermiso){
+        $respuesta = $this->consultarPermisoVehiculo($codigoPermiso);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoPermiso = $respuesta['datos_permiso']['estado_permiso'];
+        if($estadoPermiso != 'PENDIENTE'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Permiso',
+                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque su estado ya ha sido modificado.'
+            ];
+            return $respuesta;
+        }
+
         $fechaActual = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
@@ -59,6 +82,21 @@ class PermisoVehiculoModel extends MainModel{
     }
 
     public function desaprobarPermisoVehiculo($codigoPermiso){
+        $respuesta = $this->consultarPermisoVehiculo($codigoPermiso);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoPermiso = $respuesta['datos_permiso']['estado_permiso'];
+        if($estadoPermiso != 'PENDIENTE'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Permiso',
+                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque su estado ya ha sido modificado.'
+            ];
+            return $respuesta;
+        }
+
         $fechaActual = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
@@ -87,18 +125,18 @@ class PermisoVehiculoModel extends MainModel{
                 pv.tipo_permiso, 
                 pv.estado_permiso,
                 pv.fecha_registro,
-                pv.fk_propietario,
+                pv.fk_usuario,
                 pv.fk_vehiculo,
                 veh.tipo_vehiculo,
                 COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
-                COALESCE(fun.apellidos, apr.nombres, vis.apellidos, vig.apellidos) AS apellidos,
+                COALESCE(fun.apellidos, apr.nombres, vis.apellidos, vig.apellidos) AS apellidos
             FROM permisos_vehiculos pv
             INNER JOIN (SELECT numero_placa, tipo_vehiculo FROM vehiculos GROUP BY numero_placa, tipo_vehiculo) veh ON pv.fk_vehiculo = veh.numero_placa
-            LEFT JOIN funcionarios fun ON pv.fk_propietario = fun.numero_documento
-            LEFT JOIN visitantes vis ON pv.fk_propietario = vis.numero_documento
-            LEFT JOIN vigilantes vig ON pv.fk_propietario = vig.numero_documento
-            LEFT JOIN aprendices apr ON pv.fk_propietario = apr.numero_documento
+            LEFT JOIN funcionarios fun ON pv.fk_usuario = fun.numero_documento
+            LEFT JOIN visitantes vis ON pv.fk_usuario = vis.numero_documento
+            LEFT JOIN vigilantes vig ON pv.fk_usuario = vig.numero_documento
+            LEFT JOIN aprendices apr ON pv.fk_usuario = apr.numero_documento
             WHERE DATE(pv.fecha_registro) = '{$parametros['fecha']}'";
 
         if(isset($parametros['tipo_permiso'])){
@@ -150,6 +188,8 @@ class PermisoVehiculoModel extends MainModel{
                 pv.estado_permiso,  
                 pv.fecha_registro,
                 pv.descripcion,
+                pv.fk_vehiculo,
+                veh.tipo_vehiculo,
                 COALESCE(pv.fecha_fin_permiso, 'N/A') AS fecha_fin_permiso,
                 COALESCE(pv.fecha_atencion, 'N/A') AS fecha_atencion,
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_propietario,

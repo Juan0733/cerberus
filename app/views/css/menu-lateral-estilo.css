@@ -108,6 +108,7 @@
     color: var(--color-primario);
     display: flex;
     justify-content: center;
+    margin-bottom: 15px;
     align-items: center;
 }
 .barra-lateral .nombre-pagina figure{ 
@@ -339,6 +340,7 @@
         position: sticky;
         top: 0;
         background: var(--main-color);
+        z-index: 50;
     }
     .menu ion-icon:nth-child(2){
         display: none;

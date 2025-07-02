@@ -37,6 +37,21 @@ class PermisoUsuarioModel extends MainModel{
     }
 
     public function aprobarPermisoUsuario($codigoPermiso){
+        $respuesta = $this->consultarPermisoUsuario($codigoPermiso);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoPermiso = $respuesta['datos_permiso']['estado_permiso'];
+        if($estadoPermiso != 'PENDIENTE'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Permiso',
+                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque su estado ya ha sido modificado.'
+            ];
+            return $respuesta;
+        }
+
         $fechaActual = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
@@ -59,6 +74,21 @@ class PermisoUsuarioModel extends MainModel{
     }
 
      public function desaprobarPermisoUsuario($codigoPermiso){
+        $respuesta = $this->consultarPermisoUsuario($codigoPermiso);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $estadoPermiso = $respuesta['datos_permiso']['estado_permiso'];
+        if($estadoPermiso != 'PENDIENTE'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Permiso',
+                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque su estado ya ha sido modificado.'
+            ];
+            return $respuesta;
+        }
+
         $fechaActual = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
@@ -79,7 +109,6 @@ class PermisoUsuarioModel extends MainModel{
         ];
         return $respuesta;
     }
-
 
     public function consultarPermisosUsuarios($parametros){
         $sentenciaBuscar = "

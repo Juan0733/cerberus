@@ -1,0 +1,24 @@
+<?php
+require_once "../../config/app.php";
+require_once "../../autoload.php";
+
+use app\models\MotivoIngresoModel;
+use app\services\MotivoIngresoService;
+use app\models\UsuarioModel;
+
+
+header('Content-Type: application/json; charset=utf-8');
+
+if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
+    $objetoMotivo = new MotivoIngresoModel();
+    $objetoServicio = new MotivoIngresoService();
+    $objetoUsuario = new UsuarioModel();
+
+    $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
+    unset($_GET['operacion']);
+
+    if($operacion == 'consultar_motivos_ingreso'){
+        echo json_encode($objetoMotivo->consultarMotivosIngreso());
+
+    }
+}

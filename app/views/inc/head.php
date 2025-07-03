@@ -16,8 +16,17 @@
 <?php elseif($url[0] == 'sesion-expirada'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/sesion-expirada-estilo.css">
 
+<?php elseif($url[0] == 'auto-registro-aprendices'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/auto-registro-aprendices-estilo.css">
+
 <?php elseif($url[0] == 'auto-registro-visitantes'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/auto-registro-visitantes-estilo.css">
+
+<?php elseif($url[0] == 'auto-registro-vigilantes'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/auto-registro-vigilantes-estilo.css">
+
+<?php elseif($url[0] == 'auto-registro-funcionarios'): ?>
+    <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/auto-registro-funcionarios-estilo.css">
 
 <?php elseif($url[0] == 'inicio'): ?>
     <link rel="stylesheet" href="<?php echo  $urlBaseVariable; ?>app/views/css/inicio-estilo.css">

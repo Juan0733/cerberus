@@ -49,7 +49,7 @@ class MotivoIngresoModel extends MainModel{
     }
 
     public function consultarMotivosIngreso(){
-        $sentenciaBuscar = "{
+        $sentenciaBuscar = "
             SELECT motivo
             FROM motivos_ingreso";
 
@@ -71,7 +71,7 @@ class MotivoIngresoModel extends MainModel{
         $motivos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
         $respuesta = [
             'tipo' => 'OK',
-            'motivos' => $motivos
+            'motivos_ingreso' => $motivos
         ];
         return $respuesta;
     }

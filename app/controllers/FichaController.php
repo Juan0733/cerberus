@@ -16,23 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     unset($_GET['operacion']);
 
-    $respuesta = $objetoUsuario->validarTiempoSesion();
-    if($respuesta['tipo'] == 'ERROR'){
-        echo json_encode($respuesta);
-        exit();
-    }
-
-    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
-    if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-        return $respuesta;
-        
-    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
-        header('Location: ../../acceso-denegado');
-        exit();
-    }
-
     if($operacion == 'consultar_fichas'){
-
         echo json_encode($objetoFicha->consultarFichas());
 
     }elseif($operacion == 'consultar_ficha'){

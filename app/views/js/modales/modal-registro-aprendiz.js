@@ -102,7 +102,7 @@ function dibujarFichas(){
                     `
             });
 
-        }else if(respuesta.tipo == 'ERROR'){
+        }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Datos No Encontrados'){
             alertaError(respuesta);
         }
     })
@@ -119,7 +119,7 @@ function eventoInputFicha(){
                 inputPrograma.value = respuesta.datos_ficha.nombre_programa;
                 inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
 
-            }else{
+            }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Ficha No Encontrada'){
                 alertaError(respuesta);
             }
         })

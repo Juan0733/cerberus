@@ -1,4 +1,4 @@
-<?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-visitantes'): ?>
+<?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-aprendices' && $url[0] != 'auto-registro-visitantes' && $url[0] != 'auto-registro-vigilantes' && $url[0] != 'auto-registro-funcionarios'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/menu-lateral.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteos-multitud-brigadistas.js"></script>
 
@@ -11,7 +11,19 @@
 
 <?php endif; ?>
 
-<?php if($url[0] == 'login'): ?>
+<?php if($url[0] == 'auto-registro-visitantes'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-visitantes.js"></script>
+
+<?php elseif($url[0] == 'auto-registro-aprendices'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-aprendices.js"></script>
+
+<?php elseif($url[0] == 'auto-registro-funcionarios'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-funcionarios.js"></script>
+
+<?php elseif($url[0] == 'auto-registro-vigilantes'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-vigilantes.js"></script>
+
+<?php elseif($url[0] == 'login'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-login/login.js"></script>
 
 <?php elseif($url[0] == 'inicio'): ?>

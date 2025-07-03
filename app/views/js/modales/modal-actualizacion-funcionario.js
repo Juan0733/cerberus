@@ -251,7 +251,7 @@ function eventoSelectContrato(){
     const cajaFecha = document.getElementById('input_caja_fecha');
 
     selectTipoContrato.addEventListener('change', ()=>{
-        if(selectTipoContrato.value == 'contratista'){
+        if(selectTipoContrato.value == 'CONTRATISTA'){
             inputFechaContrato.required = true;
             inputFechaContrato.classList.add('campo-seccion-02');
             cajaFecha.style.display = 'block';

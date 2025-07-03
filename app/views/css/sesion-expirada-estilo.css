@@ -1,22 +1,19 @@
-/* (spinner) */
-#contenedor_spinner {
-    display: none !important;
+#gran_padre_sesion_expirada{   
+    background: url('../img/fondo-login.png') left center / cover no-repeat;
+    display: grid;
+    margin: 0;
+    min-height: 100vh;
+    padding: 0;
+    position: relative;
+    place-items: center;
+    width: 100%;
 }
 
-/* Fondo general */
-body {
-    margin: 0;
-    padding: 0;
-    background: url('../img/fondo-login.png') no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-    text-align: center;
-}
+    #gran_padre_sesion_expirada #contenedor_ppal_sesion_expirada{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
 
 h1 {
     font-size: 60px;

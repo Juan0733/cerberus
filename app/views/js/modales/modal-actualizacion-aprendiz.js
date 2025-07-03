@@ -160,10 +160,10 @@ function eventoInputFicha(){
     inputFicha.addEventListener('change', ()=>{
         consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
-                inputNombrePrograma.value = respuesta.datos_ficha.nombre_programa;
+                inputPrograma.value = respuesta.datos_ficha.nombre_programa;
                 inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
 
-            }else{
+            }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Ficha No Encontrada'){
                 alertaError(respuesta);
             }
         })

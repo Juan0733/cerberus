@@ -28,7 +28,7 @@
 
                     <div class="input-caja-registro">
                         <label for="numero_documento" class="label-input">Número de documento</label>
-                        <input type="text" class="campo campo-seccion-01" name="numero_documento" id="numero_documento" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 10" placeholder="Ej: 123456Dil" tabindex="2" >
+                        <input type="text" inputmode="numeric" class="campo campo-seccion-01" name="numero_documento" id="numero_documento" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 10" placeholder="Ej: 123456Dil" tabindex="2" >
                     </div>
                 
                     <div class="input-caja-registro">

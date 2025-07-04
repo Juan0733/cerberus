@@ -19,6 +19,7 @@ h1 {
     font-size: 60px;
     color: var(--color-secundario);
     margin: 0;
+    text-align: center;
 }
 
 /* Mensaje */
@@ -26,6 +27,7 @@ p {
     font-size: 28px;
     color: white;
     margin: 15px 0 30px;
+    text-align: center;
 }
 
 /* Botón OK */

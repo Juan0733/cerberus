@@ -48,7 +48,7 @@ class VisitanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}",
                 'cadena' => $motivoIngreso
             ]
 		];

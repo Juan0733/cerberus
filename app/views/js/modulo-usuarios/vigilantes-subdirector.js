@@ -91,6 +91,7 @@ function dibujarTablaVigilantes(){
 }
 
 function dibujarCardsVigilantes(){
+    cuerpoTabla = '';
     consultarVigilantes(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -321,5 +322,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoRol();
     eventoCrearVigilante();
     validarResolucion();
-    
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-vigilante')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

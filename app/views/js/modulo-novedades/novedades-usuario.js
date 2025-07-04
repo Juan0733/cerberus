@@ -79,6 +79,7 @@ function dibujarTablaNovedades(){
 }
 
 function dibujarCardsNovedades(){
+    cuerpoTabla = '';
     consultarNovedadesUsuario(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -181,4 +182,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoTipoNovedad();
     eventoFecha();
     validarResolucion();
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-novedad-usuario')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

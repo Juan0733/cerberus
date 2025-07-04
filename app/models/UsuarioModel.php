@@ -302,7 +302,6 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
-
     public function conteoTipoUsuario(){
         $tablas = ['aprendices', 'funcionarios', 'visitantes', 'vigilantes'];
         $usuarios = [];

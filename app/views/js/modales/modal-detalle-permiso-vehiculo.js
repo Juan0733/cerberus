@@ -67,7 +67,7 @@ function dibujarPermiso() {
             document.getElementById('solicitante').textContent = datosPermiso.nombres_solicitante+' '+datosPermiso.apellidos_solicitante;
             document.getElementById('tipo_vehiculo').textContent = formatearString(datosPermiso.tipo_vehiculo);
             document.getElementById('numero_placa').textContent = datosPermiso.fk_vehiculo;
-            document.getElementById('propietario').textContent = datosPermiso.nombres_propietario + datosPermiso.apellidos_propietario;
+            document.getElementById('propietario').textContent = datosPermiso.nombres_propietario+' '+datosPermiso.apellidos_propietario;
             document.getElementById('fecha_registro').textContent = formatearFecha(datosPermiso.fecha_registro);
             document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
             

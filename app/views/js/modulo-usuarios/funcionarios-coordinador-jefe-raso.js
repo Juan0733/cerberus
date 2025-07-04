@@ -76,6 +76,7 @@ function dibujarTablaFuncionarios(){
 }
 
 function dibujarCardsFuncionarios(){
+    cuerpoTabla = '';
     consultarFuncionarios(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -179,4 +180,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoRol();
     validarResolucion();
     
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-funcionario')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

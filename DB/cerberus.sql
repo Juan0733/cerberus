@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-07-2025 a las 07:48:11
+-- Tiempo de generación: 04-07-2025 a las 04:22:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -255,7 +255,7 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(30, 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '1234567890', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-06-27 05:38:32', '2025-07-03 00:46:50', 'FUERA', 'ACTIVO');
+(30, 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '1234567890', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-06-27 05:38:32', '2025-07-03 21:20:19', 'FUERA', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -298,6 +298,17 @@ CREATE TABLE `movimientos` (
   `grupo_usuario` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `movimientos`
+--
+
+INSERT INTO `movimientos` (`contador`, `tipo_movimiento`, `fk_usuario`, `fk_vehiculo`, `relacion_vehiculo`, `puerta_registro`, `observacion`, `fecha_registro`, `fk_usuario_sistema`, `grupo_usuario`) VALUES
+(116, 'ENTRADA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 18:58:06', '123456789', 'visitantes'),
+(117, 'ENTRADA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 18:58:42', '123456789', 'visitantes'),
+(118, 'ENTRADA', '111481361', 'ASD123', 'PROPIETARIO', 'PEATONAL', 'NULL', '2025-07-02 19:01:59', '123456789', 'visitantes'),
+(119, 'SALIDA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 19:02:23', '123456789', 'visitantes'),
+(120, 'SALIDA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 19:03:05', '123456789', 'visitantes');
+
 -- --------------------------------------------------------
 
 --
@@ -316,6 +327,14 @@ CREATE TABLE `novedades_usuarios` (
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `novedades_usuarios`
+--
+
+INSERT INTO `novedades_usuarios` (`contador`, `codigo_novedad`, `tipo_novedad`, `puerta_suceso`, `puerta_registro`, `descripcion`, `fk_usuario`, `fecha_suceso`, `fecha_registro`, `fk_usuario_sistema`) VALUES
+(33, 'NU20250703185835', 'SALIDA NO REGISTRADA', 'PEATONAL', 'PEATONAL', 'No se le registro la salida', '1114813615', '2025-07-03 18:58:00', '2025-07-03 18:58:35', '123456789'),
+(34, 'NU20250703190302', 'ENTRADA NO REGISTRADA', 'PEATONAL', 'PEATONAL', 'No se le registro la entrada', '1114813615', '2025-07-03 19:02:00', '2025-07-03 19:03:02', '123456789');
 
 -- --------------------------------------------------------
 
@@ -356,6 +375,13 @@ CREATE TABLE `permisos_usuarios` (
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `permisos_usuarios`
+--
+
+INSERT INTO `permisos_usuarios` (`contador`, `codigo_permiso`, `tipo_permiso`, `fk_usuario`, `descripcion`, `fecha_fin_permiso`, `fecha_registro`, `fecha_atencion`, `fk_usuario_atencion`, `estado_permiso`, `fk_usuario_sistema`) VALUES
+(12, 'PU20250703191922', 'PERMANENCIA', '111481361', 'Requiere permiso para finalizar un trabajo dentro del cab', '2025-07-04 19:07:00', '2025-07-03 19:19:22', '2025-07-03 20:50:31', '1234567892', 'APROBADO', '123456789');
+
 -- --------------------------------------------------------
 
 --
@@ -376,6 +402,13 @@ CREATE TABLE `permisos_vehiculos` (
   `estado_permiso` varchar(11) NOT NULL DEFAULT 'PENDIENTE',
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `permisos_vehiculos`
+--
+
+INSERT INTO `permisos_vehiculos` (`contador`, `codigo_permiso`, `tipo_permiso`, `fk_vehiculo`, `fk_usuario`, `descripcion`, `fecha_fin_permiso`, `fecha_registro`, `fecha_atencion`, `fk_usuario_atencion`, `estado_permiso`, `fk_usuario_sistema`) VALUES
+(5, 'PV20250703192530', 'PERMANENCIA', 'ASD123', '111481361', 'Requiere permiso por falla mecánica del vehículo', '2025-07-04 19:19:00', '2025-07-03 19:25:30', NULL, NULL, 'PENDIENTE', '123456789');
 
 -- --------------------------------------------------------
 
@@ -570,6 +603,13 @@ CREATE TABLE `vehiculos` (
   `ubicacion` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `vehiculos`
+--
+
+INSERT INTO `vehiculos` (`contador`, `tipo_vehiculo`, `numero_placa`, `fk_usuario`, `fecha_registro`, `fk_usuario_sistema`, `ubicacion`) VALUES
+(66, 'AUTOMÓVIL', 'ASD123', '111481361', '2025-07-03 19:01:50', '123456789', 'DENTRO');
+
 -- --------------------------------------------------------
 
 --
@@ -597,7 +637,7 @@ CREATE TABLE `vigilantes` (
 --
 
 INSERT INTO `vigilantes` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `contrasena`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(21, 'CC', '12345678884', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'JEFE VIGILANTES', 'NULL', '2025-07-03 00:37:33', '0000-00-00 00:00:00', 'FUERA', 'INACTIVO');
+(22, 'CC', '123456789', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'JEFE VIGILANTES', '25d55ad283aa400af464c76d713c07ad', '2025-07-03 18:57:36', '2025-07-03 21:10:16', 'FUERA', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -742,7 +782,7 @@ INSERT INTO `visitantes` (`contador`, `tipo_documento`, `numero_documento`, `nom
 (406, 'CE', '1234568009', 'Daniel', 'Ramos', '1234568007', 'daniel@gmail.com', 'Dfdfdfdf', '2025-07-02 17:14:23', 'FUERA'),
 (407, 'CE', '1234568010', 'Daniel', 'Ramos', '1234568008', 'daniel@gmail.com', 'Dfdfdfdf', '2025-07-02 17:14:23', 'FUERA'),
 (408, 'CE', '1114813615', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Matricula', '2025-07-02 23:42:29', 'FUERA'),
-(409, 'CC', '111481361', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-07-02 23:55:01', 'FUERA');
+(409, 'CC', '111481361', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-07-02 23:55:01', 'DENTRO');
 
 --
 -- Índices para tablas volcadas
@@ -882,13 +922,13 @@ ALTER TABLE `motivos_ingreso`
 -- AUTO_INCREMENT de la tabla `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades_usuarios`
 --
 ALTER TABLE `novedades_usuarios`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades_vehiculos`
@@ -900,13 +940,13 @@ ALTER TABLE `novedades_vehiculos`
 -- AUTO_INCREMENT de la tabla `permisos_usuarios`
 --
 ALTER TABLE `permisos_usuarios`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos_vehiculos`
 --
 ALTER TABLE `permisos_vehiculos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `roles_permisos`
@@ -918,13 +958,13 @@ ALTER TABLE `roles_permisos`
 -- AUTO_INCREMENT de la tabla `vehiculos`
 --
 ALTER TABLE `vehiculos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `vigilantes`
 --
 ALTER TABLE `vigilantes`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `visitantes`

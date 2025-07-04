@@ -1,5 +1,6 @@
 import { consultarPermisosVehiculos} from '../fetchs/permisos-vehiculos-fetch.js';
 import { modalDetallePermisoVehiculo } from '../modales/modal-detalle-permiso-vehiculo.js';
+import { modalRegistroPermisoVehiculo } from '../modales/modal-registro-permiso-vehiculo.js';
 
 let urlBase;
 let codigoPermiso;
@@ -85,6 +86,7 @@ function dibujarTablaPermisos(){
 }
 
 function dibujarCardsPermisos(){
+    cuerpoTabla = '';
     consultarPermisosVehiculos(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -217,4 +219,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoEstadoPermiso();
     eventoCrearPermisoVehiculo();
     validarResolucion();
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-vehiculo')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

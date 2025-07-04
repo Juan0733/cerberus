@@ -76,7 +76,7 @@ function eventoCerrarSesion(){
     document.getElementById('cerrar_sesion').addEventListener('click', ()=>{
         cerrarSesion(urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
-                window.location.replace('login');
+                window.location.replace(urlBase+'login');
             }
         })
     })

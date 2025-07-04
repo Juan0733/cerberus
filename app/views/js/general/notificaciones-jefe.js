@@ -113,13 +113,13 @@ function eventoSolicitarPermisoPermanenciaUsuario(){
             }else if(estadoPermiso == 'PENDIENTE'){
                 alertaError({
                     titulo: 'Permiso Pendiente',
-                    mensaje: 'Lo sentimos, pero este usuario ya tiene una solictud de permanencia en estado pendiente.'
+                    mensaje: 'Lo sentimos, pero este usuario tiene una solicitud de permanencia que se encuentra en estado pendiente.'
                 })
 
             }else if(estadoPermiso == 'DESAPROBADO'){
                 alertaError({
                     titulo: 'Permiso Desaprobado',
-                    mensaje: 'Lo sentimos, pero la solicitud de permanencia de este usuario previamente solicitada, ha sido desaprobada.'
+                    mensaje: 'Lo sentimos, pero la última solictud de permanencia de este usuario, ha sido desaprobada.'
                 })
             }
            
@@ -140,13 +140,13 @@ function eventoSolicitarPermisoPermanenciaVehiculo(){
             }else if(estadoPermiso == 'PENDIENTE'){
                 alertaError({
                     titulo: 'Permiso Pendiente',
-                    mensaje: 'Lo sentimos, pero este vehículo ya tiene una solictud de permanencia en estado pendiente.'
+                    mensaje: 'Lo sentimos, pero este vehículo tiene una solicitud de permanencia que se encuentra en estado pendiente.'
                 })
 
             }else if(estadoPermiso == 'DESAPROBADO'){
                 alertaError({
                     titulo: 'Permiso Desaprobado',
-                    mensaje: 'Lo sentimos, pero la solicitud de permanencia de este vehículo previamente solicitada, ha sido desaprobada.'
+                    mensaje: 'Lo sentimos, pero la última solictud de permanencia de este vehiculo, ha sido desaprobada.'
                 })
             }
            

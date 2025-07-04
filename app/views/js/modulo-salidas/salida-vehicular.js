@@ -327,7 +327,7 @@ function eventoTextArea(){
     observacion.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{0,100}$/;
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{0,100}$/;
     
             if (!patron.test(observacion.value)){
 

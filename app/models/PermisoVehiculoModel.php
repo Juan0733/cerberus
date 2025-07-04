@@ -5,20 +5,17 @@ namespace app\models;
 class PermisoVehiculoModel extends MainModel{
     private $objetoUsuario;
     private $objetoVehiculo;
+    private $objetoMovimiento;
     
 
     public function __construct() {
         $this->objetoUsuario = new UsuarioModel();
         $this->objetoVehiculo = new VehiculoModel();
+        $this->objetoMovimiento = new MovimientoModel();
     }
 
     public function registrarPermisoVehiculo($datosPermiso){
-        $respuesta = $this->objetoUsuario->consultarUsuario($datosPermiso['numero_documento']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
-        $respuesta = $this->objetoVehiculo->consultarPropietarioVehiculo($datosPermiso['numero_placa'], $datosPermiso['numero_documento']);
+        $respuesta = $this->validarVehiculoAptoPermiso($datosPermiso['numero_documento'], $datosPermiso['numero_placa'],$datosPermiso['tipo_permiso']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -40,6 +37,69 @@ class PermisoVehiculoModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Registro Exitoso',
             'mensaje' => 'El permiso se registro correctamente.',
+        ];
+        return $respuesta;
+    }
+    
+    private function validarVehiculoAptoPermiso($documento, $placa, $tipoPermiso){
+        $respuesta = $this->objetoUsuario->consultarUsuario($documento);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoVehiculo->consultarPropietarioVehiculo($placa, $documento);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $vehiculo = $respuesta['datos_vehiculo'];
+        if($vehiculo['ubicacion'] == 'FUERA'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Ubicación Incorrecta',
+                'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el vehículo no se encuentra dentro del CAB.'
+            ];
+            return $respuesta;
+        }
+
+        if($tipoPermiso == 'PERMANENCIA'){
+            $respuesta = $this->consultarUltimoPermisoVehiculo($placa);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }else if($respuesta['tipo'] == 'OK'){
+                $permiso = $respuesta['datos_permiso'];
+                if($permiso['estado_permiso'] == 'PENDIENTE'){
+                    $respuesta = [
+                        'tipo' => 'ERROR',
+                        'titulo'=> 'Permiso Pendiente',
+                        'mensaje' => 'Lo sentimos, pero este vehículo tiene una solicitud de permanencia que se encuentra en estado pendiente.'
+                    ];
+                    return $respuesta;
+
+                }elseif($permiso['estado_permiso'] == 'DESAPROBADO'){
+                    $respuesta = $this->objetoMovimiento->consultarUltimoMovimientoVehiculo($placa);
+                    if($respuesta['tipo'] == 'ERROR'){
+                        return $respuesta;
+                    }
+
+                    $moviento = $respuesta['datos_movimiento'];
+                    if($permiso['fecha_registro'] > $moviento['fecha_registro']){
+                        $respuesta = [
+                            'tipo' => 'ERROR',
+                            'titulo'=> 'Permiso Desaprobado',
+                            'mensaje' => 'Lo sentimos, pero la última solictud de permanencia de este vehículo, ha sido desaprobada.'
+                        ];
+                        return $respuesta;
+                    }
+                }
+            }
+        }
+
+         $respuesta = [
+            'tipo' => 'OK',
+            'titulo'=> 'Vehículo Apto',
+            'mensaje' => 'El vehículo es apto para registrarle un permiso.'
         ];
         return $respuesta;
     }
@@ -114,6 +174,36 @@ class PermisoVehiculoModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Desaprobación Exitosa',
             'mensaje' => 'El permiso fue desaprobado exitosamente.'
+        ];
+        return $respuesta;
+    }
+
+    private function consultarUltimoPermisoVehiculo($vehiculo){
+        $sentenciaBuscar = "
+            SELECT estado_permiso, fecha_registro
+            FROM permisos_vehiculos
+            WHERE fk_vehiculo = '$vehiculo'
+            ORDER BY fecha_registro DESC LIMIT 1;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Permiso No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del permiso solicitado.'
+            ];
+            return $respuesta;
+        }
+
+        $permiso = $respuestaSentencia->fetch_assoc();
+        $respuesta = [
+            'tipo' => 'OK',
+            'datos_permiso' => $permiso
         ];
         return $respuesta;
     }

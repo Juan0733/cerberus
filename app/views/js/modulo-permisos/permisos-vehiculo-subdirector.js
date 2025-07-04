@@ -93,6 +93,7 @@ function dibujarTablaPermisos(){
 }
 
 function dibujarCardsPermisos(){
+    cuerpoTabla = '';
     consultarPermisosVehiculos(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -332,4 +333,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoFecha();
     eventoEstadoPermiso();
     validarResolucion();
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-vehiculo')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

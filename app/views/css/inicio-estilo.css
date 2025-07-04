@@ -39,7 +39,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             overflow-y: auto;
-            overflow-x: hidden;
+            overflow-x: auto;
             gap: 2em;
             grid-auto-rows: min-content;
             width: 100%;
@@ -48,6 +48,7 @@
         #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards::-webkit-scrollbar{
             background: transparent;
             width: 8px;
+            height: 8px;
         }
 
         #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards::-webkit-scrollbar-thumb{
@@ -65,7 +66,7 @@
                 margin: 0 auto;
                 padding: 1em;
                 row-gap: 10px;
-                width: clamp(280px, 85%, 600px);
+                width: clamp(250px, 85%, 600px);
             }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud *{

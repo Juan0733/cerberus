@@ -67,6 +67,7 @@ function dibujarTablaVehiculos(){
 }
 
 function dibujarCardsVehiculos(){
+    cuerpoTabla = '';
     consultarVehiculos(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -158,5 +159,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoBuscarDocumento();
     eventoBuscarPlaca();
     validarResolucion();
-    
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-vehiculo')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

@@ -37,7 +37,7 @@ class PermisoVehiculoService{
                 'cadena' => $fechaFinPermiso
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}",
                 'cadena' => $descripcion	
             ]
         ];

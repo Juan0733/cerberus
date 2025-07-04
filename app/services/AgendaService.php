@@ -33,7 +33,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -121,7 +121,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}",
                 'cadena' => $motivo
             ],
             [
@@ -185,7 +185,7 @@ class AgendaService{
                 'cadena' => $titulo
             ],
             [
-                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}",
+                'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}",
                 'cadena' => $motivo
             ],
             [

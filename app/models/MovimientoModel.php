@@ -347,6 +347,64 @@ class MovimientoModel extends MainModel{
         return $respuesta;
     }
 
+    public function consultarUltimoMovimientoUsuario($usuario){
+        $sentenciaBuscar = "
+            SELECT fecha_registro
+            FROM movimientos
+            WHERE fk_usuario = '$usuario'
+            ORDER BY fecha_registro DESC LIMIT 1;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Movimiento No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del movimiento solicitado.'
+            ];
+            return $respuesta;
+        }
+
+        $movimiento = $respuestaSentencia->fetch_assoc();
+        $respuesta = [
+            'tipo' => 'OK',
+            'datos_moviento' => $movimiento
+        ];
+    }
+
+    public function consultarUltimoMovimientoVehiculo($vehiculo){
+        $sentenciaBuscar = "
+            SELECT fecha_registro
+            FROM movimientos
+            WHERE fk_vehiculo = '$vehiculo'
+            ORDER BY fecha_registro DESC LIMIT 1;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Movimiento No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del movimiento solicitado.'
+            ];
+            return $respuesta;
+        }
+
+        $movimiento = $respuestaSentencia->fetch_assoc();
+        $respuesta = [
+            'tipo' => 'OK',
+            'datos_moviento' => $movimiento
+        ];
+    }
+
     public function consultarMovimientos($parametros){
         $sentenciaBuscar = "
             SELECT 

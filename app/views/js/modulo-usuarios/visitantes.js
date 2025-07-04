@@ -12,6 +12,7 @@ const parametros = {
 }
 
 function validarResolucion(){
+    
     if(window.innerWidth >= 1024){
         dibujarTablaVisitantes();
     }else{
@@ -74,6 +75,7 @@ function dibujarTablaVisitantes(){
 }
 
 function dibujarCardsVisitantes(){
+    cuerpoTabla = '';
     consultarVisitantes(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -178,5 +180,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoUbicacion();
     eventoCrearVisitante();
     validarResolucion();
-    
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-visitante')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

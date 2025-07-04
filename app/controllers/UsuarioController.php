@@ -82,6 +82,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	}elseif ($operacion == 'cerrar_sesion') {
 		echo  json_encode($objetoUsuario->cerrarSesion());
 	}
-}else{
-	echo "no post". $_SERVER['REQUEST_METHOD'];
 }

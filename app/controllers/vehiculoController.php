@@ -120,6 +120,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 		echo json_encode($objetoVehiculo->consultarNotificacionesVehiculo());
 	}
 	
-}else{
-	echo "no post". $_SERVER['REQUEST_METHOD'];
 }

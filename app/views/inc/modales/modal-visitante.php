@@ -45,7 +45,7 @@
             
                 <div class="input-caja-registro seccion-02">
                     <label for="motivo_ingreso" class="label-input">Motivo ingreso</label>
-                    <input class="campo" type="text" name="motivo_ingreso" id="motivo_ingreso" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}" maxlength="100" minlength="5" placeholder="Ej: Matricula" title="Debes digitar solo letras y números, mínimo 5 y máximo 100 caracteres." tabindex="7" date="Motivo ingreso" required>
+                    <input class="campo" type="text" name="motivo_ingreso" id="motivo_ingreso" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}" maxlength="100" minlength="5" placeholder="Ej: Matricula" title="Debes digitar solo letras y números, mínimo 5 y máximo 100 caracteres." tabindex="7" date="Motivo ingreso" required>
                 </div>
             </div>
             

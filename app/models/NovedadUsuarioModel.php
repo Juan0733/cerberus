@@ -11,12 +11,13 @@ class NovedadUsuarioModel extends MainModel{
     }
 
     public function registrarNovedadUsuario($datosNovedad){
-        $respuesta = $this->objetoUsuario->consultarUsuario($datosNovedad['numero_documento']);
+        $respuesta = $this->validarUsuarioAptoNovedad($datosNovedad['numero_documento'], $datosNovedad['tipo_novedad']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
+        
+        $tablaUsuario = $respuesta['tabla_usuario'];
 
-        $tablaUsuario = $respuesta['usuario']['grupo'];
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
@@ -43,8 +44,46 @@ class NovedadUsuarioModel extends MainModel{
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Registro Éxitoso',
+            'titulo' => 'Registro Exitoso',
             'mensaje' => 'La novedad fue registrada correctamente',
+        ];
+        return $respuesta;
+    }
+
+    private function validarUsuarioAptoNovedad($usuario, $tipoNovedad){
+        $respuesta = $this->objetoUsuario->consultarUsuario($usuario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $usuario = $respuesta['usuario'];
+
+        if($tipoNovedad == 'ENTRADA NO REGISTRADA'){
+            if($usuario['ubicacion'] == 'DENTRO'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Ubicación Incorrecta',
+                    'mensaje' => 'Lo sentimos, pero no es posible registrar la novedad, el usuario se encuentra dentro del CAB.'
+                ];
+                return $respuesta;
+            }
+
+        }elseif($tipoNovedad == 'SALIDA NO REGISTRADA'){
+            if($usuario['ubicacion'] == 'FUERA'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Ubicación Incorrecta',
+                    'mensaje' => 'Lo sentimos, pero no es posible registrar la novedad, el usuario no se encuentra dentro del CAB.'
+                ];
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Usuario Apto',
+            'mensaje' => 'El usuario es apto para registrarle una novedad.',
+            'tabla_usuario' => $usuario['grupo']
         ];
         return $respuesta;
     }

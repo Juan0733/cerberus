@@ -98,17 +98,23 @@ function eventoCerrarModal(){
 function eventoInputPlaca(){
     let temporizador;
     
-    inputPlaca.addEventListener('input', ()=>{
+    inputPlaca.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
-        temporizador = setTimeout(dibujarPropietarios, 500)
+        temporizador = setTimeout(()=>{
+            if(inputPlaca.checkValidity()){
+                dibujarPropietarios();
+
+            }else{
+                inputPlaca.reportValidity();
+            }
+            
+        }, 1500)
     })
 }
 
 function dibujarPropietarios(){
     const selectPropietario = document.getElementById('propietario');
     selectPropietario.innerHTML += '<option value="" disabled selected>Seleccionar</option>'
-
-    console.log(urlBase);
 
     consultarPropietarios(inputPlaca.value, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
@@ -118,6 +124,9 @@ function dibujarPropietarios(){
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
+
+            }else if(respuesta.titulo == 'Datos No Encontrados'){
+                alertaError(respuesta);
 
             }else{
                 botonCerrarModal.click();
@@ -162,7 +171,7 @@ function eventoTextArea(){
     textAreaDescripcion.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,150}$/;
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}$/;
     
             if (!patron.test(textAreaDescripcion.value)){
 

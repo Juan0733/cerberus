@@ -93,6 +93,7 @@ function dibujarTablaVigilantes(){
 }
 
 function dibujarCardsVigilantes(){
+    cuerpoTabla = '';
     consultarVigilantes(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -314,7 +315,6 @@ function alertaAdvertencia(respuesta){
     });
 }
 
-
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
@@ -325,4 +325,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoCrearVigilante();
     validarResolucion();
     
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-vigilante')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

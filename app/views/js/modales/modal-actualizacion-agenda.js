@@ -156,7 +156,7 @@ function eventoTextArea(){
     textAreaMotivo.addEventListener('keyup', ()=>{
         clearTimeout(temporizador);
         temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}$/;
+            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,100}$/;
     
             if (!patron.test(textAreaMotivo.value)){
 

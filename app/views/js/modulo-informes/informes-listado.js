@@ -77,6 +77,7 @@ function dibujarTablaMovimientos(){
 }
 
 function dibujarCardsMovimientos(){
+    cuerpoTabla = '';
     consultarMovimientos(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -208,4 +209,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoGenerarInforme();
     validarResolucion();
     
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-movimiento')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

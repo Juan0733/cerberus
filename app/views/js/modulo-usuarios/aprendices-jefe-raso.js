@@ -75,6 +75,7 @@ function dibujarTablaAprendices(){
 }
 
 function dibujarCardsAprendices(){
+    cuerpoTabla = '';
     consultarAprendices(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -165,4 +166,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoUbicacion();
     eventoBuscarFicha();
     validarResolucion();
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-aprendiz')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

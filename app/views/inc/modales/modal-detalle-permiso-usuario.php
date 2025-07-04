@@ -9,11 +9,11 @@
                 <h3>Tipo Permiso:</h3>
                 <p id="tipo_permiso"></p>
             </div>
-            <div>
+            <div class='caja'>
                 <h3>Solicitante:</h3>
                 <p id="solicitante"></p>
             </div>
-            <div>
+            <div class='caja'>
                 <h3>Beneficario:</h3>
                 <p id="beneficiario"></p>
             </div>

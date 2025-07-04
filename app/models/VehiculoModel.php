@@ -147,10 +147,12 @@ class VehiculoModel extends MainModel {
             return $respuesta;
         }
 
+        $vehiculo = $respuestaSentencia->fetch_assoc();
         $respuesta = [
             "tipo" => "OK",
             'titulo' => "Vehículo Encontrado",
-            "mensaje" => "El vehículo se encuentra registrado en el sistema."
+            "mensaje" => "El vehículo se encuentra registrado en el sistema.",
+            'datos_vehiculo' => $vehiculo
         ];
         return $respuesta;
     }
@@ -181,7 +183,7 @@ class VehiculoModel extends MainModel {
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 "tipo"=>"ERROR",
-                "titulo" => 'Datos No encontrados',
+                "titulo" => 'Datos No Encontrados',
                 "mensaje"=> 'No se encontraron datos relacionados a la placa '.$placa
             ];
             return $respuesta;

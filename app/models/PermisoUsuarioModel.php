@@ -4,13 +4,15 @@ namespace app\models;
 
 class PermisoUsuarioModel extends MainModel{
     private $objetoUsuario;
+    private $objetoMovimiento;
 
     public function __construct() {
         $this->objetoUsuario = new UsuarioModel();
+        $this->objetoMovimiento = new MovimientoModel();
     }
 
     public function registrarPermisoUsuario($datosPermiso){
-        $respuesta = $this->objetoUsuario->consultarUsuario($datosPermiso['numero_documento']);
+        $respuesta = $this->validarUsuarioAptoPermiso($datosPermiso['numero_documento'], $datosPermiso['tipo_permiso']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -36,6 +38,64 @@ class PermisoUsuarioModel extends MainModel{
         return $respuesta;
     }
 
+    private function validarUsuarioAptoPermiso($documento, $tipoPermiso){
+        $respuesta = $this->objetoUsuario->consultarUsuario($documento);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $usuario = $respuesta['usuario'];
+        if($usuario['ubicacion'] == 'FUERA'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Ubicación Incorrecta',
+                'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el usuario no se encuentra dentro del CAB.'
+            ];
+            return $respuesta;
+        }
+
+        if($tipoPermiso == 'PERMANENCIA'){
+            $respuesta = $this->consultarUltimoPermisoUsuario($documento);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'OK'){
+                $permiso = $respuesta['datos_permiso'];
+                if($permiso['estado_permiso'] == 'PENDIENTE'){
+                    $respuesta = [
+                        'tipo' => 'ERROR',
+                        'titulo'=> 'Permiso Pendiente',
+                        'mensaje' => 'Lo sentimos, pero la última solictud de permanencia de este usuario, se encuentra en estado pendiente.'
+                    ];
+                    return $respuesta;
+
+                }elseif($permiso['estado_permiso'] == 'DESAPROBADO'){
+                    $respuesta = $this->objetoMovimiento->consultarUltimoMovimientoUsuario($documento);
+                    if($respuesta['tipo'] == 'ERROR'){
+                        return $respuesta;
+                    }
+
+                    $movimiento = $respuesta['datos_movimiento'];
+                    if($permiso['fecha_registro'] > $movimiento['fecha_registro']){
+                        $respuesta = [
+                            'tipo' => 'ERROR',
+                            'titulo'=> 'Permiso Desaprobado',
+                            'mensaje' => 'Lo sentimos, pero este usuario tiene una solicitud de permanencia que se encuentra en estado pendiente.'
+                        ];
+                        return $respuesta;
+                    }
+                }
+            }
+        }
+       
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo'=> 'Usuario Apto',
+            'mensaje' => 'El usuario es apto para registrarle un permiso.'
+        ];
+        return $respuesta;
+    }
+
     public function aprobarPermisoUsuario($codigoPermiso){
         $respuesta = $this->consultarPermisoUsuario($codigoPermiso);
         if($respuesta['tipo'] == 'ERROR'){
@@ -57,7 +117,7 @@ class PermisoUsuarioModel extends MainModel{
 
         $sentenciaActualizar = "
             UPDATE permisos_usuarios 
-            SET estado_permiso = 'APROBADO', fecha_atencion = '$fechaActual', fk_usuario_atencio = '$usuarioSistema'
+            SET estado_permiso = 'APROBADO', fecha_atencion = '$fechaActual', fk_usuario_atencion = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -73,7 +133,7 @@ class PermisoUsuarioModel extends MainModel{
         return $respuesta;
     }
 
-     public function desaprobarPermisoUsuario($codigoPermiso){
+    public function desaprobarPermisoUsuario($codigoPermiso){
         $respuesta = $this->consultarPermisoUsuario($codigoPermiso);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
@@ -106,6 +166,36 @@ class PermisoUsuarioModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Desaprobación Exitosa',
             'mensaje' => 'El permiso fue desaprobado exitosamente.'
+        ];
+        return $respuesta;
+    }
+
+    private function consultarUltimoPermisoUsuario($usuario){
+        $sentenciaBuscar = "
+            SELECT estado_permiso, fecha_registro
+            FROM permisos_usuarios
+            WHERE fk_usuario = '$usuario'
+            ORDER BY fecha_registro DESC LIMIT 1";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Permiso No Encontrado',
+                "mensaje"=> 'No se encontraron resultados del permiso solicitado.'
+            ];
+            return $respuesta;
+        }
+
+        $permiso = $respuestaSentencia->fetch_assoc();
+        $respuesta = [
+            'tipo' => 'OK',
+            'datos_permiso' => $permiso
         ];
         return $respuesta;
     }

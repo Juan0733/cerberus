@@ -73,7 +73,7 @@ function eventoAbrirModal(){
         contenedorModal.classList.add('mostrar');
     })
 
-    document.getElementById('btn_notificaciones').addEventListener('click', ()=>{
+    document.getElementById('btn_notificaciones_mobile').addEventListener('click', ()=>{
         contenedorModal.classList.add('mostrar');
     })
 }

@@ -85,6 +85,7 @@ function dibujarTablaPermisos(){
 }
 
 function dibujarCardsPermisos(){
+    cuerpoTabla = '';
     consultarPermisosUsuarios(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
@@ -211,4 +212,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoEstadoPermiso();
     eventoCrearPermisoUsuario();
     validarResolucion();
+
+    window.addEventListener('resize', ()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-usuario')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    });
 })

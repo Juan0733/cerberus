@@ -1,15 +1,11 @@
 <?php
 
-   spl_autoload_register(function ($clase) {
-    // Ruta base del proyecto (ajústala si es necesario)
-        $baseDir = dirname(__DIR__) . '/'; // sube un nivel desde /controllers
+    spl_autoload_register(function($clase){
 
-        // Convertir namespace a ruta
-        $archivo = $baseDir . str_replace('\\', '/', $clase) . '.php';
+        $archivo= __DIR__."/".$clase.".php";
+        $archivo=str_replace("\\","/",$archivo);
 
-        if (is_file($archivo)) {
+        if(is_file($archivo)){
             require_once $archivo;
-        } else {
-            error_log("❌ Clase no encontrada: $archivo");
-        }
+        } 
     });

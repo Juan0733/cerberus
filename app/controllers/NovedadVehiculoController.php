@@ -102,6 +102,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoNovedad->consultarNovedadVehiculo($respuesta['parametros']['codigo_novedad']));
     }
-}else{
-	echo "no post". $_SERVER['REQUEST_METHOD'];
 }

@@ -3,15 +3,11 @@
 namespace app\models;
 use \mysqli;
 
-if(file_exists(__DIR__."/../../config/server.php")){
-	require_once __DIR__."/../../config/server.php";
-}
-
 class MainModel{
 	private $conexion;
 
 	private function conectar(){
-		// mysqli_report(MYSQLI_REPORT_OFF);
+		mysqli_report(MYSQLI_REPORT_OFF);
 		
 		try {
 			$this->conexion = new mysqli("localhost", "root", "", "cerberus");

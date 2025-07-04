@@ -86,6 +86,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         echo json_encode($objetoVisitante->consultarVisitante($respuesta['parametros']['numero_documento']));
     }
 	
-}else{
-	echo "no post". $_SERVER['REQUEST_METHOD'];
 }

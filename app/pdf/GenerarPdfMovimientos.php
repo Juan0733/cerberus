@@ -113,7 +113,7 @@ class PDF extends tFPDF{
         $this->SetTextColor(255, 255, 255); 
         $this->SetDrawColor(255, 255, 255);
 
-        $anchoColumnas = [40, 30, 30, 30, 30, 30, 30, 30, 30]; 
+        $anchoColumnas = [40, 26, 26, 26, 30, 40, 40, 26, 26]; 
         $nombresColumnas = [
             "FECHA Y HORA", 
             "TIPO MOVIM.",
@@ -123,7 +123,7 @@ class PDF extends tFPDF{
             "NOMBRES", 
             "APELLIDOS", 
             "VEHÍCULO", 
-            "RELACION VEH."
+            "RELACIÓN VEH."
         ];
 
         // Imprime los encabezados
@@ -146,14 +146,14 @@ class PDF extends tFPDF{
 
             // Dibujar las celdas
             $this->Cell(40, 7, $dato['fecha_registro'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['tipo_movimiento'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['puerta_registro'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['tipo_documento'], 1, 0, 'C');
+            $this->Cell(26, 7, $dato['tipo_movimiento'], 1, 0, 'C');
+            $this->Cell(26, 7, $dato['puerta_registro'], 1, 0, 'C');
+            $this->Cell(26, 7, $dato['tipo_documento'], 1, 0, 'C');
             $this->Cell(30, 7, $dato['fk_usuario'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['nombres'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['apellidos'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['fk_vehiculo'], 1, 0, 'C');
-            $this->Cell(30, 7, $dato['relacion_vehiculo'], 1, 1, 'C'); // Última celda con salto de línea
+            $this->Cell(40, 7, $dato['nombres'], 1, 0, 'C');
+            $this->Cell(40, 7, $dato['apellidos'], 1, 0, 'C');
+            $this->Cell(26, 7, $dato['fk_vehiculo'], 1, 0, 'C');
+            $this->Cell(26, 7, $dato['relacion_vehiculo'], 1, 1, 'C'); // Última celda con salto de línea
         }
     }
 

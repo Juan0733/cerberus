@@ -155,12 +155,13 @@
 
                 .card-agenda .card-agenda-body .nombre{
                     margin-top: 10px;
+                    margin-bottom: 5px;
                 }
 
                 .card-agenda .card-agenda-body .contenedor-fecha-agenda{
                     display: flex;
                     justify-content: space-between;
-                    margin: 10px 0;
+                    margin: 15px 0;
                 }
 
                     .card-agenda-body .contenedor-fecha-agenda .fecha-agenda{

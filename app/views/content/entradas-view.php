@@ -18,7 +18,7 @@
                 <h1 class="titulo-formulario">Entrada Peatonal</h1>
                 <div class="input-caja">
                     <label for="documento_peaton">Número documento</label>
-                    <input type="text" class="campo" inputmode="numeric" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
+                    <input type="text" class="campo" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
                 </div>
                 <div class="input-caja">
                     <label for="observacion_peatonal">Observación</label>
@@ -44,7 +44,7 @@
 
                     <div class="input-caja">
                         <label for="documento_propietario">Propietario vehículo</label>
-                        <input type="text" class="campo" inputmode="numeric" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> 
+                        <input type="text" class="campo" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> 
                         <datalist id="lista_propietarios">
                         </datalist>
                     </div>  
@@ -53,7 +53,7 @@
                 <form action="" method="post" id='formulario_pasajeros' class="caja-flex">
                     <div class="input-caja">
                         <label for="documento_pasajero">Doc. Pasajero</label>
-                        <input type="text" class="campo" inputmode="numeric" name="documento_pasajero" id="documento_pasajero" pattern="[A-za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="3" required>
+                        <input type="text" class="campo" name="documento_pasajero" id="documento_pasajero" pattern="[A-za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="3" required>
                     </div>
 
                     <button type="submit" id="btn_agregar_pasajero">

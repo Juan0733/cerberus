@@ -16,7 +16,7 @@
 
                     <div id="caja_01" class="rotado">
                         <label for="" class="label-input">Numero de identificacion</label>
-                        <input type="text" class="campo" inputmode="number" name="num_id_usuario" id="num_id_usuario" placeholder="# Identificacion">
+                        <input type="text" class="campo" inputmode="numeric" name="num_id_usuario" id="num_id_usuario" placeholder="# Identificacion">
 
                     </div>
                     

@@ -404,7 +404,7 @@
     #contenedor_modales #modal_aprendiz{
         width: clamp(300px, 92.5%, 500px);
     }
-        #modal_vigilante #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
+        #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
             grid-template-columns: repeat(1, 1fr);
             padding: 1em;
             row-gap: 10px;

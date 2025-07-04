@@ -22,7 +22,7 @@
 
                 <div class="input-caja-registro">
                     <label for="documento_solicitante" class="label-input">Identificación del solicitante</label>
-                    <input type="text" class="campo" inputmode="numeric" name="documento_solicitante" id="documento_solicitante" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 números y máximo 15 números." placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
+                    <input type="text" class="campo" name="documento_solicitante" id="documento_solicitante" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 números y máximo 15 números." placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
                 </div>
                 
                 <div class="input-caja-registro">

@@ -27,7 +27,9 @@ function dibujarAgendas(){
                             <h1>${agenda.titulo}</h1>
                         </div>
                         <div class="card-agenda-body">
-                            <p class="nombre">${agenda.nombres_agendado} ${agenda.apellidos_agendado}</p>
+                            <strong><p class="nombre">Nombre:</p></strong> 
+                            <p>${agenda.nombres_agendado} ${agenda.apellidos_agendado}</p>
+
                             <div class="contenedor-fecha-agenda">
                                 <div>
                                     <strong><p class="fecha-agenda">Fecha Agenda:</p></strong>
@@ -38,10 +40,8 @@ function dibujarAgendas(){
                                     <strong><p class="fecha-agenda">Hora Agenda:</p></strong>
                                     <p>${fecha.hora_español}</p>
                                 </div>
-                                
                             </div>
                             <div class="contenedor-icons">
-                                
                                 <ion-icon class="eliminar" name="trash" data-codigo="${agenda.codigo_agenda}"></ion-icon>
                                 <ion-icon class="editar" name="create" data-codigo="${agenda.codigo_agenda}"></ion-icon>
                                 <ion-icon class="ver" name="reader" data-codigo="${agenda.codigo_agenda}"></ion-icon>

@@ -24,27 +24,48 @@ function dibujarNotificaciones(){
                         cuerpoModal.innerHTML = '';
 
                         notificacionesUsuario.forEach(notificacion => {
+                            let acciones;
+
+                            if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estadoPermiso == 'DESAPROBADO'){
+                                acciones = `
+                                    <button class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>
+                                    <button class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
+
+                            }else{
+                                acciones = `
+                                    <button class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}" data-estado-permiso="${notificacion.estado_permiso}">Solicitar permiso</button>
+                                    <button class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
+                            }
+
                             cuerpoModal.innerHTML += `
                                 <div class="contenedor-alerta">
                                     <div class="contenedor-mensaje-alerta">
                                         <h3>Permanencia Usuario</h3>
                                         <p>El usuario con número de documento <strong>${notificacion.numero_documento}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
                                         <div id="contenedor_btns_notificacion">
-                                            <button class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}" data-estado-permiso="${notificacion.estado_permiso}">Solicitar permiso</button>
-                                            <button class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>
+                                            ${acciones}
                                         </div>
                                     </div>
                                 </div>`
                         });
 
                         notificacionesVehiculo.forEach(notificacion => {
+                            let acciones;
+
+                            if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estado_permiso == 'DESAPROBADO'){
+                                acciones = `<button class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>`;
+
+                            }else{
+                                acciones = `<button class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}" data-estado-permiso="${notificacion.estado_permiso}">Solicitar permiso</button>`;
+                            }
+
                             cuerpoModal.innerHTML += `
                                 <div class="contenedor-alerta">
                                     <div class="contenedor-mensaje-alerta">
                                         <h3>Permanencia Vehículo</h3>
                                         <p>El vehículo con número de placa <strong>${notificacion.numero_placa}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
                                        <div id="contenedor_btns_notificacion">
-                                            <button class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}" data-estado-permiso="${notificacion.estado_permiso}">Solicitar permiso</button>
+                                            ${acciones}
                                         </div>
                                     </div>
                                 </div>`
@@ -53,10 +74,13 @@ function dibujarNotificaciones(){
                         eventoRegistrarNovedadUsuario();
                         eventoSolicitarPermisoPermanenciaUsuario();
                         eventoSolicitarPermisoPermanenciaVehiculo();
+                        eventoVerPermisoUsuario();
+                        eventoVerPermisoVehiculo();
 
                     }else if(notificacionesUsuario.length < 1 && notificacionesVehiculo.length < 1){
                         cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones en este momento.</p>`;
                     }
+
                 }else if(respuesta.tipo == 'ERROR'){
                     cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
                 }
@@ -105,24 +129,8 @@ function eventoSolicitarPermisoPermanenciaUsuario(){
 
     botonesPermiso.forEach(boton => {
         let usuario = boton.getAttribute('data-usuario');
-        let estadoPermiso = boton.getAttribute('data-estado-permiso');
         boton.addEventListener('click', ()=>{
-            if(estadoPermiso != 'PENDIENTE' && estadoPermiso != 'DESAPROBADO'){
-                modalRegistroPermisoUsuario(urlBase, 'PERMANENCIA', usuario, dibujarNotificaciones);
-
-            }else if(estadoPermiso == 'PENDIENTE'){
-                alertaError({
-                    titulo: 'Permiso Pendiente',
-                    mensaje: 'Lo sentimos, pero este usuario tiene una solicitud de permanencia que se encuentra en estado pendiente.'
-                })
-
-            }else if(estadoPermiso == 'DESAPROBADO'){
-                alertaError({
-                    titulo: 'Permiso Desaprobado',
-                    mensaje: 'Lo sentimos, pero la última solictud de permanencia de este usuario, ha sido desaprobada.'
-                })
-            }
-           
+            modalRegistroPermisoUsuario(urlBase, 'PERMANENCIA', usuario, dibujarNotificaciones);
         })
     });
 }
@@ -132,24 +140,30 @@ function eventoSolicitarPermisoPermanenciaVehiculo(){
 
     botonesPermiso.forEach(boton => {
         let vehiculo = boton.getAttribute('data-vehiculo');
-        let estadoPermiso = boton.getAttribute('data-estado-permiso');
         boton.addEventListener('click', ()=>{
-            if(estadoPermiso != 'PENDIENTE' && estadoPermiso != 'DESAPROBADO'){
-                modalRegistroPermisoVehiculo(urlBase, 'PERMANENCIA', vehiculo, dibujarNotificaciones);
+            modalRegistroPermisoVehiculo(urlBase, 'PERMANENCIA', vehiculo, dibujarNotificaciones);
+        })
+    });
+}
 
-            }else if(estadoPermiso == 'PENDIENTE'){
-                alertaError({
-                    titulo: 'Permiso Pendiente',
-                    mensaje: 'Lo sentimos, pero este vehículo tiene una solicitud de permanencia que se encuentra en estado pendiente.'
-                })
+function eventoVerPermisoUsuario(){
+    const botonesVerPermisoUsuario = contenedorModal.querySelectorAll('.btn-ver-permiso-usuario');
 
-            }else if(estadoPermiso == 'DESAPROBADO'){
-                alertaError({
-                    titulo: 'Permiso Desaprobado',
-                    mensaje: 'Lo sentimos, pero la última solictud de permanencia de este vehiculo, ha sido desaprobada.'
-                })
-            }
-           
+    botonesVerPermisoUsuario.forEach(boton => {
+        let permiso = boton.getAttribute('data-permiso');
+        boton.addEventListener('click', ()=>{
+            window.location.replace(urlBase+`permisos-usuario/${permiso}`);
+        })
+    });
+}
+
+function eventoVerPermisoVehiculo(){
+    const botonesVerPermisoVehiculo = contenedorModal.querySelectorAll('.btn-ver-permiso-vehiculo');
+
+    botonesVerPermisoVehiculo.forEach(boton => {
+        let permiso = boton.getAttribute('data-permiso');
+        boton.addEventListener('click', ()=>{
+            window.location.replace(urlBase+`permisos-vehiculo/${permiso}`);
         })
     });
 }

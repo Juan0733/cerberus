@@ -112,20 +112,6 @@ function eventoVerPermisoVehiculo(){
     });
 }
 
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
-}
-
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorModal = document.getElementById('contenedor_notificaciones');

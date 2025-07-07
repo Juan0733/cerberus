@@ -69,6 +69,10 @@ function dibujarTablaVisitantes(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+                    
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -107,6 +111,10 @@ function dibujarCardsVisitantes(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+               
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -169,6 +177,20 @@ function toggleCard() {
                 card.classList.toggle('active');
             }
         });
+    });
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
     });
 }
 

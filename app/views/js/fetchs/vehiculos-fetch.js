@@ -48,7 +48,7 @@ export{conteoTipoVehiculo}
 async function consultarVehiculos(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento)+'&tipo='+encodeURI(parametros.tipo)+'&ubicacion='+encodeURI(parametros.ubicacion));
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

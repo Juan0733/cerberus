@@ -72,6 +72,10 @@ function dibujarTablaAprendices(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+                   
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -112,6 +116,10 @@ function dibujarCardsAprendices(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -201,22 +209,18 @@ function toggleCard() {
     });
 }
 
-function alertaExito(respuesta){
+function alertaError(respuesta){
     Swal.fire({
-        toast: true, 
-        position: 'top-end', 
-        icon: 'success',
-        iconColor: "#2db910",
-        color: '#F3F4F4',
-        background: '#001629',
-        timer: 5000,
-        timerProgressBar: true,
-        title: respuesta.mensaje,
-        showConfirmButton: false,   
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
         customClass: {
             popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
         }
-    })
+    });
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{

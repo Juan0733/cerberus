@@ -24,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-        return $respuesta;
+        echo json_encode($respuesta);
+        exit();
         
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
         header('Location: ../../acceso-denegado');
@@ -58,7 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-        return $respuesta;
+        echo json_encode($respuesta);
+        exit();
         
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
         header('Location: ../../acceso-denegado');
@@ -67,16 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     if($operacion == 'consultar_permisos_usuarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
-        if(!isset($respuesta['parametros']['fecha'])){
-            $respuesta = [
-                "tipo" => "ERROR",
-                "titulo" => 'Error De Parámetros',
-                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
-            ];
-
-            echo json_encode($respuesta);
-            exit();
-        }
 
         echo json_encode($objetoPermiso->consultarPermisosUsuarios($respuesta['parametros']));
 

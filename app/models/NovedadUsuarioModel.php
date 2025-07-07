@@ -104,7 +104,11 @@ class NovedadUsuarioModel extends MainModel{
             LEFT JOIN visitantes vis ON nu.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON nu.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON nu.fk_usuario = apr.numero_documento
-            WHERE DATE(nu.fecha_registro) = '{$parametros['fecha']}'";
+            WHERE 1 = 1";
+
+        if(isset($parametros['fecha'])){
+            $sentenciaBuscar .= " AND DATE(nu.fecha_registro) = '{$parametros['fecha']}'";
+        }
 
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND nu.fk_usuario LIKE '{$parametros['numero_documento']}%'";

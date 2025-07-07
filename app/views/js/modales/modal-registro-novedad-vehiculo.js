@@ -8,8 +8,11 @@ let selectTipoNovedad;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-novedad-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -46,15 +49,13 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
         urlBase = url;
        
         eventoCerrarModal();
-        dibujarPropietarios(placa);
         eventoTextArea();
         eventoRegistrarNovedadVehiculo();
-
-        setTimeout(()=>{
-            document.getElementById('propietario').focus();
-        }, 250)
+        dibujarPropietarios(placa);
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -143,7 +144,12 @@ function dibujarPropietarios(){
                 selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
             });
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
+            
+            setTimeout(()=>{
+                document.getElementById('propietario').focus();
+            }, 250)
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -171,6 +177,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

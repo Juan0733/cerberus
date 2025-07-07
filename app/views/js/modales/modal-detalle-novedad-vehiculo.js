@@ -6,8 +6,11 @@ let codigoNovedad;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalDetalleNovedadVehiculo(novedad, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-detalle-novedad-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -36,6 +39,8 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
         dibujarNovedad();
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -74,6 +79,7 @@ function dibujarNovedad() {
             document.getElementById('fecha_registro').textContent = formatearFecha(datosNovedad.fecha_registro);
             document.getElementById('descripcion').textContent = datosNovedad.descripcion;
             
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

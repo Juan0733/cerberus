@@ -15,17 +15,17 @@
                 </div>
 
                 <div class="input-caja-registro">
-                    <label for="numero_placa" class="label-input">Placa del vehículo</label>
+                    <label for="numero_placa" class="label-input">Número de la placa del vehículo</label>
                     <input type="text" class="campo input-placa"  name="numero_placa" id="numero_placa" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, mínimo 5 y máximo 6 caracteres." placeholder="Ej: ABC123" tabindex="5">
                 </div>
                 
                 <div class="input-caja-registro">
-                    <label for="documento_involucrado" class="label-input">Identificación del involucrado</label>
+                    <label for="documento_involucrado" class="label-input">Número de documento del involucrado</label>
                     <input type="text" class="campo" name="documento_involucrado" id="documento_involucrado" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 15" placeholder="Ej: 123456" date="Numero de documento" tabindex="6" >
                 </div>
                 
                 <div class="input-caja-registro">
-                    <label for="propietario" class="label-input">Propietario que autoriza</label>
+                    <label for="propietario" class="label-input">Propietario quién autoriza la salida del vehículo</label>
                     <select class="campo" name="propietario" id="propietario" tabindex="7" required></select>
                 </div>
                 

@@ -4,7 +4,6 @@ import { modalDetalleNovedadUsuario } from '../modales/modal-detalle-novedad-usu
 let urlBase;
 let contenedorTabla;
 let cuerpoTabla;
-let inputFecha;
 
 const parametros = {
     documento: '',
@@ -73,6 +72,10 @@ function dibujarTablaNovedades(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -112,6 +115,10 @@ function dibujarCardsNovedades(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -129,7 +136,9 @@ function eventoVerNovedad(){
 }
 
 function eventoFecha(){
-    fecha.addEventListener('change', ()=>{
+    const inputFecha = document.getElementById('fecha');
+
+    inputFecha.addEventListener('change', ()=>{
         parametros.fecha = inputFecha.value;
         validarResolucion();
     })
@@ -172,11 +181,23 @@ function toggleCard() {
     });
 }
 
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
-    inputFecha = document.getElementById('fecha');
-    parametros.fecha = inputFecha.value;
 
     eventoBuscarDocumento();
     eventoTipoNovedad();

@@ -38,18 +38,22 @@
                 <input type="text" class="input-placa" name="buscador_placa" id="buscador_placa" placeholder="Buscar Placa">
             </div>
 
-            <button id="btn_informe" class="btn-informe">
-                <ion-icon name="document-text"></ion-icon>
-            </button>
+            <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+                <button id="btn_informe" class="btn-informe">
+                    <ion-icon name="document-text"></ion-icon>
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 
     <div id="contenedor_tabla_cards">
     </div>
 
-    <button id="btn_informe_mobile" class="btn-informe">
-        <ion-icon name="document-text"></ion-icon>
-    </button> 
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <button id="btn_informe_mobile" class="btn-informe">
+            <ion-icon name="document-text"></ion-icon>
+        </button>        
+    <?php endif; ?> 
 </div>
 
 

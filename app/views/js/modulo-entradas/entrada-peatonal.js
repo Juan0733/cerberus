@@ -3,15 +3,16 @@ import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 
 let documentoPeaton;
-let botonPeatonal;
-let botonVehicular;
 let formularioPeatonal;
-let formularioVehicular;
-let contenedorBotonVolver;
 let observacion;
 let urlBase;
 
 function eventoAbrirFormularioPeatonal(){
+    const formularioVehicular = document.getElementById('formulario_vehicular');
+    const contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
+    const botonPeatonal = document.getElementById("btn_peatonal");
+    const botonVehicular = document.getElementById("btn_vehicular");
+
     botonPeatonal.addEventListener("click", ()=>{
         formularioPeatonal.reset();
 
@@ -79,16 +80,6 @@ function eventoRegistrarEntradaPeatonal() {
     })
 }
 
-function eventoCerrarFormularioPeatonal(){
-    document.getElementById('btn_volver').addEventListener('click', ()=>{
-        formularioPeatonal.style.display = 'none';
-        formularioVehicular.style.display = 'none';
-        contenedorBotonVolver.style.display = 'none';
-        botonPeatonal.style = 'flex';
-        botonVehicular.style = 'flex';
-    })
-}
-
 function eventoTextArea(){
     let temporizador;
     let primeraValidacion = true;
@@ -128,6 +119,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }
@@ -175,17 +171,13 @@ function alertaAdvertencia(respuesta){
 document.addEventListener("DOMContentLoaded", function() {
     urlBase = document.getElementById("url_base").value;
     documentoPeaton = document.getElementById("documento_peaton");
-    botonPeatonal = document.getElementById("btn_peatonal");
-    botonVehicular = document.getElementById("btn_vehicular");
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
-    formularioVehicular = document.getElementById('formulario_vehicular');
-    contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
     observacion = document.getElementById('observacion_peatonal');
+    
     eventoAbrirFormularioPeatonal();
     eventoInputPeaton();
     eventoTextArea();
     eventoRegistrarEntradaPeatonal();
-    eventoCerrarFormularioPeatonal();
 });
 
 

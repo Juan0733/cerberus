@@ -6,8 +6,11 @@ let documentoFuncionario;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalDetalleFuncionario(funcionario, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-detalle-funcionario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -36,6 +39,8 @@ async function modalDetalleFuncionario(funcionario, url) {
         dibujarFuncionario();
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -78,6 +83,7 @@ function dibujarFuncionario() {
                 document.getElementById('caja_fecha_fin_contrato').style.display='none';;
             }
             
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

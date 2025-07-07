@@ -67,7 +67,7 @@ class VehiculoService{
             unset($_GET['placa']);
 
             if(preg_match('/^[A-Za-z0-9]{1,6}$/', $numeroPlaca)){
-                $parametros['numero_placa'] = strtoupper($numeroPlaca);
+                $parametros['numero_placa'] = $numeroPlaca;
             }
         }
 
@@ -76,7 +76,25 @@ class VehiculoService{
             unset($_GET['documento']);
 
             if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroPlaca)){
-                $parametros['numero_documento'] = strtoupper($numeroPlaca);
+                $parametros['numero_documento'] = $numeroPlaca;
+            }
+        }
+
+        if(isset($_GET['tipo'])){
+            $tipoVehiculo= $this->limpiarDatos($_GET['tipo']);
+            unset($_GET['tipo']);
+
+            if(preg_match('/^(AUTOMÓVIL|CAMIÓN|BUSETA|MOTO)$/', $tipoVehiculo)){
+                $parametros['tipo_vehiculo'] = $tipoVehiculo;
+            }
+        }
+
+        if(isset($_GET['ubicacion'])){
+            $ubicacion = $this->limpiarDatos($_GET['ubicacion']);
+            unset($_GET['ubicacion']);
+
+            if(preg_match('/^(DENTRO|FUERA)$/', $ubicacion)){
+                $parametros['ubicacion'] = $ubicacion;
             }
         }
 

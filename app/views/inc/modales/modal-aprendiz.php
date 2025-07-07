@@ -51,7 +51,7 @@
             
                 <div class="input-caja-registro seccion-02">
                     <label for="numero_ficha" class="label-input">Número ficha</label>
-                    <input type="text" class="campo" name="numero_ficha" id="numero_ficha" list="lista_fichas" pattern="[0-9]{7}" title="Debes digitar solo números, mínimo y máximo 8" placeholder="Ej: 1234567" minlength="8" tabindex="7">
+                    <input type="text" class="campo" name="numero_ficha" id="numero_ficha" list="lista_fichas" pattern="[0-9]{7}" title="Debes digitar solo números, mínimo y máximo 7" placeholder="Ej: 1234567" maxlength="7" minlength="7" tabindex="7">
                     <datalist id="lista_fichas"></datalist>
                 </div>
                

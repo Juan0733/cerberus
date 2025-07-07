@@ -11,12 +11,16 @@
     <div id="contenedor_filtros">
         <div class="fecha filtro">
             <label class="label-fecha" for="fecha">Fecha:</label>
-            <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
+            <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+                <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
+            <?php elseif($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
+                <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>" max="<?php echo $fechaActual; ?>" min="<?php echo $fechaActual; ?>">
+            <?php endif; ?>
         </div>
         
         <div class="buscar filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div>
 
         <div class="buscar filtro">

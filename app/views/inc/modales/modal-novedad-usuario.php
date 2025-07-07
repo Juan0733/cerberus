@@ -25,7 +25,7 @@
                 </div>
                 
                 <div class="input-caja-registro">
-                    <label for="documento_involucrado" class="label-input">Identificación del involucrado</label>
+                    <label for="documento_involucrado" class="label-input">Número de documento del involucrado</label>
                     <input type="text" class="campo" name="documento_involucrado" id="documento_involucrado" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 numeros y máximo 15 numeros" placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
                 </div>
 

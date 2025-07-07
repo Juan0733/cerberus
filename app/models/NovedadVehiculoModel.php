@@ -71,7 +71,11 @@ class NovedadVehiculoModel extends MainModel{
             LEFT JOIN visitantes vis ON nv.fk_usuario_involucrado = vis.numero_documento
             LEFT JOIN vigilantes vig ON nv.fk_usuario_involucrado = vig.numero_documento
             LEFT JOIN aprendices apr ON nv.fk_usuario_involucrado = apr.numero_documento
-            WHERE DATE(nv.fecha_registro) = '{$parametros['fecha']}'";
+            WHERE 1 = 1";
+
+        if(isset($parametros['fecha'])){
+            $sentenciaBuscar .= " AND DATE(nv.fecha_registro) = '{$parametros['fecha']}'";
+        }
 
         if(isset($parametros['numero_placa'])){
             $sentenciaBuscar .= " AND nv.fk_vehiculo LIKE '{$parametros['numero_placa']}%'";

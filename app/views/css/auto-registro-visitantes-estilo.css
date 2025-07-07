@@ -88,6 +88,7 @@
                     }
                         #formulario_visitante .caja .input-caja-registro .label-input{
                             color: var(--color-primario);
+                            display: flex;
                             font-size: 20px;
                             padding-left: 12px;
                         }

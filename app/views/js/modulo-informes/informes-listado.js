@@ -153,15 +153,17 @@ function eventoBuscarDocumento(){
 }
 
 function eventoGenerarInforme(){
-    const botoInforme = document.getElementById('btn_informe');
+    const botonInforme = document.getElementById('btn_informe');
 
-    botoInforme.addEventListener('click', ()=>{
-        window.location.href = urlBase+'app/pdf/GenerarPdfMovimientos.php?puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa);
-    })
+    if(botonInforme){
+        botonInforme.addEventListener('click', ()=>{
+            window.location.href = urlBase+'app/pdf/GenerarPdfMovimientos.php?puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa);
+        })
 
-    document.getElementById('btn_informe_mobile').addEventListener('click', ()=>{
-        botoInforme.click();
-    })
+        document.getElementById('btn_informe_mobile').addEventListener('click', ()=>{
+            botonInforme.click();
+        })
+    }
 }
 
 function eventoBuscarPlaca(){

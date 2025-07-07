@@ -47,16 +47,26 @@ function eventoInputFicha(){
     const inputPrograma = document.getElementById('nombre_programa');
     const inputFechaFicha = document.getElementById('fecha_fin_ficha');
 
-    inputFicha.addEventListener('change', ()=>{
-        consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
-            if(respuesta.tipo == 'OK'){
-                inputPrograma.value = respuesta.datos_ficha.nombre_programa;
-                inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
+    let temporizador;
 
-            }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Ficha No Encontrada'){
-                alertaError(respuesta);
+    inputFicha.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            if(inputFicha.checkValidity()){
+                consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
+                    if(respuesta.tipo == 'OK'){
+                        inputPrograma.value = respuesta.datos_ficha.nombre_programa;
+                        inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
+
+                    }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Ficha No Encontrada'){
+                        alertaError(respuesta);
+                    }
+                })
+
+            }else{
+                inputFicha.reportValidity();
             }
-        })
+        }, 1000)
     })
 }
 

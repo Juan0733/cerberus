@@ -25,7 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-        return $respuesta;
+        echo json_encode($respuesta);
+        exit();
         
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
         header('Location: ../../acceso-denegado');
@@ -76,7 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-        return $respuesta;
+        echo json_encode($respuesta);
+        exit();
         
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
         header('Location: ../../acceso-denegado');

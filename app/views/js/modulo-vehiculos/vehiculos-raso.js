@@ -7,7 +7,9 @@ let cuerpoTabla;
 
 const parametros = {
     documento: '',
-    placa: ''
+    placa: '',
+    tipo: '',
+    ubicacion: ''
 }
 
 function validarResolucion(){
@@ -61,6 +63,10 @@ function dibujarTablaVehiculos(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -95,6 +101,10 @@ function dibujarCardsVehiculos(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -110,6 +120,25 @@ function eventoVerPropietarios(){
         });
     });
 }
+
+function eventoTipoVehiculo(){
+    let selectTipo = document.getElementById('tipo_filtro');
+
+    selectTipo.addEventListener('change', ()=>{
+        parametros.tipo = selectTipo.value;
+        validarResolucion();
+    })
+}
+
+function eventoUbicacion(){
+    let selectUbicacion = document.getElementById('ubicacion');
+
+    selectUbicacion.addEventListener('change', ()=>{
+        parametros.ubicacion = selectUbicacion.value;
+        validarResolucion();
+    })
+}
+
 
 function eventoBuscarDocumento(){
     let inputDocumento = document.getElementById('buscador_documento');
@@ -152,10 +181,26 @@ function toggleCard() {
     });
 }
 
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
     
+    eventoTipoVehiculo();
+    eventoUbicacion();
     eventoBuscarDocumento();
     eventoBuscarPlaca();
     validarResolucion();

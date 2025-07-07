@@ -6,8 +6,11 @@ let codigoPermiso;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalDetallePermisoUsuario(permiso, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-detalle-permiso-usuario.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -36,6 +39,8 @@ async function modalDetallePermisoUsuario(permiso, url) {
         dibujarPermiso();
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -78,7 +83,7 @@ function dibujarPermiso() {
 
             if(datosPermiso.estado_permiso == 'APROBADO'){
                 document.getElementById('fecha_aprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
-                document.getElementById('caja_responsable_aprobacion').textContent = datosPermiso.nombres_responsable + datosPermiso.apellidos_responsable;
+                document.getElementById('responsable_aprobacion').textContent = datosPermiso.nombres_responsable + datosPermiso.apellidos_responsable;
 
             }else{
                 document.getElementById('caja_fecha_aprobacion').style.display = 'none';
@@ -93,6 +98,7 @@ function dibujarPermiso() {
                 document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
             }
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

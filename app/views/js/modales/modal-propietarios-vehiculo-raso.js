@@ -8,6 +8,8 @@ let modalesExistentes;
 let cuerpoTabla;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 function validarResolucion(){
     if(window.innerWidth >= 1024){
         dibujarTablaPropietarios();
@@ -18,6 +20,7 @@ function validarResolucion(){
 
 async function modalPropietariosVehiculo(placa, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-propietarios-vehiculo.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -49,6 +52,8 @@ async function modalPropietariosVehiculo(placa, url) {
         validarResolucion();
         
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -93,7 +98,6 @@ function dibujarTablaPropietarios(){
     cuerpoTabla.innerHTML = '';
     consultarPropietarios(numeroPlaca, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            console.log(cuerpoTabla);
             respuesta.propietarios.forEach(propietario => {
                 cuerpoTabla.innerHTML += `
                     <tr class="propietarios">
@@ -104,6 +108,7 @@ function dibujarTablaPropietarios(){
                     </tr>`;
             });
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
             
         }else if(respuesta.tipo == 'ERROR'){
@@ -141,6 +146,7 @@ function dibujarCardsPropietarios(){
 
             toggleCard();
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

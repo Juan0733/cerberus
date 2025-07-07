@@ -7,8 +7,11 @@ let puertaNueva;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalSeleccionPuerta(url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-seleccion-puerta.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -33,11 +36,13 @@ async function modalSeleccionPuerta(url) {
         urlBase = url;
 
         eventoCerrarModal();
-        consultarPuertaActual();
+        dibujarPuertaActual();
         eventoSeleccionarPuerta();
         eventoGuardarPuerta();
          
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -66,20 +71,34 @@ function eventoCerrarModal(){
     });
 }
 
-function  consultarPuertaActual() {
+function dibujarPuertaActual() {
     consultarPuerta(urlBase).then(respuesta=>{
         if(respuesta['tipo'] == 'OK'){
             puertaActual = respuesta.puerta_actual;
             puertaNueva = respuesta.puerta_actual;
             document.getElementById(puertaActual.toLowerCase()).checked = true;
             document.getElementById('icono_puerta_'+puertaActual.toLowerCase()).style.color = 'var(--color-secundario)';
-    
-        }else if(respuesta.tipo == 'ERROR' && respuesta.titulo == 'Puerta No Encontrada'){
-            puertaActual = '';
-            puertaNueva = '';
-        }
 
-        contenedorModales.classList.add('mostrar');
+            contenedorSpinner.classList.remove("mostrar_spinner");
+            contenedorModales.classList.add('mostrar');
+    
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else if(respuesta.titulo == 'Puerta No Encontrada'){
+                puertaActual = '';
+                puertaNueva = '';
+
+                contenedorSpinner.classList.remove("mostrar_spinner");
+                contenedorModales.classList.add('mostrar');
+
+            }else{
+                botonCerrarModal.click();
+                alertaError(respuesta);
+                
+            }
+        }
     })
 }
 
@@ -148,6 +167,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

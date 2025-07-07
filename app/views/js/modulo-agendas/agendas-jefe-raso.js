@@ -25,7 +25,9 @@ function dibujarAgendas(){
                             <h1>${agenda.titulo}</h1>
                         </div>
                         <div class="card-agenda-body">
-                            <p class="nombre">${agenda.nombres_agendado} ${agenda.apellidos_agendado}</p>
+                            <strong><p class="nombre">Nombre:</p></strong> 
+                            <p>${agenda.nombres_agendado} ${agenda.apellidos_agendado}</p>
+                            
                             <div class="contenedor-fecha-agenda">
                                 <div>
                                     <strong><p class="fecha-agenda">Fecha Agenda:</p></strong>
@@ -48,7 +50,11 @@ function dibujarAgendas(){
             eventoVerDetalleAgenda();
 
         }else if(respuesta.tipo == 'ERROR'){
-            contenedorCards.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`
+            contenedorCards.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+
+            if(respuesta.titulo != 'Datos No Encontrados'){
+                alertaError(respuesta);
+            }
         }
     })
 }
@@ -119,18 +125,6 @@ function eventoBuscarTitulo(){
             parametros.titulo = inputTitulo.value;
             dibujarAgendas();
         }, 500)
-    })
-}
-
-function eventoCrearAgenda(){
-    const botonCrearAgenda = document.getElementById('btn_crear_agenda');
-
-    botonCrearAgenda.addEventListener('click', ()=>{
-        modalRegistroAgenda(urlBase, dibujarAgendas);
-    })
-
-    document.getElementById('btn_crear_agenda_mobile').addEventListener('click', ()=>{
-        botonCrearAgenda.click();
     })
 }
 

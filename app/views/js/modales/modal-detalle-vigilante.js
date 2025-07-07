@@ -6,8 +6,11 @@ let documentoVigilante;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalDetalleVigilante(vigilante, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-detalle-vigilante.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -36,6 +39,8 @@ async function modalDetalleVigilante(vigilante, url) {
         dibujarVigilante();
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -69,6 +74,7 @@ function dibujarVigilante() {
             document.getElementById('correo_electronico').textContent = respuesta.datos_vigilante.correo_electronico;
             document.getElementById('rol').textContent = formatearString(respuesta.datos_vigilante.rol);
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

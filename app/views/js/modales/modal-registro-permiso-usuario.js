@@ -34,7 +34,7 @@ async function modalRegistroPermisoUsuario(url, permiso=false, documento=false, 
         contenedorModales.appendChild(modal);
 
         if(documento){
-            const inputDocumento = document.getElementById('documento_solicitante'); 
+            const inputDocumento = document.getElementById('documento_beneficiario'); 
             inputDocumento.value = documento;
             inputDocumento.readOnly = true;
         }
@@ -157,6 +157,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

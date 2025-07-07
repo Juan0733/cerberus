@@ -1,5 +1,5 @@
 <?php
-   $fechaActual = date('Y-m-d');
+    $fechaActual = date('Y-m-d');
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
@@ -16,12 +16,12 @@
 
         <div class="filtro">
             <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
+            <input type="date" id="fecha" name="fecha" max="<?php echo $fechaActual; ?>">
         </div>
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
     </div>
 

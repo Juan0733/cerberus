@@ -5,8 +5,11 @@ let modalesExistentes;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalFuncionariosBrigadistas(url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-funcionarios-brigadistas.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -35,6 +38,8 @@ async function modalFuncionariosBrigadistas(url) {
 
            
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -89,12 +94,14 @@ function dibujarBrigadistas(){
                     </div>`;
             });
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Datos No Encontrados'){
-               contenedor.innerHTML = `<p id="mensaje_respuesta">No hay brigadistas dentro del CAB</p>`;
+                contenedor.innerHTML = `<p id="mensaje_respuesta">No hay brigadistas dentro del CAB</p>`;
 
+                contenedorSpinner.classList.remove("mostrar_spinner");
                 contenedorModales.classList.add('mostrar');
 
             }else if(respuesta.titulo == 'Sesión Expirada'){

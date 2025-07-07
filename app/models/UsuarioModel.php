@@ -364,6 +364,7 @@ class UsuarioModel extends MainModel{
                 SELECT 
                     usu.numero_documento, 
                     ppu.estado_permiso, 
+                    ppu.codigo_permiso,
                     ppu.fecha_registro AS fecha_permiso, 
                     mov.fecha_registro AS fecha_ultima_entrada
                 FROM 
@@ -425,10 +426,44 @@ class UsuarioModel extends MainModel{
             }
         }
 
+        $notificaciones = $this->ordenarNotificacionesUsuario($notificaciones);
         $respuesta = [
             'tipo' => 'OK',
             'notificaciones_usuario' => $notificaciones
         ];
         return $respuesta;
+    }
+
+    private function ordenarNotificacionesUsuario($array){
+        if(count($array) <= 1){
+            return $array;
+        }
+
+        $pivot = $array[intdiv(count($array), 2)]['horas_permanencia'];
+
+        $izquierda = [];
+        $mitad = [];
+        $derecha = [];
+
+        foreach ($array as $notificacion) {
+            $horas = $notificacion['horas_permanencia'];
+
+            if($horas > $pivot){
+                $izquierda[] = $notificacion;
+
+            }else if($horas == $pivot){
+                $mitad[] = $notificacion;
+
+            }elseif($horas < $pivot){
+                $derecha[] = $notificacion;
+            }
+        } 
+
+        return array_merge(
+            $this->ordenarNotificacionesUsuario($izquierda), 
+            $mitad, 
+            $this->ordenarNotificacionesUsuario($derecha)
+        );
+        
     }
 }

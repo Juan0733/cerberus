@@ -1,4 +1,5 @@
 import {registrarVisitante} from '../fetchs/visitantes-fetch.js';
+import { consultarMotivosIngreso } from '../fetchs/motivos-ingreso.js';
 
 let contenedorModales;
 let modalesExistentes;
@@ -51,22 +52,10 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
         urlBase = url;
         
         eventoCerrarModal();
+        dibujarMotivosIngreso();
         eventoRegistrarVisitante();
         motrarCampos();
         volverCampos();
-
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if (modalesExistentes.length > 1) {
-            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
-        }else{
-            contenedorModales.classList.add('mostrar');
-        } 
-
-        setTimeout(()=>{
-            inputTipoDocumento.focus();
-        }, 250)
  
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
@@ -100,6 +89,42 @@ function eventoCerrarModal(){
     document.getElementById('btn_cancelar_visitante').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function dibujarMotivosIngreso(){
+    const dataListMotivos = document.getElementById('lista_motivos');
+
+    consultarMotivosIngreso(urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK' || (respuesta.tipo == 'ERROR' && respuesta.titulo == 'Datos No Encontrados')){
+            const motivos = respuesta.motivos_ingreso ?? [];
+
+            motivos.forEach(motivo => {
+                dataListMotivos.innerHTML += `
+                    <option value="${motivo.motivo}">${motivo.motivo}</option>`;
+            });
+
+            contenedorSpinner.classList.remove("mostrar_spinner");
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if (modalesExistentes.length > 1) {
+                modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+            }else{
+                contenedorModales.classList.add('mostrar');
+            } 
+
+            setTimeout(()=>{
+                inputTipoDocumento.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+                
+            }else{
+                botonCerrarModal.click();
+                alertaError (respuesta);
+            }
+        }
+    })
 }
 
 function eventoRegistrarVisitante(){
@@ -198,6 +223,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

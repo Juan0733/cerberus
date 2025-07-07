@@ -59,7 +59,6 @@ function dibujarTablaAprendices(){
                     </tr>`;
             });
             eventoVerAprendiz();
-            eventoEditarAprendiz();
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -69,6 +68,10 @@ function dibujarTablaAprendices(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+                   
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -107,6 +110,10 @@ function dibujarCardsAprendices(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -156,6 +163,20 @@ function eventoBuscarDocumento(){
             validarResolucion();
         }, 500)
     })
+}
+
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{

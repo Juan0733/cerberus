@@ -13,7 +13,7 @@
         width: 100%;
     }
 
-        #contenedor_principal #contenedor_filtros .buscar{
+        #contenedor_principal #contenedor_filtros .filtro{
             align-items: center;
             border: 1px solid #d8d8d8;
             border-radius: 13px;
@@ -27,14 +27,14 @@
             
         }
 
-            #contenedor_principal #contenedor_filtros  .buscar input{
+            #contenedor_principal #contenedor_filtros  .filtro input, select{
                 border: none;
                 font-size: 17px;
                 outline: none;
                 width: 100%;
             }
 
-            #contenedor_principal #contenedor_filtros .buscar ion-icon{
+            #contenedor_principal #contenedor_filtros .filtro ion-icon{
                 font-size: 25px;
             }
 
@@ -91,6 +91,7 @@
 
                     #tabla_vehiculos tbody td ion-icon{
                         font-size: 25px;
+                        cursor: pointer;
                         color: var(--color-secundario);
                     }
 
@@ -312,7 +313,7 @@
 
 @media(min-width: 768px) and (max-width: 1023px){
 
-    #contenedor_principal #contenedor_filtros .buscar{
+    #contenedor_principal #contenedor_filtros .filtro{
         width: 100%;
     }
 
@@ -344,7 +345,7 @@
             flex-direction: column;
             row-gap: 10px;
         }
-            #contenedor_principal #contenedor_filtros .buscar{
+            #contenedor_principal #contenedor_filtros .filtro{
                 width: 100%;
             }
 

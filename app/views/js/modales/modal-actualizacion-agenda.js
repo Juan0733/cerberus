@@ -12,8 +12,11 @@ let checkGrupal;
 let funcionCallback;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalActualizarAgenda(codigo, callback, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-agenda.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -59,6 +62,8 @@ async function modalActualizarAgenda(codigo, callback, url) {
         }, 250)
         
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -100,6 +105,7 @@ function dibujarAgenda(){
                 checkIndividual.checked = true;
             }
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -188,6 +194,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

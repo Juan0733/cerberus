@@ -12,7 +12,7 @@
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
         <button class="btn-visitante" id="btn_crear_visitante">

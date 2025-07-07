@@ -17,6 +17,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     unset($_GET['operacion']);
 
+    $respuesta = $objetoUsuario->validarTiempoSesion();
+    if($respuesta['tipo'] == 'ERROR'){
+        echo json_encode($respuesta);
+        exit();
+    }
+
     if($operacion == 'consultar_motivos_ingreso'){
         echo json_encode($objetoMotivo->consultarMotivosIngreso());
 

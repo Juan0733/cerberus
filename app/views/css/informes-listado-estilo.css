@@ -218,11 +218,6 @@
             #contenedor_principal #contenedor_filtros .filtro input, select{
                 font-size: 17px;
             }
-
-            #contenedor_principal #contenedor_filtros #caja_02 #contenedor_placa{
-                width: 89%;
-            }
-
     #contenedor_principal #contenedor_tabla_cards{
         align-items: start;
         column-gap: 10px;

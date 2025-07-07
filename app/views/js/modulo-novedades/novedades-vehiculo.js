@@ -4,8 +4,6 @@ import { modalDetalleNovedadVehiculo } from '../modales/modal-detalle-novedad-ve
 let urlBase;
 let contenedorTabla;
 let cuerpoTabla;
-let inputFecha;
-let selectTipoNovedad;
 
 const parametros = {
     placa: '',
@@ -74,6 +72,10 @@ function dibujarTablaNovedades(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+                   
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -113,6 +115,10 @@ function dibujarCardsNovedades(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -130,13 +136,17 @@ function eventoVerNovedad(){
 }
 
 function eventoFecha(){
-    fecha.addEventListener('change', ()=>{
+    const inputFecha = document.getElementById('fecha');
+
+    inputFecha.addEventListener('change', ()=>{
         parametros.fecha = inputFecha.value;
         validarResolucion();
     })
 }
 
 function eventoTipoNovedad(){
+    const selectTipoNovedad = document.getElementById('tipo_novedad_filtro');
+
     selectTipoNovedad.addEventListener('change', ()=>{
         parametros.tipo_novedad = selectTipoNovedad.value;
         validarResolucion();
@@ -171,13 +181,23 @@ function toggleCard() {
     });
 }
 
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
-    inputFecha = document.getElementById('fecha');
-    selectTipoNovedad = document.getElementById('tipo_novedad_filtro');
-    parametros.fecha = inputFecha.value;
-    parametros.tipo_novedad = selectTipoNovedad.value;
 
     eventoBuscarPlaca();
     eventoTipoNovedad();

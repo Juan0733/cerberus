@@ -6,8 +6,11 @@ let codigoAgenda;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalDetalleAgenda(codigo, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-detalle-agenda.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -36,6 +39,8 @@ async function modalDetalleAgenda(codigo, url) {
         dibujarAgenda(codigo);
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -82,6 +87,7 @@ function dibujarAgenda() {
             document.getElementById('hora').textContent = fecha.hora_español;
             document.getElementById('motivo').textContent = datosAgenda.motivo;
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

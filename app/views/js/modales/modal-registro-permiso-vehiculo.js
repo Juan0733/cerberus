@@ -108,28 +108,27 @@ function eventoInputPlaca(){
                 inputPlaca.reportValidity();
             }
             
-        }, 1500)
+        }, 1000)
     })
 }
 
 function dibujarPropietarios(){
     const selectPropietario = document.getElementById('propietario');
-    selectPropietario.innerHTML += '<option value="" disabled selected>Seleccionar</option>'
+    selectPropietario.innerHTML = '<option value="" disabled selected>Seleccionar</option>'
 
     consultarPropietarios(inputPlaca.value, urlBase).then(respuesta=>{
-        if(respuesta.tipo == 'OK'){
-            respuesta.propietarios.forEach(propietario => {
+        if(respuesta.tipo == 'OK' || (respuesta.tipo == 'ERROR' && respuesta.titulo == 'Datos No Encontrados')){
+            const propietarios = respuesta.propietarios ?? [];
+
+            propietarios.forEach(propietario => {
                 selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}`
             });
+
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
-            }else if(respuesta.titulo == 'Datos No Encontrados'){
-                alertaError(respuesta);
-
             }else{
-                botonCerrarModal.click();
                 alertaError(respuesta);
             }
         }
@@ -203,6 +202,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

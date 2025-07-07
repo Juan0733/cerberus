@@ -56,7 +56,11 @@ function dibujarAgendas(){
             eventoEliminarAgenda();
 
         }else if(respuesta.tipo == 'ERROR'){
-            contenedorCards.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`
+            contenedorCards.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+            
+            if(respuesta.titulo != 'Datos No Encontrados'){
+                alertaError(respuesta);
+            }
         }
     })
 }
@@ -198,6 +202,11 @@ function alertaError(respuesta){
         customClass: {
             popup: 'alerta-contenedor',
             confirmButton: 'btn-confirmar'
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     });
 }

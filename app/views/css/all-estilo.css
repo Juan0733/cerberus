@@ -326,6 +326,7 @@ main#cuerpo{
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal .contenedor-alerta {
                 box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+                border-radius: 15px;
                 display: flex;
                 flex-direction: column;
                 margin-bottom: 15px;
@@ -335,13 +336,14 @@ main#cuerpo{
             
                 .contenedor-ppal-modal .contenedor-modal .contenedor-alerta .contenedor-mensaje-alerta {
                     align-items: start;
+                    border: none;
+                    border-radius: 15px;
+                    border-left: 4px solid var(--main-color);
                     display: flex;
                     flex-direction: column;
-                    border: none;
-                    border-left: 4px solid gray;
-                    padding: 7px;
+                    padding: 10px;
                     row-gap: 8px;
-                    width: 90%;
+                    width: 95%;
                 }
 
                     .contenedor-modal .contenedor-alerta .contenedor-mensaje-alerta #contenedor_btns_notificacion{
@@ -470,6 +472,7 @@ main#cuerpo{
 
                     #formulario_novedad_usuario #contenedor_cajas_novedad_usuario .input-caja-registro .label-input{
                         color: var(--color-placeholder);
+                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
@@ -548,6 +551,7 @@ main#cuerpo{
 
                     #formulario_permiso_usuario #contenedor_cajas_permiso_usuario .input-caja-registro .label-input{
                         color: var(--color-placeholder);
+                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
@@ -626,6 +630,7 @@ main#cuerpo{
 
                     #formulario_permiso_vehiculo #contenedor_cajas_permiso_vehiculo .input-caja-registro .label-input{
                         color: var(--color-placeholder);
+                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
@@ -704,6 +709,7 @@ main#cuerpo{
 
                     #formulario_vehiculo #contenedor_cajas_vehiculo .input-caja-registro .label-input{
                         color: var(--color-placeholder);
+                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
@@ -782,6 +788,7 @@ main#cuerpo{
                 
                     #contenedor_cajas_visitante  .input-caja-registro .label-input{
                         color: var(--color-placeholder);
+                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
@@ -870,6 +877,7 @@ main#cuerpo{
 
                     #formulario_habilitar_usuario #contenedor_cajas_habilitar .input-caja-registro .label-input{
                         color: var(--color-placeholder);
+                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                         padding-left: 10px;
@@ -1002,6 +1010,7 @@ main#cuerpo{
 
                 #formulario_puerta #contenedor_cajas_puerta .caja-checkbox .label-input{
                     color: var(--color-placeholder);
+                    display: flex;
                     font-size: 20px;
                 }
 

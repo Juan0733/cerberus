@@ -15,8 +15,11 @@ let botonRegistrar;
 let botonSiguiente;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalRegistroAprendiz(callback, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-aprendiz.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -51,19 +54,15 @@ async function modalRegistroAprendiz(callback, url) {
         urlBase = url;
 
         eventoCerrarModal();
-        dibujarFichas();
         eventoInputFicha();
         mostrarCampos();
         volverCampos();
         eventoRegistrarAprendiz();
-
-        contenedorModales.classList.add('mostrar');
-
-        setTimeout(()=>{
-           selectTipoDocumento.focus();
-        }, 250)
+        dibujarFichas();
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -95,15 +94,30 @@ function eventoCerrarModal(){
 function dibujarFichas(){
     const dataListFichas = document.getElementById('lista_fichas');
     consultarFichas(urlBase).then(respuesta=>{
-        if(respuesta.tipo == 'OK'){
-            respuesta.fichas.forEach(ficha => {
+        if(respuesta.tipo == 'OK' || (respuesta.tipo == 'ERROR' && respuesta.titulo == 'Datos No Encontrados')){
+            const fichas = respuesta.fichas ?? [];
+
+            fichas.forEach(ficha => {
                 dataListFichas.innerHTML += `
                     <option value="${ficha.numero_ficha}">${ficha.numero_ficha}</option>
-                    `
+                    `;
             });
 
-        }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Datos No Encontrados'){
-            alertaError(respuesta);
+            contenedorSpinner.classList.remove("mostrar_spinner");
+            contenedorModales.classList.add('mostrar');
+
+            setTimeout(()=>{
+                selectTipoDocumento.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+                
+            }else{
+                botonCerrarModal.click();
+                alertaError (respuesta);
+            }
         }
     })
 }
@@ -113,16 +127,31 @@ function eventoInputFicha(){
     const inputPrograma = document.getElementById('nombre_programa');
     const inputFechaFicha = document.getElementById('fecha_fin_ficha');
 
-    inputFicha.addEventListener('change', ()=>{
-        consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
-            if(respuesta.tipo == 'OK'){
-                inputPrograma.value = respuesta.datos_ficha.nombre_programa;
-                inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
+    let temporizador;
 
-            }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Ficha No Encontrada'){
-                alertaError(respuesta);
+    inputFicha.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            if(inputFicha.checkValidity()){
+                consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
+                    if(respuesta.tipo == 'OK'){
+                        inputPrograma.value = respuesta.datos_ficha.nombre_programa;
+                        inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
+
+                    }else if(respuesta.tipo == 'ERROR'){
+                        if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+                            
+                        }else if(respuesta.titulo != 'Ficha No Encontrada'){
+                            alertaError(respuesta);
+                        }
+                    }
+                })
+
+            }else{
+                inputFicha.reportValidity();
             }
-        })
+        }, 1000)
     })
 }
 
@@ -219,6 +248,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

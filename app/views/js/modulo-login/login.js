@@ -26,8 +26,8 @@ function eventoFormulario(){
                 }else if(datos.tipo == 'ERROR'){
                     alertaError(datos);
                 };
-
             });
+
         }else if(caja01.style.display == 'none' && caja02.style.display == 'block'){
             data.append('usuario', usuario.value);
             data.append('contrasena', contrasena.value);

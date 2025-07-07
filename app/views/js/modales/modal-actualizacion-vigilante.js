@@ -21,8 +21,11 @@ let botonRegistrar;
 let botonSiguiente;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalActualizacionVigilante(vigilante, callback, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-vigilante.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -79,6 +82,8 @@ async function modalActualizacionVigilante(vigilante, callback, url) {
         }, 250)
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -120,6 +125,7 @@ function dibujarVigilante(){
             inputCorreo.value = datosVigilante.correo_electronico;
             selectRol.value = datosVigilante.rol;
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -256,6 +262,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

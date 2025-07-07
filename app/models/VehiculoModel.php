@@ -69,6 +69,14 @@ class VehiculoModel extends MainModel {
             $sentenciaBuscar .= " AND fk_usuario LIKE '{$parametros['numero_documento']}%'";
         }
 
+        if(isset($parametros['tipo_vehiculo'])){
+            $sentenciaBuscar .= " AND tipo_vehiculo ='{$parametros['tipo_vehiculo']}'";
+        }
+
+        if(isset($parametros['ubicacion'])){
+            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
+        }
+
         $sentenciaBuscar .= " 
             GROUP BY numero_placa, tipo_vehiculo, ubicacion
             LIMIT 10;";
@@ -387,6 +395,7 @@ class VehiculoModel extends MainModel {
            SELECT 
                 veh.numero_placa, 
                 ppv.estado_permiso, 
+                ppv.codigo_permiso, 
                 mov.fecha_ultimo_movimiento AS fecha_ultima_entrada, 
                 ppv.fecha_registro AS fecha_permiso
             FROM (

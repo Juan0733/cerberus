@@ -6,8 +6,11 @@ let documentoAprendiz;
 let botonCerrarModal;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalDetalleAprendiz(aprendiz, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-detalle-aprendiz.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -36,6 +39,8 @@ async function modalDetalleAprendiz(aprendiz, url) {
         dibujarAprendiz();
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -72,6 +77,7 @@ function dibujarAprendiz() {
             document.getElementById('nombre_programa').textContent = datosAprendiz.nombre_programa;
             document.getElementById('fecha_fin_ficha').textContent = formatearFecha(datosAprendiz.fecha_fin_ficha);
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

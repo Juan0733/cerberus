@@ -12,12 +12,12 @@
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_ficha" id="buscador_ficha" placeholder="Buscar Ficha">
+            <input type="text" name="buscador_ficha" id="buscador_ficha" placeholder="Buscar Ficha" maxlength="7">
         </div> 
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>

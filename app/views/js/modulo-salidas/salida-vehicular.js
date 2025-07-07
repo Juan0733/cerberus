@@ -11,6 +11,12 @@ let documentoPropietario;
 let documentoPasajero;
 let placaVehiculo;
 let observacion;
+let botonPeatonal;
+let botonVehicular;
+let formularioPeatonal;
+let formularioVehicular;
+let contenedorBotonVolver;
+let contenedorBotonesFormularios;
 let cuerpoTablaPasajeros;
 let listaPropietarios;
 let urlBase;
@@ -22,12 +28,6 @@ const datosEntradaVehicular = {
 };
 
 function eventoAbrirFormularioVehicular() {
-    const botonVehicular = document.getElementById('btn_vehicular');
-    const botonPeatonal = document.getElementById('btn_peatonal');
-    const formularioVehicular = document.getElementById('formulario_vehicular');
-    const formularioPeatonal = document.getElementById('formulario_peatonal');
-    const contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
-
     botonVehicular.addEventListener('click', ()=>{
         limpiarFormularioVehicular();
         if(window.innerWidth > 1023){
@@ -45,9 +45,21 @@ function eventoAbrirFormularioVehicular() {
             botonPeatonal.style.display = "none";
             contenedorBotonVolver.style.display = 'flex';
             formularioVehicular.style.display = "flex"
+            contenedorBotonesFormularios.style.justifyContent = 'start';
             placaVehiculo.focus();
         }
     });
+}
+
+function eventoCerrarFormulario(){
+    document.getElementById('btn_volver').addEventListener('click', ()=>{
+        formularioPeatonal.style.display = 'none';
+        formularioVehicular.style.display = 'none';
+        contenedorBotonVolver.style.display = 'none';
+        botonPeatonal.style = 'flex';
+        botonVehicular.style = 'flex';
+        contenedorBotonesFormularios.style.justifyContent = 'center';
+    })
 }
 
 function validarVehiculoAptoEntrada(){
@@ -259,7 +271,7 @@ function eventoAgregarPasajero(){
             }else{
                 let mensaje = {
                     titulo: "Error Pasajero",
-                    mensaje: `El usuario con numero de documento ${documentoPropietario.value}, ya se encuentra en la lista de pasajeros.`
+                    mensaje: `El usuario con numero de documento ${documentoPasajero.value}, ya se encuentra en la lista de pasajeros.`
                 };
                 alertaError(mensaje);
             }
@@ -397,6 +409,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }
@@ -452,8 +469,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
     listaPropietarios = document.getElementById('lista_propietarios');
     placaVehiculo = document.getElementById('placa_vehiculo');
     observacion = document.getElementById('observacion_vehicular');
+    botonVehicular = document.getElementById('btn_vehicular');
+    botonPeatonal = document.getElementById('btn_peatonal');
+    formularioPeatonal = document.getElementById("formulario_peatonal"); 
+    formularioVehicular = document.getElementById("formulario_vehicular");
+    contenedorBotonesFormularios = document.getElementById('contenedor_btns_formularios');
+    contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
 
     eventoAbrirFormularioVehicular();
+    eventoCerrarFormulario();
     eventoInputPlaca();
     eventoInputPropietario();
     eventoInputPasajero();

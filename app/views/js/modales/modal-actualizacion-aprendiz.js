@@ -23,8 +23,11 @@ let botonRegistrar;
 let botonSiguiente;
 let urlBase;
 
+const contenedorSpinner = document.getElementById('contenedor_spinner');
+
 async function modalActualizacionAprendiz(aprendiz, callback, url) {
     try {
+        contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-aprendiz.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
@@ -83,6 +86,8 @@ async function modalActualizacionAprendiz(aprendiz, callback, url) {
         }, 250)
 
     } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        
         if(botonCerrarModal){
             botonCerrarModal.click();
         }
@@ -126,6 +131,7 @@ function dibujarAprendiz(){
             inputPrograma.value = datosAprendiz.nombre_programa;
             inputFechaFicha.value = datosAprendiz.fecha_fin_ficha;
 
+            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -157,16 +163,31 @@ function dibujarFichas(){
 }
 
 function eventoInputFicha(){
-    inputFicha.addEventListener('change', ()=>{
-        consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
-            if(respuesta.tipo == 'OK'){
-                inputPrograma.value = respuesta.datos_ficha.nombre_programa;
-                inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
+    let temporizador;
 
-            }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Ficha No Encontrada'){
-                alertaError(respuesta);
+    inputFicha.addEventListener('input', ()=>{
+        clearTimeout(temporizador);
+        temporizador = setTimeout(()=>{
+            if(inputFicha.checkValidity()){
+                consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
+                    if(respuesta.tipo == 'OK'){
+                        inputPrograma.value = respuesta.datos_ficha.nombre_programa;
+                        inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
+
+                    }else if(respuesta.tipo == 'ERROR'){
+                        if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+                            
+                        }else if(respuesta.titulo != 'Ficha No Encontrada'){
+                            alertaError(respuesta);
+                        }
+                    }
+                })
+
+            }else{
+                inputFicha.reportValidity();
             }
-        })
+        }, 1000)
     })
 }
 
@@ -270,6 +291,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }

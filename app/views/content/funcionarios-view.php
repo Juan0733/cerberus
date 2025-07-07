@@ -12,7 +12,7 @@
 
         <div class="filtro">
             <label class="fechas_input" for="rol_filtro">Rol:</label>
-            <select class="campo"  name="rol_filtro" id="rol_filtro" tabindex="8" required>
+            <select class="campo"  name="rol_filtro" id="rol_filtro" required>
                 <option value="">Todos</option>
                 <option value="COORDINADOR">Coordinador</option>
                 <option value="INSTRUCTOR">Instructor</option>
@@ -25,7 +25,7 @@
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento">
+            <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>

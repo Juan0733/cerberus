@@ -96,7 +96,7 @@ class PermisoVehiculoModel extends MainModel{
             }
         }
 
-         $respuesta = [
+        $respuesta = [
             'tipo' => 'OK',
             'titulo'=> 'Vehículo Apto',
             'mensaje' => 'El vehículo es apto para registrarle un permiso.'
@@ -147,8 +147,8 @@ class PermisoVehiculoModel extends MainModel{
             return $respuesta;
         }
 
-        $estadoPermiso = $respuesta['datos_permiso']['estado_permiso'];
-        if($estadoPermiso != 'PENDIENTE'){
+        $permiso = $respuesta['datos_permiso'];
+        if($permiso['estado_permiso'] != 'PENDIENTE'){
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Error Permiso',
@@ -227,7 +227,11 @@ class PermisoVehiculoModel extends MainModel{
             LEFT JOIN visitantes vis ON pv.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON pv.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON pv.fk_usuario = apr.numero_documento
-            WHERE DATE(pv.fecha_registro) = '{$parametros['fecha']}'";
+            WHERE 1= 1";
+
+        if(isset($parametros['fecha'])){
+            $sentenciaBuscar .= " AND DATE(pv.fecha_registro) = '{$parametros['fecha']}'";
+        }
 
         if(isset($parametros['tipo_permiso'])){
             $sentenciaBuscar .= " AND pv.tipo_permiso = '{$parametros['tipo_permiso']}'";

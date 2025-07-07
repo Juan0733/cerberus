@@ -3,7 +3,7 @@ namespace app\services;
 
 class PermisoUsuarioService{
     public function sanitizarDatosRegistroPermisoUsuario(){
-        if (!isset($_POST['documento_solicitante'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['documento_solicitante'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '' ) {
+        if (!isset($_POST['documento_beneficiario'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['documento_beneficiario'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -12,11 +12,11 @@ class PermisoUsuarioService{
             return $respuesta;
         }
 
-        $numeroDocumento = $this->limpiarDatos($_POST['documento_solicitante']);
+        $numeroDocumento = $this->limpiarDatos($_POST['documento_beneficiario']);
         $tipoPermiso = $this->limpiarDatos($_POST['tipo_permiso']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
         $fechaFinPermiso = $this->limpiarDatos($_POST['fecha_fin_permiso']);
-        unset($_POST['documento_solicitante'], $_POST['descripcion'], $_POST['fecha_fin_permiso']);
+        unset($_POST['documento_beneficiario'], $_POST['descripcion'], $_POST['fecha_fin_permiso']);
 
         $datos = [
             [

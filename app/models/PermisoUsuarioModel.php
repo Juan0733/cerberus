@@ -217,7 +217,11 @@ class PermisoUsuarioModel extends MainModel{
             LEFT JOIN visitantes vis ON pu.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON pu.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON pu.fk_usuario = apr.numero_documento
-            WHERE DATE(pu.fecha_registro) = '{$parametros['fecha']}'";
+            WHERE 1 = 1";
+
+        if(isset($parametros['fecha'])){
+            $sentenciaBuscar .=  " AND DATE(pu.fecha_registro) = '{$parametros['fecha']}'";
+        }
 
         if(isset($parametros['tipo_permiso'])){
             $sentenciaBuscar .= " AND pu.tipo_permiso = '{$parametros['tipo_permiso']}'";

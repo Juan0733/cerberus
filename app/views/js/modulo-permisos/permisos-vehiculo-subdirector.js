@@ -5,8 +5,6 @@ let urlBase;
 let codigoPermiso;
 let contenedorTabla;
 let cuerpoTabla;
-let inputFecha;
-let selectTipoPermiso;
 
 const parametros = {
     codigo_permiso: '',
@@ -87,6 +85,10 @@ function dibujarTablaPermisos(){
                     <tr>
                         <td colspan="10">${respuesta.mensaje}</td>
                     </tr>`;
+                   
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -136,6 +138,10 @@ function dibujarCardsPermisos(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -192,13 +198,17 @@ function eventoEstadoPermiso(){
 }
 
 function eventoFecha(){
-    fecha.addEventListener('change', ()=>{
+    const inputFecha = document.getElementById('fecha');
+
+    inputFecha.addEventListener('change', ()=>{
         parametros.fecha = inputFecha.value;
         validarResolucion();
     })
 }
 
 function eventoTipoPermiso(){
+    const selectTipoPermiso = document.getElementById('tipo_permiso_filtro');
+
     selectTipoPermiso.addEventListener('change', ()=>{
         parametros.tipo_permiso = selectTipoPermiso.value;
         validarResolucion();
@@ -261,6 +271,11 @@ function alertaExito(respuesta){
         showConfirmButton: false,   
         customClass: {
             popup: 'alerta-contenedor',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
         }
     })
 }
@@ -317,11 +332,7 @@ function alertaAdvertencia(datos){
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
-    inputFecha = document.getElementById('fecha');
-    selectTipoPermiso = document.getElementById('tipo_permiso_filtro');
     codigoPermiso = document.getElementById('codigo_permiso');
-    parametros.fecha = inputFecha.value;
-    parametros.tipo_permiso = selectTipoPermiso.value;
 
     if(codigoPermiso){
         parametros.codigo_permiso = codigoPermiso.value;

@@ -38,7 +38,7 @@
                 justify-content: center;
                 width: 40px;
                 height: 40px;
-                background-color: var(--color-secundario);
+                background-color: var(--main-color);
                 border: none;
                 border-radius: 13px;
                 font-size: 30px;
@@ -135,7 +135,7 @@
                         align-items: center;
                         border: none;
                         border-radius: 13px;
-                        background-color: var(--color-secundario);
+                        background-color: var(--main-color);
                         display: flex;
                         height: 60px;
                         justify-content: center;
@@ -193,7 +193,7 @@
                                 }
 
                 #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-registrar{
-                    background: var(--color-secundario);
+                    background: var(--main-color);
                     border: none;
                     border-radius: 13px;
                     color: white;
@@ -307,9 +307,11 @@
 
 @media(max-width: 767px){
     #contenedor_principal #contenedor_btns_formularios{
-        height: 100vh;
+        height: 95vh;
         flex-direction: column;
         justify-content: center;
+        padding: 0;
+        overflow-y: auto;
     }
 
         #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver{
@@ -343,7 +345,7 @@
             }
 
                 #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular #contenedor_pasajeros{
-                    max-height: 115px;
+                    max-height: 100px;
                 }     
 
     /* ------------------------------------------------- Estilos Modal Novedad Vehiculo ---------------------------------------*/

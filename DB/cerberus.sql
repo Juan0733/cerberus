@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-07-2025 a las 02:25:33
+-- Tiempo de generación: 08-07-2025 a las 16:53:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE `agendas` (
   `fecha_agenda` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -55,14 +55,7 @@ CREATE TABLE `aprendices` (
   `fk_ficha` varchar(7) NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `aprendices`
---
-
-INSERT INTO `aprendices` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `fk_ficha`, `fecha_registro`, `ubicacion`) VALUES
-(7, 'CC', '12345678888', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', '2714806', '2025-07-07 18:03:57', 'FUERA');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -76,7 +69,7 @@ CREATE TABLE `estadias_aprendices` (
   `fecha_fin_estadia` date NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -91,7 +84,7 @@ CREATE TABLE `fichas` (
   `fecha_fin_ficha` date NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `fichas`
@@ -124,20 +117,19 @@ CREATE TABLE `funcionarios` (
   `fecha_ultima_sesion` datetime DEFAULT NULL,
   `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA',
   `estado_usuario` varchar(8) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `funcionarios`
 --
 
 INSERT INTO `funcionarios` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(30, 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '1234567890', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-06-27 05:38:32', '2025-07-07 17:17:07', 'FUERA', 'ACTIVO'),
-(32, 'CC', '1234567890', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'SI', '2025-07-07 17:14:22', '2025-07-07 17:17:07', 'DENTRO', 'ACTIVO'),
-(33, 'CC', '1234524231', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-07', NULL, 'SI', '2025-07-07 17:26:52', NULL, 'DENTRO', 'INACTIVO'),
-(34, 'CC', '12345242300', 'Juan David', 'Restrepo Ramos', '1234567901', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-08', NULL, 'SI', '2025-07-07 17:27:26', NULL, 'DENTRO', 'INACTIVO'),
-(35, 'CC', '1234524230', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, NULL, 'SI', '2025-07-07 17:27:55', NULL, 'DENTRO', 'INACTIVO'),
-(36, 'CC', '1234524236', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-09', NULL, 'SI', '2025-07-07 17:28:21', NULL, 'DENTRO', 'INACTIVO'),
-(37, 'CC', '1234524239', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, NULL, 'SI', '2025-07-07 17:28:55', NULL, 'DENTRO', 'INACTIVO');
+(30, 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '1234567890', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-06-27 05:38:32', '2025-07-08 09:18:36', 'FUERA', 'ACTIVO'),
+(32, 'CC', '1234567890', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'SI', '2025-07-07 17:14:22', '2025-07-08 09:18:36', 'DENTRO', 'ACTIVO'),
+(33, 'CC', '1234524231', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-07', NULL, 'SI', '2025-07-07 17:26:52', '2025-07-08 09:18:36', 'DENTRO', 'INACTIVO'),
+(34, 'CC', '12345242300', 'Juan David', 'Restrepo Ramos', '1234567901', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-08', NULL, 'SI', '2025-07-07 17:27:26', '2025-07-08 09:18:36', 'DENTRO', 'INACTIVO'),
+(35, 'CC', '1234524230', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, NULL, 'SI', '2025-07-07 17:27:55', '2025-07-08 09:18:36', 'DENTRO', 'INACTIVO'),
+(37, 'CC', '1234524239', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, NULL, 'SI', '2025-07-07 17:28:55', '2025-07-08 09:18:36', 'DENTRO', 'INACTIVO');
 
 -- --------------------------------------------------------
 
@@ -149,7 +141,7 @@ CREATE TABLE `motivos_ingreso` (
   `contador` int(11) NOT NULL,
   `motivo` varchar(150) NOT NULL,
   `fecha_registro` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `motivos_ingreso`
@@ -179,7 +171,7 @@ CREATE TABLE `movimientos` (
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL,
   `grupo_usuario` varchar(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `movimientos`
@@ -197,7 +189,10 @@ INSERT INTO `movimientos` (`contador`, `tipo_movimiento`, `fk_usuario`, `fk_vehi
 (124, 'ENTRADA', '12345242300', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:31:44', '123456789', 'funcionarios'),
 (125, 'ENTRADA', '1234524230', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:01', '123456789', 'funcionarios'),
 (126, 'ENTRADA', '1234524236', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:11', '123456789', 'funcionarios'),
-(127, 'ENTRADA', '1234524239', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:23', '123456789', 'funcionarios');
+(127, 'ENTRADA', '1234524239', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:23', '123456789', 'funcionarios'),
+(128, 'ENTRADA', '12345678888', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 21:41:47', '123456789', 'visitantes'),
+(129, 'ENTRADA', '1234524236', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 21:53:31', '123456789', 'funcionarios'),
+(130, 'ENTRADA', '1234524236', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 21:56:34', '123456789', 'visitantes');
 
 -- --------------------------------------------------------
 
@@ -216,7 +211,7 @@ CREATE TABLE `novedades_usuarios` (
   `fecha_suceso` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `novedades_usuarios`
@@ -243,7 +238,7 @@ CREATE TABLE `novedades_vehiculos` (
   `fk_usuario_autoriza` varchar(15) NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -263,7 +258,7 @@ CREATE TABLE `permisos_usuarios` (
   `fk_usuario_atencion` varchar(15) DEFAULT NULL,
   `estado_permiso` varchar(11) NOT NULL DEFAULT 'PENDIENTE',
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `permisos_usuarios`
@@ -292,7 +287,7 @@ CREATE TABLE `permisos_vehiculos` (
   `fk_usuario_atencion` datetime DEFAULT NULL,
   `estado_permiso` varchar(11) NOT NULL DEFAULT 'PENDIENTE',
   `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `permisos_vehiculos`
@@ -312,7 +307,7 @@ CREATE TABLE `roles_permisos` (
   `contador` int(11) NOT NULL,
   `permiso` varchar(100) NOT NULL,
   `rol` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `roles_permisos`
@@ -333,7 +328,6 @@ INSERT INTO `roles_permisos` (`contador`, `permiso`, `rol`) VALUES
 (308, 'validar_usuario_apto_entrada', 'JEFE VIGILANTES'),
 (309, 'validar_usuario_apto_salida', 'JEFE VIGILANTES'),
 (310, 'consultar_movimientos', 'JEFE VIGILANTES'),
-(311, 'generar_pdf_movimientos', 'JEFE VIGILANTES'),
 (312, 'registrar_novedad_usuario', 'JEFE VIGILANTES'),
 (313, 'consultar_novedades_usuario', 'JEFE VIGILANTES'),
 (314, 'consultar_novedad_usuario', 'JEFE VIGILANTES'),
@@ -493,7 +487,7 @@ CREATE TABLE `vehiculos` (
   `fecha_registro` datetime NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL,
   `ubicacion` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `vehiculos`
@@ -522,14 +516,14 @@ CREATE TABLE `vigilantes` (
   `fecha_ultima_sesion` datetime NOT NULL,
   `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA',
   `estado_usuario` varchar(8) NOT NULL DEFAULT 'ACTIVO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `vigilantes`
 --
 
 INSERT INTO `vigilantes` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `contrasena`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(22, 'CC', '123456789', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'JEFE VIGILANTES', '25d55ad283aa400af464c76d713c07ad', '2025-07-03 18:57:36', '2025-07-07 17:29:24', 'DENTRO', 'ACTIVO');
+(22, 'CC', '123456789', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'JEFE VIGILANTES', '25d55ad283aa400af464c76d713c07ad', '2025-07-03 18:57:36', '2025-07-08 09:48:04', 'DENTRO', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -548,7 +542,7 @@ CREATE TABLE `visitantes` (
   `motivo_ingreso` varchar(150) NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `ubicacion` varchar(8) NOT NULL DEFAULT 'FUERA'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `visitantes`
@@ -675,7 +669,9 @@ INSERT INTO `visitantes` (`contador`, `tipo_documento`, `numero_documento`, `nom
 (407, 'CE', '1234568010', 'Daniel', 'Ramos', '1234568008', 'daniel@gmail.com', 'Dfdfdfdf', '2025-07-02 17:14:23', 'FUERA'),
 (408, 'CE', '1114813615', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Matricula', '2025-07-02 23:42:29', 'FUERA'),
 (409, 'CC', '111481361', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-07-02 23:55:01', 'DENTRO'),
-(410, 'CE', '12345678988', 'Daniel', 'Ramos', '1234567890', 'daniel@gmail.com', 'Hjhjhjh', '2025-07-07 17:16:56', 'FUERA');
+(410, 'CE', '12345678988', 'Daniel', 'Ramos', '1234567890', 'daniel@gmail.com', 'Hjhjhjh', '2025-07-07 17:16:56', 'FUERA'),
+(411, 'CC', '12345678888', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'La ficha del aprendiz ha finalizado', '2025-07-07 21:41:47', 'DENTRO'),
+(412, 'CC', '1234524236', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'El contrato del funcionario ha finalizado', '2025-07-07 21:56:34', 'DENTRO');
 
 --
 -- Índices para tablas volcadas
@@ -815,7 +811,7 @@ ALTER TABLE `motivos_ingreso`
 -- AUTO_INCREMENT de la tabla `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades_usuarios`
@@ -863,7 +859,7 @@ ALTER TABLE `vigilantes`
 -- AUTO_INCREMENT de la tabla `visitantes`
 --
 ALTER TABLE `visitantes`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=411;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=413;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

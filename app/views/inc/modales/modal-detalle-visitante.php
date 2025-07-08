@@ -29,10 +29,10 @@
                 <h3>Correo Electrónico:</h3>
                 <p id="correo_electronico"></p>
             </div>
-            <div class="caja">
-                <h3>Motivo Ingreso:</h3>
-                <p id="motivo_ingreso"></p>
-            </div>
+        </div>
+        <div class="caja">
+            <h3>Motivo Ingreso:</h3>
+            <p id="motivo_ingreso"></p>
         </div>
     </div>
 </div>

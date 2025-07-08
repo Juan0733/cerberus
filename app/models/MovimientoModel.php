@@ -272,7 +272,7 @@ class MovimientoModel extends MainModel{
                 $datosUsuario['grupo'] = 'visitantes';
             }
 
-        }elseif($datosUsuario['grupo'] == 'funcionarios' && $datosUsuario['tipo_contrato'] == 'contratista'){
+        }elseif($datosUsuario['grupo'] == 'funcionarios' && $datosUsuario['tipo_contrato'] == 'CONTRATISTA'){
             $fechaActual = new DateTime();
             $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
             if($fechaFinContrato < $fechaActual){

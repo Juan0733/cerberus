@@ -309,13 +309,23 @@ main#cuerpo{
                 cursor: pointer;
             }
 
+        #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal::-webkit-scrollbar{
+            background: transparent;
+            width: 8px;
+            height: 8px;
+        }
+
+        #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal::-webkit-scrollbar-thumb{
+            border-radius: 20px;
+            background-color: rgb(180, 180, 180);
+        }
+
         #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal{
             height: 90.5vh;
             background: var(--color-primario);
             border-radius: 20px;
             padding: 20px 5px;
             overflow-y: auto;
-            scrollbar-width: none;
         }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
@@ -325,7 +335,7 @@ main#cuerpo{
             }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal .contenedor-alerta {
-                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
                 border-radius: 15px;
                 display: flex;
                 flex-direction: column;

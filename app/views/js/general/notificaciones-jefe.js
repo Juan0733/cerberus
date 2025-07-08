@@ -102,14 +102,8 @@ function eventoAbrirModal(){
 }
 
 function eventoCerrarModal(){
-    const botonCerrarModal = document.getElementById('cerrar_modal_notificacion');
-
-    botonCerrarModal.addEventListener('click', ()=>{
+    document.getElementById('cerrar_modal_notificacion').addEventListener('click', ()=>{
         contenedorModal.classList.remove('mostrar');
-    })
-
-    contenedorModal.addEventListener('click', ()=>{
-        botonCerrarModal.click();
     })
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-07-2025 a las 04:22:52
+-- Tiempo de generación: 08-07-2025 a las 02:25:33
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,131 +38,6 @@ CREATE TABLE `agendas` (
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
---
--- Volcado de datos para la tabla `agendas`
---
-
-INSERT INTO `agendas` (`contador`, `codigo_agenda`, `titulo`, `motivo`, `fk_usuario`, `fecha_agenda`, `fecha_registro`, `fk_usuario_sistema`) VALUES
-(3593, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567892', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3594, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567893', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3595, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567894', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3596, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567895', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3597, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567896', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3598, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567897', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3599, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567898', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3600, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567899', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3601, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567900', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3602, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567901', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3603, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567902', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3604, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567903', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3605, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567904', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3606, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567905', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3607, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567906', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3608, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567907', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3609, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567908', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3610, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567909', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3611, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567910', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3612, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567911', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3613, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567912', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3614, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567913', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3615, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567914', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3616, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567915', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3617, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567916', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3618, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567917', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3619, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567918', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3620, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567919', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3621, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567920', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3622, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567921', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3623, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567922', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3624, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567923', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3625, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567924', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3626, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567925', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3627, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567926', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3628, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567927', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3629, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567928', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3630, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567929', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3631, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567930', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3632, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567931', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3633, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567932', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3634, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567933', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3635, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567934', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3636, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567935', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3637, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567936', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3638, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567937', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3639, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567938', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3640, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567939', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3641, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567940', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3642, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567941', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3643, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567942', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3644, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567943', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3645, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567944', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3646, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567945', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3647, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567946', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3648, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567947', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3649, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567948', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3650, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567949', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3651, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567950', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3652, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567951', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3653, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567952', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3654, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567953', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3655, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567954', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3656, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567955', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3657, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567956', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3658, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567957', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3659, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567958', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3660, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567959', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3661, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567960', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3662, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567961', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3663, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567962', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3664, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567963', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3665, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567964', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3666, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567965', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3667, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567966', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3668, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567967', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3669, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567968', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3670, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567969', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3671, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567970', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3672, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567971', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3673, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567972', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3674, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567973', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3675, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567974', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3676, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567975', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3677, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567976', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3678, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567977', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3679, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567978', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3680, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567979', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3681, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567980', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3682, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567981', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3683, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567982', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3684, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567983', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3685, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567984', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3686, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567985', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3687, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567986', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3688, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567987', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3689, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567988', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3690, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567989', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3691, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567990', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3692, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567991', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3693, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567992', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3694, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567993', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3695, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567994', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3696, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567995', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3697, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567996', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3698, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567997', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3699, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567998', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3700, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234567999', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3701, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568000', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3702, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568001', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3703, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568002', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3704, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568003', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3705, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568004', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3706, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568005', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3707, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568006', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3708, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568007', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3709, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568008', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3710, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568009', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892'),
-(3711, 'AG20250702171423', 'Mercado Campesino', 'Dfdfdfdf', '1234568010', '2025-07-02 17:14:00', '2025-07-02 17:14:23', '1234567892');
-
 -- --------------------------------------------------------
 
 --
@@ -187,7 +62,7 @@ CREATE TABLE `aprendices` (
 --
 
 INSERT INTO `aprendices` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `fk_ficha`, `fecha_registro`, `ubicacion`) VALUES
-(6, 'CC', '1234524236', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', '2714805', '2025-07-03 00:12:39', 'FUERA');
+(7, 'CC', '12345678888', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', '2714806', '2025-07-07 18:03:57', 'FUERA');
 
 -- --------------------------------------------------------
 
@@ -223,7 +98,8 @@ CREATE TABLE `fichas` (
 --
 
 INSERT INTO `fichas` (`contador`, `numero_ficha`, `nombre_programa`, `fecha_fin_ficha`, `fecha_registro`, `fk_usuario_sistema`) VALUES
-(6, '2714805', 'Analisis Y Desarrollo De Software', '2025-07-31', '2025-07-03 00:12:39', '');
+(6, '2714805', 'Analisis Y Desarrollo De Software', '2025-07-31', '2025-07-03 00:12:39', ''),
+(7, '2714806', 'Tecnólogo En Recursos Humanos', '2025-07-07', '2025-07-07 18:03:57', '');
 
 -- --------------------------------------------------------
 
@@ -255,7 +131,13 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(30, 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '1234567890', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-06-27 05:38:32', '2025-07-03 21:20:19', 'FUERA', 'ACTIVO');
+(30, 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '1234567890', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-06-27 05:38:32', '2025-07-07 17:17:07', 'FUERA', 'ACTIVO'),
+(32, 'CC', '1234567890', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'SI', '2025-07-07 17:14:22', '2025-07-07 17:17:07', 'DENTRO', 'ACTIVO'),
+(33, 'CC', '1234524231', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-07', NULL, 'SI', '2025-07-07 17:26:52', NULL, 'DENTRO', 'INACTIVO'),
+(34, 'CC', '12345242300', 'Juan David', 'Restrepo Ramos', '1234567901', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-08', NULL, 'SI', '2025-07-07 17:27:26', NULL, 'DENTRO', 'INACTIVO'),
+(35, 'CC', '1234524230', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, NULL, 'SI', '2025-07-07 17:27:55', NULL, 'DENTRO', 'INACTIVO'),
+(36, 'CC', '1234524236', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'CONTRATISTA', '2025-07-09', NULL, 'SI', '2025-07-07 17:28:21', NULL, 'DENTRO', 'INACTIVO'),
+(37, 'CC', '1234524239', 'Juan David', 'Restrepo Ramos', '1234567890', 'juan@gmail.com', 'COORDINADOR', 'PLANTA', NULL, NULL, 'SI', '2025-07-07 17:28:55', NULL, 'DENTRO', 'INACTIVO');
 
 -- --------------------------------------------------------
 
@@ -277,7 +159,8 @@ INSERT INTO `motivos_ingreso` (`contador`, `motivo`, `fecha_registro`) VALUES
 (4, 'Ddsdsdssdsds', '2025-06-26 13:44:25'),
 (5, 'Dfdfdfdf', '2025-07-02 17:14:19'),
 (6, 'Matricula', '2025-07-02 23:42:29'),
-(7, 'Inscripcion', '2025-07-02 23:55:01');
+(7, 'Inscripcion', '2025-07-02 23:55:01'),
+(8, 'Hjhjhjh', '2025-07-07 17:16:56');
 
 -- --------------------------------------------------------
 
@@ -307,7 +190,14 @@ INSERT INTO `movimientos` (`contador`, `tipo_movimiento`, `fk_usuario`, `fk_vehi
 (117, 'ENTRADA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 18:58:42', '123456789', 'visitantes'),
 (118, 'ENTRADA', '111481361', 'ASD123', 'PROPIETARIO', 'PEATONAL', 'NULL', '2025-07-02 19:01:59', '123456789', 'visitantes'),
 (119, 'SALIDA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 19:02:23', '123456789', 'visitantes'),
-(120, 'SALIDA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 19:03:05', '123456789', 'visitantes');
+(120, 'SALIDA', '1114813615', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 19:03:05', '123456789', 'visitantes'),
+(121, 'ENTRADA', '123456789', NULL, NULL, 'PEATONAL', NULL, '2025-07-03 16:12:56', '123456789', 'vigilantes'),
+(122, 'ENTRADA', '1234567890', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:31:23', '123456789', 'funcionarios'),
+(123, 'ENTRADA', '1234524231', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:31:34', '123456789', 'funcionarios'),
+(124, 'ENTRADA', '12345242300', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:31:44', '123456789', 'funcionarios'),
+(125, 'ENTRADA', '1234524230', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:01', '123456789', 'funcionarios'),
+(126, 'ENTRADA', '1234524236', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:11', '123456789', 'funcionarios'),
+(127, 'ENTRADA', '1234524239', NULL, NULL, 'PEATONAL', NULL, '2025-07-07 17:32:23', '123456789', 'funcionarios');
 
 -- --------------------------------------------------------
 
@@ -380,7 +270,8 @@ CREATE TABLE `permisos_usuarios` (
 --
 
 INSERT INTO `permisos_usuarios` (`contador`, `codigo_permiso`, `tipo_permiso`, `fk_usuario`, `descripcion`, `fecha_fin_permiso`, `fecha_registro`, `fecha_atencion`, `fk_usuario_atencion`, `estado_permiso`, `fk_usuario_sistema`) VALUES
-(12, 'PU20250703191922', 'PERMANENCIA', '111481361', 'Requiere permiso para finalizar un trabajo dentro del cab', '2025-07-04 19:07:00', '2025-07-03 19:19:22', '2025-07-03 20:50:31', '1234567892', 'APROBADO', '123456789');
+(12, 'PU20250703191922', 'PERMANENCIA', '111481361', 'Requiere permiso para finalizar un trabajo dentro del cab', '2025-07-04 19:07:00', '2025-07-03 19:19:22', '2025-07-03 20:50:31', '1234567892', 'APROBADO', '123456789'),
+(13, 'PU20250706164217', 'PERMANENCIA', '111481361', 'Dfdfdfdfdf', '2025-07-07 16:42:00', '2025-07-06 14:42:17', NULL, NULL, 'PENDIENTE', '123456789');
 
 -- --------------------------------------------------------
 
@@ -408,7 +299,8 @@ CREATE TABLE `permisos_vehiculos` (
 --
 
 INSERT INTO `permisos_vehiculos` (`contador`, `codigo_permiso`, `tipo_permiso`, `fk_vehiculo`, `fk_usuario`, `descripcion`, `fecha_fin_permiso`, `fecha_registro`, `fecha_atencion`, `fk_usuario_atencion`, `estado_permiso`, `fk_usuario_sistema`) VALUES
-(5, 'PV20250703192530', 'PERMANENCIA', 'ASD123', '111481361', 'Requiere permiso por falla mecánica del vehículo', '2025-07-04 19:19:00', '2025-07-03 19:25:30', NULL, NULL, 'PENDIENTE', '123456789');
+(5, 'PV20250703192530', 'PERMANENCIA', 'ASD123', '111481361', 'Requiere permiso por falla mecánica del vehículo', '2025-07-04 19:19:00', '2025-07-03 19:25:30', '2025-07-05 17:48:51', '0000-00-00 00:00:00', 'APROBADO', '123456789'),
+(6, 'PV20250706115057', 'PERMANENCIA', 'ASD123', '111481361', 'El vehículo presenta fallas mecánicas por lo que requiere un permiso de permanencia', '2025-07-07 11:50:00', '2025-07-06 11:50:57', '2025-07-06 21:38:58', '0000-00-00 00:00:00', 'APROBADO', '123456789');
 
 -- --------------------------------------------------------
 
@@ -637,7 +529,7 @@ CREATE TABLE `vigilantes` (
 --
 
 INSERT INTO `vigilantes` (`contador`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `contrasena`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(22, 'CC', '123456789', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'JEFE VIGILANTES', '25d55ad283aa400af464c76d713c07ad', '2025-07-03 18:57:36', '2025-07-03 21:10:16', 'FUERA', 'ACTIVO');
+(22, 'CC', '123456789', 'Sara', 'Rico', '1234567890', 'sara@gmail.com', 'JEFE VIGILANTES', '25d55ad283aa400af464c76d713c07ad', '2025-07-03 18:57:36', '2025-07-07 17:29:24', 'DENTRO', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -782,7 +674,8 @@ INSERT INTO `visitantes` (`contador`, `tipo_documento`, `numero_documento`, `nom
 (406, 'CE', '1234568009', 'Daniel', 'Ramos', '1234568007', 'daniel@gmail.com', 'Dfdfdfdf', '2025-07-02 17:14:23', 'FUERA'),
 (407, 'CE', '1234568010', 'Daniel', 'Ramos', '1234568008', 'daniel@gmail.com', 'Dfdfdfdf', '2025-07-02 17:14:23', 'FUERA'),
 (408, 'CE', '1114813615', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Matricula', '2025-07-02 23:42:29', 'FUERA'),
-(409, 'CC', '111481361', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-07-02 23:55:01', 'DENTRO');
+(409, 'CC', '111481361', 'Juan David', 'Restrepo Fernandez', '1234567890', 'juan@gmail.com', 'Inscripcion', '2025-07-02 23:55:01', 'DENTRO'),
+(410, 'CE', '12345678988', 'Daniel', 'Ramos', '1234567890', 'daniel@gmail.com', 'Hjhjhjh', '2025-07-07 17:16:56', 'FUERA');
 
 --
 -- Índices para tablas volcadas
@@ -886,13 +779,13 @@ ALTER TABLE `visitantes`
 -- AUTO_INCREMENT de la tabla `agendas`
 --
 ALTER TABLE `agendas`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3712;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4069;
 
 --
 -- AUTO_INCREMENT de la tabla `aprendices`
 --
 ALTER TABLE `aprendices`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `estadias_aprendices`
@@ -904,25 +797,25 @@ ALTER TABLE `estadias_aprendices`
 -- AUTO_INCREMENT de la tabla `fichas`
 --
 ALTER TABLE `fichas`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `motivos_ingreso`
 --
 ALTER TABLE `motivos_ingreso`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `movimientos`
 --
 ALTER TABLE `movimientos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT de la tabla `novedades_usuarios`
@@ -940,13 +833,13 @@ ALTER TABLE `novedades_vehiculos`
 -- AUTO_INCREMENT de la tabla `permisos_usuarios`
 --
 ALTER TABLE `permisos_usuarios`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos_vehiculos`
 --
 ALTER TABLE `permisos_vehiculos`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `roles_permisos`
@@ -964,13 +857,13 @@ ALTER TABLE `vehiculos`
 -- AUTO_INCREMENT de la tabla `vigilantes`
 --
 ALTER TABLE `vigilantes`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `visitantes`
 --
 ALTER TABLE `visitantes`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=410;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=411;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

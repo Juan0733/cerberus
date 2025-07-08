@@ -182,7 +182,7 @@ class UsuarioModel extends MainModel{
                 $datosUsuario['panel_acceso'] = 'inicio';
 
                 session_regenerate_id(true);
-                setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 44000, "/");
+                setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 315360000, "/");
 
                 $respuesta = $this->actualizarFechaSesion($datosUsuario['numero_documento'], $tabla);
                 if($respuesta['tipo'] == 'ERROR'){

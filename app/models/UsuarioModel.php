@@ -4,6 +4,11 @@ namespace app\models;
 use DateTime;
 
 class UsuarioModel extends MainModel{
+    private $objetoPermisoRol;
+
+    public function __construct() {
+        $this->objetoPermisoRol = new PermisoRolModel();
+    }
 
     public function consultarUsuario($usuario){
         $tablas = ['vigilantes', 'visitantes', 'funcionarios', 'aprendices'];
@@ -91,7 +96,8 @@ class UsuarioModel extends MainModel{
 
         $sentenciaActualizar = "
             UPDATE $tabla 
-            SET fecha_ultima_sesion = '$fechaUltimaSesion';";
+            SET fecha_ultima_sesion = '$fechaUltimaSesion'
+            WHERE numero_documento = '$usuario';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -204,23 +210,21 @@ class UsuarioModel extends MainModel{
     }
 
     public function validarPermisosUsuario($permiso){
+        $respuesta = $this->objetoPermisoRol->consultarPermiso($permiso);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
         $rol = 'INVITADO';
         if(isset($_SESSION['datos_usuario'])){
             $rol = $_SESSION['datos_usuario']['rol'];
         }
 
-        $sentenciaBuscar = "
-            SELECT rol
-            FROM roles_permisos
-            WHERE rol = '$rol' AND permiso = '$permiso';";
-
-        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
-        if($respuesta['tipo'] == 'ERROR'){
+        $respuesta = $this->objetoPermisoRol->consultarPermisoRol($permiso, $rol);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
-        }
 
-        $respuestaSentencia = $respuesta['respuesta_sentencia'];
-        if($respuestaSentencia->num_rows < 1){
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Permiso No Encontrado'){
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Acceso Denegado',

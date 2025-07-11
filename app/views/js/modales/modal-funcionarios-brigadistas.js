@@ -77,7 +77,7 @@ function dibujarBrigadistas(){
                 let telefonoFormateado = '';
                 for (let i = 0; i < funcionario.telefono.length; i++) {
                     telefonoFormateado += funcionario.telefono[i];
-                    if(i == 2 || i == 4 || i == 6 || i == 8){
+                    if(i == 2 || i == 5 || i == 7 ){
                         telefonoFormateado += '-';
                     }
                 }

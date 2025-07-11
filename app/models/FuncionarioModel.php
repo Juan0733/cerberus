@@ -182,10 +182,6 @@ class FuncionarioModel extends MainModel{
             FROM funcionarios 
             WHERE 1=1";
         
-        if(isset($parametros['brigadista'])){
-            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}'";
-        }
-
         if(isset($parametros['ubicacion'])){
             $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
@@ -198,7 +194,14 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND rol = '{$parametros['rol']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
+        if(isset($parametros['brigadista'])){
+            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}'  ORDER BY fecha_registro DESC LIMIT 8;";
+
+        }else{
+            $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
+        }
+
+        
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

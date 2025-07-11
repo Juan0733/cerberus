@@ -42,7 +42,7 @@
             overflow-x: auto;
             grid-auto-rows: min-content;
             max-height: 70vh;
-            row-gap: 3em;
+            row-gap: 2.5em;
             width: 100%;
         }
 
@@ -78,11 +78,10 @@
                     align-items: center;
                     column-gap: 10px;
                     display: flex;
-                    margin-bottom: 10px;
                 }
 
                     #contenedor_cards .card-multitud .contenedor-titulo h2{
-                        font-size: 1.8em;
+                        font-size: 1.3em;
                     }
 
                     #contenedor_cards .card-multitud .contenedor-titulo ion-icon {
@@ -90,12 +89,12 @@
                     }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud h3{
-                    font-size: 1.5em;
+                    font-size: 1.1em;
                 }
 
-                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h4{
-                    font-size: 1.2em;
-                }
+                    #contenedor_cards .card-multitud h3 .numero{
+                        font-size: 2.5em;
+                    }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud .contenedor-barra {
                     width: 95%;
@@ -155,18 +154,6 @@
 
                 #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards .card-multitud{
                     width: 100%;
-                }
-
-                    #contenedor_cards .card-multitud .contenedor-titulo h2{
-                        font-size: 1.5em;
-                    }
-
-                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h3{
-                    font-size: 1.2em;
-                }
-
-                #contenedor_cartas_multitudes #contenedor_cards .card-multitud h4{
-                    font-size: 1em;
                 }
 }
 

@@ -155,8 +155,8 @@ function eventoGuardarPuerta(){
 
 function alertaExito(respuesta){
     Swal.fire({
-        toast: true, 
-        position: 'top-end', 
+        toast: true,
+        position: 'top-end', // Este valor lo anularemos con CSS
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -164,15 +164,15 @@ function alertaExito(respuesta){
         timer: 5000,
         timerProgressBar: true,
         title: respuesta.mensaje,
-        showConfirmButton: false,   
+        showConfirmButton: false,
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {
-                Swal.close();
+            Swal.close();
             });
         }
-    })
+    });
 }
 

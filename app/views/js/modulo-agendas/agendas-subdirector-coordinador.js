@@ -200,7 +200,7 @@ function alertaError(respuesta){
         text: respuesta.mensaje,
         confirmButtonText: 'Aceptar',
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
             confirmButton: 'btn-confirmar'
         },
         didOpen: (toast) => {

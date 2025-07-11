@@ -63,6 +63,14 @@ function eventoSubMenu(){
                 subMenus[indice].classList.remove('desplegado');
                 opcion.classList.remove('inbox');
             }else{
+                for(const subMenu of subMenus){
+                    if(subMenu.classList.contains('desplegado')){
+                        subMenu.classList.remove('desplegado');
+                        subMenu.style.display = 'none';
+                        break;
+                    }
+                };
+                
                 subMenus[indice].style.display = 'block';
                 subMenus[indice].classList.add('desplegado');
                 document.querySelector('.inbox')?.classList.remove('inbox');

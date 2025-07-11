@@ -28,19 +28,19 @@ function dibujarConteoUsuarios(){
         if(datos.tipo == 'OK'){
             datos.usuarios.forEach(usuario => {
                 if(usuario.tipo_usuario == 'aprendices'){
-                    conteoAprendices.innerHTML = usuario.cantidad + " en el CAB";
+                    conteoAprendices.innerHTML = "<span class='numero'>" + usuario.cantidad + "</span> en el CAB";
                     barraAprendices.style.width = usuario.porcentaje + "%";
                     porcentajeAprendices.innerHTML = usuario.porcentaje + "% son Aprendices";
                 } else if(usuario.tipo_usuario == 'funcionarios'){
-                    conteoFuncionarios.innerHTML = usuario.cantidad + " en el CAB";
+                    conteoFuncionarios.innerHTML = "<span class='numero'>" + usuario.cantidad + "</span> en el CAB";
                     barraFuncionarios.style.width = usuario.porcentaje + "%";
                     porcentajeFuncionarios.innerHTML = usuario.porcentaje + "% son Funcionarios";
                 } else if(usuario.tipo_usuario == 'visitantes'){
-                   conteoVisitantes.innerHTML = usuario.cantidad + " en el CAB";
+                   conteoVisitantes.innerHTML = "<span class='numero'>" + usuario.cantidad + "</span> en el CAB";
                     barraVisitantes.style.width = usuario.porcentaje + "%";
                     porcentajeVisitantes.innerHTML = usuario.porcentaje + "% son Visitantes";
                 } else if(usuario.tipo_usuario == 'vigilantes'){
-                    conteoVigilantes.innerHTML = usuario.cantidad + " en el CAB";
+                    conteoVigilantes.innerHTML = "<span class='numero'>" + usuario.cantidad + "</span> en el CAB";
                     barraVigilantes.style.width = usuario.porcentaje + "%";
                     porcentajeVigilantes.innerHTML = usuario.porcentaje + "% son Vigilantes";
                 }
@@ -62,11 +62,11 @@ function dibujarConteoVehiculos(){
         if(datos.tipo == 'OK'){
             datos.vehiculos.forEach(vehiculo => {
                 if(vehiculo.tipo_vehiculo == 'carros'){
-                    conteoCarros.innerHTML = vehiculo.cantidad + " en el CAB";
+                    conteoCarros.innerHTML = "<span class='numero'>" + vehiculo.cantidad + "</span> en el CAB";
                     barraCarros.style.width = vehiculo.porcentaje + "%";
                     porcentajeCarros.innerHTML = vehiculo.porcentaje + "% son Carros";
                 } else if(vehiculo.tipo_vehiculo == 'motos'){
-                    conteoMotos.innerHTML = vehiculo.cantidad + " en el CAB";
+                    conteoMotos.innerHTML = "<span class='numero'>" + vehiculo.cantidad + "</span> en el CAB";
                     barraMotos.style.width = vehiculo.porcentaje + "%";
                     porcentajeMotos.innerHTML = vehiculo.porcentaje + "% son Motos";
                 }

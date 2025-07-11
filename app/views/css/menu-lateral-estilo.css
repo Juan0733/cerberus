@@ -133,7 +133,6 @@
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
-    justify-content: center;
     flex-direction: column;
 }
 .barra-lateral .navegacion::-webkit-scrollbar{

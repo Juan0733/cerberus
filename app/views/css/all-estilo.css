@@ -93,7 +93,13 @@ main#cuerpo{
 
     .alerta-contenedor .swal2-timer-progress-bar {
         background-color: #2db910 !important; /* Cambia el color a tu preferencia */
-      }
+    }
+
+    .alerta-contenedor.exito {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        bottom: auto !important;
+    }
 
     main#cuerpo section#contenedor_pagina{
         display: flex;
@@ -240,22 +246,37 @@ main#cuerpo{
     z-index: 2000;
 }
 
-    #contenedor_spinner #spinner {
+    #contenedor_spinner #caja_spinner{
         border-radius: 13px;
-        background-color: var(--color-secundario);
         bottom: 50%;
-        height: 70px;
+        display: flex;
+        height: 120px;
+        flex-direction: column;
+        align-items: center;
         left: 50%;
         position: fixed;
+        row-gap: 10px;
         right: 50%;
         top: 45%;
-        width: 70px;
-        z-index: 2100;
     }
+        #contenedor_spinner #caja_spinner img {
+            background-color: transparent;
+            height: 70px;
+            width: 70px;
+        }
+        #contenedor_spinner #caja_spinner #spinner {
+            width: 35px;
+            height: 35px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: white;
+            border-radius: 50%;
+        }
 
-    #contenedor_spinner.mostrar_spinner #spinner{
+    #contenedor_spinner.mostrar_spinner #caja_spinner #spinner{
         animation: spin 1s infinite;
     }
+
+
 
 #contenedor_spinner.mostrar_spinner{
     opacity: 1;
@@ -324,7 +345,7 @@ main#cuerpo{
             height: 90.5vh;
             background: var(--color-primario);
             border-radius: 20px;
-            padding: 20px 5px;
+            padding: 20px 10px;
             overflow-y: auto;
         }
 
@@ -981,7 +1002,7 @@ main#cuerpo{
                 }
   
                 #cont_info_modales .document-card-brigadista .card-header .document-meta {
-                    font-size: 1em;
+                    font-size: 1.2em;
                     color: #555;
                     margin-top: 5px;
                 }

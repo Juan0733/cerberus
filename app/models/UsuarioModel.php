@@ -91,11 +91,11 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
-    private function actualizarFechaSesion($usuario, $tabla){
+    private function actualizarFechaSesion($usuario, $tablaOrigen){
         $fechaUltimaSesion = date('Y-m-d H:i:s');
 
         $sentenciaActualizar = "
-            UPDATE $tabla 
+            UPDATE $tablaOrigen 
             SET fecha_ultima_sesion = '$fechaUltimaSesion'
             WHERE numero_documento = '$usuario';";
 

@@ -1,4 +1,4 @@
-import {registrarVehiculo, consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
+import {registrarVehiculo} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVisitante} from './modal-registro-visitante.js'
 
 let contenedorModales;
@@ -33,14 +33,12 @@ async function modalRegistroVehiculo(url, placa=false, callback=false) {
             numeroPlaca.readOnly = true;
         }
 
-        if(callback){
-            funcionCallback = callback;
-        }
-
         inputDocumento = document.getElementById('propietario');
+        funcionCallback = callback;
         urlBase = url;
         
         eventoCerrarModal();
+        eventoInputPropietario();
         eventoRegistrarVehiculo();
 
         contenedorSpinner.classList.remove("mostrar_spinner");
@@ -89,6 +87,20 @@ function eventoCerrarModal(){
     document.getElementById('btn_cancelar_vehiculo').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function eventoInputPropietario() {
+    inputDocumento.addEventListener('change', function() {
+        if (inputDocumento.value.length>15) {
+            let cadenas = inputDocumento.value.split(' ');
+            for(const cadena of cadenas) {
+                if(/\d/.test(cadena)){
+                    inputDocumento.value = cadena.replace(/\D/g, '');
+                    break;
+                }
+            }
+        }
+    })
 }
 
 function eventoRegistrarVehiculo(){
@@ -149,7 +161,7 @@ function alertaAdvertencia(respuesta){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',

@@ -1,4 +1,5 @@
 import { aprobarPermisoUsuario, consultarPermisosUsuarios, desaprobarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
+import { dibujarNotificaciones } from '../general/notificaciones-subdirector.js';
 import { modalDetallePermisoUsuario } from '../modales/modal-detalle-permiso-usuario.js';
 
 let urlBase;
@@ -245,7 +246,7 @@ function toggleCard() {
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -285,6 +286,7 @@ function alertaAdvertencia(datos){
                 aprobarPermisoUsuario(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
+                        dibujarNotificaciones();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -299,6 +301,7 @@ function alertaAdvertencia(datos){
                 desaprobarPermisoUsuario(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
+                        dibujarNotificaciones();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){

@@ -229,10 +229,16 @@ function eventoInputPropietario(){
         if(documentoPropietario.value.length > 15){
             clearTimeout(temporizador);
             temporizador = setTimeout(()=>{
-                let documentoFormateado = documentoPropietario.value.replace(/\D/g, '').slice(0, 10);   
-                documentoPropietario.value = documentoFormateado;
-                documentoPropietario.blur();
-                validarDocumentoPropietario();
+                let cadenas = documentoPropietario.value.split(' ');
+                for(const cadena of cadenas) {
+                    if(/\d/.test(cadena)){
+                        documentoPropietario.value = cadena.replace(/\D/g, '');
+                        documentoPropietario.blur();
+                        validarDocumentoPropietario();
+                        break;
+                    }
+                };
+                
             }, 250);
 
         }else{
@@ -247,8 +253,13 @@ function eventoInputPropietario(){
 function eventoInputPasajero(){
     documentoPasajero.addEventListener('change',()=>{  
         if(documentoPasajero.value.length > 15){  
-            let documentoFormateado = documentoPasajero.value.replace(/\D/g, '').slice(0, 10);   
-            documentoPasajero.value = documentoFormateado;
+            let cadenas = documentoPasajero.value.split(' ');
+            for(const cadena of cadenas) {
+                if(/\d/.test(cadena)){
+                    documentoPasajero.value = cadena.replace(/\D/g, '');
+                    break;
+                }
+            };
         }
     });
 }
@@ -392,7 +403,7 @@ function limpiarFormularioVehicular(){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',

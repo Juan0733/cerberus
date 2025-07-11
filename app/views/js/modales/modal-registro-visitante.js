@@ -5,6 +5,7 @@ let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
+let formularioEvento;
 let urlBase;
 let inputTipoDocumento;
 let seccion01;
@@ -16,7 +17,7 @@ let botonRegistrar;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalRegistroVisitante(url, documento=false, callback=false) {
+async function modalRegistroVisitante(url, documento=false, callback=false, formulario=false) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-visitante.php');
@@ -38,9 +39,8 @@ async function modalRegistroVisitante(url, documento=false, callback=false) {
             inputDocumento.readOnly = true;
         }
 
-        if(callback){
-            funcionCallback = callback;
-        }
+        funcionCallback = callback;
+        formularioEvento = formulario;
 
         inputTipoDocumento = document.getElementById('tipo_documento');
         seccion01 = document.getElementsByClassName('seccion-01');
@@ -136,12 +136,16 @@ function eventoRegistrarVisitante(){
 
         registrarVisitante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK"){
-                alertaExito(respuesta);
+                // alertaExito(respuesta);
                 botonCerrarModal.click();
+                // if(funcionCallback){
+                //     funcionCallback(respuesta);
+                // }
 
-                if(funcionCallback){
-                    funcionCallback(respuesta);
-                }
+                // if(formularioEvento){
+                //     const evento = new Event("submit", { bubbles: true, cancelable: true });
+                //     formularioEvento.dispatchEvent(evento);
+                // }
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){
@@ -212,7 +216,7 @@ function volverCampos() {
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',

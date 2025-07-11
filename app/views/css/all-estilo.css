@@ -96,9 +96,9 @@ main#cuerpo{
     }
 
     .alerta-contenedor.exito {
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        bottom: auto !important;
+        margin-bottom: 20px !important;
+        margin-right: 20px !important;
+        width: auto !important; 
     }
 
     main#cuerpo section#contenedor_pagina{

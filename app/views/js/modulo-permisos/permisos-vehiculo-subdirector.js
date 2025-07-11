@@ -1,4 +1,5 @@
 import { aprobarPermisoVehiculo, consultarPermisosVehiculos, desaprobarPermisoVehiculo} from '../fetchs/permisos-vehiculos-fetch.js';
+import { dibujarNotificaciones } from '../general/notificaciones-subdirector.js';
 import { modalDetallePermisoVehiculo } from '../modales/modal-detalle-permiso-vehiculo.js';
 
 let urlBase;
@@ -260,7 +261,7 @@ function alertaError(respuesta){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -300,6 +301,7 @@ function alertaAdvertencia(datos){
                 aprobarPermisoVehiculo(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
+                        dibujarNotificaciones();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -314,6 +316,7 @@ function alertaAdvertencia(datos){
                 desaprobarPermisoVehiculo(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
+                        dibujarNotificaciones();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){

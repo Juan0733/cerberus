@@ -44,9 +44,9 @@ function dibujarTablaVigilantes(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_vigilantes');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarVigilantes(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.vigilantes.forEach(vigilante => {
                 let acciones = `<ion-icon name="eye" class="ver-vigilante" data-vigilante="${vigilante.numero_documento}"></ion-icon>`
 
@@ -339,11 +339,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
     
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-vigilante')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-vigilante')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

@@ -136,16 +136,17 @@ function eventoRegistrarVisitante(){
 
         registrarVisitante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK"){
-                // alertaExito(respuesta);
                 botonCerrarModal.click();
-                // if(funcionCallback){
-                //     funcionCallback(respuesta);
-                // }
+                alertaExito(respuesta);
 
-                // if(formularioEvento){
-                //     const evento = new Event("submit", { bubbles: true, cancelable: true });
-                //     formularioEvento.dispatchEvent(evento);
-                // }
+                if(funcionCallback){
+                    funcionCallback(respuesta);
+                }
+
+                if(formularioEvento){
+                    const evento = new Event("submit", { bubbles: true, cancelable: true });
+                    formularioEvento.dispatchEvent(evento);
+                }
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

@@ -46,9 +46,9 @@ function dibujarTablaMovimientos(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_movimientos');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarMovimientos(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.movimientos.forEach(movimiento => {
                 cuerpoTabla.innerHTML += `
                     <tr>
@@ -65,12 +65,16 @@ function dibujarTablaMovimientos(){
             });
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
             }else{
                 cuerpoTabla.innerHTML = `
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -101,11 +105,15 @@ function dibujarCardsMovimientos(){
             });
 
             toggleCard();
+            
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
                     window.location.replace(urlBase+'sesion-expirada');
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -195,6 +203,20 @@ function toggleCard() {
     });
 }
 
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     fechaInicio = document.getElementById('fecha_inicio');
@@ -212,11 +234,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
     
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-movimiento')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-movimiento')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

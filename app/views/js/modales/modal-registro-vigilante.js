@@ -107,8 +107,8 @@ function eventoRegistrarVigilante(){
        
         registrarVigilante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                alertaExito(respuesta);
                 botonCerrarModal.click();
+                alertaExito(respuesta);
                 funcionCallback();
                 
             }else if(respuesta.tipo == "ERROR"){

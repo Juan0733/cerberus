@@ -94,8 +94,8 @@ function eventoRegistrarNovedadVehiculo(){
 
         registrarNovedadVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                alertaExito(respuesta);
                 botonCerrarModal.click();
+                alertaExito(respuesta);
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

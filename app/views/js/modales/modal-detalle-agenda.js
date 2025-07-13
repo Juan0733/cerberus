@@ -104,7 +104,7 @@ function dibujarAgenda() {
 }
 
 function formatearFecha(fecha){
-    const objetoFecha = new Date(fecha.replace(' ', 'T'));
+    const objetoFecha = new Date(fecha);
 
     let opciones = { day: 'numeric', month: 'long' }
     const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);

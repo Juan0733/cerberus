@@ -131,15 +131,17 @@ function dibujarTablaPropietarios(){
 }
 
 function dibujarCardsPropietarios(){
+    cuerpoTabla = '';
     consultarPropietarios(numeroPlaca, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            contenedorInformacion.innerHTML = '';
             respuesta.propietarios.forEach(propietario => {
                 contenedorInformacion.innerHTML += `
                     <div class="document-card-propietario">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${propietario.tipo_documento} ${propietario.numero_documento}</p>
-                                <p class="document-meta">Nombres: ${propietario.nombres} ${propietario.apellidos}</p>
+                                <p class="document-title">${propietario.nombres} | ${propietario.apellidos}</p>
+                                <p class="document-meta">${propietario.tipo_documento}. ${propietario.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
@@ -275,3 +277,14 @@ function alertaError(respuesta){
         }
     });
 }
+
+window.addEventListener('resize', ()=>{
+    setTimeout(()=>{
+        if(window.innerWidth >= 1024 && document.querySelector('.document-card-propietario')){
+            validarResolucion();
+
+        }else if(window.innerWidth < 1024 && cuerpoTabla){
+            validarResolucion();
+        }
+    }, 250)
+});

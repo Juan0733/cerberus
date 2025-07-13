@@ -92,7 +92,7 @@ main#cuerpo{
     }
 
     .alerta-contenedor .swal2-timer-progress-bar {
-        background-color: #2db910 !important; /* Cambia el color a tu preferencia */
+        background-color: #2db910 !important; 
     }
 
     .alerta-contenedor.exito {
@@ -350,7 +350,7 @@ main#cuerpo{
         }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
-                left: 15%;
+                left: 20%;
                 position: absolute;
                 top: 50%;
             }

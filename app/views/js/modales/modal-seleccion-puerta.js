@@ -145,9 +145,9 @@ function eventoGuardarPuerta(){
 
         guardarPuerta(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
+                botonCerrarModal.click();
                 alertaExito(respuesta);
                 puertaActual = puertaNueva;
-                botonCerrarModal.click();
             }
         })
     })

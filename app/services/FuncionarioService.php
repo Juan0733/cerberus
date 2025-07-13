@@ -488,7 +488,7 @@ class FuncionarioService{
             $rol = $this->limpiarDatos($_GET['rol']);
             unset($_GET['rol']);
 
-            if(preg_match('/^(COORDINADOR|INSTRUCTOR|PERSONAL ADMINISTRATIVO|PERSONAL ASEO|SOPORTE TECNICO)$/', $rol)){
+            if(preg_match('/^(COORDINADOR|INSTRUCTOR|PERSONAL ADMINISTRATIVO|PERSONAL ASEO|SOPORTE TECNICO|SUBDIRECTOR)$/', $rol)){
                 $parametros['rol'] = $rol;
             }
         }

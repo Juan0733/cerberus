@@ -47,9 +47,9 @@ function dibujarTablaPermisos(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_permisos_vehiculo');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarPermisosVehiculos(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.permisos_vehiculos.forEach(permiso => { 
                 let acciones = `<ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>`;
                 if(permiso.tipo_permiso == 'PERMANENCIA' && permiso.estado_permiso == 'PENDIENTE'){
@@ -349,11 +349,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-vehiculo')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-vehiculo')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

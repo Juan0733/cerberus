@@ -102,7 +102,7 @@ function formatearString(cadena) {
 }
 
 function formatearFecha(fecha){
-    const objetoFecha = new Date(fecha.replace(' ', 'T'));
+    const objetoFecha = new Date(fecha);
 
     const opciones = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
     const fechaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);

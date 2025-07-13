@@ -105,7 +105,7 @@ function eventoCerrarModal(){
         
     });
 
-    document.getElementById('btn_cancelar_funcionario').addEventListener('click', ()=>{
+    botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
@@ -135,11 +135,10 @@ function eventoRegistrarFuncionario(){
             formData.append('contrasena', inputContrasena.value);
         }
 
-
         registrarFuncionario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                alertaExito(respuesta);
                 botonCerrarModal.click();
+                alertaExito(respuesta);
                 funcionCallback();
                 
             }else if(respuesta.tipo == "ERROR"){
@@ -197,6 +196,8 @@ function eventoSelectRol(){
             inputContrasena.required = false;
             inputConfirmacion.required = false;
         }
+
+        botonCerrarModal
     })
 }
 

@@ -45,9 +45,9 @@ function dibujarTablaFuncionarios(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_funcionarios');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarFuncionarios(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.funcionarios.forEach(funcionario => {
                 let acciones = `<ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
 
@@ -344,11 +344,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
     
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-funcionario')){
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-funcionario')){
             validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

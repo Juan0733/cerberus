@@ -171,6 +171,16 @@ class AgendaModel extends MainModel{
                     return $respuesta;
                 }
             }
+
+            $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+            if($usuarioSistema == $agendado['numero_documento']){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Error Agenda',
+                    'mensaje' => 'Lo sentimos, pero no es posible registrar una agenda para ti mismo.'
+                ];
+                return $respuesta;
+            }
         }
 
         $respuesta = [

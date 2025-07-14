@@ -99,7 +99,6 @@ function eventoRegistrarNovedadUsuario(){
 
         registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                botonCerrarModal.click();
                 alertaExito(respuesta);
 
                 if(funcionCallback){
@@ -110,6 +109,8 @@ function eventoRegistrarNovedadUsuario(){
                     const evento = new Event("submit", { bubbles: true, cancelable: true });
                     formularioEvento.dispatchEvent(evento);
                 }
+
+                botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

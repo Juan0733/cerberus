@@ -386,7 +386,7 @@ class VehiculoModel extends MainModel {
     public function consultarNotificacionesVehiculo(){
         $objetoFecha = new DateTime();
         $fechaActual = $objetoFecha->format('Y-m-d H:i:s');
-        $fechaMenos16H = (clone $objetoFecha)->modify('-16 hours')->format('Y-m-d H:i:s');
+        $fechaMenos15H = (clone $objetoFecha)->modify('-15 hours')->format('Y-m-d H:i:s');
         $fechaMenos1H = (clone $objetoFecha)->modify('-1 hours')->format('Y-m-d H:i:s');
 
         $notificaciones = [];
@@ -421,7 +421,7 @@ class VehiculoModel extends MainModel {
                     AND p1.fecha_registro = ult.fecha_ultimo_permiso
             ) ppv ON veh.numero_placa = ppv.fk_vehiculo
             WHERE 
-                mov.fecha_ultimo_movimiento < '$fechaMenos16H'
+                mov.fecha_ultimo_movimiento < '$fechaMenos15H'
                 AND (
                     ppv.estado_permiso IS NULL 
                     OR ppv.estado_permiso = 'DESAPROBADO'

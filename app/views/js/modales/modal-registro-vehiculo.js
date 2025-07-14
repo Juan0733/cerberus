@@ -112,12 +112,13 @@ function eventoRegistrarVehiculo(){
 
         registrarVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                botonCerrarModal.click();
                 alertaExito(respuesta);
                 
                 if(funcionCallback){
                     funcionCallback();
                 }
+
+                botonCerrarModal.click();
 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

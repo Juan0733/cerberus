@@ -111,7 +111,7 @@ function eventoCerrarModal(){
         contenedorModales.classList.remove('mostrar');
     });
 
-    document.getElementById('btn_cancelar_agenda').addEventListener('click', ()=>{
+    botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
@@ -142,9 +142,9 @@ function eventoRegistrarAgenda(){
 
         registrarAgenda(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
-                botonCerrarModal.click();
                 alertaExito(respuesta);
                 funcioCallback();
+                botonCerrarModal.click();
 
             }else if(respuesta.tipo == 'ERROR'){
                 if(respuesta.titulo == 'Sesión Expirada'){

@@ -17,18 +17,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 
     $respuesta = $objetoUsuario->validarTiempoSesion();
     if($respuesta['tipo'] == 'ERROR'){
-        echo json_encode($respuesta);
-        exit();
+       if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../sesion-expirada');
+            exit();
+        }
     }
 
-    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    $respuesta = $objetoUsuario->validarAccesoUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
         echo json_encode($respuesta);
         exit();
         
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Operación No Encontrada'){
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../404');
+            exit();
+        }
+
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
-        header('Location: ../../acceso-denegado');
-        exit();
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../acceso-denegado');
+            exit();
+        }
     }
 
 	if($operacion == 'validar_usuario'){
@@ -61,18 +83,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 
 	$respuesta = $objetoUsuario->validarTiempoSesion();
     if($respuesta['tipo'] == 'ERROR'){
-        echo json_encode($respuesta);
-        exit();
+       if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../sesion-expirada');
+            exit();
+        }
     }
 
-    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    $respuesta = $objetoUsuario->validarAccesoUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
         echo json_encode($respuesta);
         exit();
         
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Operación No Encontrada'){
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../404');
+            exit();
+        }
+
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
-        header('Location: ../../acceso-denegado');
-        exit();
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../acceso-denegado');
+            exit();
+        }
     }
 	
 	if($operacion == 'conteo_total_usuarios'){

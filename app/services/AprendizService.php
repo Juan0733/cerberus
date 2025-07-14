@@ -73,9 +73,9 @@ class AprendizService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords(strtolower($apellidos)));
-        $nombrePrograma = trim(ucwords(strtolower($nombrePrograma)));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombrePrograma = mb_convert_case(mb_strtolower(trim($nombrePrograma), "UT-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosAprendiz = [
             'tipo_documento' => $tipoDocumento,
@@ -162,9 +162,9 @@ class AprendizService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords(strtolower($apellidos)));
-        $nombrePrograma = trim(ucwords(strtolower($nombrePrograma)));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombrePrograma = mb_convert_case(mb_strtolower(trim($nombrePrograma), "UT-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosAprendiz = [
             'numero_documento' => $numeroDocumento,

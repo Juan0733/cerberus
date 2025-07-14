@@ -187,7 +187,7 @@ try {
         exit();
     }
 
-    $respuesta = $objetoUsuario->validarPermisosUsuario('generar_pdf_movimientos');
+    $respuesta = $objetoUsuario->validarAccesoUsuario('generar_pdf_movimientos');
     if($respuesta['tipo'] == 'ERROR'){
         header('Location: ../../acceso-denegado');
         exit();

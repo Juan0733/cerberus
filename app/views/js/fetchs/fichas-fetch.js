@@ -3,7 +3,12 @@ const contenedorSpinner = document.getElementById("contenedor_spinner");
 async function consultarFichas(urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/FichaController.php?operacion='+encodeURI('consultar_fichas'));
+        const response = await fetch(urlBase+'app/controllers/FichaController.php?operacion='+encodeURI('consultar_fichas'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -25,7 +30,12 @@ export{consultarFichas}
 async function consultarFicha(ficha, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/FichaController.php?operacion='+encodeURI('consultar_ficha')+'&ficha='+encodeURI(ficha));
+        const response = await fetch(urlBase+'app/controllers/FichaController.php?operacion='+encodeURI('consultar_ficha')+'&ficha='+encodeURI(ficha), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

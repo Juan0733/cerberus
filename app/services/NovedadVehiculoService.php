@@ -54,7 +54,7 @@ class NovedadVehiculoService{
         }
 
         $numeroPlaca = strtoupper($numeroPlaca);
-        $descripcion = trim(ucfirst(strtolower($descripcion)));
+        $descripcion = mb_strtoupper(mb_substr(trim($descripcion), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($descripcion), 1, null, "UTF-8"), "UTF-8");
 
         $datosNovedad = [
             'documento_involucrado' => $documentoInvolucrado,

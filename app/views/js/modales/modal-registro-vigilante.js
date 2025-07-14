@@ -91,7 +91,7 @@ function eventoCerrarModal(){
         
     });
 
-    document.getElementById('btn_cancelar_vigilante').addEventListener('click', ()=>{
+    botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
@@ -107,9 +107,9 @@ function eventoRegistrarVigilante(){
        
         registrarVigilante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                botonCerrarModal.click();
                 alertaExito(respuesta);
                 funcionCallback();
+                botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

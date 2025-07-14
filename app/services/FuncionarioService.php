@@ -116,8 +116,8 @@ class FuncionarioService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords(strtolower($apellidos)));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
         if($contrasena != 'NULL'){
             $contrasena = md5($contrasena);
@@ -243,8 +243,8 @@ class FuncionarioService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords(strtolower($apellidos)));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
         
         $datosFuncionario = [
@@ -374,8 +374,8 @@ class FuncionarioService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords(strtolower($apellidos)));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
 
         $datosFuncionario = [

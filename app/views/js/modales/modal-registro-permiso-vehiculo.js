@@ -146,9 +146,9 @@ function eventoRegistrarPermisoVehiculo(){
 
         registrarPermisoVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                botonCerrarModal.click();
                 alertaExito(respuesta);
                 funcionCallback();
+                botonCerrarModal.click();
 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

@@ -35,14 +35,13 @@
     }
 
         #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
-            column-gap: 2em;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             overflow-y: auto;
             overflow-x: auto;
             grid-auto-rows: min-content;
             max-height: 70vh;
-            row-gap: 2.5em;
+            row-gap: 4em;
             width: 100%;
         }
 
@@ -93,7 +92,7 @@
                 }
 
                     #contenedor_cards .card-multitud h3 .numero{
-                        font-size: 2.5em;
+                        font-size: 2.3em;
                     }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud .contenedor-barra {
@@ -120,7 +119,8 @@
     }
 
     #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
-        max-height: 76vh;
+        column-gap: 4em;
+        max-height: 78vh;
         margin: 0 auto;
         grid-template-columns: repeat(2, 1fr);
         width: 100%;

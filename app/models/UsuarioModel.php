@@ -4,10 +4,10 @@ namespace app\models;
 use DateTime;
 
 class UsuarioModel extends MainModel{
-    private $objetoPermisoRol;
+    private $objetoRolOperacion;
 
     public function __construct() {
-        $this->objetoPermisoRol = new PermisoRolModel();
+        $this->objetoRolOperacion = new RolOperacionModel();
     }
 
     public function consultarUsuario($usuario){
@@ -16,7 +16,7 @@ class UsuarioModel extends MainModel{
             if($tabla == 'aprendices'){
                 $sentenciaBuscar = "
                     SELECT 
-                        tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, 
+                        tipo_usuario, tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, 
                         fecha_fin_ficha, ubicacion 
                     FROM $tabla 
                     INNER JOIN fichas ON fk_ficha = numero_ficha 
@@ -36,7 +36,7 @@ class UsuarioModel extends MainModel{
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
-                $datosUsuario['grupo'] = $tabla;
+                $datosUsuario['tabla_usuario'] = $tabla;
                 $respuesta = [
                     'tipo' => 'OK',
                     'usuario' => $datosUsuario
@@ -209,8 +209,8 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
-    public function validarPermisosUsuario($permiso){
-        $respuesta = $this->objetoPermisoRol->consultarPermiso($permiso);
+    public function validarAccesoUsuario($operacion){
+        $respuesta = $this->objetoRolOperacion->consultarOperacion($operacion);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -220,11 +220,11 @@ class UsuarioModel extends MainModel{
             $rol = $_SESSION['datos_usuario']['rol'];
         }
 
-        $respuesta = $this->objetoPermisoRol->consultarPermisoRol($permiso, $rol);
+        $respuesta = $this->objetoRolOperacion->consultarRolOperacion($rol, $operacion);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
-        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Permiso No Encontrado'){
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Acceso Denegado',
@@ -243,7 +243,12 @@ class UsuarioModel extends MainModel{
 
     public function validarTiempoSesion(){
         if(isset($_SESSION['datos_usuario'])){
-            $tiempoLimite = 43200;
+            $tiempoLimite = 28800;
+
+            if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'){
+                $tiempoLimite = 43200;
+            }
+
             $tiempoTranscurrido = time() -  $_SESSION['datos_usuario']['hora_sesion'];
 
             if($tiempoTranscurrido > $tiempoLimite){
@@ -358,7 +363,7 @@ class UsuarioModel extends MainModel{
         $tablas = ['vigilantes', 'visitantes', 'funcionarios', 'aprendices'];
         $objetoFecha = new DateTime();
         $fechaActual = $objetoFecha->format('Y-m-d H:i:s');
-        $fechaMenos16H = (clone $objetoFecha)->modify('-16 hours')->format('Y-m-d H:i:s');
+        $fechaMenos15H = (clone $objetoFecha)->modify('-15 hours')->format('Y-m-d H:i:s');
         $fechaMenos1H = (clone $objetoFecha)->modify('-1 hours')->format('Y-m-d H:i:s');
 
         $notificaciones = [];
@@ -367,6 +372,7 @@ class UsuarioModel extends MainModel{
             $sentenciaBuscar = "
                 SELECT 
                     usu.numero_documento, 
+                    usu.tipo_usuario,
                     ppu.estado_permiso, 
                     ppu.codigo_permiso,
                     ppu.fecha_registro AS fecha_permiso, 
@@ -397,7 +403,7 @@ class UsuarioModel extends MainModel{
                 ) ppu ON usu.numero_documento = ppu.fk_usuario
                 WHERE 
                     usu.ubicacion = 'DENTRO'
-                    AND mov.fecha_registro < '$fechaMenos16H'
+                    AND mov.fecha_registro < '$fechaMenos15H'
                     AND (
                         ppu.estado_permiso IS NULL 
                         OR ppu.estado_permiso = 'DESAPROBADO'

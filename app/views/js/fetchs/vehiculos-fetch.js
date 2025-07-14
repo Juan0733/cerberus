@@ -5,6 +5,9 @@ async function registrarVehiculo(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VehiculoController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -27,7 +30,12 @@ export{registrarVehiculo}
 
 async function conteoTipoVehiculo(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('conteo_tipo_vehiculo'));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('conteo_tipo_vehiculo'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -48,7 +56,12 @@ export{conteoTipoVehiculo}
 async function consultarVehiculos(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento)+'&tipo='+encodeURI(parametros.tipo)+'&ubicacion='+encodeURI(parametros.ubicacion));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento)+'&tipo='+encodeURI(parametros.tipo)+'&ubicacion='+encodeURI(parametros.ubicacion), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -70,7 +83,12 @@ export{consultarVehiculos}
 async function consultarVehiculo(placa, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculo')+'&placa='+encodeURI(placa));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculo')+'&placa='+encodeURI(placa), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -92,7 +110,12 @@ export{consultarVehiculo}
 async function consultarPropietarios(placa, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_propietarios')+'&placa='+encodeURI(placa));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_propietarios')+'&placa='+encodeURI(placa), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -114,7 +137,12 @@ export{consultarPropietarios}
 async function eliminarPropietarioVehiculo(placa, documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('eliminar_propietario_vehiculo')+'&placa='+encodeURI(placa)+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('eliminar_propietario_vehiculo')+'&placa='+encodeURI(placa)+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -135,7 +163,12 @@ export{eliminarPropietarioVehiculo}
 
 async function consultarNotificacionesVehiculo(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_notificaciones_vehiculo'));
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_notificaciones_vehiculo'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

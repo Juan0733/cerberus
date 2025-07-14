@@ -47,8 +47,8 @@ class VisitanteModel extends MainModel{
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
-            $grupoUsuario = $respuesta['usuario']['grupo'];
-            if($grupoUsuario == 'visitantes'){
+            $tipoUsuario = $respuesta['usuario']['tipo_usuario'];
+            if($tipoUsuario == 'VISITANTE'){
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
@@ -57,7 +57,8 @@ class VisitanteModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->objetoUsuario->eliminarUsuario($visitante, $grupoUsuario);
+            $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $respuesta = $this->objetoUsuario->eliminarUsuario($visitante, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }

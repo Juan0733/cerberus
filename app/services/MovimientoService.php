@@ -41,7 +41,8 @@ class MovimientoService{
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
         if($observacion != 'NULL'){
-            $observacion = trim(ucfirst(strtolower($observacion)));
+            $observacion = trim($observacion);
+            $observacion = mb_strtoupper(mb_substr($observacion, 0, 2, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($observacion, 2, null, "UTF-8"), "UTF-8");
         }
 
         $datosMovimiento = [
@@ -132,7 +133,8 @@ class MovimientoService{
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
         if($observacion != 'NULL'){
-            $observacion = trim(ucfirst(strtolower($observacion)));
+            $observacion = trim($observacion);
+            $observacion = mb_strtoupper(mb_substr(trim($observacion), 0, 2, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($observacion), 2, null, "UTF-8"), "UTF-8");
         }
 
         $placaVehiculo = strtoupper($placaVehiculo);
@@ -153,6 +155,15 @@ class MovimientoService{
 
     public function sanitizarParametros(){
         $parametros = [];
+
+        if(isset($_GET['codigo_movimiento'])){
+            $codigoMovimiento = $this->limpiarDatos($_GET['codigo_movimiento']);
+            unset($_GET['codigo_movimiento']);
+
+            if(preg_match('/^[A-Z0-9]{16}$/', $codigoMovimiento)){
+                $parametros['codigo_movimiento'] = $codigoMovimiento;
+            }
+        }
 
         if(isset($_GET['puerta'])){
             $puerta = $this->limpiarDatos($_GET['puerta']);

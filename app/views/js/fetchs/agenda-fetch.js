@@ -5,6 +5,9 @@ async function registrarAgenda(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/AgendaController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -30,6 +33,9 @@ async function actualizarAgenda(datos, urlBase) {
     try {
         const response = await fetch(urlBase+'app/controllers/AgendaController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -53,7 +59,12 @@ export{actualizarAgenda}
 async function consultarAgendas(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/AgendaController.php?operacion='+encodeURI('consultar_agendas')+'&fecha='+encodeURI(parametros.fecha)+'&documento='+encodeURI(parametros.documento)+'&titulo='+encodeURI(parametros.titulo));
+        const response = await fetch(urlBase+'app/controllers/AgendaController.php?operacion='+encodeURI('consultar_agendas')+'&fecha='+encodeURI(parametros.fecha)+'&documento='+encodeURI(parametros.documento)+'&titulo='+encodeURI(parametros.titulo), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -75,7 +86,12 @@ export{consultarAgendas}
 async function consultarAgenda(codigo, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/AgendaController.php?operacion='+encodeURI('consultar_agenda')+'&codigo_agenda='+encodeURI(codigo));
+        const response = await fetch(urlBase+'app/controllers/AgendaController.php?operacion='+encodeURI('consultar_agenda')+'&codigo_agenda='+encodeURI(codigo), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -97,7 +113,12 @@ export{consultarAgenda}
 async function eliminarAgenda(codigo, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/AgendaController.php?operacion='+encodeURI('eliminar_agenda')+'&codigo_agenda='+encodeURI(codigo));
+        const response = await fetch(urlBase+'app/controllers/AgendaController.php?operacion='+encodeURI('eliminar_agenda')+'&codigo_agenda='+encodeURI(codigo), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

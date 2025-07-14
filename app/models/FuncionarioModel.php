@@ -88,8 +88,8 @@ class FuncionarioModel extends MainModel{
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
-            $grupoUsuario = $respuesta['usuario']['grupo'];
-            if($grupoUsuario == 'funcionarios'){
+            $tipoUsuario = $respuesta['usuario']['tipo_usuario'];
+            if($tipoUsuario == 'FUNCIONARIO'){
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
@@ -98,7 +98,8 @@ class FuncionarioModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->objetoUsuario->eliminarUsuario($funcionario, $grupoUsuario);
+            $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $respuesta = $this->objetoUsuario->eliminarUsuario($funcionario, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }

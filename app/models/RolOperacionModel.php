@@ -1,12 +1,12 @@
 <?php
 namespace app\models;
 
-class PermisoRolModel extends MainModel{
-    public function consultarPermiso($permiso){
+class RolOperacionModel extends MainModel{
+    public function consultarOperacion($operacion){
         $sentenciaBuscar = "
             SELECT rol
-            FROM roles_permisos
-            WHERE permiso = '$permiso';";
+            FROM roles_operaciones
+            WHERE operacion = '$operacion';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -17,25 +17,25 @@ class PermisoRolModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 'tipo' => 'ERROR',
-                'titulo' => 'Permiso No Encontrado',
-                'mensaje' => 'Lo sentimos, no se encontro el permiso solicitado.'
+                'titulo' => 'Operación No Encontrada',
+                'mensaje' => 'Lo sentimos, no se encontro la operación solicitada.'
             ];
             return $respuesta;
         }
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Permiso Encontrado',
-            'mensaje' => 'El permiso si se encuentra registrado.'
+            'titulo' => 'Operación Encontrada',
+            'mensaje' => 'La operación si se encuentra registrada.'
         ];
         return $respuesta;
     }
 
-    public function consultarPermisoRol($permiso, $rol){
+    public function consultarRolOperacion($rol, $operacion){
         $sentenciaBuscar = "
             SELECT rol
-            FROM roles_permisos
-            WHERE permiso = '$permiso' AND rol = '$rol';";
+            FROM roles_operaciones
+            WHERE rol = '$rol' AND operacion = '$operacion';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -46,16 +46,16 @@ class PermisoRolModel extends MainModel{
         if($respuestaSentencia->num_rows < 1){
             $respuesta = [
                 'tipo' => 'ERROR',
-                'titulo' => 'Permiso No Encontrado',
-                'mensaje' => 'Lo sentimos, no se encontro una relación entre el permiso y rol proporcionado.'
+                'titulo' => 'Datos No Encontrados',
+                'mensaje' => 'Lo sentimos, pero parece que este rol no tiene asociado la operación solicitada.'
             ];
             return $respuesta;
         }
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Permiso Encontrado',
-            'mensaje' => 'El permiso si tiene relacion con el rol proporcionado.'
+            'titulo' => 'Relación Encontrada',
+            'mensaje' => 'El rol si esta asociado con la operación solicitada.'
         ];
         return $respuesta;
     }

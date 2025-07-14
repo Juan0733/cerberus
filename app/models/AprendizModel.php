@@ -86,8 +86,8 @@ class AprendizModel extends MainModel{
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
-            $grupoUsuario = $respuesta['usuario']['grupo'];
-            if($grupoUsuario == 'aprendices'){
+            $tipoUsuario = $respuesta['usuario']['tipo_usuario'];
+            if($tipoUsuario == 'APRENDIZ'){
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
@@ -96,7 +96,8 @@ class AprendizModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->objetoUsuario->eliminarUsuario($aprendiz, $grupoUsuario);
+            $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $respuesta = $this->objetoUsuario->eliminarUsuario($aprendiz, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }

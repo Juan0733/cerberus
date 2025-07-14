@@ -5,6 +5,9 @@ async function validarUsuarioLogin(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/UsuarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -30,6 +33,9 @@ async function validarContrasenaLogin(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/UsuarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -52,7 +58,12 @@ export{validarContrasenaLogin}
 
 async function conteoTotalUsuarios(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('conteo_total_usuarios'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('conteo_total_usuarios'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -72,7 +83,12 @@ export{conteoTotalUsuarios}
 
 async function conteoTipoUsuario(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('conteo_tipo_usuario'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('conteo_tipo_usuario'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -93,7 +109,12 @@ export{conteoTipoUsuario}
 async function cerrarSesion(urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('cerrar_sesion'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('cerrar_sesion'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -114,7 +135,12 @@ export{cerrarSesion}
 
 async function consultarNotificacionesUsuario(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('consultar_notificaciones_usuario'));
+        const response = await fetch(urlBase+'app/controllers/UsuarioController.php?operacion='+encodeURI('consultar_notificaciones_usuario'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

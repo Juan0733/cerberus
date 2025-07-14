@@ -86,7 +86,7 @@ function eventoCerrarModal(){
         
     });
 
-    document.getElementById('btn_cancelar_aprendiz').addEventListener('click', ()=>{
+    botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
@@ -166,9 +166,9 @@ function eventoRegistrarAprendiz(){
        
         registrarAprendiz(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
-                botonCerrarModal.click();
                 alertaExito(respuesta);
                 funcionCallback();
+                botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

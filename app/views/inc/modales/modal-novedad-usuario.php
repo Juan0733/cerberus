@@ -41,7 +41,7 @@
                         tabindex="6" 
                         required 
                         min="<?php echo $fechaMinimaFormatted; ?>" 
-                        max="<? echo $fechaMaximaFormatted; ?>">
+                        max="<?php echo $fechaMaximaFormatted; ?>">
                 </div>
 
                 <div class="input-caja-registro">

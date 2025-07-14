@@ -47,11 +47,10 @@ function dibujarTablaPermisos(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_permisos_usuario');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarPermisosUsuarios(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.permisos_usuarios.forEach(permiso => { 
-
                 cuerpoTabla.innerHTML += `
                     <tr>
                         <td>${permiso.fecha_registro}</td>
@@ -241,11 +240,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-usuario')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-usuario')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

@@ -5,6 +5,9 @@ async function registrarEntradaPeatonal(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/MovimientoController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -30,6 +33,9 @@ async function registrarSalidaPeatonal(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/MovimientoController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -55,6 +61,9 @@ async function registrarEntradaVehicular(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/MovimientoController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -80,6 +89,9 @@ async function registrarSalidaVehicular(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/MovimientoController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -103,7 +115,12 @@ export{registrarSalidaVehicular}
 async function validarUsuarioAptoEntrada(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('validar_usuario_apto_entrada')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('validar_usuario_apto_entrada')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -125,7 +142,12 @@ export{validarUsuarioAptoEntrada}
 async function validarUsuarioAptoSalida(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('validar_usuario_apto_salida')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('validar_usuario_apto_salida')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -147,7 +169,12 @@ export{validarUsuarioAptoSalida}
 async function consultarMovimientos(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('consultar_movimientos')+'&puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa));
+        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('consultar_movimientos')+'&puerta='+encodeURI(parametros.puerta)+'&fecha_inicio='+encodeURI(parametros.fecha_inicio)+'&fecha_fin='+encodeURI(parametros.fecha_fin)+'&documento='+encodeURI(parametros.documento)+'&placa='+encodeURI(parametros.placa), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -166,10 +193,42 @@ async function consultarMovimientos(parametros, urlBase) {
 }
 export{consultarMovimientos}
 
+async function consultarMovimiento(codigoMovimiento, urlBase) {
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('consultar_movimiento')+'&codigo_movimiento='+encodeURI(codigoMovimiento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
+
+        if(!response.ok) throw new Error("Error en la solicitud");
+
+        const data = await response.json();
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return data;
+        
+    } catch (error) {
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+        alertaError({
+            titulo: 'Error Petición',
+            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+        })
+    }
+}
+export{consultarMovimiento}
+
 async function consultarMovimientosUsuarios(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('consultar_movimientos_usuarios')+'&puerta='+encodeURI(parametros.puerta)+'&fecha='+encodeURI(parametros.fecha)+'&jornada='+encodeURI(parametros.jornada)+'&tipo_movimiento='+encodeURI(parametros.tipo_movimiento)+'&puerta='+encodeURI(parametros.puerta));
+        const response = await fetch(urlBase+'app/controllers/MovimientoController.php?operacion='+encodeURI('consultar_movimientos_usuarios')+'&puerta='+encodeURI(parametros.puerta)+'&fecha='+encodeURI(parametros.fecha)+'&jornada='+encodeURI(parametros.jornada)+'&tipo_movimiento='+encodeURI(parametros.tipo_movimiento)+'&puerta='+encodeURI(parametros.puerta), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

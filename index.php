@@ -81,7 +81,10 @@ if($vista == "app/views/content/404-view.php"){
     <?php endif; ?>
 
         <div id="contenedor_spinner">
-            <img id="spinner" src="<?php echo $urlBaseVariable; ?>app/views/img/logo_c_blanco.png" alt="Cargando...">
+            <div id="caja_spinner">
+                <img src="<?php echo $urlBaseVariable; ?>app/views/img/logo_c_blanco.png" alt="Cargando...">
+                <div id="spinner"></div>
+            </div>
         </div>
     <?php
         include "./app/views/inc/scripts.php";

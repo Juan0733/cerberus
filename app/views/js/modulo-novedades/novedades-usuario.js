@@ -43,9 +43,9 @@ function dibujarTablaNovedades(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_novedades_usuario');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarNovedadesUsuario(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.novedades.forEach(novedad => { 
                 cuerpoTabla.innerHTML += `
                     <tr>
@@ -205,11 +205,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-novedad-usuario')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-novedad-usuario')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

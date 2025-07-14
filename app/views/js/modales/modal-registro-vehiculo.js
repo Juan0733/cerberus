@@ -1,4 +1,4 @@
-import {registrarVehiculo, consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
+import {registrarVehiculo} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVisitante} from './modal-registro-visitante.js'
 
 let contenedorModales;
@@ -33,14 +33,12 @@ async function modalRegistroVehiculo(url, placa=false, callback=false) {
             numeroPlaca.readOnly = true;
         }
 
-        if(callback){
-            funcionCallback = callback;
-        }
-
         inputDocumento = document.getElementById('propietario');
+        funcionCallback = callback;
         urlBase = url;
         
         eventoCerrarModal();
+        eventoInputPropietario();
         eventoRegistrarVehiculo();
 
         contenedorSpinner.classList.remove("mostrar_spinner");
@@ -91,6 +89,20 @@ function eventoCerrarModal(){
     });
 }
 
+function eventoInputPropietario() {
+    inputDocumento.addEventListener('change', function() {
+        if (inputDocumento.value.length>15) {
+            let cadenas = inputDocumento.value.split(' ');
+            for(const cadena of cadenas) {
+                if(/\d/.test(cadena)){
+                    inputDocumento.value = cadena.replace(/\D/g, '');
+                    break;
+                }
+            }
+        }
+    })
+}
+
 function eventoRegistrarVehiculo(){
     let formularioVehiculo = document.getElementById('formulario_vehiculo');
     formularioVehiculo.addEventListener('submit', (e)=>{
@@ -101,10 +113,12 @@ function eventoRegistrarVehiculo(){
         registrarVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
-                botonCerrarModal.click();
+                
                 if(funcionCallback){
                     funcionCallback();
                 }
+
+                botonCerrarModal.click();
 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){
@@ -149,7 +163,7 @@ function alertaAdvertencia(respuesta){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -159,7 +173,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {

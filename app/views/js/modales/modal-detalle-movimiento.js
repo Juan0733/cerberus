@@ -1,17 +1,17 @@
-import { consultarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
+import { consultarMovimiento } from '../fetchs/movimientos-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
-let codigoNovedad;
+let codigoMovimiento;
 let botonCerrarModal;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalDetalleNovedadVehiculo(novedad, url) {
+async function modalDetalleMovimiento(movimiento, url) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-novedad-vehiculo.php');
+        const response = await fetch(url+'app/views/inc/modales/modal-detalle-movimiento.php');
 
         if(!response.ok) throw new Error('Hubo un error en la solicitud');
 
@@ -19,7 +19,7 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
         const modal = document.createElement('div');
             
         modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_novedad_vehiculo';
+        modal.id = 'modal_detalle_movimiento';
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
         
@@ -32,11 +32,11 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
 
         contenedorModales.appendChild(modal);
 
-        codigoNovedad = novedad;
+        codigoMovimiento = movimiento;
         urlBase = url;
          
         eventoCerrarModal();
-        dibujarNovedad();
+        dibujarMovimiento();
 
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
@@ -48,14 +48,14 @@ async function modalDetalleNovedadVehiculo(novedad, url) {
         console.error('Hubo un error:', error);
         alertaError({
             titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle novedad vehiculo.'
+            mensaje: 'Error al cargar modal detalle permiso usuario.'
         });
     }
 }
-export{modalDetalleNovedadVehiculo}
+export{modalDetalleMovimiento}
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_detalle_novedad_vehiculo');
+    botonCerrarModal = document.getElementById('cerrar_modal_detalle_movimiento');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
@@ -63,22 +63,36 @@ function eventoCerrarModal(){
     });
 }
 
-function dibujarNovedad() {
-    consultarNovedadVehiculo(codigoNovedad, urlBase).then(respuesta=>{
+function dibujarMovimiento() {
+    consultarMovimiento(codigoMovimiento, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            const datosNovedad = respuesta.datos_novedad;
-            console.log(datosNovedad);
-            
-            document.getElementById('tipo_novedad').textContent = formatearString(datosNovedad.tipo_novedad);
-            document.getElementById('tipo_vehiculo').textContent = formatearString(datosNovedad.tipo_vehiculo);
-            document.getElementById('placa_vehiculo').textContent = datosNovedad.fk_vehiculo;
-            document.getElementById('involucrado').textContent = datosNovedad.nombres_involucrado+' '+datosNovedad.apellidos_involucrado;
-            document.getElementById('propietario_autorizador').textContent = datosNovedad.nombres_autorizador+' '+datosNovedad.apellidos_autorizador;
-            document.getElementById('puerta_registro').textContent = formatearString(datosNovedad.puerta_registro);
-            document.getElementById('responsable').textContent = datosNovedad.nombres_responsable+' '+datosNovedad.apellidos_responsable;
-            document.getElementById('fecha_registro').textContent = formatearFecha(datosNovedad.fecha_registro);
-            document.getElementById('descripcion').textContent = datosNovedad.descripcion;
-            
+            const datosMovimiento = respuesta.datos_movimiento;
+
+            document.getElementById('tipo_movimiento').textContent = formatearString(datosMovimiento.tipo_movimiento);
+            document.getElementById('fecha_registro').textContent = formatearFecha(datosMovimiento.fecha_registro);
+            document.getElementById('usuario').textContent = datosMovimiento.nombres+' '+datosMovimiento.apellidos;
+            document.getElementById('tipo_usuario').textContent = formatearString(datosMovimiento.tipo_usuario);
+            document.getElementById('puerta_registro').textContent = formatearString(datosMovimiento.puerta_registro);
+            document.getElementById('responsable').textContent = datosMovimiento.nombres_responsable+' '+datosMovimiento.apellidos_responsable;
+
+            if(datosMovimiento.fk_vehiculo != 'N/A'){
+                document.getElementById('tipo_vehiculo').textContent = formatearString(datosMovimiento.tipo_vehiculo);
+                document.getElementById('placa_vehiculo').textContent = datosMovimiento.fk_vehiculo;
+                document.getElementById('relacion_vehiculo').textContent = formatearString(datosMovimiento.relacion_vehiculo);
+
+            }else{
+                document.getElementById('caja_tipo_vehiculo').style.display = 'none';
+                document.getElementById('caja_placa_vehiculo').style.display = 'none';
+                document.getElementById('caja_relacion_vehiculo').style.display = 'none';
+            }
+
+            if(datosMovimiento.observacion != 'N/A'){
+                document.getElementById('observacion').textContent = datosMovimiento.observacion;
+        
+            }else{
+                document.getElementById('caja_observacion').style.display = 'none';
+            }
+             
             contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
@@ -89,7 +103,6 @@ function dibujarNovedad() {
             }else{
                 botonCerrarModal.click();
                 alertaError(respuesta);
-                
             }
         }
     })
@@ -123,4 +136,3 @@ function alertaError(respuesta){
         }
     });
 }
-

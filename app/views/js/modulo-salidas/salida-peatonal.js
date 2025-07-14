@@ -40,8 +40,13 @@ function eventoAbrirFormularioPeatonal(){
 function eventoInputPeaton() {
     documentoPeaton.addEventListener('change', function() {
         if (documentoPeaton.value.length>15) {
-            let documentoFormateado = documentoPeaton.value.replace(/\D/g, '').slice(0, 10);
-            documentoPeaton.value = documentoFormateado;
+            let cadenas = documentoPeaton.value.split(' ');
+            for(const cadena of cadenas) {
+                if(/\d/.test(cadena)){
+                    documentoPeaton.value = cadena.replace(/\D/g, '');
+                    break;
+                }
+            };
         }
     });
 }
@@ -109,7 +114,7 @@ function eventoTextArea(){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -119,7 +124,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {
@@ -160,10 +165,10 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Entrada No Registrada"){
-                modalRegistroNovedadUsuario(urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento);
+                modalRegistroNovedadUsuario(urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, '', formularioPeatonal);
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
-                modalRegistroVisitante(urlBase, respuesta.documento);
+                modalRegistroVisitante(urlBase, respuesta.documento, '', formularioPeatonal);
             }
         } 
     });

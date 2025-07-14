@@ -64,9 +64,9 @@ class VisitanteService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords((strtolower($apellidos))));
-        $motivoIngreso = trim(ucfirst($motivoIngreso));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $motivoIngreso = mb_strtoupper(mb_substr(trim($motivoIngreso), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($motivoIngreso), 1, null, "UTF-8"), "UTF-8");
 
         $datosVisitante = [
             'tipo_documento' => $tipoDocumento,

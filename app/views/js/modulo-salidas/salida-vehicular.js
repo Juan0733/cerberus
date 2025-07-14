@@ -152,9 +152,7 @@ function dibujarTablaPasajeros(){
                 <td>${pasajero.documento_pasajero}</td>
                 <td>${pasajero.nombres}</td>
                 <td>
-                    <button type="button" id="${indice}" class ="eliminar-pasajero">
-                        <ion-icon name="trash-outline" role="img" class="md hydrated"></ion-icon>
-                    </button>
+                    <ion-icon name="trash-outline" class="eliminar-pasajero" data-id="${indice}"></ion-icon>
                 </td>
             </tr>`;
     });
@@ -231,10 +229,15 @@ function eventoInputPropietario(){
         if(documentoPropietario.value.length > 15){
             clearTimeout(temporizador);
             temporizador = setTimeout(()=>{
-                let documentoFormateado = documentoPropietario.value.replace(/\D/g, '').slice(0, 10);   
-                documentoPropietario.value = documentoFormateado;
-                documentoPropietario.blur();
-                validarDocumentoPropietario();
+                let cadenas = documentoPropietario.value.split(' ');
+                for(const cadena of cadenas) {
+                    if(/\d/.test(cadena)){
+                        documentoPropietario.value = cadena.replace(/\D/g, '');
+                        documentoPropietario.blur();
+                        validarDocumentoPropietario();
+                        break;
+                    }
+                };
             }, 250);
         }else{
             clearTimeout(temporizador);
@@ -248,8 +251,13 @@ function eventoInputPropietario(){
 function eventoInputPasajero(){
     documentoPasajero.addEventListener('change',()=>{  
         if(documentoPasajero.value.length > 15){  
-            let documentoFormateado = documentoPasajero.value.replace(/\D/g, '').slice(0, 10);   
-            documentoPasajero.value = documentoFormateado;
+            let cadenas = documentoPasajero.value.split(' ');
+            for(const cadena of cadenas) {
+                if(/\d/.test(cadena)){
+                    documentoPasajero.value = cadena.replace(/\D/g, '');
+                    break;
+                }
+            };
         }
     });
 }
@@ -398,7 +406,7 @@ function limpiarFormularioVehicular(){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -408,7 +416,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {

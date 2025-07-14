@@ -19,18 +19,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     $respuesta = $objetoUsuario->validarTiempoSesion();
     if($respuesta['tipo'] == 'ERROR'){
-        echo json_encode($respuesta);
-        exit();
+       if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../sesion-expirada');
+            exit();
+        }
     }
 
-    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    $respuesta = $objetoUsuario->validarAccesoUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
         echo json_encode($respuesta);
         exit();
         
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Operación No Encontrada'){
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../404');
+            exit();
+        }
+
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
-        header('Location: ../../acceso-denegado');
-        exit();
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../acceso-denegado');
+            exit();
+        }
     }
 
     if ($operacion == 'registrar_entrada_peatonal') {
@@ -74,18 +96,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     $respuesta = $objetoUsuario->validarTiempoSesion();
     if($respuesta['tipo'] == 'ERROR'){
-        echo json_encode($respuesta);
-        exit();
+       if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../sesion-expirada');
+            exit();
+        }
     }
 
-    $respuesta = $objetoUsuario->validarPermisosUsuario($operacion);
+    $respuesta = $objetoUsuario->validarAccesoUsuario($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
         echo json_encode($respuesta);
         exit();
         
+    }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Operación No Encontrada'){
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../404');
+            exit();
+        }
+
     }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Acceso Denegado'){
-        header('Location: ../../acceso-denegado');
-        exit();
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../acceso-denegado');
+            exit();
+        }
     }
     
     if($operacion == 'validar_usuario_apto_entrada'){
@@ -132,6 +176,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
 
         echo json_encode($objetoMovimiento->consultarMovimientos($respuesta['parametros']));
+
+    }elseif($operacion == 'consultar_movimiento'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['codigo_movimiento'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoMovimiento->consultarMovimiento($respuesta['parametros']['codigo_movimiento']));
+
     }elseif($operacion == 'consultar_movimientos_usuarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
         if(!isset($respuesta['parametros']['fecha']) || !isset($respuesta['parametros']['jornada']) || !isset($respuesta['parametros']['tipo_movimiento'])){
@@ -146,5 +206,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
 
         echo json_encode($objetoMovimiento->consultarMovimientosUsuarios($respuesta['parametros']));
+
     }
 }

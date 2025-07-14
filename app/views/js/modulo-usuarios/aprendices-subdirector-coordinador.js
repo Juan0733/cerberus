@@ -43,9 +43,9 @@ function dibujarTablaAprendices(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_aprendices');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarAprendices(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.aprendices.forEach(aprendiz => { 
                 cuerpoTabla.innerHTML += `
                     <tr>
@@ -234,11 +234,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-aprendiz')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-aprendiz')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

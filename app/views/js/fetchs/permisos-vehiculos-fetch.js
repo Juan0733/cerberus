@@ -5,6 +5,9 @@ async function registrarPermisoVehiculo(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -29,7 +32,12 @@ export{registrarPermisoVehiculo}
 async function consultarPermisosVehiculos(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_permisos_vehiculos')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha));
+        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_permisos_vehiculos')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -51,7 +59,12 @@ export{consultarPermisosVehiculos}
 async function consultarPermisoVehiculo(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_permiso_vehiculo')+'&codigo_permiso='+encodeURI(codigoPermiso));
+        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_permiso_vehiculo')+'&codigo_permiso='+encodeURI(codigoPermiso), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -73,7 +86,12 @@ export{consultarPermisoVehiculo}
 async function aprobarPermisoVehiculo(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('aprobar_permiso_vehiculo')+'&codigo_permiso='+encodeURI(codigoPermiso));
+        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('aprobar_permiso_vehiculo')+'&codigo_permiso='+encodeURI(codigoPermiso), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -95,7 +113,12 @@ export{aprobarPermisoVehiculo}
 async function desaprobarPermisoVehiculo(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('desaprobar_permiso_vehiculo')+'&codigo_permiso='+encodeURI(codigoPermiso));
+        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('desaprobar_permiso_vehiculo')+'&codigo_permiso='+encodeURI(codigoPermiso), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -116,7 +139,12 @@ export{desaprobarPermisoVehiculo}
 
 async function consultarNotificacionesPermisosVehiculo(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_notificaciones_permisos_vehiculo'));
+        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_notificaciones_permisos_vehiculo'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

@@ -27,7 +27,7 @@ function dibujarAgendas(){
                             <h1>${agenda.titulo}</h1>
                         </div>
                         <div class="card-agenda-body">
-                            <strong><p class="nombre">Nombre:</p></strong> 
+                            <strong><p class="nombre">Agendado:</p></strong> 
                             <p>${agenda.nombres_agendado} ${agenda.apellidos_agendado}</p>
 
                             <div class="contenedor-fecha-agenda">
@@ -118,9 +118,26 @@ function eventoFecha(){
     })
 }
 
-function formatearFecha(fecha){
-   
-    const objetoFecha = new Date(fecha.replace(' ', 'T'));
+function formatearFecha(fechaHora){
+    const [fecha, hora] = fechaHora.split(' ');
+    const [anio, mes, dia] = fecha.split('-');
+
+    let horas = '00';
+    let minutos = '00';
+    let segundos = '00';
+
+    if(hora){
+        [horas, minutos, segundos] = hora.split(':');
+    }
+
+    const objetoFecha = new Date(
+        Number(anio),
+        Number(mes) - 1,
+        Number(dia),
+        Number(horas),
+        Number(minutos),
+        Number(segundos)
+    );
 
     let opciones = { weekday: 'long' };
     let diaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
@@ -177,7 +194,7 @@ function eventoCrearAgenda(){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -200,7 +217,7 @@ function alertaError(respuesta){
         text: respuesta.mensaje,
         confirmButtonText: 'Aceptar',
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
             confirmButton: 'btn-confirmar'
         },
         didOpen: (toast) => {

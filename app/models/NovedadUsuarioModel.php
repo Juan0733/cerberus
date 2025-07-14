@@ -83,7 +83,7 @@ class NovedadUsuarioModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Usuario Apto',
             'mensaje' => 'El usuario es apto para registrarle una novedad.',
-            'tabla_usuario' => $usuario['grupo']
+            'tabla_usuario' => $usuario['tabla_usuario']
         ];
         return $respuesta;
     }

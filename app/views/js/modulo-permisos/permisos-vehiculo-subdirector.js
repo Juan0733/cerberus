@@ -1,4 +1,5 @@
 import { aprobarPermisoVehiculo, consultarPermisosVehiculos, desaprobarPermisoVehiculo} from '../fetchs/permisos-vehiculos-fetch.js';
+import { dibujarNotificaciones } from '../general/notificaciones-subdirector.js';
 import { modalDetallePermisoVehiculo } from '../modales/modal-detalle-permiso-vehiculo.js';
 
 let urlBase;
@@ -46,9 +47,9 @@ function dibujarTablaPermisos(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_permisos_vehiculo');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarPermisosVehiculos(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.permisos_vehiculos.forEach(permiso => { 
                 let acciones = `<ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>`;
                 if(permiso.tipo_permiso == 'PERMANENCIA' && permiso.estado_permiso == 'PENDIENTE'){
@@ -260,7 +261,7 @@ function alertaError(respuesta){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -270,7 +271,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {
@@ -300,6 +301,7 @@ function alertaAdvertencia(datos){
                 aprobarPermisoVehiculo(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
+                        dibujarNotificaciones();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -314,6 +316,7 @@ function alertaAdvertencia(datos){
                 desaprobarPermisoVehiculo(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
+                        dibujarNotificaciones();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -346,11 +349,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-vehiculo')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-permiso-vehiculo')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

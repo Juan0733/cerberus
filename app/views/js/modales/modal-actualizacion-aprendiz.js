@@ -110,7 +110,7 @@ function eventoCerrarModal(){
         
     });
 
-    document.getElementById('btn_cancelar_aprendiz').addEventListener('click', ()=>{
+    botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
@@ -210,8 +210,8 @@ function eventoActualizarAprendiz(){
         actualizarAprendiz(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
-                botonCerrarModal.click();
                 funcionCallback();
+                botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){
@@ -280,7 +280,7 @@ function volverCampos(){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -290,7 +290,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {

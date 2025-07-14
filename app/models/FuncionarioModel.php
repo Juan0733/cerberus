@@ -88,8 +88,8 @@ class FuncionarioModel extends MainModel{
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
-            $grupoUsuario = $respuesta['usuario']['grupo'];
-            if($grupoUsuario == 'funcionarios'){
+            $tipoUsuario = $respuesta['usuario']['tipo_usuario'];
+            if($tipoUsuario == 'FUNCIONARIO'){
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
@@ -98,7 +98,8 @@ class FuncionarioModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->objetoUsuario->eliminarUsuario($funcionario, $grupoUsuario);
+            $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $respuesta = $this->objetoUsuario->eliminarUsuario($funcionario, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
@@ -182,10 +183,6 @@ class FuncionarioModel extends MainModel{
             FROM funcionarios 
             WHERE 1=1";
         
-        if(isset($parametros['brigadista'])){
-            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}'";
-        }
-
         if(isset($parametros['ubicacion'])){
             $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
@@ -198,7 +195,14 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND rol = '{$parametros['rol']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
+        if(isset($parametros['brigadista'])){
+            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}'  ORDER BY fecha_registro DESC LIMIT 8;";
+
+        }else{
+            $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
+        }
+
+        
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

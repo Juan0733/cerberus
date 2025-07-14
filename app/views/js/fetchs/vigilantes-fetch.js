@@ -5,6 +5,9 @@ async function registrarVigilante(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -30,6 +33,9 @@ async function autoRegistrarVigilante(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -55,6 +61,9 @@ async function actualizarVigilante(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -80,6 +89,9 @@ async function habilitarVigilante(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -103,7 +115,12 @@ export{habilitarVigilante}
 async function inhabilitarVigilante(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('inhabilitar_vigilante')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('inhabilitar_vigilante')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -127,6 +144,9 @@ async function guardarPuerta(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VigilanteController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -150,7 +170,12 @@ export{guardarPuerta}
 async function consultarPuerta(urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_puerta'));
+        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_puerta'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -194,7 +219,12 @@ export{consultarVigilantes}
 async function consultarVigilante(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_vigilante')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_vigilante')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

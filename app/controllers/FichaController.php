@@ -18,8 +18,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
 
     $respuesta = $objetoUsuario->validarTiempoSesion();
     if($respuesta['tipo'] == 'ERROR'){
-        echo json_encode($respuesta);
-        exit();
+       if(strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            echo json_encode($respuesta);
+            exit();
+
+        }else{
+            header('Location: ../../sesion-expirada');
+            exit();
+        }
     }
 
     if($operacion == 'consultar_fichas'){

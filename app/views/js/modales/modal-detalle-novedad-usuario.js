@@ -67,7 +67,6 @@ function dibujarNovedad() {
     consultarNovedadUsuario(codigoNovedad, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosNovedad = respuesta.datos_novedad;
-            console.log(datosNovedad);
             
             document.getElementById('tipo_novedad').textContent = formatearString(datosNovedad.tipo_novedad);
             document.getElementById('puerta_suceso').textContent = formatearString(datosNovedad.puerta_suceso);
@@ -101,7 +100,7 @@ function formatearString(cadena) {
 }
 
 function formatearFecha(fecha){
-    const objetoFecha = new Date(fecha.replace(' ', 'T'));
+    const objetoFecha = new Date(fecha);
 
     const opciones = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
     const fechaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);

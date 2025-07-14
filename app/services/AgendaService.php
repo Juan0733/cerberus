@@ -53,8 +53,8 @@ class AgendaService{
 			}
         }
 
-        $titulo = ucwords(strtolower($titulo));
-        $motivo = trim(ucfirst(strtolower($motivo)));
+        $titulo = mb_convert_case(mb_strtolower(trim($titulo), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $motivo = mb_strtoupper(mb_substr(trim($motivo), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($motivo), 1, null, "UTF-8"), "UTF-8");
 
         $datosAgenda = [
             'codigo_agenda' => $codigoAgenda,
@@ -141,8 +141,8 @@ class AgendaService{
 			}
         }
 
-        $titulo = ucwords(strtolower($titulo));
-        $motivo = trim(ucfirst(strtolower($motivo)));
+        $titulo = mb_convert_case(mb_strtolower(trim($titulo), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $motivo = mb_strtoupper(mb_substr(trim($motivo), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($motivo), 1, null, "UTF-8"), "UTF-8");
 
         $datosAgenda = [
             'tipo_documento' => $tipoDocumento,
@@ -260,8 +260,8 @@ class AgendaService{
             }
         }
 
-        $titulo = ucwords(strtolower($titulo));
-        $motivo = trim(ucfirst(strtolower($motivo)));
+        $titulo = mb_convert_case(mb_strtolower(trim($titulo), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $motivo = mb_strtoupper(mb_substr(trim($motivo), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($motivo), 1, null, "UTF-8"), "UTF-8");
 
         $datosAgenda = [
             'agendados' => $agendados,

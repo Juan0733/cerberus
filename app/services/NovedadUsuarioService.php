@@ -53,8 +53,7 @@ class NovedadUsuarioService{
 			}
         }
 
-        $puertaSuceso = strtoupper($puertaSuceso);
-        $descripcion = trim(ucfirst(strtolower($descripcion)));
+        $descripcion = mb_strtoupper(mb_substr(trim($descripcion), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($descripcion), 1, null, "UTF-8"), "UTF-8");
 
         $datosNovedad = [
             'numero_documento' => $numeroDocumento,

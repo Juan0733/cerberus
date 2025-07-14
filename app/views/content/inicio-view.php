@@ -41,7 +41,7 @@
                             <ion-icon name='{$t['icon']}'></ion-icon>
                             <h2>{$t['titulo']}</h2>
                         </div>
-                        <h4>Cantidad</h4>
+                        <h3>Cantidad</h3>
                         <h3 id='conteo_{$t['id']}'></h3>
                         <div class='contenedor-barra'>
                             <div class='barra' id='barra_{$t['id']}'></div>

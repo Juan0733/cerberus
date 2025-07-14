@@ -5,11 +5,12 @@ let modalesExistentes;
 let botonCerrarModal;
 let selectTipoNovedad;
 let funcionCallback;
+let formularioEvento;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false) {
+async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false, formulario=false) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
@@ -32,11 +33,9 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         inputDocumento.readOnly = true;
         selectTipoNovedad.value = novedad;
         selectTipoNovedad.disabled = true;
-
-        if(callback){
-            funcionCallback = callback;
-        }
-
+        
+        funcionCallback = callback;
+        formularioEvento = formulario;
         urlBase = url;
 
         eventoCerrarModal();
@@ -101,10 +100,17 @@ function eventoRegistrarNovedadUsuario(){
         registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
-                botonCerrarModal.click();
+
                 if(funcionCallback){
                     funcionCallback();
                 }
+
+                if(formularioEvento){
+                    const evento = new Event("submit", { bubbles: true, cancelable: true });
+                    formularioEvento.dispatchEvent(evento);
+                }
+
+                botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){
@@ -147,7 +153,7 @@ function eventoTextArea(){
 function alertaExito(respuesta){
     Swal.fire({
         toast: true, 
-        position: 'top-end', 
+        position: 'bottom-end', 
         icon: 'success',
         iconColor: "#2db910",
         color: '#F3F4F4',
@@ -157,7 +163,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         },
         didOpen: (toast) => {
             toast.addEventListener('click', () => {

@@ -52,7 +52,7 @@ function eventoTipoMovimiento(){
 function dibujarGraficas() {
     consultarMovimientosUsuarios(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            let label = '# ' + parametros.tipo_movimiento.charAt(0).toUpperCase() + parametros.tipo_movimiento.slice(1) + 's por hora'
+            let label = '# ' + formatearString(parametros.tipo_movimiento) + 's por hora'
             respuesta.movimientos.forEach((movimiento, indice) => {
                 const configuracion = {
                     type: 'line',
@@ -109,6 +109,12 @@ function dibujarGraficas() {
             alertaError(respuesta);
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function alertaError(respuesta){

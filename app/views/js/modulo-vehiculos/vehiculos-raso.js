@@ -39,9 +39,9 @@ function dibujarTablaVehiculos(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_vehiculos');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarVehiculos(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.vehiculos.forEach(vehiculo => {
                 cuerpoTabla.innerHTML += `
                     <tr>
@@ -82,7 +82,7 @@ function dibujarCardsVehiculos(){
                     <div class="document-card-vehiculo">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${vehiculo.numero_placa} | Tipo: ${vehiculo.tipo_vehiculo}</p>
+                                <p class="document-title">${vehiculo.numero_placa} | ${vehiculo.tipo_vehiculo}</p>
                                 <p class="document-meta">Ubicación: ${vehiculo.ubicacion}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
@@ -206,11 +206,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-vehiculo')){
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-vehiculo')){
             validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

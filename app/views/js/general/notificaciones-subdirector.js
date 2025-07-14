@@ -61,6 +61,7 @@ function dibujarNotificaciones(){
         }
     })
 }
+export{dibujarNotificaciones}
 
 function formatearString(cadena) { 
     cadena = cadena.toLowerCase();
@@ -119,5 +120,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     setInterval(() => {
         dibujarNotificaciones();
-    }, 10000);
+    }, 60000);
 })

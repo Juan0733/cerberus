@@ -41,7 +41,7 @@ function dibujarNotificaciones(){
                                 <div class="contenedor-alerta">
                                     <div class="contenedor-mensaje-alerta">
                                         <h3>Permanencia Usuario</h3>
-                                        <p>El usuario con número de documento <strong>${notificacion.numero_documento}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
+                                        <p>El ${formatearString(notificacion.tipo_usuario)} con número de documento <strong>${notificacion.numero_documento}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
                                         <div id="contenedor_btns_notificacion">
                                             ${acciones}
                                         </div>
@@ -162,18 +162,10 @@ function eventoVerPermisoVehiculo(){
     });
 }
 
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{

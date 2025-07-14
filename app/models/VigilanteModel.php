@@ -130,8 +130,8 @@ class VigilanteModel extends MainModel{
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
-            $grupoUsuario = $respuesta['usuario']['grupo'];
-            if($grupoUsuario == 'vigilantes'){
+            $tipoUsuario = $respuesta['usuario']['tipo_usuario'];
+            if($tipoUsuario == 'VIGILANTE'){
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
@@ -140,7 +140,8 @@ class VigilanteModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->objetoUsuario->eliminarUsuario($vigilante, $grupoUsuario);
+            $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $respuesta = $this->objetoUsuario->eliminarUsuario($vigilante, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }

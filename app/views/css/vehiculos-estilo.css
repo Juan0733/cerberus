@@ -175,7 +175,7 @@
 /* ---------------------------------------Estilos Modal propietarios vehiculo--------------------------------------------------*/
 
     #contenedor_modales #modal_propietarios{
-        width: clamp(450px, 45%, 850px);
+        width: clamp(450px, 50%, 850px);
     }
 
     #contenedor_modales #modal_propietarios .contenedor-info-modal{

@@ -5,6 +5,9 @@ async function registrarFuncionario(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/FuncionarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -30,6 +33,9 @@ async function autoRegistrarFuncionario(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/FuncionarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -55,6 +61,9 @@ async function actualizarFuncionario(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/FuncionarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -80,6 +89,9 @@ async function habilitarFuncionario(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/FuncionarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -103,7 +115,12 @@ export{habilitarFuncionario}
 async function inhabilitarFuncionario(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('inhabilitar_funcionario')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('inhabilitar_funcionario')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -125,7 +142,12 @@ export{inhabilitarFuncionario}
 async function consultarFuncionarios(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('consultar_funcionarios')+'&brigadista='+encodeURI(parametros.brigadista)+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&rol='+encodeURI(parametros.rol));
+        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('consultar_funcionarios')+'&brigadista='+encodeURI(parametros.brigadista)+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&rol='+encodeURI(parametros.rol), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -147,7 +169,12 @@ export{consultarFuncionarios}
 async function consultarFuncionario(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('consultar_funcionario')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('consultar_funcionario')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -168,7 +195,12 @@ export{consultarFuncionario}
 
 async function conteoTotalBrigadistas(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('conteo_total_brigadistas'));
+        const response = await fetch(urlBase+'app/controllers/FuncionarioController.php?operacion='+encodeURI('conteo_total_brigadistas'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

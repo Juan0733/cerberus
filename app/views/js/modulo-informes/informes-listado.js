@@ -1,4 +1,6 @@
 import {consultarMovimientos} from '../fetchs/movimientos-fetch.js'
+import { modalDetalleMovimiento } from '../modales/modal-detalle-movimiento.js';
+
 
 let fechaInicio;
 let fechaFin;
@@ -36,7 +38,7 @@ function dibujarTablaMovimientos(){
                         <th>Apellidos</th>
                         <th>Vehiculo</th>
                         <th>Relacion vehículo</th>
-                        <th>Vigilante</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="body-table" id="cuerpo_tabla_movimientos">
@@ -46,9 +48,9 @@ function dibujarTablaMovimientos(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_movimientos');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarMovimientos(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.movimientos.forEach(movimiento => {
                 cuerpoTabla.innerHTML += `
                     <tr>
@@ -60,17 +62,26 @@ function dibujarTablaMovimientos(){
                         <td>${movimiento.apellidos}</td>
                         <td>${movimiento.fk_vehiculo}</td>
                         <td>${movimiento.relacion_vehiculo}</td>
-                        <td>${movimiento.fk_usuario_sistema}</td>
+                        <td class="contenedor-colum-acciones">
+                            <ion-icon name="eye" class="ver-movimiento" data-movimiento="${movimiento.codigo_movimiento}"></ion-icon>
+                        </td>
                     </tr>`;
             });
+
+           eventoVerMovimiento(); 
+
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
-                    window.location.replace(urlBase+'sesion-expirada');
+                window.location.replace(urlBase+'sesion-expirada');
             }else{
                 cuerpoTabla.innerHTML = `
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
+
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
@@ -95,20 +106,38 @@ function dibujarCardsMovimientos(){
                             <p><strong>Fecha y Hora: </strong>${movimiento.fecha_registro}</p>
                             <p><strong>Vehículo:</strong>${movimiento.fk_vehiculo}</p>
                             <p><strong>Relacion Vehículo:</strong>${movimiento.relacion_vehiculo}</p>
-                            <p><strong>Vigilante </strong>${movimiento.fk_usuario_sistema}</p>
+                        </div>
+                        <div class="contenedor-acciones">
+                            <ion-icon name="eye" class="ver-movimiento" data-movimiento="${movimiento.codigo_movimiento}"></ion-icon>
                         </div>
                     </div>`;
             });
 
             toggleCard();
+            eventoVerMovimiento();
+
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
                     window.location.replace(urlBase+'sesion-expirada');
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                if(respuesta.titulo != 'Datos No Encontrados'){
+                    alertaError(respuesta);
+                }
             }
         }
     })
+}
+
+function eventoVerMovimiento(){
+    const botonesVerMovimiento = document.querySelectorAll('.ver-movimiento');
+    
+    botonesVerMovimiento.forEach(boton => {
+        let movimiento = boton.getAttribute('data-movimiento');
+        boton.addEventListener('click', ()=>{
+            modalDetalleMovimiento(movimiento, urlBase);
+        });
+    });
 }
 
 function eventoPuerta(){
@@ -195,6 +224,20 @@ function toggleCard() {
     });
 }
 
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     fechaInicio = document.getElementById('fecha_inicio');
@@ -212,11 +255,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
     
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-movimiento')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-movimiento')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

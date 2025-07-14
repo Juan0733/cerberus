@@ -70,8 +70,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords((strtolower($apellidos))));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $contrasena = md5($contrasena);
         $estadoUsuario = 'ACTIVO';
 
@@ -156,8 +156,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords((strtolower($apellidos))));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $contrasena = 'NULL';
         $estadoUsuario = 'INACTIVO';
 
@@ -242,8 +242,8 @@ class VigilanteService{
 			}
         }
 
-        $nombres = trim(ucwords(strtolower($nombres)));
-        $apellidos = trim(ucwords((strtolower($apellidos))));
+        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosVigilante = [
             'numero_documento' => $numeroDocumento,

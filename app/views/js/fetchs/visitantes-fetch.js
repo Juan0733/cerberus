@@ -5,6 +5,9 @@ async function registrarVisitante(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/VisitanteController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -28,7 +31,12 @@ export{registrarVisitante}
 async function consultarVisitantes(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento));
+        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -50,7 +58,12 @@ export{consultarVisitantes}
 async function consultarVisitante(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitante')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitante')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

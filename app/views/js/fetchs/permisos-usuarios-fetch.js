@@ -5,6 +5,9 @@ async function registrarPermisoUsuario(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -29,7 +32,12 @@ export{registrarPermisoUsuario}
 async function consultarPermisosUsuarios(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_permisos_usuarios')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_permisos_usuarios')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -51,7 +59,12 @@ export{consultarPermisosUsuarios}
 async function consultarPermisoUsuario(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -73,7 +86,12 @@ export{consultarPermisoUsuario}
 async function aprobarPermisoUsuario(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('aprobar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('aprobar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -95,7 +113,12 @@ export{aprobarPermisoUsuario}
 async function desaprobarPermisoUsuario(codigoPermiso, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('desaprobar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('desaprobar_permiso_usuario')+'&codigo_permiso='+encodeURI(codigoPermiso), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -116,7 +139,12 @@ export{desaprobarPermisoUsuario}
 
 async function consultarNotificacionesPermisosUsuario(urlBase) {
     try {
-        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_notificaciones_permisos_usuario'));
+        const response = await fetch(urlBase+'app/controllers/PermisoUsuarioController.php?operacion='+encodeURI('consultar_notificaciones_permisos_usuario'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

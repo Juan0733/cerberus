@@ -42,9 +42,9 @@ function dibujarTablaVisitantes(){
         cuerpoTabla = document.getElementById('cuerpo_tabla_visitantes');
     }
    
-    cuerpoTabla.innerHTML = '';
     consultarVisitantes(parametros, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            cuerpoTabla.innerHTML = '';
             respuesta.visitantes.forEach(visitante => {
                 cuerpoTabla.innerHTML += `
                     <tr>
@@ -204,11 +204,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
-        if(window.innerWidth >= 1024 && document.querySelector('.document-card-visitante')){
-            validarResolucion();
+        setTimeout(()=>{
+            if(window.innerWidth >= 1024 && document.querySelector('.document-card-visitante')){
+                validarResolucion();
 
-        }else if(window.innerWidth < 1024 && cuerpoTabla){
-            validarResolucion();
-        }
+            }else if(window.innerWidth < 1024 && cuerpoTabla){
+                validarResolucion();
+            }
+        }, 250)
     });
 })

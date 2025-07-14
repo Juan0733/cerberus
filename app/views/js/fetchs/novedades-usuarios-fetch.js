@@ -5,6 +5,9 @@ async function registrarNovedadUsuario(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -29,7 +32,12 @@ export{registrarNovedadUsuario}
 async function consultarNovedadesUsuario(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedades_usuario')+'&documento='+encodeURI(parametros.documento)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha));
+        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedades_usuario')+'&documento='+encodeURI(parametros.documento)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -51,7 +59,12 @@ export{consultarNovedadesUsuario}
 async function consultarNovedadUsuario(codigoNovedad, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedad_usuario')+'&codigo_novedad='+encodeURI(codigoNovedad));
+        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedad_usuario')+'&codigo_novedad='+encodeURI(codigoNovedad), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

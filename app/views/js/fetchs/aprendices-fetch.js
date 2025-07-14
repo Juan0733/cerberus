@@ -5,6 +5,9 @@ async function registrarAprendiz(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/AprendizController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -30,6 +33,9 @@ async function actualizarAprendiz(datos, urlBase) {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(urlBase+'app/controllers/AprendizController.php', {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+            },
             body: datos
         });
 
@@ -53,7 +59,12 @@ export{actualizarAprendiz}
 async function consultarAprendices(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/AprendizController.php?operacion='+encodeURI('consultar_aprendices')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&ficha='+encodeURI(parametros.ficha));
+        const response = await fetch(urlBase+'app/controllers/AprendizController.php?operacion='+encodeURI('consultar_aprendices')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&ficha='+encodeURI(parametros.ficha), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 
@@ -75,7 +86,12 @@ export{consultarAprendices}
 async function consultarAprendiz(documento, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/AprendizController.php?operacion='+encodeURI('consultar_aprendiz')+'&documento='+encodeURI(documento));
+        const response = await fetch(urlBase+'app/controllers/AprendizController.php?operacion='+encodeURI('consultar_aprendiz')+'&documento='+encodeURI(documento), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

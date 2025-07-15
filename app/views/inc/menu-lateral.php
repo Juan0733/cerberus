@@ -85,12 +85,19 @@
             </ul>
         </nav>
 
-        <div>
+        <div id="contenedor_sesion_autor">
+            <div id="contenedor_cerrar_sesion">
+                <ion-icon id="cerrar_sesion" name="exit-outline"></ion-icon>           
+            </div>
             <div class="linea"></div>
-            <div class="usuario">
-                <a id="cerrar_sesion">
-                    <ion-icon name="exit-outline"></ion-icon>               
-                </a>
+            <div id="contenedor_autor">
+                <ion-icon id="autor" name="code-slash-outline"></ion-icon>
+                <div id="informacion_autor">
+                    <h2>CERBERUS</h2>
+                    <h3>Análisis y Desarrollo de Software 2714805</h3>
+                    <p>Laura Daniela Canizalez</p>
+                    <p>Juan David Tilmans</p>
+                </div>
             </div>
         </div>
 

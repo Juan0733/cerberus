@@ -73,7 +73,6 @@
 
 .mini-barra-lateral{
     width: 80px;
-    height: 100vh;
 }
 
 .mini-barra-lateral ion-icon{
@@ -129,7 +128,6 @@
 
 /*--------------> Menu Navegación*/
 .barra-lateral .navegacion{
-    max-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -170,32 +168,85 @@
     font-size: 20px;
 }
 
+.barra-lateral #contenedor_sesion_autor{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    row-gap: 10px;
+    width: 100%;
+}
+
+.barra-lateral #contenedor_sesion_autor #contenedor_cerrar_sesion{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
 /*-----------------> Linea*/
-.barra-lateral .linea{
+.barra-lateral #contenedor_sesion_autor .linea{
     width: 100%;
     height: 1px;
-    margin-top: 15px;
     background-color: var(--color-primario);
 }
 
-
-
-/*---------------> Usuario*/
-.barra-lateral .usuario{
-    width: 100%;
-    display: flex;
-    align-content: center;
-    justify-content: center;
+.mini-barra-lateral #contenedor_sesion_autor .linea{
+    display: none;
 }
 
-
-.barra-lateral .usuario ion-icon{
+.barra-lateral #contenedor_sesion_autor #contenedor_cerrar_sesion #cerrar_sesion{
+    cursor: pointer;
     color: var(--color-primario);
     font-size: 40px;
 }
-.barra-lateral .usuario ion-icon:hover{
+
+.barra-lateral #contenedor_sesion_autor #contenedor_cerrar_sesion #cerrar_sesion:hover{
     color: var(--color-secundario);
     font-size: 50px;
+}
+
+.barra-lateral #contenedor_sesion_autor #contenedor_autor{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.mini-barra-lateral #contenedor_sesion_autor #contenedor_autor{
+    display: none;
+}
+
+.barra-lateral #contenedor_sesion_autor #contenedor_autor #autor{
+    cursor: pointer;
+    color: var(--color-secundario);
+    font-size: 28px !important;
+}
+
+.barra-lateral #contenedor_sesion_autor #contenedor_autor #informacion_autor{
+    cursor: pointer;
+    color: white;
+    display: none;
+    flex-direction: column;
+    row-gap: 2px;
+    width: 100%;
+}
+
+#contenedor_sesion_autor #contenedor_autor #informacion_autor h2{
+    font-size: 12px;
+    text-align: center;
+}
+
+#contenedor_sesion_autor #contenedor_autor #informacion_autor h3{
+    font-size: 10px;
+    text-align: center;
+}
+
+#contenedor_sesion_autor #contenedor_autor #informacion_autor p{
+    font-style: italic;
+    font-size: 10px;
+    text-align: center;
 }
 
 .sub-menu{
@@ -321,13 +372,11 @@
 
 @media (max-width: 1023px){
     .barra-lateral{
-        justify-content: space-around;
         position: fixed;
         left: -250px;
     }
-    .barra-lateral .navegacion{
-        max-height: 35vh;
-        justify-content: start;
+    .barra-lateral #contenedor_sesion_autor{
+        margin-bottom: 50px;
     }
     .max-barra-lateral{
         left: 0;

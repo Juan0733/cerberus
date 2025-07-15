@@ -95,7 +95,7 @@
                 <div id="informacion_autor">
                     <h2>CERBERUS</h2>
                     <h3>Análisis y Desarrollo de Software 2714805</h3>
-                    <p>Laura Daniela Canizalez</p>
+                    <p>Laura Daniela Canizales</p>
                     <p>Juan David Tilmans</p>
                 </div>
             </div>

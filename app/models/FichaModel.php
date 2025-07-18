@@ -71,7 +71,8 @@ class FichaModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
-             $respuesta = [
+            $this->cerrarConexion();
+            $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Datos No Encontrados',
                 'mensaje' => 'No se encontraron resultados'
@@ -80,6 +81,7 @@ class FichaModel extends MainModel{
         }
 
         $fichas = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'fichas' => $fichas
@@ -100,6 +102,7 @@ class FichaModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Ficha No Encontrada',
@@ -109,6 +112,7 @@ class FichaModel extends MainModel{
         }
 
         $ficha = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_ficha' => $ficha

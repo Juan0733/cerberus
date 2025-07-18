@@ -60,6 +60,7 @@ class MotivoIngresoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Datos No Encontrados',
@@ -69,6 +70,7 @@ class MotivoIngresoModel extends MainModel{
         }
 
         $motivos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'motivos_ingreso' => $motivos
@@ -89,6 +91,7 @@ class MotivoIngresoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Motivo No Encontrado',
@@ -96,6 +99,8 @@ class MotivoIngresoModel extends MainModel{
             ];
             return $respuesta;
         }
+
+        $this->cerrarConexion();
 
         $respuesta = [
             'tipo' => 'OK',

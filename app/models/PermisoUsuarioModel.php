@@ -184,6 +184,7 @@ class PermisoUsuarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Permiso No Encontrado',
@@ -193,6 +194,7 @@ class PermisoUsuarioModel extends MainModel{
         }
 
         $permiso = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_permiso' => $permiso
@@ -248,6 +250,7 @@ class PermisoUsuarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -257,6 +260,7 @@ class PermisoUsuarioModel extends MainModel{
         }
 
         $permisos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'permisos_usuarios' => $permisos
@@ -297,6 +301,7 @@ class PermisoUsuarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Permiso No Encontrado',
@@ -306,6 +311,7 @@ class PermisoUsuarioModel extends MainModel{
         }
 
         $permiso = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_permiso' => $permiso
@@ -327,6 +333,7 @@ class PermisoUsuarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         $notificaciones = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
 
         $respuesta = [
             'tipo' => 'OK',

@@ -182,6 +182,7 @@ class VigilanteModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -191,6 +192,7 @@ class VigilanteModel extends MainModel{
         }
 
         $vigilantes = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'vigilantes' => $vigilantes
@@ -211,6 +213,7 @@ class VigilanteModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Vigilante No Encontrado',
@@ -220,6 +223,7 @@ class VigilanteModel extends MainModel{
         }
 
         $vigilante = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_vigilante' => $vigilante

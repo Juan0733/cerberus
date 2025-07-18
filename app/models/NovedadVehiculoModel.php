@@ -94,6 +94,7 @@ class NovedadVehiculoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -103,6 +104,7 @@ class NovedadVehiculoModel extends MainModel{
         }
 
         $novedades = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'novedades' => $novedades
@@ -145,6 +147,7 @@ class NovedadVehiculoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Novedad No Encontrada',
@@ -154,6 +157,7 @@ class NovedadVehiculoModel extends MainModel{
         }
 
         $novedad = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_novedad' => $novedad

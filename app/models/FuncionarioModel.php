@@ -188,7 +188,7 @@ class FuncionarioModel extends MainModel{
         }
 
         if(isset($parametros['numero_documento'])){
-            $sentenciaBuscar .= " AND numero_documento LIKE'{$parametros['numero_documento']}%'";
+            $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
 
         if(isset($parametros['rol'])){
@@ -196,13 +196,11 @@ class FuncionarioModel extends MainModel{
         }
 
         if(isset($parametros['brigadista'])){
-            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}'  ORDER BY fecha_registro DESC LIMIT 8;";
+            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}' ORDER BY fecha_registro DESC LIMIT 8;";
 
         }else{
             $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
         }
-
-        
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -211,6 +209,7 @@ class FuncionarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -220,7 +219,7 @@ class FuncionarioModel extends MainModel{
         }
 
         $funcionarios = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
-
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'funcionarios' => $funcionarios
@@ -251,6 +250,7 @@ class FuncionarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Funcionario No Encontrado',
@@ -260,6 +260,7 @@ class FuncionarioModel extends MainModel{
         }
 
         $funcionario = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_funcionario' => $funcionario
@@ -281,6 +282,7 @@ class FuncionarioModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         $totalBrigadistas= $respuestaSentencia->num_rows;
+        $this->cerrarConexion();
 
         $respuesta = [
             'tipo' => "OK",

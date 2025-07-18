@@ -88,6 +88,7 @@ class VehiculoModel extends MainModel {
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -97,6 +98,7 @@ class VehiculoModel extends MainModel {
         }
 
         $vehiculos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             "tipo"=>"OK",
             "vehiculos" => $vehiculos
@@ -118,6 +120,7 @@ class VehiculoModel extends MainModel {
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Vehículo No Encontrado',
@@ -127,6 +130,7 @@ class VehiculoModel extends MainModel {
         }
 
         $datosVehiculo = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             "tipo" => "OK",
             "datos_vehiculo" => $datosVehiculo
@@ -147,6 +151,7 @@ class VehiculoModel extends MainModel {
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -156,6 +161,7 @@ class VehiculoModel extends MainModel {
         }
 
         $vehiculo = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             "tipo" => "OK",
             'titulo' => "Vehículo Encontrado",
@@ -189,6 +195,7 @@ class VehiculoModel extends MainModel {
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -198,6 +205,7 @@ class VehiculoModel extends MainModel {
         }
 
         $propietarios = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             "tipo"=>"OK",
             "propietarios" => $propietarios
@@ -338,6 +346,7 @@ class VehiculoModel extends MainModel {
 
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             $cantidad = $respuestaSentencia->num_rows;
+            $this->cerrarConexion();
             $vehiculos[] = [
                 'tipo_vehiculo' => $tipo,
                 'cantidad' => $cantidad
@@ -452,6 +461,8 @@ class VehiculoModel extends MainModel {
                 $notificaciones[] = $vehiculo;
             };
         }
+
+        $this->cerrarConexion();
 
         $respuesta = [
             'tipo' => 'OK',

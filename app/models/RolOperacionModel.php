@@ -15,6 +15,7 @@ class RolOperacionModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Operación No Encontrada',
@@ -22,6 +23,8 @@ class RolOperacionModel extends MainModel{
             ];
             return $respuesta;
         }
+
+        $this->cerrarConexion();
 
         $respuesta = [
             'tipo' => 'OK',
@@ -44,6 +47,7 @@ class RolOperacionModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Datos No Encontrados',
@@ -51,6 +55,8 @@ class RolOperacionModel extends MainModel{
             ];
             return $respuesta;
         }
+
+        $this->cerrarConexion();
 
         $respuesta = [
             'tipo' => 'OK',

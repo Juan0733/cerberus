@@ -140,6 +140,7 @@ class AgendaModel extends MainModel{
 
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if($respuestaSentencia->num_rows > 0){
+                $this->cerrarConexion();
                 $respuesta = [
                     'tipo' => 'ERROR',
                     'titulo' => 'Agenda Duplicada',
@@ -148,6 +149,8 @@ class AgendaModel extends MainModel{
                 return $respuesta;
             }
         }
+
+        $this->cerrarConexion();
         
         $respuesta = [
             'tipo' => 'OK',
@@ -235,6 +238,7 @@ class AgendaModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -244,6 +248,7 @@ class AgendaModel extends MainModel{
         }
 
         $agendas = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         foreach($agendas as &$agenda){
             $fecha = new DateTime($agenda['fecha_agenda']);
             $mes = MESES[$fecha->format('F')];
@@ -290,6 +295,7 @@ class AgendaModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Agenda No Encontrada',
@@ -299,6 +305,7 @@ class AgendaModel extends MainModel{
         }
 
         $resultados = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
 
         $datosAgenda = [
             'titulo' => $resultados[0]['titulo'],

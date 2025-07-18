@@ -126,7 +126,7 @@ class AprendizModel extends MainModel{
         }
 
         if(isset($parametros['numero_ficha'])){
-            $sentenciaBuscar .= " AND fk_ficha LIKE'{$parametros['numero_ficha']}%'";
+            $sentenciaBuscar .= " AND fk_ficha LIKE '{$parametros['numero_ficha']}%'";
         }
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10";
@@ -138,6 +138,7 @@ class AprendizModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -147,6 +148,7 @@ class AprendizModel extends MainModel{
         }
 
         $aprendices = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'aprendices' => $aprendices
@@ -168,6 +170,7 @@ class AprendizModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Aprendiz No Encontrado',
@@ -177,6 +180,7 @@ class AprendizModel extends MainModel{
         }
 
         $aprendiz = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_aprendiz' => $aprendiz

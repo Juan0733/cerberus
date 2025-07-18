@@ -90,25 +90,8 @@ function eventoCerrarSesion(){
     })
 }
 
-function eventoAutor(){
-    const botonAutor = document.getElementById('autor');
-    const informacionAutor = document.getElementById('informacion_autor');
-
-    botonAutor.addEventListener('click', ()=>{
-        botonAutor.style.display = 'none';
-        informacionAutor.style.display = 'flex';
-    })
-
-    informacionAutor.addEventListener('click', ()=>{
-        informacionAutor.style.display = 'none';
-        botonAutor.style.display = 'flex';
-    })
-}
-
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     eventoSubMenu();
     eventoCerrarSesion();
-    eventoAutor();
-
 })

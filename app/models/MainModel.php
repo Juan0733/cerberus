@@ -12,17 +12,17 @@ class MainModel{
 		try {
 			$this->conexion = new mysqli("localhost", "root", "", "cerberus");
 			$respuesta = [
-				"tipo"=>"OK",
+				"tipo" => "OK",
 				"titulo" => 'Conexión Exitosa',
-				"mensaje"=> 'La conexion se realizo correctamente'
+				"mensaje" => 'La conexion se realizo correctamente'
 			];
 			return $respuesta;
 
 		} catch (\mysqli_sql_exception $e) {
 			$respuesta = [
-				"tipo"=>"ERROR",
+				"tipo" => "ERROR",
 				"titulo" => 'Error de Conexión',
-				"mensaje"=> 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+				"mensaje" => 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
 			];
 			return $respuesta;
 		}
@@ -42,19 +42,20 @@ class MainModel{
 			$tipoConsulta = strtoupper(substr(trim($consulta), 0, 6));
 			if ($tipoConsulta == 'INSERT' || $tipoConsulta == 'DELETE') {
 				if($this->conexion->affected_rows < 1){
+					$this->cerrarConexion();
 					$respuesta = [
-						"tipo"=>"ERROR",
+						"tipo" => "ERROR",
 						"titulo" => 'Error de Conexión',
-						"mensaje"=> 'Lo sentimos, parece que la operación no tuvo los resultados esperados, intentalo más tarde.'
+						"mensaje" => 'Lo sentimos, parece que la operación no tuvo los resultados esperados, intentalo más tarde.'
 					];
 					return $respuesta;
 				}
+
+				$this->cerrarConexion();
 			}
 
-			$this->conexion->close();
-
 			$respuesta = [
-				"tipo"=>"EXITO",
+				"tipo" => "EXITO",
 				"titulo" => 'Operación Exitosa',
 				"mensaje"=> 'La operación se realizó correctamente.',
 				"respuesta_sentencia" => $sql
@@ -62,14 +63,18 @@ class MainModel{
 			return $respuesta;
 
 		} catch (\mysqli_sql_exception $e) {
-			$this->conexion->close();
+			$this->cerrarConexion();
 			$respuesta = [
-				"tipo"=>"ERROR",
+				"tipo" => "ERROR",
 				"titulo" => 'Error de Conexión',
 				"mensaje"=> 'Lo sentimos, parece que ocurrio un error al ejecutar la operación, intentalo más tarde.'
 			];
 			return $respuesta;
 		}
+	}
+
+	protected function cerrarConexion(){
+		$this->conexion->close();
 	}
 }
 

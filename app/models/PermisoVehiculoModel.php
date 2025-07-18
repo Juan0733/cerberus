@@ -192,6 +192,7 @@ class PermisoVehiculoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Permiso No Encontrado',
@@ -201,6 +202,7 @@ class PermisoVehiculoModel extends MainModel{
         }
 
         $permiso = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_permiso' => $permiso
@@ -258,6 +260,7 @@ class PermisoVehiculoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -267,6 +270,7 @@ class PermisoVehiculoModel extends MainModel{
         }
 
         $permisos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'permisos_vehiculos' => $permisos
@@ -310,6 +314,7 @@ class PermisoVehiculoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Permiso No Encontrado',
@@ -319,6 +324,7 @@ class PermisoVehiculoModel extends MainModel{
         }
 
         $permiso = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_permiso' => $permiso
@@ -340,7 +346,7 @@ class PermisoVehiculoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         $notificaciones = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
-
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'notificaciones_permisos_vehiculo' => $notificaciones

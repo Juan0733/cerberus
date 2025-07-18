@@ -371,6 +371,7 @@ class MovimientoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Movimiento No Encontrado',
@@ -380,6 +381,7 @@ class MovimientoModel extends MainModel{
         }
 
         $movimiento = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_moviento' => $movimiento
@@ -400,6 +402,7 @@ class MovimientoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Movimiento No Encontrado',
@@ -409,6 +412,7 @@ class MovimientoModel extends MainModel{
         }
 
         $movimiento = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_moviento' => $movimiento
@@ -461,6 +465,7 @@ class MovimientoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -470,7 +475,7 @@ class MovimientoModel extends MainModel{
         }
 
         $movimientos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
-
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'movimientos' => $movimientos
@@ -510,6 +515,7 @@ class MovimientoModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Movimiento No Encontrado',
@@ -519,6 +525,7 @@ class MovimientoModel extends MainModel{
         }
 
         $movimiento = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_movimiento' => $movimiento
@@ -563,6 +570,7 @@ class MovimientoModel extends MainModel{
 
                 $respuestaSentencia = $respuesta['respuesta_sentencia'];
                 $cantidadMovimientos = $respuestaSentencia->num_rows;
+                $this->cerrarConexion();
 
                 $datos['rangos'][] = date('H:i', strtotime($horaInicio)).'-'.date('H:i', strtotime($horaFin));
                 $datos['cantidades'][] = $cantidadMovimientos;

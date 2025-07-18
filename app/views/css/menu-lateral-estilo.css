@@ -191,10 +191,6 @@
     background-color: var(--color-primario);
 }
 
-.mini-barra-lateral #contenedor_sesion_autor .linea{
-    display: none;
-}
-
 .barra-lateral #contenedor_sesion_autor #contenedor_cerrar_sesion #cerrar_sesion{
     cursor: pointer;
     color: var(--color-primario);
@@ -214,23 +210,28 @@
     width: 100%;
 }
 
-.mini-barra-lateral #contenedor_sesion_autor #contenedor_autor{
-    display: none;
-}
-
 .barra-lateral #contenedor_sesion_autor #contenedor_autor #autor{
     cursor: pointer;
     color: var(--color-secundario);
+    display: none;
     font-size: 28px !important;
+}
+
+.mini-barra-lateral #contenedor_sesion_autor #contenedor_autor #autor{
+    display: flex;
 }
 
 .barra-lateral #contenedor_sesion_autor #contenedor_autor #informacion_autor{
     cursor: pointer;
     color: white;
-    display: none;
+    display: flex;
     flex-direction: column;
     row-gap: 2px;
     width: 100%;
+}
+
+.mini-barra-lateral #contenedor_sesion_autor #contenedor_autor #informacion_autor{
+    display: none;
 }
 
 #contenedor_sesion_autor #contenedor_autor #informacion_autor h2{

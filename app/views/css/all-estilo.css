@@ -1126,6 +1126,14 @@ main#cuerpo{
         width: clamp(300px, 100%, 500px);
     }
 
+        #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal{
+            height: 100vh;
+        }
+
+            #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
+                left: 12%;
+            }
+
     /* --------------------------------------- Estilos generales para cada modal ----------------------------------------------------------*/
     #contenedor_modales .contenedor-titulo-modal h2{
         font-size: 1.2em;

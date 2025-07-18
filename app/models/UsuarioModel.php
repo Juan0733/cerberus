@@ -36,6 +36,7 @@ class UsuarioModel extends MainModel{
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
+                $this->cerrarConexion();
                 $datosUsuario['tabla_usuario'] = $tabla;
                 $respuesta = [
                     'tipo' => 'OK',
@@ -43,6 +44,7 @@ class UsuarioModel extends MainModel{
                 ];
                 return $respuesta;
             }
+            $this->cerrarConexion();
         }
         
         $respuesta = [
@@ -135,6 +137,7 @@ class UsuarioModel extends MainModel{
 
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
+                $this->cerrarConexion();
                 $respuesta = [
                     'tipo' => 'OK',
                     'titulo' => 'Usuario Encontrado',
@@ -142,6 +145,7 @@ class UsuarioModel extends MainModel{
                 ];
                 return $respuesta; 
             }
+            $this->cerrarConexion();
         }
 
         $respuesta = [
@@ -178,6 +182,7 @@ class UsuarioModel extends MainModel{
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
+                $this->cerrarConexion();
                 $datosUsuario['hora_sesion'] = time();
                 $datosUsuario['panel_acceso'] = 'inicio';
 
@@ -199,8 +204,9 @@ class UsuarioModel extends MainModel{
                 ];
                 return $respuesta;
             }
+            $this->cerrarConexion();
         }
-       
+
         $respuesta = [
             "tipo" => "ERROR",
             "titulo" => 'Acceso Denegado',
@@ -278,7 +284,7 @@ class UsuarioModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Sesión Cerrada',
-            'mensaje' => 'La sesion ha sido cerrada correctamente'
+            'mensaje' => 'La sesión ha sido cerrada correctamente'
         ];
         return $respuesta;
     }
@@ -300,6 +306,7 @@ class UsuarioModel extends MainModel{
 
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             $totalUsuarios += $respuestaSentencia->num_rows;
+            $this->cerrarConexion();
         }
 
         $respuesta = [
@@ -329,6 +336,7 @@ class UsuarioModel extends MainModel{
 
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             $cantidad = $respuestaSentencia->num_rows;
+            $this->cerrarConexion();
             $usuarios[] = [
                 'tipo_usuario' => $tabla,
                 'cantidad' => $cantidad
@@ -434,6 +442,8 @@ class UsuarioModel extends MainModel{
                     $notificaciones[] = $usuario;
                 };
             }
+
+            $this->cerrarConexion();
         }
 
         $notificaciones = $this->ordenarNotificacionesUsuario($notificaciones);

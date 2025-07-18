@@ -95,6 +95,7 @@ class VisitanteModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
@@ -104,6 +105,7 @@ class VisitanteModel extends MainModel{
         }
 
         $visitantes = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'visitantes' => $visitantes
@@ -124,6 +126,7 @@ class VisitanteModel extends MainModel{
 
         $respuestaSentencia = $respuesta['respuesta_sentencia'];
         if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Visitante No Encontrado',
@@ -133,6 +136,7 @@ class VisitanteModel extends MainModel{
         }
 
         $visitante = $respuestaSentencia->fetch_assoc();
+        $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
             'datos_visitante' => $visitante

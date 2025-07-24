@@ -280,6 +280,7 @@ class MovimientoModel extends MainModel{
                 }
 
                 $datosUsuario['tipo_usuario'] = 'VISITANTE';
+                $datosUsuario['tabla_usuario'] = 'visitantes';
             }
 
         }elseif($datosUsuario['tipo_usuario'] == 'FUNCIONARIO' && $datosUsuario['tipo_contrato'] == 'CONTRATISTA'){
@@ -298,6 +299,7 @@ class MovimientoModel extends MainModel{
                 }
 
                 $datosUsuario['tipo_usuario'] = 'VISITANTE';
+                $datosUsuario['tabla_usuario'] = 'visitantes';
             }
         }
 
@@ -452,12 +454,8 @@ class MovimientoModel extends MainModel{
             $sentenciaBuscar .= " AND mov.fk_vehiculo LIKE '{$parametros['numero_placa']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC";
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
         
-        if(!isset($parametros['pdf'])){
-            $sentenciaBuscar .= " LIMIT 10;";
-        }
-
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;

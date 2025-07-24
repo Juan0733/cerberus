@@ -58,6 +58,7 @@
                 background-color: var(--color-secundario);
                 border: none;
                 border-radius: 20px;
+                cursor: pointer;
                 padding: 2.5em 0;
                 width: 70%;
             }
@@ -136,6 +137,7 @@
                         border: none;
                         border-radius: 13px;
                         background-color: var(--color-secundario);
+                        cursor: pointer;
                         display: flex;
                         height: 60px;
                         justify-content: center;

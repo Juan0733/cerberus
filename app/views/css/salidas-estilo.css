@@ -58,6 +58,7 @@
                 background-color: var(--main-color);
                 border: none;
                 border-radius: 20px;
+                cursor: pointer;
                 padding: 2.5em 0;
                 width: 70%;
             }
@@ -136,6 +137,7 @@
                         border: none;
                         border-radius: 13px;
                         background-color: var(--main-color);
+                        cursor: pointer;
                         display: flex;
                         height: 60px;
                         justify-content: center;
@@ -268,6 +270,7 @@
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-07-2025 a las 06:14:23
+-- Tiempo de generación: 22-07-2025 a las 18:49:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -118,7 +118,7 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`contador`, `tipo_usuario`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(1, 'FUNCIONARIO', 'CC', '1234567892', 'Jeronimo Alexander', 'Pizarro Rodríguez', '3134560982', 'jeronimo@gmail.com', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-07-17 06:12:30', NULL, 'FUERA', 'ACTIVO');
+(1, 'FUNCIONARIO', 'CC', '1234567892', 'Heberth Hernando ', 'Garcia Tamayo', '1234567890', 'hgarciat@sena.edu.co', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-07-20 02:51:05', NULL, 'FUERA', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -443,7 +443,7 @@ CREATE TABLE `vigilantes` (
   `rol` varchar(15) NOT NULL,
   `contrasena` varchar(32) NOT NULL,
   `fecha_registro` datetime NOT NULL,
-  `fecha_ultima_sesion` datetime NOT NULL,
+  `fecha_ultima_sesion` datetime DEFAULT NULL,
   `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA',
   `estado_usuario` varchar(8) NOT NULL DEFAULT 'ACTIVO'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;

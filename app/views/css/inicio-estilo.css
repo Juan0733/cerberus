@@ -65,7 +65,7 @@
                 justify-content: center;
                 margin: 0 auto;
                 padding: 1em;
-                row-gap: 10px;
+                row-gap: 8px;
                 width: clamp(250px, 85%, 600px);
             }
 
@@ -77,6 +77,7 @@
                     align-items: center;
                     column-gap: 10px;
                     display: flex;
+                    margin-bottom: 10px;
                 }
 
                     #contenedor_cards .card-multitud .contenedor-titulo h2{
@@ -92,7 +93,7 @@
                 }
 
                     #contenedor_cards .card-multitud h3 .numero{
-                        font-size: 2.3em;
+                        font-size: 2em;
                     }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud .contenedor-barra {

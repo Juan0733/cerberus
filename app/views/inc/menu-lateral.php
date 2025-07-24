@@ -91,7 +91,7 @@
             </div>
             <div class="linea"></div>
             <div id="contenedor_autor">
-                <ion-icon id="autor" name="code-slash-outline"></ion-icon>
+                <ion-icon id="btn_autor" name="code-slash-outline"></ion-icon>
                 <div id="informacion_autor">
                     <h2>CERBERUS</h2>
                     <h3>Análisis y Desarrollo de Software 2714805</h3>

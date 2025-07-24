@@ -128,7 +128,7 @@ function eventoRegistrarAgenda(){
 
         if(tipoAgenda == 'individual'){
             formData.append('operacion', 'registrar_agenda_individual');
-            formData.append('tipo_documento', inputTipoDocumento.value);
+            formData.append('tipo_documento', selectTipoDocumento.value);
             formData.append('numero_documento', document.getElementById('documento_agendado').value);
             formData.append('nombres', document.getElementById('nombres_agendado').value);
             formData.append('apellidos', document.getElementById('apellidos_agendado').value);

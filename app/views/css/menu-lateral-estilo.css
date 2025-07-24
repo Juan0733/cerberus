@@ -194,12 +194,12 @@
 .barra-lateral #contenedor_sesion_autor #contenedor_cerrar_sesion #cerrar_sesion{
     cursor: pointer;
     color: var(--color-primario);
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .barra-lateral #contenedor_sesion_autor #contenedor_cerrar_sesion #cerrar_sesion:hover{
     color: var(--color-secundario);
-    font-size: 50px;
+    font-size: 35px;
 }
 
 .barra-lateral #contenedor_sesion_autor #contenedor_autor{
@@ -210,28 +210,28 @@
     width: 100%;
 }
 
-.barra-lateral #contenedor_sesion_autor #contenedor_autor #autor{
+.barra-lateral #contenedor_sesion_autor #contenedor_autor #btn_autor{
     cursor: pointer;
     color: var(--color-secundario);
-    display: none;
-    font-size: 28px !important;
+    display: flex;
+    font-size: 30px;
 }
 
-.mini-barra-lateral #contenedor_sesion_autor #contenedor_autor #autor{
-    display: flex;
+.mini-barra-lateral #contenedor_sesion_autor #contenedor_autor #btn_autor{
+    display: flex !important;
 }
 
 .barra-lateral #contenedor_sesion_autor #contenedor_autor #informacion_autor{
     cursor: pointer;
     color: white;
-    display: flex;
+    display: none;
     flex-direction: column;
     row-gap: 2px;
     width: 100%;
 }
 
 .mini-barra-lateral #contenedor_sesion_autor #contenedor_autor #informacion_autor{
-    display: none;
+    display: none !important;
 }
 
 #contenedor_sesion_autor #contenedor_autor #informacion_autor h2{
@@ -377,7 +377,7 @@
         left: -250px;
     }
     .barra-lateral #contenedor_sesion_autor{
-        margin-bottom: 50px;
+        margin-bottom: 100px;
     }
     .max-barra-lateral{
         left: 0;

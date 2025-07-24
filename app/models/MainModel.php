@@ -10,7 +10,8 @@ class MainModel{
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 		try {
-			$this->conexion = new mysqli("localhost", "root", "", "cerberus");
+			// $this->conexion = new mysqli("localhost", "root", "", "cerberus");
+			$this->conexion = new mysqli("localhost", "arcanoposada_cancerbero", "C@nc3rb3r84s3r", "arcanoposada_cerberus_bdd");
 			$respuesta = [
 				"tipo" => "OK",
 				"titulo" => 'Conexión Exitosa',
@@ -22,7 +23,7 @@ class MainModel{
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error de Conexión',
-				"mensaje" => 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+				"mensaje" => 'Lo sentimos, parece que ocurrio un error al intentar establecer conexión con la base de datos, por favor intentalo mas tarde.'
 			];
 			return $respuesta;
 		}

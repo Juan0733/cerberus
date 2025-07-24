@@ -353,6 +353,7 @@
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;

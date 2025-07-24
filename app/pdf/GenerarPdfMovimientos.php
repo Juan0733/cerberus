@@ -194,7 +194,6 @@ try {
     }
     
     $parametros = $objetoServicio->sanitizarParametros()['parametros'];
-    $parametros['pdf'] = 'SI';
 
     if(!isset($parametros['fecha_inicio']) || !isset($parametros['fecha_fin'])){
         header("Location: ../../informes-listado");

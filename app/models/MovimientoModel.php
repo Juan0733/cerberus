@@ -269,11 +269,6 @@ class MovimientoModel extends MainModel{
             $fechaFinFicha = new DateTime($datosUsuario['fecha_fin_ficha']);
             if($fechaFinFicha < $fechaActual){
                 $datosUsuario['motivo_ingreso'] = 'La ficha del aprendiz ha finalizado';
-                $respuesta = $this->objetoUsuario->eliminarUsuario($datosUsuario['numero_documento'], 'aprendices');
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
                 $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
@@ -288,11 +283,6 @@ class MovimientoModel extends MainModel{
             $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
             if($fechaFinContrato < $fechaActual){
                 $datosUsuario['motivo_ingreso'] = 'El contrato del funcionario ha finalizado';
-                $respuesta = $this->objetoUsuario->eliminarUsuario($datosUsuario['numero_documento'], 'funcionarios');
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
                 $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;

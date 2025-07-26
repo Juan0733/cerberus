@@ -16,10 +16,15 @@ class VisitanteModel extends MainModel{
             return $respuesta;
         }
 
+        $ubicacion = 'FUERA';
+        if(isset($respuesta['ubicacion'])){
+            $ubicacion = $respuesta['ubicacion'];
+        }
+
         $fechaRegistro = date('Y-m-d H:i:s');
         $sentenciaInsertar = "
-            INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, fecha_registro) 
-            VALUES('{$datosVisitante['tipo_documento']}', '{$datosVisitante['numero_documento']}', '{$datosVisitante['nombres']}', '{$datosVisitante['apellidos']}', '{$datosVisitante['telefono']}', '{$datosVisitante['correo_electronico']}', '{$datosVisitante['motivo_ingreso']}', '$fechaRegistro')";
+            INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, ubicacion, fecha_registro) 
+            VALUES('{$datosVisitante['tipo_documento']}', '{$datosVisitante['numero_documento']}', '{$datosVisitante['nombres']}', '{$datosVisitante['apellidos']}', '{$datosVisitante['telefono']}', '{$datosVisitante['correo_electronico']}', '{$datosVisitante['motivo_ingreso']}', '$ubicacion', '$fechaRegistro')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -58,16 +63,20 @@ class VisitanteModel extends MainModel{
             }
 
             $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $ubicacionActual = $respuesta['usuario']['ubicacion'];
             $respuesta = $this->objetoUsuario->eliminarUsuario($visitante, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
+
+            $respuesta['ubicacion'] = $ubicacionActual;
+            return $respuesta;
         }
 
          $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Usuario No Existente',
-            "mensaje"=> 'El visitante no se encuentra registrado en el sistema'
+            "mensaje"=> 'El usuario no se encuentra registrado en el sistema'
         ];
         return $respuesta;
     }

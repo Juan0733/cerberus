@@ -940,6 +940,7 @@ main#cuerpo{
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;
@@ -1074,6 +1075,7 @@ main#cuerpo{
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;
@@ -1139,6 +1141,16 @@ main#cuerpo{
         font-size: 1.2em;
         text-align: left;
     }
+
+    /* ------------------------------------------------- Estilos Modal Vehículo ---------------------------------------*/
+    #contenedor_modales #modal_vehiculo{
+        width: clamp(300px, 92.5%, 500px);
+    }
+
+        #modal_vehiculo #cont_info_modales #formulario_vehiculo #contenedor_cajas_vehiculo{
+            padding: 1em;
+            row-gap: 10px;
+        }
 
     /* ------------------------------------------------- Estilos Modal Novedad Usuario ---------------------------------------*/
     #contenedor_modales #modal_novedad_usuario{

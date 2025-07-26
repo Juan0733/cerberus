@@ -275,7 +275,7 @@
                 column-gap: 20px;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                max-height: 570px;
+                max-height: 595px;
                 overflow-y: auto;
                 padding: 1.5em;
                 row-gap: 20px;
@@ -333,6 +333,7 @@
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;

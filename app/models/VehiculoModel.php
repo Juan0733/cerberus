@@ -234,43 +234,6 @@ class VehiculoModel extends MainModel {
         ];
         return $respuesta;
     }
-
-    private function validarLimiteVehiculos($documento){
-        $parametros = [
-            'numero_documento' => $documento
-        ];
-        $respuesta = $this->consultarVehiculos($parametros);
-        if($respuesta['tipo'] == 'ERROR'){
-            if($respuesta['titulo'] == 'Datos No Encontrados'){
-                $respuesta = [
-                    "tipo"=>"OK",
-                    "titulo" => 'Limite De Vehículos',
-                    "mensaje"=> 'El usuario es apto para registrar un nuevo vehiculo.'
-                ];
-                return $respuesta;
-            }elseif($respuesta['titulo'] == 'Error de Conexión'){
-                return $respuesta;
-            }
-        }
-
-        $vehiculos = $respuesta['vehiculos'];
-        if(count($vehiculos) == 5){
-            $vehiculoAleatorio = rand(0, 4);
-            $respuesta = $this->eliminarPropiedadVehiculo($documento, $vehiculos[$vehiculoAleatorio]['numero_placa']);
-            if($respuesta['tipo'] == 'ERROR'){
-                return $respuesta;
-            }
-        }
-
-        $respuesta = [
-            "tipo"=>"OK",
-            "titulo" => 'Limite De Vehículos',
-            "mensaje"=> 'El usuario es apto para registrar un nuevo vehiculo.'
-        ];
-
-        return $respuesta;
-    }
-
     private function validarLimitePropietarios($placa){
         $respuesta = $this->consultarPropietarios($placa);
         if($respuesta['tipo'] == 'ERROR'){

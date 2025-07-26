@@ -1,9 +1,11 @@
 <?php
 
  /* -------------Nombre Sesion y APP---------------- */
+	ini_set('session.gc_probability', 1);
+	ini_set('session.gc_divisor', 1000);
  	session_start();
-	const APP_NOMBRE = "Cerberus";
 
+	const APP_NOMBRE = "Cerberus";
 
 /*--------------Variables-------------------- */
 	$urlBaseVariable = './';

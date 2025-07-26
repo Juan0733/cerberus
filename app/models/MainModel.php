@@ -22,7 +22,7 @@ class MainModel{
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error de Conexión',
-				"mensaje" => 'Lo sentimos, parece que ocurrio un error con la base de datos, por favor intentalo mas tarde.'
+				"mensaje" => 'Lo sentimos, parece que ocurrio un error al intentar establecer conexión con la base de datos, por favor intentalo mas tarde.'
 			];
 			return $respuesta;
 		}

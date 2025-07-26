@@ -20,7 +20,7 @@
 
                 <div class="input-caja-registro seccion-01">
                     <label for="documento_visitante" class="label-input">Número de documento</label>
-                    <input type="text" class="campo campo-seccion-01" name="documento_visitante" id="documento_visitante"  pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 numeros y máximo 15 numeros" placeholder="Ej: 123456Dil" date="Numero de documento" tabindex="9" >
+                    <input type="text" class="campo campo-seccion-01" name="documento_visitante" id="documento_visitante"  pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 numeros y máximo 15 numeros" placeholder="Ej: 123456Dil" date="Numero de documento" tabindex="9" required>
                 </div>
             
                 <div class="input-caja-registro seccion-01">
@@ -40,7 +40,7 @@
 
                 <div class="input-caja-registro seccion-02">
                     <label for="telefono" class="label-input">Número de teléfono</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="telefono" id="telefono" pattern="[0-9]{10}" title="Debes digitar solo 10 números, sin espacios ni caracteres especiales" maxlength="10" minlength="10" placeholder="Ej: 3104444333" date="Numero de telefono" tabindex="10" >
+                    <input type="tel" class="campo" inputmode="numeric" name="telefono" id="telefono" pattern="[0-9]{10}" title="Debes digitar solo 10 números, sin espacios ni caracteres especiales" maxlength="10" minlength="10" placeholder="Ej: 3104444333" date="Numero de telefono" tabindex="10" required>
                 </div>
             
                 <div class="input-caja-registro seccion-02">

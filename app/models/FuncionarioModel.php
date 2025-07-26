@@ -16,10 +16,15 @@ class FuncionarioModel extends MainModel{
             return $respuesta;
         }
 
+        $ubicacion = 'FUERA';
+        if(isset($respuesta['ubicacion'])){
+            $ubicacion = $respuesta['ubicacion'];
+        }
+
         $fechaRegistro = date('Y-m-d H:i:s');
         $sentenciaInsertar = "
-            INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, fecha_registro, estado_usuario)
-            VALUES('{$datosFuncionario['tipo_documento']}', '{$datosFuncionario['numero_documento']}', '{$datosFuncionario['nombres']}', '{$datosFuncionario['apellidos']}', '{$datosFuncionario['telefono']}', '{$datosFuncionario['correo_electronico']}', '{$datosFuncionario['tipo_contrato']}', '{$datosFuncionario['brigadista']}', '{$datosFuncionario['rol']}', {$datosFuncionario['fecha_fin_contrato']}, {$datosFuncionario['contrasena']}, '$fechaRegistro', {$datosFuncionario['estado_usuario']});";
+            INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, ubicacion, fecha_registro, estado_usuario)
+            VALUES('{$datosFuncionario['tipo_documento']}', '{$datosFuncionario['numero_documento']}', '{$datosFuncionario['nombres']}', '{$datosFuncionario['apellidos']}', '{$datosFuncionario['telefono']}', '{$datosFuncionario['correo_electronico']}', '{$datosFuncionario['tipo_contrato']}', '{$datosFuncionario['brigadista']}', '{$datosFuncionario['rol']}', {$datosFuncionario['fecha_fin_contrato']}, {$datosFuncionario['contrasena']}, '$ubicacion', '$fechaRegistro', {$datosFuncionario['estado_usuario']});";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -99,16 +104,20 @@ class FuncionarioModel extends MainModel{
             }
 
             $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $ubicacionActual = $respuesta['usuario']['ubicacion'];
             $respuesta = $this->objetoUsuario->eliminarUsuario($funcionario, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
+
+            $respuesta['ubicacion'] = $ubicacionActual;
+            return $respuesta;
         }
 
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Usuario No Existente',
-            "mensaje"=> 'El funcionario no se encuentra registrado en el sistema'
+            "mensaje"=> 'El usuario no se encuentra registrado en el sistema'
         ];
         return $respuesta;
     }

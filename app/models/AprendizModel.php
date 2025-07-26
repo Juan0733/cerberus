@@ -18,6 +18,11 @@ class AprendizModel extends MainModel{
             return $respuesta;
         }
 
+        $ubicacion = 'FUERA';
+        if(isset($respuesta['ubicacion'])){
+            $ubicacion = $respuesta['ubicacion'];
+        }
+
         $datosFicha = [
             'numero_ficha' => $datosAprendiz['numero_ficha'],
             'nombre_programa' => $datosAprendiz['nombre_programa'],
@@ -30,8 +35,8 @@ class AprendizModel extends MainModel{
 
         $fechaRegistro = date('Y-m-d H:i:s');
         $sentenciaInsertar = "
-            INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, fecha_registro)
-            VALUES('{$datosAprendiz['tipo_documento']}', '{$datosAprendiz['numero_documento']}', '{$datosAprendiz['nombres']}', '{$datosAprendiz['apellidos']}', '{$datosAprendiz['telefono']}', '{$datosAprendiz['correo_electronico']}', '{$datosAprendiz['numero_ficha']}', '$fechaRegistro');";
+            INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, ubicacion, fecha_registro)
+            VALUES('{$datosAprendiz['tipo_documento']}', '{$datosAprendiz['numero_documento']}', '{$datosAprendiz['nombres']}', '{$datosAprendiz['apellidos']}', '{$datosAprendiz['telefono']}', '{$datosAprendiz['correo_electronico']}', '{$datosAprendiz['numero_ficha']}', '$ubicacion', '$fechaRegistro');";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -97,16 +102,20 @@ class AprendizModel extends MainModel{
             }
 
             $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $ubicacionActual = $respuesta['usuario']['ubicacion'];
             $respuesta = $this->objetoUsuario->eliminarUsuario($aprendiz, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
+
+            $respuesta['ubicacion'] = $ubicacionActual;
+            return $respuesta;
         }
 
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Usuario No Existente',
-            "mensaje"=> 'El aprendiz no se encuentra registrado en el sistema'
+            "mensaje"=> 'El usuario no se encuentra registrado en el sistema'
         ];
         return $respuesta;
     }

@@ -14,10 +14,15 @@ class VigilanteModel extends MainModel{
             return $respuesta;
         }
 
+        $ubicacion = 'FUERA';
+        if(isset($respuesta['ubicacion'])){
+            $ubicacion = $respuesta['ubicacion'];
+        }
+
         $fechaRegistro = date('Y-m-d H:i:s');
         $sentenciaInsertar = "
-            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, fecha_registro, estado_usuario) 
-            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '$fechaRegistro', '{$datosVigilante['estado_usuario']}')";
+            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario) 
+            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '$ubicacion', '$fechaRegistro', '{$datosVigilante['estado_usuario']}')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -141,16 +146,20 @@ class VigilanteModel extends MainModel{
             }
 
             $tablaUsuario = $respuesta['usuario']['tabla_usuario'];
+            $ubicacionActual = $respuesta['usuario']['ubicacion'];
             $respuesta = $this->objetoUsuario->eliminarUsuario($vigilante, $tablaUsuario);
             if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
+
+            $respuesta['ubicacion'] = $ubicacionActual;
+            return $respuesta;
         }
 
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Usuario No Existente',
-            "mensaje"=> 'El vigilante no se encuentra registrado en el sistema'
+            "mensaje"=> 'El usuario no se encuentra registrado en el sistema'
         ];
         return $respuesta;
     }

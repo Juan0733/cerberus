@@ -63,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 		echo json_encode($objetoUsuario->validarUsuarioLogin($respuesta['usuario']));
 
 	}else if($operacion == 'validar_contrasena'){
-
 		$respuesta = $objetoServicio->sanitizarDatosLogin();
 		if ($respuesta['tipo'] == 'ERROR') {
 			echo json_encode($respuesta);

@@ -46,23 +46,23 @@
 
                 <div class="input-caja-registro seccion-02">
                     <label for="telefono" class="label-input">Número de teléfono</label>
-                    <input type="tel" class="campo" inputmode="numeric" name="telefono" id="telefono" pattern="[0-9]{10}" title="Debes digitar solo 10 números, sin espacios ni caracteres especiales" maxlength="10" minlength="10" placeholder="Ej: 3104444333" tabindex="6" >
+                    <input type="tel" class="campo" inputmode="numeric" name="telefono" id="telefono" pattern="[0-9]{10}" title="Debes digitar solo 10 números, sin espacios ni caracteres especiales" maxlength="10" minlength="10" placeholder="Ej: 3104444333" tabindex="6" required>
                 </div>
             
                 <div class="input-caja-registro seccion-02">
                     <label for="numero_ficha" class="label-input">Número ficha</label>
-                    <input type="text" class="campo" name="numero_ficha" id="numero_ficha" list="lista_fichas" pattern="[0-9]{7}" title="Debes digitar solo números, mínimo y máximo 7" placeholder="Ej: 1234567" maxlength="7" minlength="7" tabindex="7">
+                    <input type="text" class="campo" name="numero_ficha" id="numero_ficha" list="lista_fichas" pattern="[0-9]{7}" title="Debes digitar solo números, mínimo y máximo 7" placeholder="Ej: 1234567" maxlength="7" minlength="7" tabindex="7" required>
                     <datalist id="lista_fichas"></datalist>
                 </div>
                
                 <div class="input-caja-registro seccion-02">
                     <label for="nombre_programa" class="label-input">Nombre programa</label>
-                    <input type="text" class="campo" name="nombre_programa" id="nombre_programa" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}" title="Debes digitar solo letras y números, mínimo 5" placeholder="Ej: Tecnico en programación" minlength="8" tabindex="8">
+                    <input type="text" class="campo" name="nombre_programa" id="nombre_programa" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}" title="Debes digitar solo letras y números, mínimo 5" placeholder="Ej: Tecnico en programación" minlength="8" tabindex="8" required>
                 </div>
 
                 <div class="input-caja-registro seccion-02">
                     <label for="fecha_fin_ficha" class="label-input">Fecha finalización ficha</label>
-                    <input type="date" class="campo" name="fecha_fin_ficha" id="fecha_fin_ficha" min=<?php echo $fechaActual; ?> tabindex="9">
+                    <input type="date" class="campo" name="fecha_fin_ficha" id="fecha_fin_ficha" min=<?php echo $fechaActual; ?> tabindex="9" required>
                 </div>
             </div>
             

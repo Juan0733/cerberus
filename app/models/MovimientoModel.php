@@ -269,17 +269,13 @@ class MovimientoModel extends MainModel{
             $fechaFinFicha = new DateTime($datosUsuario['fecha_fin_ficha']);
             if($fechaFinFicha < $fechaActual){
                 $datosUsuario['motivo_ingreso'] = 'La ficha del aprendiz ha finalizado';
-                $respuesta = $this->objetoUsuario->eliminarUsuario($datosUsuario['numero_documento'], 'aprendices');
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
                 $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
                 }
 
                 $datosUsuario['tipo_usuario'] = 'VISITANTE';
+                $datosUsuario['tabla_usuario'] = 'visitantes';
             }
 
         }elseif($datosUsuario['tipo_usuario'] == 'FUNCIONARIO' && $datosUsuario['tipo_contrato'] == 'CONTRATISTA'){
@@ -287,17 +283,13 @@ class MovimientoModel extends MainModel{
             $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
             if($fechaFinContrato < $fechaActual){
                 $datosUsuario['motivo_ingreso'] = 'El contrato del funcionario ha finalizado';
-                $respuesta = $this->objetoUsuario->eliminarUsuario($datosUsuario['numero_documento'], 'funcionarios');
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
                 $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
                 }
 
                 $datosUsuario['tipo_usuario'] = 'VISITANTE';
+                $datosUsuario['tabla_usuario'] = 'visitantes';
             }
         }
 
@@ -452,12 +444,8 @@ class MovimientoModel extends MainModel{
             $sentenciaBuscar .= " AND mov.fk_vehiculo LIKE '{$parametros['numero_placa']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC";
+        $sentenciaBuscar .= " ORDER BY mov.fecha_registro DESC;";
         
-        if(!isset($parametros['pdf'])){
-            $sentenciaBuscar .= " LIMIT 10;";
-        }
-
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;

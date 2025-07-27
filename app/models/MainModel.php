@@ -11,6 +11,7 @@ class MainModel{
 
 		try {
 			$this->conexion = new mysqli("localhost", "root", "", "cerberus");
+			// $this->conexion = new mysqli("localhost", "arcanoposada_cancerbero", "C@nc3rb3r84s3r", "arcanoposada_cerberus_bdd");
 			$respuesta = [
 				"tipo" => "OK",
 				"titulo" => 'Conexión Exitosa',

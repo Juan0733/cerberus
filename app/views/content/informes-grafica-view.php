@@ -16,40 +16,36 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 <div id="contenedor_principal">
     <div id="contenedor_filtros">
-        <div class="caja-flex">
-            <div class="filtro">
-                <label class="fechas_input" for="fecha">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" max="<?php echo $fechaActual; ?>" value="<?php echo $fechaActual; ?>">
-            </div>
-
-            <div class="filtro">
-                <label class="fechas_input" for="tipo_movimiento">Movimiento:</label>
-                <select id="tipo_movimiento" name="tipo_movimiento">
-                    <option value="ENTRADA">Entradas</option>
-                    <option value="SALIDA">Salidas</option>
-                </select>
-            </div>
+        <div class="filtro">
+            <label class="fechas_input" for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" max="<?php echo $fechaActual; ?>" value="<?php echo $fechaActual; ?>">
         </div>
-            
-        <div class="caja-flex" id="caja_02">
-            <div class="filtro">
-                <label class="fechas_input" for="jornada">Jornada:</label>
-                <select id="jornada" name="jornada">
-                    <option value="MAÑANA" <?php echo $jornada == 'mañana' ? 'selected' : ''; ?>>Mañana</option>
-                    <option value="TARDE" <?php echo $jornada == 'tarde' ? 'selected' : ''; ?>>Tarde</option>
-                    <option value="NOCHE" <?php echo $jornada == 'noche' ? 'selected' : ''; ?>>Noche</option>
-                </select>
-            </div>
 
-            <div class="filtro">
-                <label class="fechas_input" for="puerta">Puerta:</label>
-                <select id="puerta" name="puerta">
-                    <option value="">Todas</option>
-                    <option value="PEATONAL">Peatonal</option>
-                    <option value="GANADERIA">Vehicular ganaderia</option>
-                    <option value="PRINCIPAL">Vehicular principal</option>
-                </select>
-            </div>
+        <div class="filtro">
+            <label class="fechas_input" for="tipo_movimiento">Movimiento:</label>
+            <select id="tipo_movimiento" name="tipo_movimiento">
+                <option value="ENTRADA">Entradas</option>
+                <option value="SALIDA">Salidas</option>
+            </select>
+        </div>
+        
+        <div class="filtro">
+            <label class="fechas_input" for="jornada">Jornada:</label>
+            <select id="jornada" name="jornada">
+                <option value="MAÑANA" <?php echo $jornada == 'mañana' ? 'selected' : ''; ?>>Mañana</option>
+                <option value="TARDE" <?php echo $jornada == 'tarde' ? 'selected' : ''; ?>>Tarde</option>
+                <option value="NOCHE" <?php echo $jornada == 'noche' ? 'selected' : ''; ?>>Noche</option>
+            </select>
+        </div>
+
+        <div class="filtro">
+            <label class="fechas_input" for="puerta">Puerta:</label>
+            <select id="puerta" name="puerta">
+                <option value="">Todas</option>
+                <option value="PEATONAL">Peatonal</option>
+                <option value="GANADERIA">Vehicular ganaderia</option>
+                <option value="PRINCIPAL">Vehicular principal</option>
+            </select>
         </div>
     </div>
 

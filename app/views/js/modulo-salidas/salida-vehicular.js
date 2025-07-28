@@ -6,6 +6,7 @@ import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 import { modalRegistroNovedadVehiculo } from '../modales/modal-registro-novedad-vehiculo.js';
+import { modalScanerQr } from '../modales/modal-scaner-qr.js';
 
 let documentoPropietario;
 let documentoPasajero;
@@ -13,6 +14,7 @@ let placaVehiculo;
 let observacion;
 let botonPeatonal;
 let botonVehicular;
+let formularioPasajeros;
 let formularioPeatonal;
 let formularioVehicular;
 let contenedorBotonVolver;
@@ -45,7 +47,10 @@ function eventoAbrirFormularioVehicular() {
             botonPeatonal.style.display = "none";
             contenedorBotonVolver.style.display = 'flex';
             formularioVehicular.style.display = "flex"
-            contenedorBotonesFormularios.style.justifyContent = 'start';
+
+            if(window.innerWidth < 768){
+                contenedorBotonesFormularios.style.justifyContent = 'start';
+            }
             placaVehiculo.focus();
         }
     });
@@ -58,7 +63,10 @@ function eventoCerrarFormulario(){
         contenedorBotonVolver.style.display = 'none';
         botonPeatonal.style = 'flex';
         botonVehicular.style = 'flex';
-        contenedorBotonesFormularios.style.justifyContent = 'center';
+
+        if(contenedorBotonesFormularios.style.justifyContent == 'start'){
+            contenedorBotonesFormularios.style.justifyContent = 'center';
+        }
     })
 }
 
@@ -263,7 +271,7 @@ function eventoInputPasajero(){
 }
 
 function eventoAgregarPasajero(){
-    document.getElementById('formulario_pasajeros').addEventListener('submit', (e)=>{
+    formularioPasajeros.addEventListener('submit', (e)=>{
         e.preventDefault();
         if(datosEntradaVehicular.propietario != documentoPasajero.value){
             let existePasajero = false;
@@ -387,6 +395,33 @@ function dibujarPropietarios(){
     })
 }
 
+function eventoManualInputPropietario(){
+    const evento = new Event("input", { bubbles: true, cancelable: true });
+    documentoPropietario.dispatchEvent(evento);
+}
+
+function eventoManualInputPasajero(){
+    const evento = new Event("change", { bubbles: true, cancelable: true });
+    documentoPasajero.dispatchEvent(evento);
+}
+
+function eventoManualFormularioPasajeros(){
+    const evento = new Event("submit", { bubbles: true, cancelable: true });
+    formularioPasajeros.dispatchEvent(evento);
+}
+
+function eventoScanerQrPropietario(){
+    document.getElementById('btn_scaner_qr_propietario').addEventListener('click', ()=>{
+        modalScanerQr(urlBase, documentoPropietario, eventoManualInputPropietario);
+    })
+}
+
+function eventoScanerQrPasajero(){
+    document.getElementById('btn_scaner_qr_pasajero').addEventListener('click', ()=>{
+        modalScanerQr(urlBase, documentoPasajero, eventoManualInputPasajero, eventoManualFormularioPasajeros);
+    })
+}
+
 function limpiarFormularioVehicular(){
     placaVehiculo.value = '';
     documentoPropietario.value = '';
@@ -479,6 +514,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     observacion = document.getElementById('observacion_vehicular');
     botonVehicular = document.getElementById('btn_vehicular');
     botonPeatonal = document.getElementById('btn_peatonal');
+    formularioPasajeros = document.getElementById('formulario_pasajeros');
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     formularioVehicular = document.getElementById("formulario_vehicular");
     contenedorBotonesFormularios = document.getElementById('contenedor_btns_formularios');
@@ -492,4 +528,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoAgregarPasajero();
     eventoTextArea();
     eventoRegistrarSalidaVehicular();
+    eventoScanerQrPropietario();
+    eventoScanerQrPasajero();
 });

@@ -20,7 +20,7 @@ function dibujarConteoMultitud(){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
             }else{
-                alertaError(datos);
+                alertaError(respuesta);
             }
         }
     })
@@ -35,7 +35,7 @@ function dibujarConteoBrigadistas(){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
             }else{
-                alertaError(datos);
+                alertaError(respuesta);
             }
         }
     })

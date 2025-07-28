@@ -10,8 +10,8 @@ class MainModel{
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 		try {
-			$this->conexion = new mysqli("localhost", "root", "", "cerberus");
-			// $this->conexion = new mysqli("localhost", "arcanoposada_cancerbero", "C@nc3rb3r84s3r", "arcanoposada_cerberus_bdd");
+			// $this->conexion = new mysqli("localhost", "root", "", "cerberus");
+			$this->conexion = new mysqli("localhost", "arcanoposada_cancerbero", "C@nc3rb3r84s3r", "arcanoposada_cerberus_bdd");
 			$respuesta = [
 				"tipo" => "OK",
 				"titulo" => 'Conexión Exitosa',

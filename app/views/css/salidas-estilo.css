@@ -81,6 +81,34 @@
                 width: 80%;
             }
 
+            #contenedor_btns_formularios .contenedor-btn-formulario .formulario .contenedor-input-btn{
+                column-gap: 10px;
+                display: flex;
+                align-items: end;
+                width: 100%;
+            }
+
+                #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
+                    align-items: center;
+                    border: none;
+                    border-radius: 13px;
+                    background-color: var(--color-secundario);
+                    cursor: pointer;
+                    display: flex;
+                    height: 60px;
+                    justify-content: center;
+                    padding: 0 15px;
+                }
+
+                    .contenedor-btn-formulario .formulario .btn-scaner ion-icon{
+                        color: white;
+                        font-size: 30px;
+                    }
+                    
+                #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
+                    display: none;
+                }
+
             #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{
                 animation: 0.5s ease-out 0s 1 normal none running slideIn3;
             }
@@ -285,7 +313,7 @@
 
 @media((min-width: 768px) and (max-width: 1023px)){
     #contenedor_principal #contenedor_btns_formularios{
-        height: 100vh;
+        height: 90vh;
         flex-direction: column;
         justify-content: center;
     }
@@ -302,6 +330,10 @@
             row-gap: 40px;
             width: 90%;
         }
+
+            #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
+                display: flex;
+            }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{
             animation: 0.5s ease-out 0s 1 normal none running slideIn2;
@@ -333,6 +365,10 @@
             row-gap: 10px;
             width: clamp(300px, 100%, 600px);
         }
+
+            #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
+                display: flex;
+            }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{
             animation: 0.5s ease-out 0s 1 normal none running slideIn2;

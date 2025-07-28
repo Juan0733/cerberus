@@ -1088,7 +1088,28 @@ main#cuerpo{
                     color: var(--color-primario);
                 }
 
+/*-------------------------------------------------- Estilos modal scaner QR ------------------------------------*/
 
+
+    #contenedor_modales #modal_scaner_qr #cont_info_modales #reader {
+        width: 300px;
+        height: 300px;
+        position: relative;
+    }
+
+        #modal_scaner_qr #cont_info_modales #reader video {
+            border-radius: 20px;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            display: block !important;
+        }
+
+        #modal_scaner_qr #cont_info_modales #reader #qr-shaded-region{
+            border-radius: 20px;
+            border-width: 35px !important;
+        }
+        
 @media(min-width: 768px) and (max-width: 1023px){
     main#cuerpo{
         display: block;

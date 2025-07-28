@@ -18,13 +18,13 @@ function eventoFormulario(){
 
             data.append('usuario', usuario.value);
             data.append('operacion', 'validar_usuario');    
-            validarUsuarioLogin(data, urlBase).then((datos)=>{
-                if(datos.tipo == 'OK'){
+            validarUsuarioLogin(data, urlBase).then((respuesta)=>{
+                if(respuesta.tipo == 'OK'){
                     caja01.style.display = 'none';
                     caja02.style.display = 'block';
                     contrasena.focus();
-                }else if(datos.tipo == 'ERROR'){
-                    alertaError(datos);
+                }else if(respuesta.tipo == 'ERROR'){
+                    alertaError(respuesta);
                 };
             });
 
@@ -32,11 +32,11 @@ function eventoFormulario(){
             data.append('usuario', usuario.value);
             data.append('contrasena', contrasena.value);
             data.append('operacion', 'validar_contrasena');
-            validarContrasenaLogin(data, urlBase).then((datos)=>{
-                if(datos.tipo == 'OK'){
-                    window.location.replace(datos.ruta);
-                }else if(datos.tipo == 'ERROR'){
-                    alertaError(datos);
+            validarContrasenaLogin(data, urlBase).then((respuesta)=>{
+                if(respuesta.tipo == 'OK'){
+                    window.location.replace(respuesta.ruta);
+                }else if(respuesta.tipo == 'ERROR'){
+                    alertaError(respuesta);
                 };
             });
         };

@@ -5,6 +5,7 @@ import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
+import { modalScanerQr } from '../modales/modal-scaner-qr.js';
 
 let documentoPropietario;
 let documentoPasajero;
@@ -16,6 +17,7 @@ let botonPeatonal;
 let botonVehicular;
 let formularioPeatonal;
 let formularioVehicular;
+let formularioPasajeros;
 let contenedorBotonVolver;
 let contenedorBotonesFormularios;
 let urlBase;
@@ -44,7 +46,10 @@ function eventoAbrirFormularioVehicular() {
             botonPeatonal.style.display = "none";
             contenedorBotonVolver.style.display = 'flex';
             formularioVehicular.style.display = "flex"
-            contenedorBotonesFormularios.style.justifyContent = 'start';
+
+            if(window.innerWidth < 768){
+                contenedorBotonesFormularios.style.justifyContent = 'start';
+            }
             placaVehiculo.focus();
         }
     });
@@ -57,7 +62,10 @@ function eventoCerrarFormulario(){
         contenedorBotonVolver.style.display = 'none';
         botonPeatonal.style = 'flex';
         botonVehicular.style = 'flex';
-        contenedorBotonesFormularios.style.justifyContent = 'center';
+
+        if(contenedorBotonesFormularios.style.justifyContent == 'start'){
+            contenedorBotonesFormularios.style.justifyContent = 'center';
+        }
     })
 }
 
@@ -98,7 +106,7 @@ function validarPropietarioAptoEntrada(){
             datosEntradaVehicular.propietario = documentoPropietario.value;
 
         }else if(respuesta.tipo == "ERROR"){
-             datosEntradaVehicular.propietario = "";
+            datosEntradaVehicular.propietario = "";
             if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
                 documentoPropietario.classList.remove('input-ok');
                 documentoPropietario.classList.add('input-error');
@@ -265,7 +273,7 @@ function eventoInputPasajero(){
 }
 
 function eventoAgregarPasajero(){
-    document.getElementById('formulario_pasajeros').addEventListener('submit', (e)=>{
+    formularioPasajeros.addEventListener('submit', (e)=>{
         e.preventDefault();
         if(datosEntradaVehicular.propietario != documentoPasajero.value){
             let existePasajero = false;
@@ -384,6 +392,33 @@ function dibujarPropietarios(){
     })
 }
 
+function eventoManualInputPropietario(){
+    const evento = new Event("input", { bubbles: true, cancelable: true });
+    documentoPropietario.dispatchEvent(evento);
+}
+
+function eventoManualInputPasajero(){
+    const evento = new Event("change", { bubbles: true, cancelable: true });
+    documentoPasajero.dispatchEvent(evento);
+}
+
+function eventoManualFormularioPasajeros(){
+    const evento = new Event("submit", { bubbles: true, cancelable: true });
+    formularioPasajeros.dispatchEvent(evento);
+}
+
+function eventoScanerQrPropietario(){
+    document.getElementById('btn_scaner_qr_propietario').addEventListener('click', ()=>{
+        modalScanerQr(urlBase, documentoPropietario, eventoManualInputPropietario);
+    })
+}
+
+function eventoScanerQrPasajero(){
+    document.getElementById('btn_scaner_qr_pasajero').addEventListener('click', ()=>{
+        modalScanerQr(urlBase, documentoPasajero, eventoManualInputPasajero, eventoManualFormularioPasajeros);
+    })
+}
+
 function limpiarFormularioVehicular(){
     placaVehiculo.value = '';
     documentoPropietario.value = '';
@@ -476,6 +511,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     botonPeatonal = document.getElementById('btn_peatonal');
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     formularioVehicular = document.getElementById("formulario_vehicular");
+    formularioPasajeros = document.getElementById('formulario_pasajeros');
     contenedorBotonesFormularios = document.getElementById('contenedor_btns_formularios');
     contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
 
@@ -487,4 +523,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoAgregarPasajero();
     eventoTextArea();
     eventoRegistrarEntradaVehicular();
+    eventoScanerQrPropietario();
+    eventoScanerQrPasajero();
 });

@@ -16,9 +16,14 @@
             
             <form action="" method="post" id="formulario_peatonal" class="formulario">
                 <h1 class="titulo-formulario">Salida Peatonal</h1>
-                <div class="input-caja">
-                    <label for="documento_peaton">Numero documento</label>
-                    <input type="text" class="campo" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
+                <div class="contenedor-input-btn">
+                    <div class="input-caja">
+                        <label for="documento_peaton">Número documento</label>
+                        <input type="text" class="campo" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
+                    </div>
+                    <button type="button" id="btn_scaner_qr_peaton" class="btn-scaner">
+                        <ion-icon name="qr-code-outline"></ion-icon>
+                    </button>
                 </div>
                 <div class="input-caja">
                     <label for="observacion_peatonal">Observacion</label>
@@ -42,12 +47,17 @@
                         <input type="text" class="campo input-placa" name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, máximo 6 caracteres." minlength="5" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
                     </div>
 
-                    <div class="input-caja">
-                        <label for="documento_propietario">Propietario vehículo</label>
-                        <input type="text" class="campo" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> <!-- se pasa como paremtro el estado en el cual debe de estar el vehiculo para poder ser llamado -->
-                        <datalist id="lista_propietarios">
-                        </datalist>
-                    </div>  
+                    <div class="contenedor-input-btn">
+                        <div class="input-caja">
+                            <label for="documento_propietario">Propietario vehículo</label>
+                            <input type="text" class="campo" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> 
+                            <datalist id="lista_propietarios">
+                            </datalist>
+                        </div> 
+                        <button type="button" id="btn_scaner_qr_propietario" class="btn-scaner">
+                            <ion-icon name="qr-code-outline"></ion-icon>
+                        </button>
+                    </div> 
                 </div>
 
                 <form action="" method="post" id='formulario_pasajeros' class="caja-flex">
@@ -58,6 +68,10 @@
 
                     <button type="submit" id="btn_agregar_pasajero">
                         <ion-icon name="person-add-outline"></ion-icon>
+                    </button>
+
+                    <button type="button" id="btn_scaner_qr_pasajero" class="btn-scaner">
+                        <ion-icon name="qr-code-outline"></ion-icon>
                     </button>
                 </form>
 

@@ -315,7 +315,7 @@
         width: clamp(300px, 92.5%, 500px);
     }
 
-       #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas{
-        grid-template-columns: repeat(1, 1fr);
-       }
+        #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas{
+            grid-template-columns: repeat(1, 1fr);
+        }
 }

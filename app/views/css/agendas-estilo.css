@@ -111,7 +111,7 @@
         grid-template-columns: repeat(3, 1fr);
         overflow-y: auto;
         overflow-x: hidden;
-        gap: 2em;
+        row-gap: 2em;
         grid-auto-rows: min-content;
         width: 100%;
     }
@@ -461,6 +461,7 @@
     }
 
     #contenedor_agendas #contenedor_cards{
+        column-gap: 2em;
         max-height: 76vh;
         margin: 0 auto;
         grid-template-columns: repeat(2, 1fr);

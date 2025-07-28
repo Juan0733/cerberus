@@ -24,9 +24,9 @@ let porcentajeMotos;
 let urlBase;
 
 function dibujarConteoUsuarios(){
-    conteoTipoUsuario(urlBase).then(datos => {
-        if(datos.tipo == 'OK'){
-            datos.usuarios.forEach(usuario => {
+    conteoTipoUsuario(urlBase).then(respuesta => {
+        if(respuesta.tipo == 'OK'){
+            respuesta.usuarios.forEach(usuario => {
                 if(usuario.tipo_usuario == 'aprendices'){
                     conteoAprendices.innerHTML = "<span class='numero'>" + usuario.cantidad + "</span> en el CAB";
                     barraAprendices.style.width = usuario.porcentaje + "%";
@@ -46,21 +46,21 @@ function dibujarConteoUsuarios(){
                 }
             });
 
-        }else if(datos.tipo == 'ERROR'){
-            if(datos.titulo == 'Sesión Expirada'){
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
             }else{
-                alertaError(datos);
+                alertaError(respuesta);
             }
         }
     })
 }
 
 function dibujarConteoVehiculos(){
-    conteoTipoVehiculo(urlBase).then(datos => {
-        if(datos.tipo == 'OK'){
-            datos.vehiculos.forEach(vehiculo => {
+    conteoTipoVehiculo(urlBase).then(respuesta => {
+        if(respuesta.tipo == 'OK'){
+            respuesta.vehiculos.forEach(vehiculo => {
                 if(vehiculo.tipo_vehiculo == 'carros'){
                     conteoCarros.innerHTML = "<span class='numero'>" + vehiculo.cantidad + "</span> en el CAB";
                     barraCarros.style.width = vehiculo.porcentaje + "%";
@@ -72,12 +72,12 @@ function dibujarConteoVehiculos(){
                 }
             });
 
-        }else if(datos.tipo == 'ERROR'){
-            if(datos.titulo == 'Sesión Expirada'){
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
             }else{
-                alertaError(datos);
+                alertaError(respuesta);
             }
         }
     })

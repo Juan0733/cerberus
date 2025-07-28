@@ -1,6 +1,7 @@
 import {registrarEntradaPeatonal} from '../fetchs/movimientos-fetch.js'
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
+import {modalScanerQr} from '../modales/modal-scaner-qr.js';
 
 let documentoPeaton;
 let formularioPeatonal;
@@ -80,6 +81,22 @@ function eventoRegistrarEntradaPeatonal() {
                 }
             }
         });
+    })
+}
+
+function eventoManualInputPeaton(){
+    const evento = new Event("change", { bubbles: true, cancelable: true });
+    documentoPeaton.dispatchEvent(evento);
+}
+
+function eventoManualFormularioPeatonal(){
+    const evento = new Event("submit", { bubbles: true, cancelable: true });
+    formularioPeatonal.dispatchEvent(evento);
+}
+
+function eventoScanerQrPeaton(){
+    document.getElementById('btn_scaner_qr_peaton').addEventListener('click', ()=>{
+        modalScanerQr(urlBase, documentoPeaton, eventoManualInputPeaton, eventoManualFormularioPeatonal);
     })
 }
 
@@ -181,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     eventoInputPeaton();
     eventoTextArea();
     eventoRegistrarEntradaPeatonal();
+    eventoScanerQrPeaton();
 });
 
 

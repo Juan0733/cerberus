@@ -106,7 +106,7 @@ function validarPropietarioAptoEntrada(){
             datosEntradaVehicular.propietario = documentoPropietario.value;
 
         }else if(respuesta.tipo == "ERROR"){
-             datosEntradaVehicular.propietario = "";
+            datosEntradaVehicular.propietario = "";
             if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
                 documentoPropietario.classList.remove('input-ok');
                 documentoPropietario.classList.add('input-error');

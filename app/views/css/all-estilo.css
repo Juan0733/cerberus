@@ -1092,8 +1092,8 @@ main#cuerpo{
 
 
     #contenedor_modales #modal_scaner_qr #cont_info_modales #reader {
-        width: 280px;
-        height: 280px;
+        width: 300px;
+        height: 300px;
         position: relative;
     }
 
@@ -1107,7 +1107,7 @@ main#cuerpo{
 
         #modal_scaner_qr #cont_info_modales #reader #qr-shaded-region{
             border-radius: 20px;
-            border-width: 50px !important;
+            border-width: 35px !important;
         }
         
 @media(min-width: 768px) and (max-width: 1023px){

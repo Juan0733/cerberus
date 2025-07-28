@@ -53,11 +53,19 @@ function dibujarNotificaciones(){
                         cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones en este momento.</p>`;
                     }
                 }else if(respuesta.tipo == 'ERROR'){
-                    cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                    if(respuesta.titulo == 'Sesión Expirada'){
+                        window.location.replace(urlBase+'sesion-expirada');
+                    }else{
+                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                    }
                 }
             })
         }else if(respuesta.tipo == 'ERROR'){
-            cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+            }else{
+                cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+            }
         }
     })
 }

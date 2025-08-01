@@ -1,10 +1,10 @@
 <?php
 require_once "../../config/app.php";
-require_once "../../autoload.php";
+require_once "../../vendor/autoload.php";
 
-use app\models\FuncionarioModel;
-use app\models\UsuarioModel;
-use app\services\FuncionarioService;
+use App\Models\FuncionarioModel;
+use App\Models\UsuarioModel;
+use App\Services\FuncionarioService;
 
 header('Content-Type: application/json; charset=utf-8');
 

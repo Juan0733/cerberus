@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace App\Models;
 
 class VigilanteModel extends MainModel{
     private $objetoUsuario;

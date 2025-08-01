@@ -1,10 +1,10 @@
 <?php
 require_once "../../config/app.php";
-require_once "../../autoload.php";
+require_once "../../vendor/autoload.php";
 
-use app\models\FichaModel;
-use app\models\UsuarioModel;
-use app\services\FichaService;
+use App\Models\FichaModel;
+use App\Models\UsuarioModel;
+use App\Services\FichaService;
 
 header('Content-Type: application/json; charset=utf-8');
 

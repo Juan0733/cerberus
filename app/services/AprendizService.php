@@ -1,5 +1,5 @@
 <?php
-namespace app\services;
+namespace App\Services;
 
 class AprendizService{
     public function sanitizarDatosRegistroAprendiz(){

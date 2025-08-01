@@ -1,10 +1,10 @@
 <?php
 require_once "../../config/app.php";
-require_once "../../autoload.php";
+require_once "../../vendor/autoload.php";
 
-use app\models\MotivoIngresoModel;
-use app\services\MotivoIngresoService;
-use app\models\UsuarioModel;
+use App\Models\MotivoIngresoModel;
+use App\Models\UsuarioModel;
+use App\Services\MotivoIngresoService;
 
 
 header('Content-Type: application/json; charset=utf-8');

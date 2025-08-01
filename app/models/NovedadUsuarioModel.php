@@ -1,6 +1,6 @@
 <?php
+namespace App\Models;
 
-namespace app\models; 
 use DateTime;
 
 class NovedadUsuarioModel extends MainModel{

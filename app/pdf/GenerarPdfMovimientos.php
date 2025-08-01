@@ -3,13 +3,13 @@
 // Optionally define the filesystem path to your system fonts
 // otherwise tFPDF will use [path to tFPDF]/font/unifont/ directory
 // define("_SYSTEM_TTFONTS", "C:/Windows/Fonts/");
-require_once "../../autoload.php";
+require_once "../../vendor/autoload.php";
 require_once "../../config/app.php";
 require_once('tfpdf/tfpdf.php');
-use app\models\MovimientoModel;
-use app\models\UsuarioModel;
-use app\models\VehiculoModel;
-use app\services\MovimientoService;
+use App\Models\MovimientoModel;
+use App\Models\UsuarioModel;
+use App\Models\VehiculoModel;
+use App\Services\MovimientoService;
 
 class PDF extends tFPDF{
     public $usuario;

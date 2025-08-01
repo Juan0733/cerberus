@@ -1,8 +1,8 @@
 <?php
-
-use app\models\ViewModel;
 require_once "./config/app.php";
-require_once "./autoload.php";
+require_once "./vendor/autoload.php";
+
+use App\Models\ViewModel;
 
 if(isset($_GET['views'])){
     $url=explode("/", $_GET['views']);

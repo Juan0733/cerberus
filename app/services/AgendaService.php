@@ -1,6 +1,5 @@
 <?php
-namespace app\services;
-require '../../vendor/autoload.php';
+namespace App\Services;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 

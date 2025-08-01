@@ -1,10 +1,10 @@
 <?php
 require_once "../../config/app.php";
-require_once "../../autoload.php";
+require_once "../../vendor/autoload.php";
 
-use app\models\MovimientoModel;
-use app\models\UsuarioModel;
-use app\services\MovimientoService;
+use App\Models\MovimientoModel;
+use App\Models\UsuarioModel;
+use App\Services\MovimientoService;
 
 header('Content-Type: application/json; charset=utf-8');
 

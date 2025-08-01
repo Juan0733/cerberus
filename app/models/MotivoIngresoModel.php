@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace App\Models;
 
 class MotivoIngresoModel extends MainModel{
     public function registrarMotivoIngreso($motivo){

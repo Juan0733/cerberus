@@ -1,5 +1,5 @@
 <?php
-namespace app\services;
+namespace App\Services;
 
 class PermisoUsuarioService{
     public function sanitizarDatosRegistroPermisoUsuario(){

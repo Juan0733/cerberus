@@ -1,6 +1,5 @@
 <?php
-
-namespace app\models;
+namespace App\Models;
 
 use DateTime;
 

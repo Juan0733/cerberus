@@ -1,6 +1,6 @@
 <?php
-namespace app\models;
-use app\models\MainModel;
+namespace App\Models;
+
 use DateTime;
 
 class AprendizModel extends MainModel{

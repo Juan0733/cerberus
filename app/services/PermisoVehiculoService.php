@@ -1,5 +1,5 @@
 <?php
-namespace app\services;
+namespace App\Services;
 
 class PermisoVehiculoService{
     public function sanitizarDatosRegistroPermisoVehiculo(){

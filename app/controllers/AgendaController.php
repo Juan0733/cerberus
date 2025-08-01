@@ -1,10 +1,10 @@
 <?php
 require_once "../../config/app.php";
-require_once "../../autoload.php";
+require_once "../../vendor/autoload.php";
 
-use app\models\AgendaModel;
-use app\services\AgendaService;
-use app\models\UsuarioModel;
+use App\Models\AgendaModel;
+use App\Models\UsuarioModel;
+use App\Services\AgendaService;
 
 header('Content-Type: application/json; charset=utf-8');
 

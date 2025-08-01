@@ -14,6 +14,7 @@ let placaVehiculo;
 let observacion;
 let botonPeatonal;
 let botonVehicular;
+let botonRegistrarSalida;
 let formularioPasajeros;
 let formularioPeatonal;
 let formularioVehicular;
@@ -303,7 +304,7 @@ function eventoAgregarPasajero(){
 }
 
 function eventoRegistrarSalidaVehicular(){
-    document.getElementById('registrar_salida').addEventListener('click', ()=>{
+    botonRegistrarSalida.addEventListener('click', ()=>{
         if(!placaVehiculo.checkValidity()){
             placaVehiculo.reportValidity();
         }else if(!documentoPropietario.checkValidity()){
@@ -335,6 +336,7 @@ function eventoRegistrarSalidaVehicular(){
                     if(respuesta.titulo == 'Propietario Incorrecto'){
                         respuesta.documento = datosEntradaVehicular.propietario;
                         respuesta.vehiculo= datosEntradaVehicular.placa;
+                        respuesta.callback = eventoManualBotonSalida;
                         alertaAdvertencia(respuesta)
                     }else if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
@@ -408,6 +410,11 @@ function eventoManualInputPasajero(){
 function eventoManualFormularioPasajeros(){
     const evento = new Event("submit", { bubbles: true, cancelable: true });
     formularioPasajeros.dispatchEvent(evento);
+}
+
+function eventoManualBotonSalida(){
+    const evento = new Event("click", { bubbles: true, cancelable: true });
+    botonRegistrarSalida.dispatchEvent(evento);
 }
 
 function eventoScanerQrPropietario(){
@@ -498,7 +505,7 @@ function alertaAdvertencia(respuesta){
             }else if(respuesta.titulo == "Vehículo No Encontrado"){
                 modalRegistroVehiculo(urlBase, respuesta.vehiculo, respuesta.callback);
             }else if(respuesta.titulo == "Propietario Incorrecto"){
-                modalRegistroNovedadVehiculo(urlBase, 'VEHICULO PRESTADO', respuesta.documento, respuesta.vehiculo);
+                modalRegistroNovedadVehiculo(urlBase, 'VEHICULO PRESTADO', respuesta.documento, respuesta.vehiculo, respuesta.callback);
             }
         } 
     });
@@ -514,6 +521,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     observacion = document.getElementById('observacion_vehicular');
     botonVehicular = document.getElementById('btn_vehicular');
     botonPeatonal = document.getElementById('btn_peatonal');
+    botonRegistrarSalida = document.getElementById('registrar_salida');
     formularioPasajeros = document.getElementById('formulario_pasajeros');
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     formularioVehicular = document.getElementById("formulario_vehicular");

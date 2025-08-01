@@ -98,7 +98,7 @@ function dibujarCardsAprendices(){
                         </div>
                         <div class="card-details">
                             <p><strong>Teléfono: </strong>${aprendiz.telefono}</p>
-                            <p><strong>Ubicación:</strong>${aprendiz.ubicacion}</p>
+                            <p><strong>Ubicación: </strong>${aprendiz.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
                             <ion-icon name="eye" class="ver-aprendiz" data-aprendiz="${aprendiz.numero_documento}"></ion-icon>

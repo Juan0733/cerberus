@@ -11,7 +11,7 @@
 
         #contenedor_principal #contenedor_saludo h1 {
             color: var(--color-terciario);
-            font-size: clamp(34px, 80%, 70px);
+            font-size: clamp(30px, 80%, 70px);
             margin: 0;
         }
 
@@ -77,7 +77,7 @@
                     align-items: center;
                     column-gap: 10px;
                     display: flex;
-                    margin-bottom: 10px;
+                    margin-bottom: 15px;
                 }
 
                     #contenedor_cards .card-multitud .contenedor-titulo h2{
@@ -85,7 +85,7 @@
                     }
 
                     #contenedor_cards .card-multitud .contenedor-titulo ion-icon {
-                        font-size: 30px;
+                        font-size: 25px;
                     }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud h3{
@@ -93,7 +93,7 @@
                 }
 
                     #contenedor_cards .card-multitud h3 .numero{
-                        font-size: 1.8em;
+                        font-size: 1.7em;
                     }
 
                 #contenedor_cartas_multitudes #contenedor_cards .card-multitud .contenedor-barra {

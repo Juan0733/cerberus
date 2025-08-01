@@ -30,7 +30,7 @@
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
             <button class="btn-agenda" id="btn_crear_agenda">
-                <ion-icon name="add-outline"></ion-icon>
+                <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
     </div>
@@ -50,7 +50,7 @@
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
         <button class="btn-agenda" id="btn_crear_agenda_mobile">
-            <ion-icon name="add-outline"></ion-icon>
+            <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>
     

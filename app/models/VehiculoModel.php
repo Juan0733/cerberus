@@ -222,7 +222,7 @@ class VehiculoModel extends MainModel {
             $respuesta = [
                 'tipo' => 'ERROR',
                 "titulo" => 'Vehículo Existente',
-                "mensaje" => 'No es posible registrar el vehículo de placas '.$placa.', porque ya se encuentra registrado y asociado al usuario con número de documento'.$propietario.'.'
+                "mensaje" => 'No es posible registrar el vehículo de placas '.$placa.', porque ya se encuentra registrado y asociado al usuario con número de documento '.$propietario.'.'
             ];
             return $respuesta;
         }

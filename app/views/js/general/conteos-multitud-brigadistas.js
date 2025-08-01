@@ -11,7 +11,7 @@ let contadorBrigadistas;
 function dibujarConteoMultitud(){
     conteoTotalUsuarios(urlBase).then(respuesta => {
         if(respuesta.tipo == 'OK'){
-            contadorMultitud.innerText = "Multitud: " + respuesta.total_usuarios;
+            contadorMultitud.innerText = respuesta.total_usuarios;
             if(contadorMultitudMobile){
                 contadorMultitudMobile.innerText ="Multitud: " + respuesta.total_usuarios;
             }
@@ -29,7 +29,7 @@ function dibujarConteoMultitud(){
 function dibujarConteoBrigadistas(){
     conteoTotalBrigadistas(urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            contadorBrigadistas.innerText = "Brigadistas: " + respuesta.total_brigadistas;
+            contadorBrigadistas.innerText = respuesta.total_brigadistas;
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){

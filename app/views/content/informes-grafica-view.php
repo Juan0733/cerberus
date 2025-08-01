@@ -53,7 +53,7 @@
         <div id="contenedor_cards">
             <div class="card-grafica">
                 <div class="titulo-card">
-                    <ion-icon name="people-outline"></ion-icon>
+                    <ion-icon name="people"></ion-icon>
                     <h3>Visitantes</h3>
                 </div>
                 <div class="contenedor-grafica">
@@ -63,7 +63,7 @@
                 
             <div class="card-grafica">
                 <div class="titulo-card">
-                    <ion-icon name="people-outline"></ion-icon>
+                    <ion-icon name="people"></ion-icon>
                     <h3>Aprendices</h3>
                 </div>
                 <div class="contenedor-grafica">
@@ -73,7 +73,7 @@
 
             <div class="card-grafica">
                 <div class="titulo-card">
-                    <ion-icon name="people-outline"></ion-icon>
+                    <ion-icon name="people"></ion-icon>
                     <h3>Funcionarios</h3>
                 </div>
                 <div class="contenedor-grafica">
@@ -84,7 +84,7 @@
             
             <div class="card-grafica">
                 <div class="titulo-card">
-                    <ion-icon name="people-outline"></ion-icon>
+                    <ion-icon name="people"></ion-icon>
                     <h3>Vigilantes</h3>
                 </div>
                 <div class="contenedor-grafica">

@@ -5,7 +5,6 @@ let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
-let formularioEvento;
 let urlBase;
 let inputTipoDocumento;
 let seccion01;
@@ -17,7 +16,7 @@ let botonRegistrar;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalRegistroVisitante(url, documento=false, callback=false, formulario=false) {
+async function modalRegistroVisitante(url, documento=false, callback) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-visitante.php');
@@ -38,10 +37,7 @@ async function modalRegistroVisitante(url, documento=false, callback=false, form
             inputDocumento.value = documento;
             inputDocumento.readOnly = true;
         }
-
-        funcionCallback = callback;
-        formularioEvento = formulario;
-
+    
         inputTipoDocumento = document.getElementById('tipo_documento');
         seccion01 = document.getElementsByClassName('seccion-01');
         seccion02 = document.getElementsByClassName('seccion-02');
@@ -49,6 +45,8 @@ async function modalRegistroVisitante(url, documento=false, callback=false, form
         botonAtras = document.getElementById('btn_atras_visitante');
         botonSiguiente = document.getElementById('btn_siguiente_visitante');
         botonRegistrar = document.getElementById('btn_registrar_visitante');
+
+        funcionCallback = callback;
         urlBase = url;
         
         eventoCerrarModal();
@@ -137,15 +135,7 @@ function eventoRegistrarVisitante(){
         registrarVisitante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
-
-                if(funcionCallback){
-                    funcionCallback(respuesta);
-                }
-
-                if(formularioEvento){
-                    const evento = new Event("submit", { bubbles: true, cancelable: true });
-                    formularioEvento.dispatchEvent(evento);
-                }
+                funcionCallback(respuesta);
 
                 botonCerrarModal.click();
                 

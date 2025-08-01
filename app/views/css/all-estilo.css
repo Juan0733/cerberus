@@ -120,14 +120,37 @@ main#cuerpo{
         }
         
             #nav_menu #cont_nombre_vista h1{
-                font-size: 35px;
+                font-size: 33px;
                 margin: 0;
             }
+
+            #nav_menu #cont_nombre_vista #linea{
+                background-color: var(--color-secundario);
+                height: 4px;
+                margin-top: 4px;
+                width: 45px;
+            }
+
             #nav_menu #cont_info_usuario{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
+
+                #cont_info_usuario ion-icon{
+                    font-size: 30px;
+                }
+
+                #cont_info_usuario p{
+                    font-size: 18px;
+                    margin-left: 5px;
+                    margin-right: 10px;
+                }
+
+                    #cont_info_usuario p span{
+                        font-weight: 600;
+                    }
+
                 #cont_info_usuario #cont_contador_multitud{
                     display: flex;
                     align-items: center;
@@ -137,15 +160,9 @@ main#cuerpo{
                     margin-right: 20px;
                 }
                     #cont_contador_multitud ion-icon{
-                        font-size: 37px;
-                        font-weight: normal;
                         margin-left: 10px;
                     }
-                    #cont_contador_multitud p{
-                        font-size: 20px;
-                        margin-right: 10px;
-                        margin-left: 5px;
-                    }
+                    
 
                 #cont_info_usuario #btn_puerta{
                     align-items: center;
@@ -174,8 +191,12 @@ main#cuerpo{
                     align-items: center;
                     position: relative;
                     border-radius: 50px;
-                    
-                }                    
+                } 
+                
+                    #cont_info_usuario #btn_notificaciones ion-icon{
+                        color: #6d6d6d;
+                    }
+
                     #cont_info_usuario #btn_notificaciones #contador_notificaciones {
                         position: absolute;
                         top: -5px;
@@ -188,11 +209,6 @@ main#cuerpo{
                         font-weight: bold;
                     }
                     
-
-                    #cont_info_usuario ion-icon{
-                        font-size: 30px;
-                        
-                    }
                 #cont_info_usuario #cont_perfil_user{
                     display: flex;
                     align-items: center;
@@ -202,13 +218,9 @@ main#cuerpo{
                     margin-right: 20px;
                 }
                     #cont_perfil_user ion-icon{
-                        font-size: 32px;
                         margin-left: 10px;
                     }
-                    #cont_perfil_user p{
-                        font-size: 20px;
-                        margin-right: 10px;
-                    }
+
                 #cont_info_usuario #btn_brigadistas{
                     display: flex;
                     align-items: center;
@@ -221,15 +233,12 @@ main#cuerpo{
                 }
 
                     #btn_brigadistas ion-icon{
-                        font-size: 32px;
                         color: var(--color-primario);
                         margin-left: 10px;
                     }
+
                     #btn_brigadistas p{
                         color: var(--color-primario);
-                        margin-left: 5px;
-                        margin-right: 10px;
-                        font-size: 20px;
                     }
 
 /* --------------------------------------Estilo spinner de carga --------------------------------------------------------*/

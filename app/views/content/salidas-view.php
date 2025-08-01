@@ -10,7 +10,7 @@
 
         <div class="contenedor-btn-formulario" id="contenedor_peatonal">
             <button type="button" id="btn_peatonal" class="btn-peatonal-vehicular">
-                <ion-icon name="walk-outline"></ion-icon>
+                <ion-icon name="walk"></ion-icon>
                 <h1>Peatonal</h1>
             </button>
             
@@ -22,7 +22,7 @@
                         <input type="text" class="campo" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
                     </div>
                     <button type="button" id="btn_scaner_qr_peaton" class="btn-scaner">
-                        <ion-icon name="qr-code-outline"></ion-icon>
+                        <ion-icon name="qr-code"></ion-icon>
                     </button>
                 </div>
                 <div class="input-caja">
@@ -35,7 +35,7 @@
 
         <div class="contenedor-btn-formulario" id="contenedor_vehicular">
             <button type="button" id="btn_vehicular" class="btn-peatonal-vehicular">
-                    <ion-icon name="car-outline"></ion-icon>
+                    <ion-icon name="car"></ion-icon>
                     <h1>Vehicular</h1>
             </button>
 
@@ -55,7 +55,7 @@
                             </datalist>
                         </div> 
                         <button type="button" id="btn_scaner_qr_propietario" class="btn-scaner">
-                            <ion-icon name="qr-code-outline"></ion-icon>
+                            <ion-icon name="qr-code"></ion-icon>
                         </button>
                     </div> 
                 </div>
@@ -67,11 +67,11 @@
                     </div>
 
                     <button type="submit" id="btn_agregar_pasajero">
-                        <ion-icon name="person-add-outline"></ion-icon>
+                        <ion-icon name="add"></ion-icon>
                     </button>
 
                     <button type="button" id="btn_scaner_qr_pasajero" class="btn-scaner">
-                        <ion-icon name="qr-code-outline"></ion-icon>
+                        <ion-icon name="qr-code"></ion-icon>
                     </button>
                 </form>
 

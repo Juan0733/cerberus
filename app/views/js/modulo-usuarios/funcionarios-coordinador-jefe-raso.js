@@ -97,7 +97,7 @@ function dibujarCardsFuncionarios(){
                         </div>
                         <div class="card-details">
                             <p><strong>Teléfono: </strong>${funcionario.telefono}</p>
-                            <p><strong>Ubicación:</strong>${funcionario.ubicacion}</p>
+                            <p><strong>Ubicación: </strong>${funcionario.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
                             <ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>

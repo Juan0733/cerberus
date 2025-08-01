@@ -14,7 +14,7 @@
 <div id="contenedor_principal">
     <div id="contenedor_saludo">
         <h1>Hola <?php echo $primerNombreUsuario; ?>!</h1>
-        <p id="bienvenida">Bienvenido a Cerberus</p>
+        <p id="bienvenida">Bienvenid@ a Cerberus</p>
     </div>
 
     <p id="contador_multitud_mobile"></p>
@@ -25,12 +25,12 @@
             <!-- Tarjetas dinámicas -->
             <?php
                 $tarjetas = [
-                    ['id' => 'aprendices', 'icon' => 'people-outline', 'titulo' => 'Aprendices'],
-                    ['id' => 'funcionarios', 'icon' => 'people-outline', 'titulo' => 'Funcionarios'],
-                    ['id' => 'visitantes', 'icon' => 'people-outline', 'titulo' => 'Visitantes'],
-                    ['id' => 'vigilantes', 'icon' => 'people-outline', 'titulo' => 'Vigilantes'],
-                    ['id' => 'carros', 'icon' => 'car-outline', 'titulo' => 'Carros'],
-                    ['id' => 'motos', 'icon' => 'bicycle-outline', 'titulo' => 'Motos'],
+                    ['id' => 'aprendices', 'icon' => 'people', 'titulo' => 'Aprendices'],
+                    ['id' => 'funcionarios', 'icon' => 'people', 'titulo' => 'Funcionarios'],
+                    ['id' => 'visitantes', 'icon' => 'people', 'titulo' => 'Visitantes'],
+                    ['id' => 'vigilantes', 'icon' => 'people', 'titulo' => 'Vigilantes'],
+                    ['id' => 'carros', 'icon' => 'car', 'titulo' => 'Carros'],
+                    ['id' => 'motos', 'icon' => 'bicycle', 'titulo' => 'Motos'],
                 ];
 
                 foreach ($tarjetas as $t) {

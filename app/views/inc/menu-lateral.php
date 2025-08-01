@@ -2,6 +2,10 @@
     $urlActual = $url[0];
     $titulo = explode("-", $url[0])[0];
     $titulo = ucwords(strtolower($titulo));
+
+    if($titulo == 'Vehiculos'){
+        $titulo = 'Vehículos';
+    }
 ?>
 
 <div class="menu">

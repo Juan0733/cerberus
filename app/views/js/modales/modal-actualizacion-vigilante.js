@@ -13,6 +13,7 @@ let inputTelefono;
 let inputCorreo;
 let selectRol;
 let inputContrasena;
+let inputConfirmacion;
 let seccion01;
 let seccion02;
 let botonAtras;
@@ -55,6 +56,7 @@ async function modalActualizacionVigilante(vigilante, callback, url) {
         inputCorreo =  document.getElementById('correo_electronico');
         selectRol = document.getElementById('rol');
         inputContrasena = document.getElementById('contrasena');
+        inputConfirmacion = document.getElementById('confirmacion_contrasena');
         seccion01 = document.getElementsByClassName('seccion-01');
         seccion02 = document.getElementsByClassName('seccion-02');
         botonCancelar = document.getElementById('btn_cancelar_vigilante');
@@ -62,9 +64,11 @@ async function modalActualizacionVigilante(vigilante, callback, url) {
         botonSiguiente = document.getElementById('btn_siguiente_vigilante');
         botonRegistrar = document.getElementById('btn_registrar_vigilante');
 
-        
-        botonRegistrar.textContent = 'Actualizar';
         document.getElementById('titulo_modal_vigilante').textContent = 'Actualizar Vigilante';
+        botonRegistrar.textContent = 'Actualizar';
+
+        inputContrasena.required = false;
+        inputConfirmacion.required = false;
         
         documentoVigilante = vigilante;
         funcionCallback = callback;
@@ -174,7 +178,6 @@ function eventoActualizarVigilante(){
 }
 
 function validarConfirmacionContrasena(){
-    const inputConfirmacion = document.getElementById('confirmacion_contrasena');
     let temporizador;
     let primeraValidacion = true;
 

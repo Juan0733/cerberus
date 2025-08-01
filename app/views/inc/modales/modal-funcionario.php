@@ -69,7 +69,7 @@
             
                 <div class="input-caja-registro seccion-03">
                     <label for="rol" class="label-input">Rol</label>
-                    <select class="campo"  name="rol" id="rol" tabindex="8" required>
+                    <select class="campo" name="rol" id="rol" tabindex="8" required>
                         <option value="" selected disabled>Seleccionar</option>
                         <option value="COORDINADOR">Coordinador</option>
                         <option value="INSTRUCTOR">Instructor</option>

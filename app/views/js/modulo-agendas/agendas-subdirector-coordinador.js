@@ -204,7 +204,7 @@ function alertaExito(respuesta){
         title: respuesta.mensaje,
         showConfirmButton: false,   
         customClass: {
-            popup: 'alerta-contenedor',
+            popup: 'alerta-contenedor exito',
         }
     })
 }
@@ -217,7 +217,7 @@ function alertaError(respuesta){
         text: respuesta.mensaje,
         confirmButtonText: 'Aceptar',
         customClass: {
-            popup: 'alerta-contenedor exito',
+            popup: 'alerta-contenedor',
             confirmButton: 'btn-confirmar'
         },
         didOpen: (toast) => {

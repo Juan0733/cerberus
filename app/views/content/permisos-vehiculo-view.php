@@ -41,7 +41,7 @@
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
             <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo">
-                <ion-icon name="add-outline"></ion-icon>
+                <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
     </div>
@@ -51,7 +51,7 @@
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
         <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo_mobile">
-            <ion-icon name="add-outline"></ion-icon>
+            <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>
 

@@ -16,7 +16,7 @@
         </div> 
 
         <button class="btn-visitante" id="btn_crear_visitante">
-            <ion-icon name="add-outline"></ion-icon>
+            <ion-icon name="add"></ion-icon>
         </button>
     </div>
 
@@ -24,6 +24,6 @@
     </div>
 
     <button class="btn-visitante" id="btn_crear_visitante_mobile">
-        <ion-icon name="add-outline"></ion-icon>
+        <ion-icon name="add"></ion-icon>
     </button>
 </div>

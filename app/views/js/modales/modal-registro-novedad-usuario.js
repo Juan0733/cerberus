@@ -5,12 +5,11 @@ let modalesExistentes;
 let botonCerrarModal;
 let selectTipoNovedad;
 let funcionCallback;
-let formularioEvento;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalRegistroNovedadUsuario(url, novedad, documento, callback=false, formulario=false) {
+async function modalRegistroNovedadUsuario(url, novedad, documento, callback) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
@@ -35,7 +34,6 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback=fal
         selectTipoNovedad.disabled = true;
         
         funcionCallback = callback;
-        formularioEvento = formulario;
         urlBase = url;
 
         eventoCerrarModal();
@@ -100,16 +98,8 @@ function eventoRegistrarNovedadUsuario(){
         registrarNovedadUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
-
-                if(funcionCallback){
-                    funcionCallback();
-                }
-
-                if(formularioEvento){
-                    const evento = new Event("submit", { bubbles: true, cancelable: true });
-                    formularioEvento.dispatchEvent(evento);
-                }
-
+                funcionCallback();
+                
                 botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){

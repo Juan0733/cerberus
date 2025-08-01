@@ -180,10 +180,10 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Entrada No Registrada"){
-                modalRegistroNovedadUsuario(urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, '', formularioPeatonal);
+                modalRegistroNovedadUsuario(urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, eventoManualFormularioPeatonal);
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
-                modalRegistroVisitante(urlBase, respuesta.documento, '', formularioPeatonal);
+                modalRegistroVisitante(urlBase, respuesta.documento, eventoManualFormularioPeatonal);
             }
         } 
     });

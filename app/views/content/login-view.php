@@ -8,7 +8,7 @@
                     </figure>
                     <div class="" id="cont_title" name="cont_title">
                         <h1 id="title_logo" name="title_logo">Cerberus</h1>
-                        <h3 id="subtitle_logo" name="subtitle_logo">Analisis y Desarrollo de Software 2714805</h3>
+                        <h3 id="subtitle_logo" name="subtitle_logo">Análisis y Desarrollo de Software 2714805</h3>
                     </div>
             </header>
             <div id="contenedor_formulario">

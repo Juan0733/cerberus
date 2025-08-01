@@ -164,7 +164,7 @@
                         align-items: center;
                         border: none;
                         border-radius: 13px;
-                        background-color: var(--main-color);
+                        background-color: var(--color-secundario);
                         cursor: pointer;
                         display: flex;
                         height: 60px;
@@ -223,7 +223,7 @@
                                 }
 
                 #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-registrar{
-                    background: var(--main-color);
+                    background: var(--color-secundario);
                     border: none;
                     border-radius: 13px;
                     color: white;

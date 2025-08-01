@@ -6,11 +6,12 @@ let modalesExistentes;
 let placaVehiculo;
 let selectTipoNovedad;
 let botonCerrarModal;
+let funcionCallback;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
+async function modalRegistroNovedadVehiculo(url, novedad, documento, placa, callback) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-novedad-vehiculo.php');
@@ -47,6 +48,7 @@ async function modalRegistroNovedadVehiculo(url, novedad, documento, placa) {
 
         placaVehiculo = placa;
         urlBase = url;
+        funcionCallback = callback;
        
         eventoCerrarModal();
         eventoTextArea();
@@ -95,6 +97,8 @@ function eventoRegistrarNovedadVehiculo(){
         registrarNovedadVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
+                funcionCallback();
+                
                 botonCerrarModal.click();
                 
             }else if(respuesta.tipo == "ERROR"){

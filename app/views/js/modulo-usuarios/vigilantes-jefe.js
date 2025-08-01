@@ -126,7 +126,7 @@ function dibujarCardsVigilantes(){
                         </div>
                         <div class="card-details">
                             <p><strong>Teléfono: </strong>${vigilante.telefono}</p>
-                            <p><strong>Ubicación:</strong>${vigilante.ubicacion}</p>
+                            <p><strong>Ubicación: </strong>${vigilante.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
                             ${acciones}

@@ -82,6 +82,7 @@ async function modalActualizacionFuncionario(funcionario, callback, url) {
 
         eventoCerrarModal();
         eventoSelectContrato();
+        eventoSelectRol();
         dibujarFuncionario();
         validarConfirmacionContrasena();
         mostrarCampos();
@@ -139,9 +140,8 @@ function dibujarFuncionario(){
             selectRol.value = datosFuncionario.rol;
 
             rolActual = datosFuncionario.rol;
-            eventoSelectRol();
 
-            if(datosFuncionario.tipo_contrato == 'contratista'){
+            if(datosFuncionario.tipo_contrato == 'CONTRATISTA'){
                 inputFechaContrato.value = datosFuncionario.fecha_fin_contrato;
             }
 
@@ -179,11 +179,11 @@ function eventoActualizarFuncionario(){
         formData.append('tipo_contrato', selectTipoContrato.value);
         formData.append('rol', selectRol.value);
 
-        if(selectTipoContrato.value == 'contratista'){
+        if(selectTipoContrato.value == 'CONTRATISTA'){
             formData.append('fecha_fin_contrato', inputFechaContrato.value);
         }
 
-        if(selectRol.value == 'coordinador'){
+        if(selectRol.value == 'COORDINADOR'){
             formData.append('contrasena', inputContrasena.value)
         }
 
@@ -231,13 +231,21 @@ function eventoSelectRol(){
     const cajasContrasena = document.getElementsByClassName('input-caja-contrasena');
 
     selectRol.addEventListener('change', ()=>{
-        if(selectRol.value == 'coordinador'){
+        if(selectRol.value == 'COORDINADOR'){
             for(const caja of cajasContrasena){
-                caja.style.display = 'block';
-                caja.classList.add('seccion-03');
+                if(window.innerWidth < 768){
+                    caja.classList.add('seccion-03');
+
+                    if(caja.style.display == 'none'){
+                        caja.style.display = 'block';
+                    }
+
+                }else{
+                    caja.style.display = 'block';
+                }
             };
 
-            if(rolActual != 'coordinador'){
+            if(rolActual != 'COORDINADOR'){
                 inputContrasena.required = true;
                 inputConfirmacion.required = true;
             }

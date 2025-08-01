@@ -95,7 +95,7 @@ function dibujarCardsVisitantes(){
                         </div>
                         <div class="card-details">
                             <p><strong>Teléfono: </strong>${visitante.telefono}</p>
-                            <p><strong>Ubicación:</strong>${visitante.ubicacion}</p>
+                            <p><strong>Ubicación: </strong>${visitante.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
                             <ion-icon name="eye" class="ver-visitante" data-visitante="${visitante.numero_documento}"></ion-icon>

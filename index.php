@@ -46,7 +46,7 @@ if($vista == "app/views/content/404-view.php"){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php require_once "app/views/inc/head.php"; ?>
+    <?php include "app/views/inc/head.php"; ?>
 </head>
 <body>
     <?php if($url[0] == 'auto-registro-aprendices' || $url[0] == 'auto-registro-vigilantes' || $url[0] == 'auto-registro-visitantes' || $url[0] == 'auto-registro-funcionarios' || $url[0] == '404' || $url[0] == 'login' || $url[0] == 'acceso-denegado' || $url[0] == 'sesion-expirada'): ?>

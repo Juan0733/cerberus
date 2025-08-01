@@ -158,7 +158,7 @@ class ViewModel{
 						]
 					],
 					"VEHICULOS" => [
-						"TITULO" => 'Vehiculos',
+						"TITULO" => 'Vehículos',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'vehiculos',
@@ -283,7 +283,7 @@ class ViewModel{
 						]
 					],
 					"VEHICULOS" => [
-						"TITULO" => 'Vehiculos',
+						"TITULO" => 'Vehículos',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'vehiculos',
@@ -386,7 +386,7 @@ class ViewModel{
 						]
 					],
 					"VEHICULOS" => [
-						"TITULO" => 'Vehiculos',
+						"TITULO" => 'Vehículos',
 						"CLASE" => '',
 						"CLASE02" => '',
 						"URL" => 'vehiculos',

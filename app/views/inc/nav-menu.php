@@ -9,6 +9,9 @@
 
     }elseif($titulo == 'Permisos Vehiculo'){
         $titulo = 'Permisos Vehículo';
+
+    }elseif($titulo == 'Vehiculos'){
+        $titulo = 'Vehículos';
     }
     
     $primerNombre = explode(" ", $_SESSION['datos_usuario']['nombres'])[0];
@@ -21,19 +24,20 @@
         <h1>
             <?php echo $titulo; ?>
         </h1>
+        <div id="linea"></div>
     </div>
     <div id="cont_info_usuario">
-        <div id="cont_contador_multitud">
-            <ion-icon name="people-outline"></ion-icon>
-            <p id="contador_multitud"></p>
-        </div>
         <div id="cont_perfil_user">
-            <ion-icon name="person-outline"></ion-icon>
+            <ion-icon name="person"></ion-icon>
             <p><?php echo $nombreUsuario; ?></p>
+        </div>
+        <div id="cont_contador_multitud">
+            <ion-icon name="people"></ion-icon>
+            <p>Multitud: <span id="contador_multitud">0</span></p>
         </div>
         <button id="btn_brigadistas">
             <ion-icon name="medkit"></ion-icon>
-            <p id="contador_brigadistas"></p>
+            <p>Brigadistas: <span id="contador_brigadistas">0</span></p>
         </button>
         <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
             <div id="btn_puerta">
@@ -46,7 +50,7 @@
         <?php endif; ?>
         <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
             <div id="btn_notificaciones">
-                <ion-icon name="notifications-outline" ></ion-icon>
+                <ion-icon name="notifications" ></ion-icon>
                 <span id="contador_notificaciones">0</span> 
             </div>
         <?php endif; ?>

@@ -28,8 +28,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 1.5em 0;
-        width: clamp(338px, 88.9%, 518px);
+        padding: 1.5em 1.5em;
+        width: clamp(300px, 88.9%, 500px);
     }
 
         #gran_padre_visitante #contenedor_ppal_visitante #contenedor_titulo_form{
@@ -49,7 +49,7 @@
                     padding: 0;
                     font-weight: 700;
                     font-size: clamp(30px, 64%, 54px);
-                    margin-bottom: 10px;
+                    margin-bottom: 5px;
                     color: var(--color-secundario);
                 }
                 #contenedor_ppal_visitante #contenedor_titulo_form #cont_title #subtitle_logo{
@@ -60,7 +60,7 @@
                     color: rgb(146, 146,146);
                 }
         #gran_padre_visitante #contenedor_ppal_visitante #contenedor_formulario_visitante{
-            width: clamp(272px, 80%, 480px);
+            width: 100%;
         }
             #gran_padre_visitante #contenedor_ppal_visitante #contenedor_formulario_visitante #formulario_visitante{
                 display: flex;
@@ -134,5 +134,11 @@
                         }
                         #contenedor_formulario_visitante #formulario_visitante #contenedor_btns_visitante #btn_registrarme_visitante {
                             display: none;
-                        }     
+                        } 
+                        
+@media(max-width: 767px){
+    #gran_padre_visitante #contenedor_ppal_visitante{
+        padding: 1.5em 1em;
+    }
+}
     

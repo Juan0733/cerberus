@@ -81,7 +81,7 @@ function eventoCerrarModal(){
 function abrirCamara(){
     const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-     Html5Qrcode.getCameras().then(camaras => {
+    Html5Qrcode.getCameras().then(camaras => {
         const camaraTrasera = camaras.find(camara => camara.label.toLowerCase().includes("back"));
         if (camaraTrasera) {
             html5QrCode.start(

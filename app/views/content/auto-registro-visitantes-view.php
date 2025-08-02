@@ -4,7 +4,7 @@
         <header id="contenedor_titulo_form">
             <div class="" id="cont_title">
                 <h1 id="title_logo">Registro Visitante</h1>
-                <h3 id="subtitle_logo">Bienvenido al CAB por favor registrate para ingresar</h3>
+                <h3 id="subtitle_logo">Bienvenido al CAB, por favor registrate</h3>
             </div>
         </header>
         <div id="contenedor_formulario_visitante">

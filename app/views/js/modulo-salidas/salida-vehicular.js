@@ -330,8 +330,11 @@ function eventoRegistrarSalidaVehicular(){
                 if(respuesta.tipo == 'OK'){
                     alertaExito(respuesta);
                     limpiarFormularioVehicular();
-                    placaVehiculo.focus();
-                   
+
+                    setTimeout(()=>{
+                        placaVehiculo.focus();
+                    }, 500);
+                    
                 }else if(respuesta.tipo == 'ERROR'){
                     if(respuesta.titulo == 'Propietario Incorrecto'){
                         respuesta.documento = datosEntradaVehicular.propietario;

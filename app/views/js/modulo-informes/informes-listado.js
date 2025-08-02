@@ -104,8 +104,8 @@ function dibujarCardsMovimientos(){
                         </div>
                         <div class="card-details">
                             <p><strong>Fecha y Hora: </strong>${movimiento.fecha_registro}</p>
-                            <p><strong>Vehículo:</strong>${movimiento.fk_vehiculo}</p>
-                            <p><strong>Relacion Vehículo:</strong>${movimiento.relacion_vehiculo}</p>
+                            <p><strong>Vehículo: </strong>${movimiento.fk_vehiculo}</p>
+                            <p><strong>Relacion Vehículo: </strong>${movimiento.relacion_vehiculo}</p>
                         </div>
                         <div class="contenedor-acciones">
                             <ion-icon name="eye" class="ver-movimiento" data-movimiento="${movimiento.codigo_movimiento}"></ion-icon>

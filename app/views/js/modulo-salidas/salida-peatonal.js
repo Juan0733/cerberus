@@ -67,7 +67,10 @@ function eventoRegistrarSalidaPeatonal() {
             if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
                 formularioPeatonal.reset();
-                documentoPeaton.focus();
+
+                setTimeout(()=>{
+                    documentoPeaton.focus();
+                }, 500)
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == "Entrada No Registrada" || respuesta.titulo == "Usuario No Encontrado"){

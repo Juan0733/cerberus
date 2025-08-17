@@ -176,3 +176,17 @@ function alertaExito(respuesta){
     });
 }
 
+function alertaError(respuesta){
+    Swal.fire({
+        icon: "error",
+        iconColor: "#fe0c0c",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        confirmButtonText: 'Aceptar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar'
+        }
+    });
+}
+

@@ -1,7 +1,5 @@
-import {validarUsuarioAptoSalida} from '../fetchs/movimientos-fetch.js';
-import {registrarSalidaVehicular} from '../fetchs/movimientos-fetch.js';
-import {consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
-import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
+import {validarUsuarioAptoSalida, registrarSalidaVehicular} from '../fetchs/movimientos-fetch.js';
+import {consultarVehiculo,consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
@@ -74,12 +72,32 @@ function eventoCerrarFormulario(){
 function validarVehiculoAptoEntrada(){
     consultarVehiculo(placaVehiculo.value, urlBase).then(respuesta => {
         if(respuesta.tipo == "OK"){
-            placaVehiculo.classList.remove('input-error');
-            placaVehiculo.classList.add('input-ok');
-            documentoPropietario.focus();
-            datosEntradaVehicular.placa = placaVehiculo.value;
-            dibujarPropietarios();
-            
+            consultarPropietarios(placaVehiculo.value, urlBase).then(respuesta => {
+                if(respuesta.tipo == 'OK'){
+                    placaVehiculo.classList.remove('input-error');
+                    placaVehiculo.classList.add('input-ok');
+                    documentoPropietario.focus();
+                    datosEntradaVehicular.placa = placaVehiculo.value;
+                    dibujarPropietarios(respuesta.propietarios);
+
+                }else if(respuesta.tipo == 'ERROR'){
+                    if(respuesta.titulo == 'Datos No Encontrados'){
+                        placaVehiculo.classList.remove('input-ok');
+                        placaVehiculo.classList.add('input-error');
+                        respuesta.titulo = 'Vehículo No Encontrado',
+                        respuesta.mensaje = `Lo sentimos, parece que el vehículo de placas ${placaVehiculo.value} no se encuentra registrado en el sistema.`;
+                        respuesta.vehiculo = placaVehiculo.value;
+                        respuesta.callback = validarVehiculoAptoEntrada;
+                        alertaAdvertencia(respuesta);
+
+                    }else if(respuesta.titulo = 'Sesión Expirada'){
+                        window.location.replace(urlBase+'sesion-expirada');
+
+                    }else{
+                        alertaError(respuesta);
+                    }
+                }
+            })
         }else if(respuesta.tipo == "ERROR"){
             if(respuesta.titulo == "Vehículo No Encontrado"){
                 placaVehiculo.classList.remove('input-ok');
@@ -333,7 +351,7 @@ function eventoRegistrarSalidaVehicular(){
 
                     setTimeout(()=>{
                         placaVehiculo.focus();
-                    }, 500);
+                    }, 1000);
                     
                 }else if(respuesta.tipo == 'ERROR'){
                     if(respuesta.titulo == 'Propietario Incorrecto'){
@@ -378,25 +396,13 @@ function eventoTextArea(){
     })
 }
 
-function dibujarPropietarios(){
-    consultarPropietarios(datosEntradaVehicular.placa, urlBase).then(respuesta=>{
-        if(respuesta.tipo == 'OK'){
-            listaPropietarios.innerHTML = '';
+function dibujarPropietarios(propietarios){
+    listaPropietarios.innerHTML = '';
 
-            respuesta.propietarios.forEach(propietario=>{
-                listaPropietarios.innerHTML += `
-                    <option value="${propietario.numero_documento}">${propietario.numero_documento}</option>
-                `;
-            })
-
-        }else if(respuesta.tipo == 'ERROR'){
-            if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-
-            }else{
-                alertaError(respuesta);
-            }
-        }
+    propietarios.forEach(propietario=>{
+        listaPropietarios.innerHTML += `
+            <option value="${propietario.numero_documento}">${propietario.numero_documento}</option>
+        `;
     })
 }
 

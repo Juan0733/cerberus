@@ -3,6 +3,7 @@ import {habilitarVigilante} from '../fetchs/vigilantes-fetch.js';
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let inputContrasena;
 let documentoVigilante;
 let funcionCallback;
 let urlBase;
@@ -32,6 +33,8 @@ async function modalHabilitacionVigilante(vigilante, callback, url) {
         }
 
         contenedorModales.appendChild(modal);
+
+        inputContrasena = document.getElementById('contrasena');
 
         documentoVigilante = vigilante;
         funcionCallback = callback;
@@ -78,7 +81,6 @@ function eventoCerrarModal(){
 }
 
 function validarConfirmacionContrasena(){
-    const inputContrasena = document.getElementById('contrasena');
     const inputConfirmacion = document.getElementById('confirmacion_contrasena');
     let temporizador;
     let primeraValidacion = true;

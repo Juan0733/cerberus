@@ -67,7 +67,6 @@ function dibujarNovedad() {
     consultarNovedadVehiculo(codigoNovedad, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosNovedad = respuesta.datos_novedad;
-            console.log(datosNovedad);
             
             document.getElementById('tipo_novedad').textContent = formatearString(datosNovedad.tipo_novedad);
             document.getElementById('tipo_vehiculo').textContent = formatearString(datosNovedad.tipo_vehiculo);

@@ -20,10 +20,19 @@ async function validarUsuarioLogin(datos, urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
+
+        if(!navigator.onLine){
+            alertaError({
+                titulo: 'Error Internet',
+                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
+            });
+
+        }else{
+            alertaError({
+                titulo: 'Error Petición',
+                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+            });
+        }
     }
 }
 export{validarUsuarioLogin}
@@ -48,10 +57,19 @@ async function validarContrasenaLogin(datos, urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
+
+        if(!navigator.onLine){
+            alertaError({
+                titulo: 'Error Internet',
+                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
+            });
+
+        }else{
+            alertaError({
+                titulo: 'Error Petición',
+                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+            });
+        }
     }
 }
 export{validarContrasenaLogin}
@@ -73,10 +91,19 @@ async function conteoTotalUsuarios(urlBase) {
         
     } catch (error) {
         console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
+
+        if(!navigator.onLine){
+            alertaError({
+                titulo: 'Error Internet',
+                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
+            });
+
+        }else{
+            alertaError({
+                titulo: 'Error Petición',
+                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+            });
+        }
     }
 }
 export{conteoTotalUsuarios}
@@ -98,10 +125,19 @@ async function conteoTipoUsuario(urlBase) {
         
     } catch (error) {
         console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
+
+        if(!navigator.onLine){
+            alertaError({
+                titulo: 'Error Internet',
+                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
+            });
+
+        }else{
+            alertaError({
+                titulo: 'Error Petición',
+                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+            });
+        }
     }
 }
 export{conteoTipoUsuario}
@@ -125,10 +161,19 @@ async function cerrarSesion(urlBase) {
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
+
+        if(!navigator.onLine){
+            alertaError({
+                titulo: 'Error Internet',
+                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
+            });
+
+        }else{
+            alertaError({
+                titulo: 'Error Petición',
+                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+            });
+        }
     }
 }
 export{cerrarSesion}
@@ -149,10 +194,19 @@ async function consultarNotificacionesUsuario(urlBase) {
         
     } catch (error) {
         console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Petición',
-            mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-        })
+
+        if(!navigator.onLine){
+            alertaError({
+                titulo: 'Error Internet',
+                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
+            });
+
+        }else{
+            alertaError({
+                titulo: 'Error Petición',
+                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
+            });
+        }
     }
 }
 export{consultarNotificacionesUsuario}

@@ -98,7 +98,6 @@
             #contenedor_principal #contenedor_tabla_cards #tabla_permisos_vehiculo thead {
                 background-color: var(--color-secundario);
                 color: white;
-                cursor: pointer;
                 font-size: 1em;
                 left: 0;
                 position: sticky;

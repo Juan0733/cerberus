@@ -194,6 +194,19 @@ class MovimientoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
+
+        $respuesta = $this->objetoVehiculo->consultarPropietarios($datosSalida['numero_placa']);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] != 'Datos No Encontrados'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Vehículo No Encontrado',
+                "mensaje"=> 'Lo sentimos, parece que el vehículo de placas '.$datosSalida['numero_placa'].' no se encuentra registrado en el sistema.'
+            ];
+            return $respuesta;
+        }
         
         $respuesta = $this->validarPropiedadVehiculo($datosSalida['numero_placa'], $datosSalida['propietario']);
         if($respuesta['tipo'] == 'ERROR'){
@@ -337,17 +350,28 @@ class MovimientoModel extends MainModel{
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Propietario Incorrecto',
-                'mensaje' => 'El usuario con numero de documento '.$usuario.', no le pertenece el vehículo de placas '.$placa.', ¿Es un vehículo prestado?'
+                'mensaje' => 'El usuario con número de documento '.$usuario.', no le pertenece el vehículo de placas '.$placa.', ¿Es un vehículo prestado?'
+            ];
+            return $respuesta;
+
+        }else if($respuesta['tipo'] == 'OK'){
+            $vehiculo = $respuesta['datos_vehiculo'];
+            if($vehiculo['estado_propiedad'] == 'INACTIVA'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Propietario Incorrecto',
+                    'mensaje' => 'El usuario con número de documento '.$usuario.', no le pertenece el vehículo de placas '.$placa.', ¿Es un vehículo prestado?'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = [
+                'tipo' => 'OK',
+                'titulo' => 'Propietario Correcto',
+                'mensaje' => 'El propietario del vehículo coincide con el usuario que intenta realizar el movimiento.'
             ];
             return $respuesta;
         }
-           
-        $respuesta = [
-            'tipo' => 'OK',
-            'titulo' => 'Propietario Correcto',
-            'mensaje' => 'El propietario del vehículo coincide con el usuario que intenta realizar el movimiento.'
-        ];
-        return $respuesta;
     }
 
     public function consultarUltimoMovimientoUsuario($usuario){

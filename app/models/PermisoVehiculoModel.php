@@ -87,7 +87,7 @@ class PermisoVehiculoModel extends MainModel{
                         $respuesta = [
                             'tipo' => 'ERROR',
                             'titulo'=> 'Permiso Desaprobado',
-                            'mensaje' => 'Lo sentimos, pero la última solictud de permanencia de este vehículo, ha sido desaprobada.'
+                            'mensaje' => 'Lo sentimos, pero la solictud de permanencia mas reciente de este vehículo, ha sido desaprobada.'
                         ];
                         return $respuesta;
                     }

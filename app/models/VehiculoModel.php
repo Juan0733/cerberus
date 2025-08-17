@@ -4,7 +4,6 @@ namespace App\Models;
 use DateTime;
 
 class VehiculoModel extends MainModel {
-
     private $objetoUsuario;
 
     public function __construct() {
@@ -13,6 +12,11 @@ class VehiculoModel extends MainModel {
 
     public function registrarVehiculo($datosVehiculo){
         $respuesta = $this->objetoUsuario->consultarUsuario($datosVehiculo['propietario']);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->validarLimiteVehiculos($datosVehiculo['propietario']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -26,7 +30,20 @@ class VehiculoModel extends MainModel {
             $datosVehiculo['tipo_vehiculo'] = $respuesta['datos_vehiculo']['tipo_vehiculo'];
 
             $respuesta = $this->validarDuplicidadPropietarios($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
-            if($respuesta['tipo'] == 'ERROR'){
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] != 'Propiedad Inactiva'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propiedad Inactiva'){
+                $respuesta = $this->restaurarPropiedadVehiculo($datosVehiculo['propietario'], $datosVehiculo['numero_placa']);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $respuesta = [
+                    "tipo"=>"OK",
+                    "titulo" => 'Registro Exitoso',
+                    "mensaje"=> 'El vehículo fue registrado correctamente.'
+                ];
                 return $respuesta;
             }
         }
@@ -58,7 +75,7 @@ class VehiculoModel extends MainModel {
         $sentenciaBuscar = "
             SELECT numero_placa, tipo_vehiculo, ubicacion
             FROM vehiculos 
-            WHERE 1=1";
+            WHERE estado_propiedad = 'ACTIVA'";
 
         if(isset($parametros['numero_placa'])){
             $sentenciaBuscar .= " AND numero_placa LIKE '{$parametros['numero_placa']}%'";
@@ -139,7 +156,7 @@ class VehiculoModel extends MainModel {
 
     public function consultarPropietarioVehiculo($placa, $propietario){
         $sentenciaBuscar = "
-            SELECT numero_placa, tipo_vehiculo, ubicacion
+            SELECT numero_placa, tipo_vehiculo, ubicacion, estado_propiedad
             FROM vehiculos 
             WHERE numero_placa = '$placa' AND fk_usuario = '$propietario';";
 
@@ -154,7 +171,7 @@ class VehiculoModel extends MainModel {
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
-                "mensaje"=> 'No se encontro datos relacionados con el vehículo de placas '.$placa.' y el usuario con número de  documento '.$propietario.'.'
+                "mensaje"=> 'No se encontro una relación entre el vehículo de placas '.$placa.' y el usuario con número de  documento '.$propietario.'.'
             ];
             return $respuesta;
         }
@@ -163,8 +180,8 @@ class VehiculoModel extends MainModel {
         $this->cerrarConexion();
         $respuesta = [
             "tipo" => "OK",
-            'titulo' => "Vehículo Encontrado",
-            "mensaje" => "El vehículo se encuentra registrado en el sistema.",
+            'titulo' => "Propiedad Encontrada",
+            "mensaje" => "Se encontro una relación entre el vehículo de placas ".$placa." y el usuario con número de documento ".$propietario.".",
             'datos_vehiculo' => $vehiculo
         ];
         return $respuesta;
@@ -185,7 +202,7 @@ class VehiculoModel extends MainModel {
             LEFT JOIN visitantes vis ON veh.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON veh.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON veh.fk_usuario = apr.numero_documento
-            WHERE veh.numero_placa = '$placa'";
+            WHERE veh.numero_placa = '$placa' AND veh.estado_propiedad = 'ACTIVA'";
         
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if ($respuesta['tipo'] == 'ERROR') {
@@ -198,7 +215,7 @@ class VehiculoModel extends MainModel {
             $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Datos No Encontrados',
-                "mensaje"=> 'No se encontraron datos relacionados a la placa '.$placa
+                "mensaje"=> 'No se encontraron propietarios relacionados al vehículo de placas '.$placa.'.'
             ];
             return $respuesta;
         }
@@ -218,6 +235,16 @@ class VehiculoModel extends MainModel {
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
+            $vehiculo = $respuesta['datos_vehiculo'];
+            if($vehiculo['estado_propiedad'] == 'INACTIVA'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    "titulo" => 'Propiedad Inactiva',
+                    "mensaje" => 'El vehículo ya se encuentra registrado y asociado al usuario con número de documento '.$propietario.', pero la propiedad se encuentra inactiva.'
+                ];
+                return $respuesta;
+            }
+
             $respuesta = [
                 'tipo' => 'ERROR',
                 "titulo" => 'Vehículo Existente',
@@ -233,6 +260,47 @@ class VehiculoModel extends MainModel {
         ];
         return $respuesta;
     }
+
+    private function validarLimiteVehiculos($propietario){
+        $parametros = [
+            'numero_documento' => $propietario
+        ];
+        $respuesta = $this->consultarVehiculos($parametros);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+               
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
+            $respuesta = [
+                "tipo"=>"OK",
+                "titulo" => 'Limite De Vehículos',
+                "mensaje"=> 'El usuario es apto para registrarle un nuevo vehículo.'
+            ];
+            return $respuesta;
+        }
+        
+        $vehiculos = $respuesta['vehiculos'];
+        $limiteVehiculos = 5;
+        if(count($vehiculos) >= $limiteVehiculos){
+            shuffle($vehiculos);
+            foreach ($vehiculos as $vehiculo) {
+                $respuesta = $this->eliminarPropiedadVehiculo($propietario, $vehiculo['numero_placa']);
+                if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                    return $respuesta;
+
+                }elseif($respuesta['tipo'] == 'OK'){
+                    break;
+                }
+            }
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Limite De Vehículos',
+            "mensaje"=> 'El usuario es apto para registrar un nuevo vehiculo.'
+        ];
+        return $respuesta;
+    }
+
     private function validarLimitePropietarios($placa){
         $respuesta = $this->consultarPropietarios($placa);
         if($respuesta['tipo'] == 'ERROR'){
@@ -241,10 +309,10 @@ class VehiculoModel extends MainModel {
 
         $propietarios = $respuesta['propietarios'];
         if(count($propietarios) < 2){
-            $respuesta = [
+           $respuesta = [
                 "tipo"=>"ERROR",
                 "titulo" => 'Propietarios Insuficientes',
-                "mensaje"=> 'Para poder eliminar un propietario, el vehículo debe tener como minimo 2 propietarios.'
+                "mensaje"=> 'El vehículo solo tiene un propietario.'
             ];
             return $respuesta;
         }
@@ -252,20 +320,55 @@ class VehiculoModel extends MainModel {
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Propietarios Suficientes',
-            "mensaje"=> 'El vehículo tiene suficientes propietarios.'
+            "mensaje"=> 'El vehículo tiene más de un propietario.'
+        ];
+        return $respuesta;
+    }
+
+    private function restaurarPropiedadVehiculo($propietario, $placa){
+        $sentenciaEliminar = "
+            UPDATE vehiculos 
+            SET estado_propiedad = 'ACTIVA'
+            WHERE fk_usuario = '$propietario' AND numero_placa = '$placa';";
+        
+        $respuesta = $this->ejecutarConsulta($sentenciaEliminar);
+        if ($respuesta['tipo'] == 'ERROR') {
+            return $respuesta;    
+        }
+
+        $respuesta = [
+            "tipo"=>"OK",
+            "titulo" => 'Restauración Exitosa',
+            "mensaje"=> 'La propiedad del vehículo se restauro correctamente.'
         ];
         return $respuesta;
     }
 
     public function eliminarPropiedadVehiculo($propietario, $placa){
         $respuesta = $this->validarLimitePropietarios($placa);
-        if($respuesta['tipo'] == 'ERROR'){
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietarios Insuficientes'){
+            $respuesta = $this->consultarVehiculo($placa);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+            $vehiculo = $respuesta['datos_vehiculo'];
+            if($vehiculo['ubicacion'] == 'DENTRO'){
+                $respuesta = [
+                    "tipo"=>"ERROR",
+                    "titulo" => 'Error Propietarios',
+                    "mensaje"=> 'El vehículo no puede quedarse sin propietarios, mientras se encuentre dentro del CAB.'
+                ];
+                return $respuesta;
+            }
         }
 
         $sentenciaEliminar = "
-            DELETE 
-            FROM vehiculos 
+            UPDATE vehiculos 
+            SET estado_propiedad = 'INACTIVA'
             WHERE fk_usuario = '$propietario' AND numero_placa = '$placa';";
         
         $respuesta = $this->ejecutarConsulta($sentenciaEliminar);
@@ -425,7 +528,6 @@ class VehiculoModel extends MainModel {
         }
 
         $this->cerrarConexion();
-
         $respuesta = [
             'tipo' => 'OK',
             'notificaciones_vehiculo' => $notificaciones

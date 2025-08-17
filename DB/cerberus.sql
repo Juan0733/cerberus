@@ -61,20 +61,6 @@ CREATE TABLE `aprendices` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estadias_aprendices`
---
-
-CREATE TABLE `estadias_aprendices` (
-  `contador` int(11) NOT NULL,
-  `fk_usuario` varchar(15) NOT NULL,
-  `fecha_fin_estadia` date NOT NULL,
-  `fecha_registro` datetime NOT NULL,
-  `fk_usuario_sistema` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `fichas`
 --
 
@@ -485,12 +471,6 @@ ALTER TABLE `aprendices`
   ADD PRIMARY KEY (`contador`);
 
 --
--- Indices de la tabla `estadias_aprendices`
---
-ALTER TABLE `estadias_aprendices`
-  ADD PRIMARY KEY (`contador`);
-
---
 -- Indices de la tabla `fichas`
 --
 ALTER TABLE `fichas`
@@ -576,12 +556,6 @@ ALTER TABLE `agendas`
 -- AUTO_INCREMENT de la tabla `aprendices`
 --
 ALTER TABLE `aprendices`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `estadias_aprendices`
---
-ALTER TABLE `estadias_aprendices`
   MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT;
 
 --

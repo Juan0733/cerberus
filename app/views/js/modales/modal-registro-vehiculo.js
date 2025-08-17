@@ -3,6 +3,7 @@ import {modalRegistroVisitante} from './modal-registro-visitante.js'
 
 let contenedorModales;
 let modalesExistentes;
+let formularioVehiculo;
 let inputDocumento;
 let botonCerrarModal;
 let funcionCallback;
@@ -33,6 +34,7 @@ async function modalRegistroVehiculo(url, placa=false, callback=false) {
             numeroPlaca.readOnly = true;
         }
 
+        formularioVehiculo = document.getElementById('formulario_vehiculo');
         inputDocumento = document.getElementById('propietario');
         funcionCallback = callback;
         urlBase = url;
@@ -104,7 +106,6 @@ function eventoInputPropietario() {
 }
 
 function eventoRegistrarVehiculo(){
-    let formularioVehiculo = document.getElementById('formulario_vehiculo');
     formularioVehiculo.addEventListener('submit', (e)=>{
         e.preventDefault();
         let formData = new FormData(formularioVehiculo);
@@ -137,6 +138,11 @@ function eventoRegistrarVehiculo(){
     })
 }
 
+function eventoManualFormularioVehiculo(){
+    const evento = new Event("submit", { bubbles: true, cancelable: true });
+    formularioVehiculo.dispatchEvent(evento);
+}
+
 function alertaAdvertencia(respuesta){
     Swal.fire({
         icon: "warning",
@@ -154,7 +160,7 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Usuario No Encontrado"){
-                modalRegistroVisitante(urlBase, respuesta.documento);
+                modalRegistroVisitante(urlBase, respuesta.documento, eventoManualFormularioVehiculo);
             }
         } 
     });

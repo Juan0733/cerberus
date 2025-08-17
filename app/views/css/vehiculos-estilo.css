@@ -72,7 +72,6 @@
             #contenedor_principal #contenedor_tabla_cards #tabla_vehiculos thead {
                 background-color: var(--color-secundario);
                 color: white;
-                cursor: pointer;
                 font-size: 1em;
                 left: 0;
                 position: sticky;
@@ -165,7 +164,7 @@
             transform: rotate(180deg);
         }
 
-    #contenedor_principal #contenedor_tabla_cards #mensaje_respuesta{
+    .mensaje-respuesta{
         position: absolute;
         left: 0;
         right: 0;
@@ -203,7 +202,6 @@
             #contenedor_modales #modal_propietarios #tabla_propietarios thead {
                 background-color: var(--color-secundario);
                 color: white;
-                cursor: pointer;
                 left: 0;
                 position: sticky;
                 top: 0;
@@ -221,6 +219,7 @@
                 }
 
                     #tabla_propietarios tbody td .eliminar-propietario{
+                        cursor: pointer;
                         color: red;
                         font-size: 25px;
                     }

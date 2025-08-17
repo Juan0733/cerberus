@@ -100,7 +100,7 @@ function dibujarCardsVehiculos(){
                 window.location.replace(urlBase+'sesion-expirada');
 
             }else{
-                contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                contenedorTabla.innerHTML = `<p class="mensaje-respuesta">${respuesta.mensaje}</p>`;
 
                 if(respuesta.titulo != 'Datos No Encontrados'){
                     alertaError(respuesta);
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && document.querySelector('.document-card-vehiculo')){
+            if(window.innerWidth >= 1024 && !cuerpoTabla){
             validarResolucion();
 
             }else if(window.innerWidth < 1024 && cuerpoTabla){

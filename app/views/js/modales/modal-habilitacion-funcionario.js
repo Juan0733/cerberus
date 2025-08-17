@@ -5,7 +5,6 @@ let modalesExistentes;
 let botonCerrarModal;
 let documentoFuncionario;
 let inputContrasena;
-let inputConfirmacion;
 let funcionCallback;
 let urlBase;
 
@@ -36,7 +35,6 @@ async function modalHabilitacionFuncionario(documento, callback, url) {
         contenedorModales.appendChild(modal);
 
         inputContrasena = document.getElementById('contrasena');
-        inputConfirmacion = document.getElementById('confirmacion_contrasena');
 
         documentoFuncionario = documento;
         funcionCallback = callback;
@@ -83,6 +81,7 @@ function eventoCerrarModal(){
 }
 
 function validarConfirmacionContrasena(){
+    const inputConfirmacion = document.getElementById('confirmacion_contrasena');
     let temporizador;
     let primeraValidacion = true;
 

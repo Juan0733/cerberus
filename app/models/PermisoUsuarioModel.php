@@ -64,7 +64,7 @@ class PermisoUsuarioModel extends MainModel{
                     $respuesta = [
                         'tipo' => 'ERROR',
                         'titulo'=> 'Permiso Pendiente',
-                        'mensaje' => 'Lo sentimos, pero la última solictud de permanencia de este usuario, se encuentra en estado pendiente.'
+                        'mensaje' => 'Lo sentimos, pero este usuario tiene una solicitud de permanencia que se encuentra en estado pendiente.'
                     ];
                     return $respuesta;
 
@@ -79,7 +79,7 @@ class PermisoUsuarioModel extends MainModel{
                         $respuesta = [
                             'tipo' => 'ERROR',
                             'titulo'=> 'Permiso Desaprobado',
-                            'mensaje' => 'Lo sentimos, pero este usuario tiene una solicitud de permanencia que se encuentra en estado pendiente.'
+                            'mensaje' => 'Lo sentimos, pero la solictud de permanencia mas reciente de este usuario, ha sido desaprobada.'
                         ];
                         return $respuesta;
                     }

@@ -1,7 +1,5 @@
-import {validarUsuarioAptoEntrada} from '../fetchs/movimientos-fetch.js';
-import {registrarEntradaVehicular} from '../fetchs/movimientos-fetch.js';
-import {consultarVehiculo} from '../fetchs/vehiculos-fetch.js';
-import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
+import {validarUsuarioAptoEntrada, registrarEntradaVehicular} from '../fetchs/movimientos-fetch.js';
+import {consultarVehiculo, consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
@@ -331,7 +329,10 @@ function eventoRegistrarEntradaVehicular(){
                 if(respuesta.tipo == 'OK'){
                     alertaExito(respuesta);
                     limpiarFormularioVehicular();
-                    placaVehiculo.focus();
+
+                    setTimeout(()=>{
+                        placaVehiculo.focus();
+                    }, 1000)
                    
                 }else if(respuesta.tipo == 'ERROR'){
                      if(respuesta.titulo == 'Sesión Expirada'){
@@ -385,7 +386,7 @@ function dibujarPropietarios(){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
-            }else{
+            }else if(respuesta.titulo != 'Datos No Encontrados'){
                 alertaError(respuesta);
             }
         }

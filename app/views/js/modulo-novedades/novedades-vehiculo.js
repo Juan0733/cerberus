@@ -83,7 +83,7 @@ function dibujarTablaNovedades(){
 
 function dibujarCardsNovedades(){
     cuerpoTabla = '';
-    consultarNovedadesUsuario(parametros, urlBase).then(respuesta=>{
+    consultarNovedadesVehiculo(parametros, urlBase).then(respuesta=>{
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
             respuesta.novedades.forEach(novedad => {
@@ -167,7 +167,7 @@ function eventoBuscarPlaca(){
 }
 
 function toggleCard() {
-    const cards = document.querySelectorAll('.document-card-novedad_vehiculo');
+    const cards = document.querySelectorAll('.document-card-novedad-vehiculo');
     
     cards.forEach(card => {
         card.addEventListener('click', function() {
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && document.querySelector('.document-card-novedad-vehiculo')){
+            if(window.innerWidth >= 1024 && !cuerpoTabla){
                 validarResolucion();
 
             }else if(window.innerWidth < 1024 && cuerpoTabla){

@@ -126,10 +126,6 @@ class AprendizModel extends MainModel{
             FROM aprendices
             WHERE 1=1";
 
-        if(isset($parametros['ubicacion'])){
-            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
-        }
-
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
@@ -138,7 +134,17 @@ class AprendizModel extends MainModel{
             $sentenciaBuscar .= " AND fk_ficha LIKE '{$parametros['numero_ficha']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10";
+        if(isset($parametros['ubicacion'])){
+            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
+        }
+
+        $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
+
+        if(!isset($parametros['ubicacion']) || $parametros['ubicacion'] != 'DENTRO'){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
+
+       
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

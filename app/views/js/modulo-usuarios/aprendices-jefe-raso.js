@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && document.querySelector('.document-card-aprendiz')){
+            if(window.innerWidth >= 1024 && !cuerpoTabla){
                 validarResolucion();
 
             }else if(window.innerWidth < 1024 && cuerpoTabla){

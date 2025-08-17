@@ -191,11 +191,7 @@ class FuncionarioModel extends MainModel{
             SELECT tipo_documento, numero_documento, nombres, apellidos, rol, telefono, correo_electronico, ubicacion, estado_usuario 
             FROM funcionarios 
             WHERE 1=1";
-        
-        if(isset($parametros['ubicacion'])){
-            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
-        }
-
+    
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
@@ -204,11 +200,19 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND rol = '{$parametros['rol']}'";
         }
 
+        if(isset($parametros['ubicacion'])){
+            $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
+        }
+
         if(isset($parametros['brigadista'])){
             $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}' ORDER BY fecha_registro DESC LIMIT 8;";
 
         }else{
-            $sentenciaBuscar .= " ORDER BY fecha_registro DESC LIMIT 10;";
+            $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
+
+            if(!isset($parametros['ubicacion']) || $parametros['ubicacion'] != 'DENTRO'){
+                $sentenciaBuscar .= " LIMIT 10;";
+            }
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

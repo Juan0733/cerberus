@@ -67,7 +67,7 @@ function dibujarPermiso() {
     consultarPermisoVehiculo(codigoPermiso, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosPermiso = respuesta.datos_permiso;
-            console.log(datosPermiso);
+
             document.getElementById('tipo_permiso').textContent = formatearString(datosPermiso.tipo_permiso);
             document.getElementById('solicitante').textContent = datosPermiso.nombres_solicitante+' '+datosPermiso.apellidos_solicitante;
             document.getElementById('tipo_vehiculo').textContent = formatearString(datosPermiso.tipo_vehiculo);

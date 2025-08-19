@@ -145,7 +145,7 @@ function dibujarPropietarios(){
     consultarPropietarios(placaVehiculo, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             respuesta.propietarios.forEach(propietario => {
-                selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
+                selectPropietario.innerHTML += `<option value="${propietario.numero_documento}"></option>`
             });
 
             contenedorSpinner.classList.remove("mostrar_spinner");

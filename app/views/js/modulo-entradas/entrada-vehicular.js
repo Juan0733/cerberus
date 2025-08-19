@@ -378,7 +378,7 @@ function dibujarPropietarios(){
 
             respuesta.propietarios.forEach(propietario=>{
                 listaPropietarios.innerHTML += `
-                    <option value="${propietario.numero_documento}">${propietario.numero_documento}</option>
+                    <option value="${propietario.numero_documento}"></option>
                 `;
             })
 

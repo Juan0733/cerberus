@@ -32,7 +32,7 @@ function dibujarFichas(){
         if(respuesta.tipo == 'OK'){
             respuesta.fichas.forEach(ficha => {
                 dataListFichas.innerHTML += `
-                    <option value="${ficha.numero_ficha}">${ficha.numero_ficha}</option>
+                    <option value="${ficha.numero_ficha}"></option>
                     `
             });
 

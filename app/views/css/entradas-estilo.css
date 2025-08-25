@@ -22,14 +22,14 @@
     #contenedor_principal #contenedor_btns_formularios{
         align-items: center;
         display: flex;
-        height: 82vh;
+        height: 85vh;
         padding: 20px 0;
         width: 100%;
     }
 
         #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver{
             display: none;
-            width: 90%;
+            width: 85%;
         }
 
             #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver #btn_volver {
@@ -77,8 +77,8 @@
                 animation: 0.5s ease-out 0s 1 normal none running slideIn2;
                 display: none;
                 flex-direction: column;
-                row-gap: 20px;
-                width: 80%;
+                row-gap: 15px;
+                width: 85%;
             }
 
             #contenedor_btns_formularios .contenedor-btn-formulario .formulario .contenedor-input-btn{
@@ -104,17 +104,13 @@
                         color: white;
                         font-size: 30px;
                     }
-                    
-                #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
-                    display: none;
-                }
 
             #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{
                 animation: 0.5s ease-out 0s 1 normal none running slideIn3;
             }
 
                 #contenedor_btns_formularios .contenedor-btn-formulario .formulario .titulo-formulario{
-                    font-size: 39px;
+                    font-size: 28px;
                     text-align: center;
                 }
 
@@ -143,21 +139,34 @@
                         font-size: 18px;
                     } 
 
+                #contenedor_vehicular #formulario_vehicular .input-ok{
+                    border: solid 3px var(--color-secundario) !important;
+                    background-color: #c6ffc6 !important;
+                }
+
+                #contenedor_vehicular #formulario_vehicular .input-error{
+                    border: solid 3px red !important;
+                    background-color: #ffc6c6 !important;
+                }
+
+                #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular #contenedor_vehiculo_propietario{
+                    align-items: end;
+                    column-gap: 10px;
+                    display: grid;
+                    grid-template-columns: 0.5fr 1fr;
+                    row-gap: 15px;
+                    width: 100%;
+                }
+
+                    #contenedor_vehicular #formulario_vehicular #contenedor_vehiculo_propietario #caja_tipo_vehiculo{
+                        display: none;
+                    }
+
                 #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular .caja-flex{
                     column-gap: 10px;
                     display: flex;
                     align-items: end;
                     width: 100%;
-                }
-
-                #contenedor_vehicular #formulario_vehicular .caja-flex .input-ok{
-                    border: solid 3px var(--color-secundario) !important;
-                    background-color: #c6ffc6 !important;
-                }
-
-                #contenedor_vehicular #formulario_vehicular .caja-flex .input-error{
-                    border: solid 3px red !important;
-                    background-color: #ffc6c6 !important;
                 }
 
                     #contenedor_vehicular #formulario_vehicular .caja-flex #btn_agregar_pasajero{
@@ -249,13 +258,8 @@
         }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario .formulario{
-            row-gap: 40px;
-            width: 90%;
+            row-gap: 30px;
         }
-
-            #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
-                display: flex;
-            }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{
             animation: 0.5s ease-out 0s 1 normal none running slideIn2;
@@ -288,21 +292,14 @@
             width: clamp(300px, 100%, 600px);
         }
 
-            #contenedor_btns_formularios .contenedor-btn-formulario .formulario .btn-scaner{
-                display: flex;
-            }
-
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario #formulario_vehicular{
             animation: 0.5s ease-out 0s 1 normal none running slideIn2;
         } 
 
-            #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular .caja-flex{
-                flex-direction: column;
+            #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular #contenedor_vehiculo_propietario{
+                column-gap: 10px;
+                grid-template-columns: repeat(1,1fr);
                 row-gap: 10px;
-            }
-
-            #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular #formulario_pasajeros{
-                flex-direction: row;
             }
 
                 #contenedor_btns_formularios #contenedor_vehicular #formulario_vehicular #contenedor_pasajeros{

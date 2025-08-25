@@ -429,14 +429,15 @@ class UsuarioModel extends MainModel{
                 $usuarios = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
                 foreach ($usuarios as &$usuario) {
                     $fechaUltimaEntrada = new DateTime($usuario['fecha_ultima_entrada']);
-                    $fechaPermiso = new DateTime($usuario['fecha_permiso']);
-
                     $diferencia = $fechaUltimaEntrada->diff($objetoFecha);
                     $horasPermanencia = ($diferencia->days * 24) + $diferencia->h;
                     $usuario['horas_permanencia'] = $horasPermanencia;
 
-                    if(($usuario['estado_permiso'] == 'DESAPROBADO') && $fechaPermiso < $fechaUltimaEntrada){
-                        $usuario['estado_permiso'] = NULL;
+                    if($usuario['fecha_permiso'] !== NULL){
+                        $fechaUltimoPermiso = new DateTime($usuario['fecha_permiso']);
+                        if(($usuario['estado_permiso'] == 'DESAPROBADO') && $fechaUltimoPermiso < $fechaUltimaEntrada){
+                            $usuario['estado_permiso'] = NULL;
+                        }
                     }
 
                     $notificaciones[] = $usuario;

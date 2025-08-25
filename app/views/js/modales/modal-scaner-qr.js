@@ -2,15 +2,14 @@ let contenedorModales;
 let modalesExistentes;
 let html5QrCode;
 let inputDocumento;
-let eventoInput;
+let funcionCallback;
 let audio;
-let eventoFormulario;
 let botonCerrarModal;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalScanerQr(url, input, callbackInput, callbackFormulario=false) {
+async function modalScanerQr(url, input, callback) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-scaner-qr.php');
@@ -38,8 +37,7 @@ async function modalScanerQr(url, input, callbackInput, callbackFormulario=false
         audio = new Audio(url+'app/views/audio/sonido-scaner.mp3');
 
         inputDocumento = input;
-        eventoInput = callbackInput;
-        eventoFormulario = callbackFormulario;
+        funcionCallback = callback;
         urlBase = url;
 
         eventoCerrarModal();
@@ -83,9 +81,11 @@ function abrirCamara(){
 
     Html5Qrcode.getCameras().then(camaras => {
         const camaraTrasera = camaras.find(camara => camara.label.toLowerCase().includes("back"));
-        if (camaraTrasera) {
+        const camaraDisponible = camaraTrasera ? camaraTrasera : camaras[0];
+
+        if (camaraDisponible) {
             html5QrCode.start(
-                { deviceId: { exact: camaraTrasera.id } },
+                { deviceId: { exact: camaraDisponible.id } },
                 config,
                 lecturaExitosa
             ).then(() => {
@@ -106,7 +106,7 @@ function abrirCamara(){
             contenedorSpinner.classList.remove("mostrar_spinner");
             alertaError({
                 titulo: 'Error Cámara',
-                mensaje: 'No se encontro ninguna cámara trasera.'
+                mensaje: 'No se encontro ninguna cámara disponibley.'
             })
             botonCerrarModal.click();
         }
@@ -125,12 +125,15 @@ function abrirCamara(){
 function lecturaExitosa(codigoTexto, codigoObjeto){
     audio.play();
 
-    inputDocumento.value = codigoTexto;
-
-    eventoInput();
-    if(eventoFormulario){
-        eventoFormulario();
-    }
+    let cadenas = codigoTexto.split(' ');
+    for(const cadena of cadenas) {
+        if(/\d/.test(cadena)){
+            inputDocumento.value = cadena.replace(/\D/g, '');
+            inputDocumento.blur();
+            funcionCallback();
+            break;
+        }
+    };
     
     botonCerrarModal.click();
 }

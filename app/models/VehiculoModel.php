@@ -30,7 +30,7 @@ class VehiculoModel extends MainModel {
             $datosVehiculo['tipo_vehiculo'] = $respuesta['datos_vehiculo']['tipo_vehiculo'];
 
             $respuesta = $this->validarDuplicidadPropietarios($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
-            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] != 'Propiedad Inactiva'){
+            if($respuesta['tipo'] == 'ERROR' && ($respuesta['titulo'] == 'Error de Conexión' || $respuesta['titulo'] == 'Vehículo Existente')){
                 return $respuesta;
 
             }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propiedad Inactiva'){
@@ -54,10 +54,11 @@ class VehiculoModel extends MainModel {
         if(!isset($datosVehiculo['ubicacion'])){
             $datosVehiculo['ubicacion'] = 'FUERA';
         }
+
         $sentenciaInsertar = "
             INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, ubicacion, fk_usuario_sistema) 
             VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '{$datosVehiculo['ubicacion']}', '$usuarioSistema');";
-        
+
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if ($respuesta['tipo'] == 'ERROR') {
             return $respuesta;    
@@ -513,14 +514,15 @@ class VehiculoModel extends MainModel {
             $vehiculos = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
             foreach ($vehiculos as &$vehiculo) {
                 $fechaUltimaEntrada = new DateTime($vehiculo['fecha_ultima_entrada']);
-                $fechaPermiso = new DateTime($vehiculo['fecha_permiso']);
-
                 $diferencia = $fechaUltimaEntrada->diff($objetoFecha);
                 $horasPermanencia = ($diferencia->days * 24) + $diferencia->h;
                 $vehiculo['horas_permanencia'] = $horasPermanencia;
 
-                if(($vehiculo['estado_permiso'] == 'DESAPROBADO') && $fechaPermiso < $fechaUltimaEntrada){
-                   $vehiculo['estado_permiso'] = NULL;
+                if($vehiculo['fecha_permiso'] !== NULL){
+                    $fechaUltimoPermiso = new DateTime($vehiculo['fecha_permiso']);
+                    if(($vehiculo['estado_permiso'] == 'DESAPROBADO') && $fechaUltimoPermiso < $fechaUltimaEntrada){
+                        $vehiculo['estado_permiso'] = NULL;
+                    }
                 }
 
                 $notificaciones[] = $vehiculo;

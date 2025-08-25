@@ -22,7 +22,7 @@
                         <input type="text" class="campo" name="documento_peaton" id="documento_peaton" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="1" required>
                     </div>
                     <button type="button" id="btn_scaner_qr_peaton" class="btn-scaner">
-                        <ion-icon name="qr-code"></ion-icon>
+                        <ion-icon name="camera"></ion-icon>
                     </button>
                 </div>
                
@@ -42,13 +42,24 @@
 
             <div id="formulario_vehicular" class="formulario">
                 <h1 class="titulo-formulario">Entrada Vehicular</h1>
-                <div class="caja-flex">
-                    <div class="input-caja " id="caja_placa_vehiculo">
+
+                <div id="contenedor_vehiculo_propietario">
+                    <div class="input-caja" id="caja_placa_vehiculo">
                         <label for="placa_vehiculo">Placa vehículo</label>
-                        <input type="text" class="campo input-placa"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, máximo 6 caracteres." minlength="5" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
+                        <input type="text" class="campo input-placa"  name="placa_vehiculo" id="placa_vehiculo" pattern="[A-Za-z0-9]{6,6}" title="Debes digitar solo números y letras, máximo 6 caracteres." minlength="6" maxlength="6" placeholder="Ej: ABC123" tabindex="1"  required>
+                    </div>
+                    <div class="input-caja" id="caja_tipo_vehiculo">
+                        <label for="tipo_vehiculo" class="label-input">Tipo de vehículo</label>
+                        <select class="campo"  name="tipo_vehiculo" id="tipo_vehiculo">
+                            <option value="" selected disabled>Seleccionar</option>
+                            <option value="AUTOMÓVIL">Automóvil</option>
+                            <option value="BUS">Bus</option>
+                            <option value="CAMIÓN">Camión</option>
+                            <option value="MOTO">Moto</option>
+                        </select>
                     </div>
                     
-                    <div class="contenedor-input-btn">
+                    <div class="contenedor-input-btn" id="caja_propietario_btn">
                         <div class="input-caja">
                             <label for="documento_propietario">Propietario vehículo</label>
                             <input type="text" class="campo" id="documento_propietario" name="documento_propietario" list="lista_propietarios" pattern="[A-Za-z0-9]{6,15}" minlength="6" title="Debes digitar solo números y letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" tabindex="2" required> 
@@ -56,7 +67,7 @@
                             </datalist>
                         </div> 
                         <button type="button" id="btn_scaner_qr_propietario" class="btn-scaner">
-                            <ion-icon name="qr-code"></ion-icon>
+                            <ion-icon name="camera"></ion-icon>
                         </button>
                     </div>
                 </div>
@@ -72,7 +83,7 @@
                     </button>
 
                     <button type="button" id="btn_scaner_qr_pasajero" class="btn-scaner">
-                        <ion-icon name="qr-code"></ion-icon>
+                        <ion-icon name="camera"></ion-icon>
                     </button>
                 </form>
 

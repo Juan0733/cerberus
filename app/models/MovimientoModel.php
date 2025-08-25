@@ -67,11 +67,6 @@ class MovimientoModel extends MainModel{
             $pasajero['tabla_pasajero'] = $respuesta['usuario']['tabla_usuario'];
         }
 
-        $respuesta = $this->objetoVehiculo->consultarVehiculo($datosEntrada['numero_placa']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
         $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
@@ -79,6 +74,7 @@ class MovimientoModel extends MainModel{
         }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietario Incorrecto'){
             $datosVehiculo = [
                 'numero_placa' => $datosEntrada['numero_placa'],
+                'tipo_vehiculo' => $datosEntrada['tipo_vehiculo'],
                 'propietario' => $datosEntrada['propietario']
             ];
 
@@ -191,26 +187,43 @@ class MovimientoModel extends MainModel{
         }
 
         $respuesta = $this->objetoVehiculo->consultarVehiculo($datosSalida['numero_placa']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
-        $respuesta = $this->objetoVehiculo->consultarPropietarios($datosSalida['numero_placa']);
-        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] != 'Datos No Encontrados'){
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
-        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
-            $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Vehículo No Encontrado',
-                "mensaje"=> 'Lo sentimos, parece que el vehículo de placas '.$datosSalida['numero_placa'].' no se encuentra registrado en el sistema.'
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Vehículo No Encontrado'){
+            $datosVehiculo = [
+                'numero_placa' => $datosSalida['numero_placa'],
+                'tipo_vehiculo' => $datosSalida['tipo_vehiculo'],
+                'propietario' => $datosSalida['propietario']
             ];
-            return $respuesta;
-        }
-        
-        $respuesta = $this->validarPropiedadVehiculo($datosSalida['numero_placa'], $datosSalida['propietario']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
+            
+            $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $respuesta = $this->objetoVehiculo->consultarPropietarios($datosSalida['numero_placa']);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
+                $datosVehiculo = [
+                    'numero_placa' => $datosSalida['numero_placa'],
+                    'propietario' => $datosSalida['propietario']
+                ];
+                
+                $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+            }elseif($respuesta['tipo'] == 'OK'){
+                $respuesta = $this->validarPropiedadVehiculo($datosSalida['numero_placa'], $datosSalida['propietario']);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+            }
         }
 
         $codigoMovimiento = 'SV'.date('YmdHis');

@@ -98,7 +98,7 @@ function dibujarMotivosIngreso(){
 
             motivos.forEach(motivo => {
                 dataListMotivos.innerHTML += `
-                    <option value="${motivo.motivo}"></option>`;
+                    <option value="${motivo.motivo}">`;
             });
 
             contenedorSpinner.classList.remove("mostrar_spinner");

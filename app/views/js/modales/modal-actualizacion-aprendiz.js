@@ -152,7 +152,7 @@ function dibujarFichas(){
         if(respuesta.tipo == 'OK'){
             respuesta.fichas.forEach(ficha => {
                 dataListFichas.innerHTML += `
-                    <option value="${ficha.numero_ficha}">${ficha.numero_ficha}</option>
+                    <option value="${ficha.numero_ficha}">
                     `
             });
 
@@ -163,31 +163,27 @@ function dibujarFichas(){
 }
 
 function eventoInputFicha(){
-    let temporizador;
+    inputFicha.addEventListener('change', ()=>{
+        if(inputFicha.checkValidity()){
+            consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
+                if(respuesta.tipo == 'OK'){
+                    inputPrograma.value = respuesta.datos_ficha.nombre_programa;
+                    inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
 
-    inputFicha.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            if(inputFicha.checkValidity()){
-                consultarFicha(inputFicha.value, urlBase).then(respuesta=>{
-                    if(respuesta.tipo == 'OK'){
-                        inputPrograma.value = respuesta.datos_ficha.nombre_programa;
-                        inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
-
-                    }else if(respuesta.tipo == 'ERROR'){
-                        if(respuesta.titulo == 'Sesión Expirada'){
-                            window.location.replace(urlBase+'sesion-expirada');
-                            
-                        }else if(respuesta.titulo != 'Ficha No Encontrada'){
-                            alertaError(respuesta);
-                        }
+                }else if(respuesta.tipo == 'ERROR'){
+                    if(respuesta.titulo == 'Sesión Expirada'){
+                        window.location.replace(urlBase+'sesion-expirada');
+                        
+                    }else if(respuesta.titulo != 'Ficha No Encontrada'){
+                        alertaError(respuesta);
                     }
-                })
+                }
+            })
 
-            }else{
-                inputFicha.reportValidity();
-            }
-        }, 1000)
+        }else{
+            inputFicha.reportValidity();
+        }
+        
     })
 }
 

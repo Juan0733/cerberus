@@ -34,7 +34,7 @@ function dibujarMotivosIngreso(){
         if(respuesta.tipo == 'OK'){
             respuesta.motivos_ingreso.forEach(motivo => {
                 dataListMotivos.innerHTML += `
-                    <option value="${motivo.motivo}"></option>`;
+                    <option value="${motivo.motivo}">`;
             });
 
         }else if(respuesta.tipo == 'ERROR' && respuesta.titulo != 'Datos No Encontrados'){

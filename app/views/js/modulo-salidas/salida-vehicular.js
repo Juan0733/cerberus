@@ -1,5 +1,5 @@
 import {validarUsuarioAptoSalida, registrarSalidaVehicular} from '../fetchs/movimientos-fetch.js';
-import {consultarVehiculo,consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
+import {consultarVehiculo, consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
@@ -9,6 +9,10 @@ import { modalScanerQr } from '../modales/modal-scaner-qr.js';
 let documentoPropietario;
 let documentoPasajero;
 let placaVehiculo;
+let selectTipoVehiculo;
+let contenedorVehiculoPropietario;
+let cajaPropietarioBtn;
+let cajaTipoVehiculo;
 let observacion;
 let botonPeatonal;
 let botonVehicular;
@@ -22,8 +26,9 @@ let cuerpoTablaPasajeros;
 let listaPropietarios;
 let urlBase;
 
-const datosEntradaVehicular = {
+const datosSalidaVehicular = {
     placa: "",
+    tipoVehiculo: "",
     propietario: "",
     pasajeros: []
 };
@@ -69,111 +74,201 @@ function eventoCerrarFormulario(){
     })
 }
 
-function validarVehiculoAptoEntrada(){
-    consultarVehiculo(placaVehiculo.value, urlBase).then(respuesta => {
-        if(respuesta.tipo == "OK"){
-            consultarPropietarios(placaVehiculo.value, urlBase).then(respuesta => {
-                if(respuesta.tipo == 'OK'){
-                    placaVehiculo.classList.remove('input-error');
+function eventoInputPlaca(){
+    placaVehiculo.addEventListener('change',()=>{
+        datosSalidaVehicular.placa = "";
+        placaVehiculo.classList.remove('input-ok');
+        placaVehiculo.classList.remove('input-error');
+
+        if(cajaTipoVehiculo.style.display == 'block'){
+            cajaTipoVehiculo.style.display = 'none';
+            selectTipoVehiculo.required = false;
+
+            cajaPropietarioBtn.style.gridColumn = 'span 1';
+
+            if(window.innerWidth <= 767){
+                contenedorVehiculoPropietario.style.gridTemplateColumns = 'repeat(1,1fr)';
+            }
+        }
+      
+        if (placaVehiculo.checkValidity()) {
+            datosSalidaVehicular.placa = placaVehiculo.value;
+      
+            consultarVehiculo(placaVehiculo.value, urlBase).then(respuesta => {
+                if(respuesta.tipo == "OK"){
                     placaVehiculo.classList.add('input-ok');
                     documentoPropietario.focus();
-                    datosEntradaVehicular.placa = placaVehiculo.value;
-                    dibujarPropietarios(respuesta.propietarios);
+                    dibujarPropietarios();
 
-                }else if(respuesta.tipo == 'ERROR'){
-                    if(respuesta.titulo == 'Datos No Encontrados'){
-                        placaVehiculo.classList.remove('input-ok');
+                }else if(respuesta.tipo == "ERROR"){
+                    if(respuesta.titulo == "Vehículo No Encontrado"){
                         placaVehiculo.classList.add('input-error');
-                        respuesta.titulo = 'Vehículo No Encontrado',
-                        respuesta.mensaje = `Lo sentimos, parece que el vehículo de placas ${placaVehiculo.value} no se encuentra registrado en el sistema.`;
-                        respuesta.vehiculo = placaVehiculo.value;
-                        respuesta.callback = validarVehiculoAptoEntrada;
-                        alertaAdvertencia(respuesta);
+                        
+                        cajaTipoVehiculo.style.display = 'block';
+                        selectTipoVehiculo.required = true;
 
-                    }else if(respuesta.titulo = 'Sesión Expirada'){
+                        cajaPropietarioBtn.style.gridColumn = 'span 2';
+
+                        if(window.innerWidth <= 767){
+                           contenedorVehiculoPropietario.style.gridTemplateColumns = 'repeat(2,1fr)';
+                        } 
+
+                    }else if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
-
+                        
                     }else{
                         alertaError(respuesta);
                     }
                 }
-            })
-        }else if(respuesta.tipo == "ERROR"){
-            if(respuesta.titulo == "Vehículo No Encontrado"){
-                placaVehiculo.classList.remove('input-ok');
-                placaVehiculo.classList.add('input-error');
-                respuesta.vehiculo = placaVehiculo.value;
-                respuesta.callback = validarVehiculoAptoEntrada;
-                alertaAdvertencia(respuesta);
-
-            }else if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-                
-            }else{
-                alertaError(respuesta);
-            }
+            });
+        }else{
+            placaVehiculo.reportValidity();
         }
-    });
+    })
 }
 
-function validarPropietarioAptoEntrada(){
-    validarUsuarioAptoSalida(documentoPropietario.value, urlBase).then(respuesta => {
-        if(respuesta.tipo == "OK"){
-            documentoPropietario.classList.remove('input-error');
-            documentoPropietario.classList.add('input-ok');
-            documentoPasajero.focus();
-            datosEntradaVehicular.propietario = documentoPropietario.value;
+function eventoSelectTipoVehiculo(){
+    selectTipoVehiculo.addEventListener('change', ()=>{
+        datosSalidaVehicular.tipoVehiculo = selectTipoVehiculo.value;
+    })
+}
 
-        }else if(respuesta.tipo == "ERROR"){
-            datosEntradaVehicular.propietario = "";
-            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Entrada No Registrada"){
-                documentoPropietario.classList.remove('input-ok');
+function eventoInputPropietario(){
+    documentoPropietario.addEventListener('change', ()=>{
+        datosSalidaVehicular.propietario = '';
+        documentoPropietario.classList.remove('input-ok');
+        documentoPropietario.classList.remove('input-error');
+
+        
+        if(documentoPropietario.checkValidity()) {
+            let existePasajero = false;
+            for(const pasajero of datosSalidaVehicular.pasajeros){
+                if(pasajero.documento_pasajero == documentoPropietario.value){
+                    existePasajero = true;
+                    break;
+                }
+            }
+
+            if(!existePasajero){
+                validarUsuarioAptoSalida(documentoPropietario.value, urlBase).then(respuesta => {
+                    if(respuesta.tipo == "OK"){
+                        documentoPropietario.classList.add('input-ok');
+                        documentoPasajero.focus();
+                        datosSalidaVehicular.propietario = documentoPropietario.value;
+
+                    }else if(respuesta.tipo == "ERROR"){
+                        datosSalidaVehicular.propietario = "";
+                        if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Entrada No Registrada"){
+                            documentoPropietario.classList.add('input-error');
+                            respuesta.documento = documentoPropietario.value;
+                            respuesta.callback = eventoManualInputPropietario;
+                            alertaAdvertencia(respuesta);
+
+                        }else if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+
+                        }else{
+                            alertaError(respuesta);
+                        }
+                    }
+                });
+
+            }else{
+                let mensaje = {
+                    titulo: "Error Propietario",
+                    mensaje: `El usuario con numero de documento ${documentoPropietario.value}, ya se encuentra en la lista de pasajeros.`
+                };
+
                 documentoPropietario.classList.add('input-error');
-                respuesta.documento = documentoPropietario.value;
-                respuesta.callback = validarPropietarioAptoEntrada;
-                alertaAdvertencia(respuesta);
-
-            }else if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-
-            }else{
-                alertaError(respuesta);
+                alertaError(mensaje);
             }
+        }else{
+            documentoPropietario.reportValidity();
         }
+    })
+}
+
+function eventoFormularioPasajeros(){
+    formularioPasajeros.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        if(datosSalidaVehicular.propietario != documentoPasajero.value){
+            let existePasajero = false;
+            for(const pasajero of datosSalidaVehicular.pasajeros){
+                if(pasajero.documento_pasajero == documentoPasajero.value){
+                    existePasajero = true;
+                    break;
+                }
+            }
+
+            if(!existePasajero){
+                validarUsuarioAptoSalida(documentoPasajero.value, urlBase).then(respuesta => {
+                    if(respuesta.tipo == "OK"){
+                        let datosPasajero = {
+                            documento_pasajero: documentoPasajero.value,
+                            nombres: `${respuesta.usuario.nombres} ${respuesta.usuario.apellidos}`
+                        }
+                        datosSalidaVehicular.pasajeros.push(datosPasajero);
+                        documentoPasajero.value = '';
+                        dibujarTablaPasajeros();
+                        
+                    }else if(respuesta.tipo == "ERROR"){
+                        if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Entrada No Registrada"){
+                            respuesta.documento = documentoPasajero.value;
+                            respuesta.callback = eventoManualFormularioPasajeros;
+                            alertaAdvertencia(respuesta);
+
+                        }else if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+
+                        }else{
+                            alertaError(respuesta);
+                        }
+                    }
+                });
+            }else{
+                let mensaje = {
+                    titulo: "Error Pasajero",
+                    mensaje: `El usuario con numero de documento ${documentoPasajero.value}, ya se encuentra en la lista de pasajeros.`
+                };
+                alertaError(mensaje);
+            }
+        }else{
+            let mensaje = {
+                titulo: "Error Pasajero",
+                mensaje: `El usuario con numero de documento ${documentoPasajero.value}, ya se encuentra como propietario.`
+            };
+            alertaError(mensaje);
+        }
+        
     });
 }
 
-function validarPasajeroAptoEntrada(){
-    validarUsuarioAptoSalida(documentoPasajero.value, urlBase).then(respuesta => {
-        if(respuesta.tipo == "OK"){
-            let datosPasajero = {
-                documento_pasajero: documentoPasajero.value,
-                nombres: `${respuesta.usuario.nombres} ${respuesta.usuario.apellidos}`
-            }
-            datosEntradaVehicular.pasajeros.push(datosPasajero);
-            documentoPasajero.value = '';
-            dibujarTablaPasajeros();
-            
-        }else if(respuesta.tipo == "ERROR"){
-            if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Entrada No Registrada"){
-                respuesta.documento = documentoPasajero.value;
-                respuesta.callback = validarPasajeroAptoEntrada;
-                alertaAdvertencia(respuesta);
+function dibujarPropietarios(){
+    consultarPropietarios(datosSalidaVehicular.placa, urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            listaPropietarios.innerHTML = '';
 
-            }else if(respuesta.titulo == 'Sesión Expirada'){
+            respuesta.propietarios.forEach(propietario=>{
+                listaPropietarios.innerHTML += `
+                    <option value="${propietario.numero_documento}">
+                `;
+            })
+
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
-            }else{
+            }else if(respuesta.titulo != 'Datos No Encontrados'){
                 alertaError(respuesta);
             }
         }
-    });
+    })
 }
 
 function dibujarTablaPasajeros(){
     cuerpoTablaPasajeros.innerHTML = '';
 
-    datosEntradaVehicular.pasajeros.forEach((pasajero, indice) => {
+    datosSalidaVehicular.pasajeros.forEach((pasajero, indice) => {
         cuerpoTablaPasajeros.innerHTML += `
             <tr>
                 <td>${pasajero.documento_pasajero}</td>
@@ -192,182 +287,63 @@ function eventoEliminarPasajero(){
     botonesEliminar.forEach(boton => {
         let indice = boton.id;
         boton.addEventListener('click', ()=>{
-            datosEntradaVehicular.pasajeros.splice(indice, 1);
+            datosSalidaVehicular.pasajeros.splice(indice, 1);
             dibujarTablaPasajeros();
         })
     });
 }
 
-function eventoInputPlaca(){
-    let temporizador;
-    placaVehiculo.addEventListener('keyup',()=>{
-        datosEntradaVehicular.placa = "";
-        placaVehiculo.classList.remove('input-ok');
-        placaVehiculo.classList.remove('input-error');
-      
-        clearTimeout(temporizador);
-        temporizador = setTimeout(() => {
-            if (placaVehiculo.checkValidity()) {
-                validarVehiculoAptoEntrada();
-                placaVehiculo.blur();
-            }else{
-                placaVehiculo.reportValidity();
-            }
-        }, 1500);
-    })
-}
-
-function validarDocumentoPropietario(){
-    if(documentoPropietario.checkValidity()) {
-        let existePasajero = false;
-        for(const pasajero of datosEntradaVehicular.pasajeros){
-            if(pasajero.documento_pasajero == documentoPropietario.value){
-                existePasajero = true;
-                break;
-            }
-        }
-
-        if(!existePasajero){
-            validarPropietarioAptoEntrada();
-        }else{
-            let mensaje = {
-                titulo: "Error Propietario",
-                mensaje: `El usuario con numero de documento ${documentoPropietario.value}, ya se encuentra en la lista de pasajeros.`
-            };
-
-            documentoPropietario.classList.add('input-error');
-            alertaError(mensaje);
-        }
-    }else{
-        documentoPropietario.reportValidity();
-    }
-}
-
-function eventoInputPropietario(){
-    let temporizador;
-    
-    documentoPropietario.addEventListener('input', ()=>{
-        datosEntradaVehicular.propietario = '';
-        datosEntradaVehicular.grupo_propietario = '';
-        documentoPropietario.classList.remove('input-ok');
-        documentoPropietario.classList.remove('input-error');
-
-        
-        if(documentoPropietario.value.length > 15){
-            clearTimeout(temporizador);
-            temporizador = setTimeout(()=>{
-                let cadenas = documentoPropietario.value.split(' ');
-                for(const cadena of cadenas) {
-                    if(/\d/.test(cadena)){
-                        documentoPropietario.value = cadena.replace(/\D/g, '');
-                        documentoPropietario.blur();
-                        validarDocumentoPropietario();
-                        break;
-                    }
-                };
-            }, 250);
-        }else{
-            clearTimeout(temporizador);
-            temporizador = setTimeout(()=>{
-                validarDocumentoPropietario();
-            }, 1500)
-        }
-    })
-}
-
-function eventoInputPasajero(){
-    documentoPasajero.addEventListener('change',()=>{  
-        if(documentoPasajero.value.length > 15){  
-            let cadenas = documentoPasajero.value.split(' ');
-            for(const cadena of cadenas) {
-                if(/\d/.test(cadena)){
-                    documentoPasajero.value = cadena.replace(/\D/g, '');
-                    break;
-                }
-            };
-        }
-    });
-}
-
-function eventoAgregarPasajero(){
-    formularioPasajeros.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        if(datosEntradaVehicular.propietario != documentoPasajero.value){
-            let existePasajero = false;
-            for(const pasajero of datosEntradaVehicular.pasajeros){
-                if(pasajero.documento_pasajero == documentoPasajero.value){
-                    existePasajero = true;
-                    break;
-                }
-            }
-
-            if(!existePasajero){
-                validarPasajeroAptoEntrada();
-            }else{
-                let mensaje = {
-                    titulo: "Error Pasajero",
-                    mensaje: `El usuario con numero de documento ${documentoPasajero.value}, ya se encuentra en la lista de pasajeros.`
-                };
-                alertaError(mensaje);
-            }
-        }else{
-            let mensaje = {
-                titulo: "Error Pasajero",
-                mensaje: `El usuario con numero de documento ${documentoPropietario.value}, ya se encuentra como propietario.`
-            };
-            alertaError(mensaje);
-        }
-        
-    });
-}
-
 function eventoRegistrarSalidaVehicular(){
     botonRegistrarSalida.addEventListener('click', ()=>{
-        if(!placaVehiculo.checkValidity()){
-            placaVehiculo.reportValidity();
-        }else if(!documentoPropietario.checkValidity()){
-            documentoPropietario.reportValidity();
+        if(datosSalidaVehicular.placa == ''){
+            eventoManualInputPlaca();
+            return
+
+        }else if(datosSalidaVehicular.propietario == ''){
+            eventoManualInputPropietario();
+            return;
+
+        }else if(!selectTipoVehiculo.checkValidity()){
+            selectTipoVehiculo.reportValidity();
+            return
+
         }else if(!observacion.reportValidity()){
             return;
-        }else if(datosEntradaVehicular.placa == ''){
-           validarVehiculoAptoEntrada();
-        }else if(datosEntradaVehicular.propietario == ''){
-            validarPropietarioAptoEntrada();
-        }else{
-            const formData = new FormData();
-            const pasajeros = JSON.stringify(datosEntradaVehicular.pasajeros);
-
-            formData.append('operacion', 'registrar_salida_vehicular');
-            formData.append('propietario', datosEntradaVehicular.propietario);
-            formData.append('grupo_propietario', datosEntradaVehicular.grupo_propietario);
-            formData.append('placa_vehiculo', datosEntradaVehicular.placa);
-            formData.append('pasajeros', pasajeros);
-            formData.append('observacion_vehicular', observacion.value);
-
-            registrarSalidaVehicular(formData, urlBase).then(respuesta=>{
-                if(respuesta.tipo == 'OK'){
-                    alertaExito(respuesta);
-                    limpiarFormularioVehicular();
-
-                    setTimeout(()=>{
-                        placaVehiculo.focus();
-                    }, 1000);
-                    
-                }else if(respuesta.tipo == 'ERROR'){
-                    if(respuesta.titulo == 'Propietario Incorrecto'){
-                        respuesta.documento = datosEntradaVehicular.propietario;
-                        respuesta.vehiculo= datosEntradaVehicular.placa;
-                        respuesta.callback = eventoManualBotonSalida;
-                        alertaAdvertencia(respuesta)
-                    }else if(respuesta.titulo == 'Sesión Expirada'){
-                        window.location.replace(urlBase+'sesion-expirada');
-                    }else{
-                        alertaError(respuesta);
-                    }
-                }
-            })
-            
         }
+        const formData = new FormData();
+        const pasajeros = JSON.stringify(datosSalidaVehicular.pasajeros);
+
+        formData.append('operacion', 'registrar_salida_vehicular');
+        formData.append('propietario', datosSalidaVehicular.propietario);
+        formData.append('placa_vehiculo', datosSalidaVehicular.placa);
+        formData.append('tipo_vehiculo', datosSalidaVehicular.tipoVehiculo);
+        formData.append('pasajeros', pasajeros);
+        formData.append('observacion_vehicular', observacion.value);
+
+        registrarSalidaVehicular(formData, urlBase).then(respuesta=>{
+            if(respuesta.tipo == 'OK'){
+                alertaExito(respuesta);
+                limpiarFormularioVehicular();
+
+                setTimeout(()=>{
+                    placaVehiculo.focus();
+                }, 1000);
+                
+            }else if(respuesta.tipo == 'ERROR'){
+                if(respuesta.titulo == 'Propietario Incorrecto'){
+                    respuesta.documento = datosSalidaVehicular.propietario;
+                    respuesta.vehiculo= datosSalidaVehicular.placa;
+                    respuesta.callback = eventoManualBotonSalida;
+                    alertaAdvertencia(respuesta)
+
+                }else if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+
+                }else{
+                    alertaError(respuesta);
+                }
+            }
+        })
     })
 }
 
@@ -396,24 +372,14 @@ function eventoTextArea(){
     })
 }
 
-function dibujarPropietarios(propietarios){
-    listaPropietarios.innerHTML = '';
-
-    propietarios.forEach(propietario=>{
-        listaPropietarios.innerHTML += `
-            <option value="${propietario.numero_documento}"></option>
-        `;
-    })
+function eventoManualInputPlaca(){
+    const evento = new Event("change", { bubbles: true, cancelable: true });
+    placaVehiculo.dispatchEvent(evento);
 }
 
 function eventoManualInputPropietario(){
-    const evento = new Event("input", { bubbles: true, cancelable: true });
-    documentoPropietario.dispatchEvent(evento);
-}
-
-function eventoManualInputPasajero(){
     const evento = new Event("change", { bubbles: true, cancelable: true });
-    documentoPasajero.dispatchEvent(evento);
+    documentoPropietario.dispatchEvent(evento);
 }
 
 function eventoManualFormularioPasajeros(){
@@ -434,24 +400,36 @@ function eventoScanerQrPropietario(){
 
 function eventoScanerQrPasajero(){
     document.getElementById('btn_scaner_qr_pasajero').addEventListener('click', ()=>{
-        modalScanerQr(urlBase, documentoPasajero, eventoManualInputPasajero, eventoManualFormularioPasajeros);
+        modalScanerQr(urlBase, documentoPasajero, eventoManualFormularioPasajeros);
     })
 }
 
 function limpiarFormularioVehicular(){
     placaVehiculo.value = '';
+    selectTipoVehiculo.value = '';
     documentoPropietario.value = '';
     documentoPasajero.value = '';
     observacion.value = '';
     cuerpoTablaPasajeros.innerHTML = '';
-    datosEntradaVehicular.propietario = '';
-    datosEntradaVehicular.grupo_propietario = '';
-    datosEntradaVehicular.placa = '';
-    datosEntradaVehicular.pasajeros = [];
+    datosSalidaVehicular.propietario = '';
+    datosSalidaVehicular.placa = '';
+    datosSalidaVehicular.tipoVehiculo = '';
+    datosSalidaVehicular.pasajeros = [];
     placaVehiculo.classList.remove('input-ok');
     documentoPropietario.classList.remove('input-ok');
     placaVehiculo.classList.remove('input-error');
     documentoPropietario.classList.remove('input-error');
+
+    if(cajaTipoVehiculo.style.display == 'block'){
+        cajaTipoVehiculo.style.display = 'none';
+        selectTipoVehiculo.required = false;
+
+        cajaPropietarioBtn.style.gridColumn = 'span 1';
+
+        if(window.innerWidth <= 767){
+            contenedorVehiculoPropietario.style.gridTemplateColumns = 'repeat(1,1fr)';
+        }
+    }
 }
 
 function alertaExito(respuesta){
@@ -524,6 +502,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     documentoPropietario = document.getElementById('documento_propietario');
     documentoPasajero = document.getElementById('documento_pasajero');
+    selectTipoVehiculo = document.getElementById('tipo_vehiculo');
+    contenedorVehiculoPropietario = document.getElementById('contenedor_vehiculo_propietario');
+    cajaPropietarioBtn = document.getElementById('caja_propietario_btn');
+    cajaTipoVehiculo = document.getElementById('caja_tipo_vehiculo');
     cuerpoTablaPasajeros = document.getElementById('cuerpo_tabla_pasajeros');
     listaPropietarios = document.getElementById('lista_propietarios');
     placaVehiculo = document.getElementById('placa_vehiculo');
@@ -540,9 +522,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoAbrirFormularioVehicular();
     eventoCerrarFormulario();
     eventoInputPlaca();
+    eventoSelectTipoVehiculo();
     eventoInputPropietario();
-    eventoInputPasajero();
-    eventoAgregarPasajero();
+    eventoFormularioPasajeros();
     eventoTextArea();
     eventoRegistrarSalidaVehicular();
     eventoScanerQrPropietario();

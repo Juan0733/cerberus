@@ -50,7 +50,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
+                'filtro' => "(VIGILANTE|SUPERVISOR)",
                 'cadena' => $rol
             ],
             [
@@ -140,7 +140,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
+                'filtro' => "(VIGILANTE|SUPERVISOR)",
                 'cadena' => $rol
             ]
 		];
@@ -222,7 +222,7 @@ class VigilanteService{
                 'cadena' => $correoElectronico
             ],
             [
-                'filtro' => "(VIGILANTE RASO|JEFE VIGILANTES)",
+                'filtro' => "(VIGILANTE|SUPERVISOR)",
                 'cadena' => $rol
             ],
             [
@@ -379,7 +379,7 @@ class VigilanteService{
             $rol = $this->limpiarDatos($_GET['rol']);
             unset($_GET['rol']);
 
-            if(preg_match('/^(VIGILANTE RASO|JEFE VIGILANTES)$/', $rol)){
+            if(preg_match('/^(VIGILANTE|SUPERVISOR)$/', $rol)){
                 $parametros['rol'] = $rol;
             }
         }

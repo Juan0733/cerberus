@@ -4,7 +4,7 @@
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
-<?php if(($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES') && count($url) > 1): ?>
+<?php if(($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR') && count($url) > 1): ?>
     <input type="hidden" id="codigo_permiso" value="<?php echo $url[1]; ?>">
 <?php endif; ?>
 
@@ -39,7 +39,7 @@
             <input type="text" name="buscador_placa" id="buscador_placa" placeholder="Buscar Placa" maxlength="6">
         </div> 
 
-        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
             <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo">
                 <ion-icon name="add"></ion-icon>
             </button>
@@ -49,7 +49,7 @@
     <div id="contenedor_tabla_cards">
     </div>
 
-    <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
         <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo_mobile">
             <ion-icon name="add"></ion-icon>
         </button>

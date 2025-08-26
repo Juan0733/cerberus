@@ -186,6 +186,10 @@ class UsuarioModel extends MainModel{
                 $datosUsuario['hora_sesion'] = time();
                 $datosUsuario['panel_acceso'] = 'inicio';
 
+                if($datosUsuario['rol'] == 'VIGILANTE'){
+                    $datosUsuario['panel_acceso'] = 'entradas';
+                }
+
                 session_regenerate_id(true);
                 setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 315360000, "/");
 
@@ -251,7 +255,7 @@ class UsuarioModel extends MainModel{
         if(isset($_SESSION['datos_usuario'])){
             $tiempoLimite = 28800;
 
-            if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'){
+            if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'){
                 $tiempoLimite = 43200;
             }
 

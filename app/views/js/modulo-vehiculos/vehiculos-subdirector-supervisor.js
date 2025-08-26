@@ -1,5 +1,5 @@
 import { consultarVehiculos } from '../fetchs/vehiculos-fetch.js';
-import { modalPropietariosVehiculo } from '../modales/modal-propietarios-vehiculo-raso.js';
+import { modalPropietariosVehiculo } from '../modales/modal-propietarios-vehiculo-subdirector-supervisor.js';
 
 let urlBase;
 let contenedorTabla;
@@ -139,7 +139,6 @@ function eventoUbicacion(){
     })
 }
 
-
 function eventoBuscarDocumento(){
     let inputDocumento = document.getElementById('buscador_documento');
     let temporizador;
@@ -215,4 +214,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }, 250)
     });
+    
 })

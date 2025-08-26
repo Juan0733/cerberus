@@ -13,7 +13,7 @@
             <label class="label-fecha" for="fecha">Fecha:</label>
             <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
                 <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
-            <?php elseif($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
+            <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
                 <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>" max="<?php echo $fechaActual; ?>" min="<?php echo $fechaActual; ?>">
             <?php endif; ?>
         </div>

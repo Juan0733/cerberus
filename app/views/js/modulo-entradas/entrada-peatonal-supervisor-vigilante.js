@@ -2,6 +2,7 @@ import {registrarEntradaPeatonal} from '../fetchs/movimientos-fetch.js'
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 import {modalScanerQr} from '../modales/modal-scaner-qr.js';
+import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let documentoPeaton;
 let formularioPeatonal;
@@ -183,6 +184,10 @@ document.addEventListener("DOMContentLoaded", function() {
     eventoTextArea();
     eventoRegistrarEntradaPeatonal();
     eventoScanerQrPeaton();
+
+    if(document.getElementById('puerta')){
+        modalSeleccionPuerta(urlBase);
+    }
 });
 
 

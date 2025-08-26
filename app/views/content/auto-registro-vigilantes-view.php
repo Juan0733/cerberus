@@ -53,8 +53,8 @@
                         <label for="rol" class="label-input">Rol</label>
                         <select class="campo"  name="rol" id="rol" tabindex="7" required>
                             <option value="" selected disabled>Seleccionar</option>
-                            <option value="JEFE VIGILANTES">Jefe Vigilantes</option>
-                            <option value="VIGILANTE RASO">Vigilante Raso</option>
+                            <option value="SUPERVISOR">Supervisor</option>
+                            <option value="VIGILANTE">Vigilante</option>
                         </select>
                     </div>
                 </div>

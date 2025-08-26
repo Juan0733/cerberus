@@ -1,5 +1,9 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
+<?php if(!isset($_SESSION['datos_usuario']['puerta'])): ?>
+    <input type="hidden" id="puerta" >
+<?php endif; ?>
+
 <div id="contenedor_principal">
     <div id="contenedor_btns_formularios">
         <div id="contenedor_btn_volver">

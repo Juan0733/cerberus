@@ -7,10 +7,6 @@
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
-<?php if(($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO') && !isset($_SESSION['datos_usuario']['puerta'])): ?>
-    <input type="hidden" id="puerta" >
-<?php endif; ?>
-
 <div id="contenedor_principal">
     <div id="contenedor_saludo">
         <h1>Hola <?php echo $primerNombreUsuario; ?>!</h1>

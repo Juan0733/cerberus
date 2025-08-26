@@ -39,7 +39,7 @@
             <ion-icon name="medkit"></ion-icon>
             <p>Brigadistas: <span id="contador_brigadistas">0</span></p>
         </button>
-        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
             <div id="btn_puerta">
                 <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                 fill="#b64810" viewBox="0 0 24 24" >
@@ -48,7 +48,7 @@
                 </svg>
             </div>
         <?php endif; ?>
-        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
             <div id="btn_notificaciones">
                 <ion-icon name="notifications" ></ion-icon>
                 <span id="contador_notificaciones">0</span> 

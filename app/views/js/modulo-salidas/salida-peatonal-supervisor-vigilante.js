@@ -2,6 +2,7 @@ import {registrarSalidaPeatonal} from '../fetchs/movimientos-fetch.js'
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 import { modalScanerQr } from '../modales/modal-scaner-qr.js';
+import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let documentoPeaton;
 let formularioPeatonal;
@@ -38,20 +39,6 @@ function eventoAbrirFormularioPeatonal(){
     
 }
 
-function eventoInputPeaton() {
-    documentoPeaton.addEventListener('change', function() {
-        if (documentoPeaton.value.length>15) {
-            let cadenas = documentoPeaton.value.split(' ');
-            for(const cadena of cadenas) {
-                if(/\d/.test(cadena)){
-                    documentoPeaton.value = cadena.replace(/\D/g, '');
-                    break;
-                }
-            };
-        }
-    });
-}
-
 function eventoRegistrarSalidaPeatonal() {
     formularioPeatonal.addEventListener('submit', (e)=>{
         e.preventDefault();
@@ -75,6 +62,7 @@ function eventoRegistrarSalidaPeatonal() {
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == "Entrada No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
                     respuesta.documento = documentoPeaton.value;
+                    respuesta.callback = eventoManualFormularioPeatonal;
                     alertaAdvertencia(respuesta);
 
                 }else if(respuesta.titulo == 'Sesión Expirada'){
@@ -113,11 +101,6 @@ function eventoTextArea(){
     })
 }
 
-function eventoManualInputPeaton(){
-    const evento = new Event("change", { bubbles: true, cancelable: true });
-    documentoPeaton.dispatchEvent(evento);
-}
-
 function eventoManualFormularioPeatonal(){
     const evento = new Event("submit", { bubbles: true, cancelable: true });
     formularioPeatonal.dispatchEvent(evento);
@@ -125,7 +108,7 @@ function eventoManualFormularioPeatonal(){
 
 function eventoScanerQrPeaton(){
     document.getElementById('btn_scaner_qr_peaton').addEventListener('click', ()=>{
-        modalScanerQr(urlBase, documentoPeaton, eventoManualInputPeaton, eventoManualFormularioPeatonal);
+        modalScanerQr(urlBase, documentoPeaton, eventoManualFormularioPeatonal);
     })
 }
 
@@ -183,10 +166,10 @@ function alertaAdvertencia(respuesta){
     }).then((result) => {
         if (result.isConfirmed) {
             if(respuesta.titulo == "Entrada No Registrada"){
-                modalRegistroNovedadUsuario(urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, eventoManualFormularioPeatonal);
+                modalRegistroNovedadUsuario(urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, respuesta.callback);
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
-                modalRegistroVisitante(urlBase, respuesta.documento, eventoManualFormularioPeatonal);
+                modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
             }
         } 
     });
@@ -199,10 +182,13 @@ document.addEventListener("DOMContentLoaded", function() {
     observacion = document.getElementById('observacion_peatonal');
 
     eventoAbrirFormularioPeatonal();
-    eventoInputPeaton();
     eventoTextArea();
     eventoRegistrarSalidaPeatonal();
     eventoScanerQrPeaton();
+
+    if(document.getElementById('puerta')){
+        modalSeleccionPuerta(urlBase);
+    }
 });
 
 

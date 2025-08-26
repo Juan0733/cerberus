@@ -71,7 +71,7 @@ if($vista == "app/views/content/404-view.php"){
         </main>
         
         <?php 
-            if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'){
+            if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'){
                 include "app/views/inc/modales/modal-notificaciones.php";
             }
         ?>

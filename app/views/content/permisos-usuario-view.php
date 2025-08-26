@@ -4,7 +4,7 @@
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
-<?php if(($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES') && count($url) > 1): ?>
+<?php if(($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR') && count($url) > 1): ?>
     <input type="hidden" id="codigo_permiso" value="<?php echo $url[1]; ?>">
 <?php endif; ?>
 
@@ -38,7 +38,7 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
-        <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
             <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario">
                 <ion-icon name="add"></ion-icon>
             </button>
@@ -48,7 +48,7 @@
     <div id="contenedor_tabla_cards">
     </div>
 
-    <?php if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
         <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario_mobile">
             <ion-icon name="add"></ion-icon>
         </button>

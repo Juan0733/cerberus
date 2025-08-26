@@ -210,7 +210,7 @@ class AgendaModel extends MainModel{
                 WHERE DATE(a.fecha_agenda) = '{$parametros['fecha']}'";
 
         $rol = $_SESSION['datos_usuario']['rol'];
-        if($rol != 'JEFE VIGILANTES' && $rol != 'VIGILANTE RASO'){
+        if($rol != 'SUPERVISOR' && $rol != 'VIGILANTE'){
             $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
             $sentenciaBuscar .= " AND a.fk_usuario_sistema = '$usuarioSistema'";
         }

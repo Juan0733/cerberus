@@ -41,7 +41,7 @@ function dibujarAgendas(){
                                 
                             </div>
                             <div class="contenedor-icons">
-                                <ion-icon class="ver" name="reader" data-codigo="${agenda.codigo_agenda}"></ion-icon>
+                                <ion-icon class="ver" name="eye" data-codigo="${agenda.codigo_agenda}"></ion-icon>
                             </div>
                         </div>
                     </div>`;

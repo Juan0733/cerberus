@@ -14,8 +14,8 @@
             <label class="fechas_input" for="rol_filtro">Rol:</label>
             <select class="campo"  name="rol_filtro" id="rol_filtro" tabindex="8" required>
                 <option value="">Todos</option>
-                <option value="JEFE VIGILANTES">Jefe Vigilantes</option>
-                <option value="VIGILANTE RASO">Vigilante Raso</option>
+                <option value="SUPERVISOR">Supervisor</option>
+                <option value="VIGILANTE">Vigilante</option>
             </select>
         </div>
 
@@ -24,7 +24,7 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
-        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
             <button class="btn-vigilante" id="btn_crear_vigilante">
                 <ion-icon name="add"></ion-icon>
             </button>
@@ -34,7 +34,7 @@
     <div id="contenedor_tabla_cards">
     </div>
 
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
         <button class="btn-vigilante" id="btn_crear_vigilante_mobile">
             <ion-icon name="add"></ion-icon>
         </button>

@@ -34,7 +34,7 @@ class ViewModel{
 			$vistasAccesibles = ['acceso-denegado', 'auto-registro-aprendices', 'auto-registro-visitantes', 'auto-registro-vigilantes', 'auto-registro-funcionarios', 'login', 'sesion-expirada'];
 
 			if(isset($_SESSION['datos_usuario'])){
-				if ($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES') {// --JEFE DE VIGILANTES--
+				if ($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR') {// --JEFE DE VIGILANTES--
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
@@ -50,7 +50,7 @@ class ViewModel{
 					$vistasAccesibles[] = 'permisos-usuario';
 					$vistasAccesibles[] = 'permisos-vehiculo';
 
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO') {// --VIGILANTE--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE') {// --VIGILANTE--
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
@@ -103,7 +103,7 @@ class ViewModel{
 	public function obtenerMenuOpciones(){
 		if(isset($_SESSION['datos_usuario'])){
 
-			if ($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' ) {
+			if ($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' ) {
 				$listMenu = [
 					"INICIO" => [
 						"TITULO" => 'Inicio',
@@ -228,7 +228,7 @@ class ViewModel{
 
 				];
 
-			}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO' ) {
+			}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE') {
 				$listMenu = [
 					"INICIO" => [
 						"TITULO" => 'Inicio',

@@ -33,7 +33,7 @@ function dibujarNotificaciones(){
 
                             }else{
                                 acciones = `
-                                    <button class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}" data-estado-permiso="${notificacion.estado_permiso}">Solicitar permiso</button>
+                                    <button class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}">Solicitar permiso</button>
                                     <button class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
                             }
 
@@ -56,7 +56,7 @@ function dibujarNotificaciones(){
                                 acciones = `<button class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>`;
 
                             }else{
-                                acciones = `<button class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}" data-estado-permiso="${notificacion.estado_permiso}">Solicitar permiso</button>`;
+                                acciones = `<button class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}">Solicitar permiso</button>`;
                             }
 
                             cuerpoModal.innerHTML += `

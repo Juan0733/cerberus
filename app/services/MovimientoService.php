@@ -58,7 +58,7 @@ class MovimientoService{
     }
 
     public function sanitizarDatosRegistroMovimientoVehicular(){
-        if (!isset($_POST['propietario'], $_POST['placa_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']) || $_POST['propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['pasajeros'] == '') {
+        if (!isset($_POST['propietario'], $_POST['placa_vehiculo'], $_POST['tipo_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']) || $_POST['propietario'] == '' || $_POST['placa_vehiculo'] == '' || $_POST['pasajeros'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Campos Obligatorios',
@@ -69,6 +69,7 @@ class MovimientoService{
 
         $documentoPropietario = $this->limpiarDatos($_POST['propietario']);
         $placaVehiculo = $this->limpiarDatos($_POST['placa_vehiculo']);
+        $tipoVehiculo = $this->limpiarDatos($_POST['tipo_vehiculo']);
         $pasajeros = json_decode($_POST['pasajeros'], true);
         $observacion = $this->limpiarDatos($_POST['observacion_vehicular']);
         unset($_POST['propietario'], $_POST['grupo_propietario'], $_POST['placa_vehiculo'], $_POST['pasajeros'], $_POST['observacion_vehicular']);
@@ -81,6 +82,10 @@ class MovimientoService{
             [
                 'filtro' => "[A-Za-z0-9 ]{5,6}",
                 'cadena' => $placaVehiculo
+            ],
+            [
+                'filtro' => "(AUTOMÓVIL|MOTO|CAMIÓN|BUS|)",
+                'cadena' => $tipoVehiculo
             ],
             [
                 'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{0,150}",
@@ -142,6 +147,7 @@ class MovimientoService{
         $datosMovimiento = [
             'propietario' => $documentoPropietario,
             'numero_placa' => $placaVehiculo,
+            'tipo_vehiculo' => $tipoVehiculo,
             'pasajeros' => $pasajeros,
             'observacion' => $observacion
         ];

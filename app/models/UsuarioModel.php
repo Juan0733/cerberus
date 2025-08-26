@@ -186,6 +186,10 @@ class UsuarioModel extends MainModel{
                 $datosUsuario['hora_sesion'] = time();
                 $datosUsuario['panel_acceso'] = 'inicio';
 
+                if($datosUsuario['rol'] == 'VIGILANTE'){
+                    $datosUsuario['panel_acceso'] = 'entradas';
+                }
+
                 session_regenerate_id(true);
                 setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 315360000, "/");
 
@@ -251,7 +255,7 @@ class UsuarioModel extends MainModel{
         if(isset($_SESSION['datos_usuario'])){
             $tiempoLimite = 28800;
 
-            if($_SESSION['datos_usuario']['rol'] == 'JEFE VIGILANTES' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE RASO'){
+            if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'){
                 $tiempoLimite = 43200;
             }
 
@@ -429,14 +433,15 @@ class UsuarioModel extends MainModel{
                 $usuarios = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
                 foreach ($usuarios as &$usuario) {
                     $fechaUltimaEntrada = new DateTime($usuario['fecha_ultima_entrada']);
-                    $fechaPermiso = new DateTime($usuario['fecha_permiso']);
-
                     $diferencia = $fechaUltimaEntrada->diff($objetoFecha);
                     $horasPermanencia = ($diferencia->days * 24) + $diferencia->h;
                     $usuario['horas_permanencia'] = $horasPermanencia;
 
-                    if(($usuario['estado_permiso'] == 'DESAPROBADO') && $fechaPermiso < $fechaUltimaEntrada){
-                        $usuario['estado_permiso'] = NULL;
+                    if($usuario['fecha_permiso'] !== NULL){
+                        $fechaUltimoPermiso = new DateTime($usuario['fecha_permiso']);
+                        if(($usuario['estado_permiso'] == 'DESAPROBADO') && $fechaUltimoPermiso < $fechaUltimaEntrada){
+                            $usuario['estado_permiso'] = NULL;
+                        }
                     }
 
                     $notificaciones[] = $usuario;

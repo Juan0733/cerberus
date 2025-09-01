@@ -5,6 +5,7 @@
 <div class="contenedor-info-modal">
     <div id="cont_info_modales">
         <h3>Agendados:</h3>
+        <p id="agendado"></p>
 
         <div id="contenedor_agendados">
             <table id="tabla_agendados" class="listado_pasajero">
@@ -32,8 +33,8 @@
             </div>
         </div>
 
-        <h3>Responsable:</h3>
-        <p id="responsable"></p>
+        <h3>Responsable registro:</h3>
+        <p id="responsable_registro"></p>
 
         <h3>Motivo:</h3>
         <p id="motivo"></p>

@@ -3,7 +3,6 @@ import {consultarAgendas} from '../fetchs/agenda-fetch.js'
 
 let urlBase;
 let contenedorCards;
-let inputFecha;
 
 const parametros = {
     fecha: '',
@@ -68,20 +67,6 @@ function eventoVerDetalleAgenda(){
             modalDetalleAgenda(codigoAgenda, urlBase);
         })
     });
-}
-
-function eventoFecha(){
-    const nombreDia = document.getElementById('nombre_dia');
-    const fechaFormateada = document.getElementById('fecha_formateada');
-
-    inputFecha.addEventListener('change', ()=>{
-        const fecha = formatearFecha(inputFecha.value);
-        nombreDia.textContent = fecha.dia_español;
-        fechaFormateada.textContent = fecha.fecha_español;
-
-        parametros.fecha = inputFecha.value;
-        dibujarAgendas();
-    })
 }
 
 function formatearFecha(fechaHora){
@@ -162,8 +147,8 @@ function alertaError(respuesta){
 document.addEventListener('DOMContentLoaded', function () {
     urlBase = document.getElementById('url_base').value;
     contenedorCards = document.getElementById('contenedor_cards');
-    inputFecha = document.getElementById('fecha');
-
+    
+    const inputFecha = document.getElementById('fecha');
     parametros.fecha = inputFecha.value;
 
     dibujarAgendas();

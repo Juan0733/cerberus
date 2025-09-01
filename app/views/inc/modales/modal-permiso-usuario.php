@@ -4,7 +4,7 @@
 ?>
 
 <div class="contenedor-titulo-modal">
-    <h2 class="titulo-modal">Registrar Solicitud Permiso</h2>
+    <h2 class="titulo-modal">Registrar Permiso Usuario</h2>
     <ion-icon name="close-outline" id="cerrar_modal_permiso_usuario" class="close-btn"></ion-icon>
 </div>
 <div class="contenedor-info-modal">
@@ -16,17 +16,21 @@
                     <label for="tipo_permiso" class="label-input">Tipo de permiso</label>
                     <select class="campo campo-seccion-01"  name="tipo_permiso" id="tipo_permiso" tabindex="4" required>
                         <option value="" selected disabled>Seleccionar</option>
-                        <option value="PERMANENCIA">Permanencia</option>
+                        <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+                            <option value="PERMANENCIA">Permanencia</option>
+                        <?php elseif($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
+                            <option value="SALIDA">Salida</option>
+                        <?php endif; ?>
                     </select>
                 </div>
 
                 <div class="input-caja-registro">
-                    <label for="documento_beneficiario" class="label-input">Número de documento de quién requiere el permiso</label>
-                    <input type="text" class="campo" name="documento_beneficiario" id="documento_beneficiario" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 números y máximo 15 números." placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
+                    <label for="documento_beneficiario" class="label-input">Usuario que requiere el permiso</label>
+                    <input type="text" class="campo" name="documento_beneficiario" id="documento_beneficiario" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y/o letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" date="Numero de documento" tabindex="5" required>
                 </div>
                 
                 <div class="input-caja-registro">
-                    <label for="fecha_fin_permiso" class="label-input">Fecha hasta donde requiere el permiso</label>
+                    <label for="fecha_fin_permiso" class="label-input">Vigencia del permiso</label>
                     <input 
                         class="campo" 
                         type="datetime-local" 

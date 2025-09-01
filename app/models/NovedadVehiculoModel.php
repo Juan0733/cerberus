@@ -122,6 +122,7 @@ class NovedadVehiculoModel extends MainModel{
                 nv.fk_vehiculo,
                 vig.nombres AS nombres_responsable,
                 vig.apellidos AS apellidos_responsable,
+                vig.rol AS rol_responsable,
                 vh.tipo_vehiculo,
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_involucrado,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_involucrado,

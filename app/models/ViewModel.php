@@ -34,7 +34,7 @@ class ViewModel{
 			$vistasAccesibles = ['acceso-denegado', 'auto-registro-aprendices', 'auto-registro-visitantes', 'auto-registro-vigilantes', 'auto-registro-funcionarios', 'login', 'sesion-expirada'];
 
 			if(isset($_SESSION['datos_usuario'])){
-				if ($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR') {// --JEFE DE VIGILANTES--
+				if ($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR') {
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
@@ -50,7 +50,7 @@ class ViewModel{
 					$vistasAccesibles[] = 'permisos-usuario';
 					$vistasAccesibles[] = 'permisos-vehiculo';
 
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE') {// --VIGILANTE--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'VIGILANTE') {
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'entradas';
 					$vistasAccesibles[] = 'salidas';
@@ -60,16 +60,23 @@ class ViewModel{
 					$vistasAccesibles[] = 'funcionarios';
 					$vistasAccesibles[] = 'agendas';
 					$vistasAccesibles[] = 'vehiculos';
+					$vistasAccesibles[] = 'permisos-usuario';
 
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'COORDINADOR') {// --COORDINADORA--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'COORDINADOR') {
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'aprendices';
 					$vistasAccesibles[] = 'visitantes';
 					$vistasAccesibles[] = 'vigilantes';
 					$vistasAccesibles[] = 'funcionarios';
 					$vistasAccesibles[] = 'agendas';
+					$vistasAccesibles[] = 'permisos-usuario';
 
-				}elseif ($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR') {// --SUBDIRECTOR--
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR') {
+					$vistasAccesibles[] = 'inicio';
+					$vistasAccesibles[] = 'agendas';
+					$vistasAccesibles[] = 'permisos-usuario';
+
+				}elseif ($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR') {
 					$vistasAccesibles[] = 'inicio';
 					$vistasAccesibles[] = 'aprendices';
 					$vistasAccesibles[] = 'visitantes';
@@ -295,6 +302,21 @@ class ViewModel{
 						"URL" => 'agendas',
 						"ICON" => 'calendar-outline'
 					],
+					"PERMISOS" => [
+						"TITULO" => 'Permisos',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'hand-right-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'permisos-usuario',
+								"ICON" => 'person-outline'
+							]
+						]
+					]
 				];
 				
 			}elseif($_SESSION['datos_usuario']['rol'] == 'COORDINADOR') {
@@ -342,6 +364,54 @@ class ViewModel{
 						"CLASE02" => '',
 						"URL" => 'agendas',
 						"ICON" => 'calendar-outline'
+					],
+					"PERMISOS" => [
+						"TITULO" => 'Permisos',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'hand-right-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'permisos-usuario',
+								"ICON" => 'person-outline'
+							]
+						]
+					]
+				];
+
+			}elseif($_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR') {
+				$listMenu = [
+					"INICIO" => [
+						"TITULO" => 'Inicio',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'inicio',
+						"ICON" => 'grid-outline'
+					],
+					"AGENDAS" => [
+						"TITULO" => 'Agendas',
+						"CLASE" => '',
+						"CLASE02" => '',
+						"URL" => 'agendas',
+						"ICON" => 'calendar-outline'
+					],
+					"PERMISOS" => [
+						"TITULO" => 'Permisos',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'hand-right-outline',
+						"SUBMENU" => [
+							"USUARIO" => [
+								"TITULO" => 'Usuario',
+								"URL" => 'permisos-usuario',
+								"ICON" => 'person-outline'
+							]
+						]
 					]
 				];
 

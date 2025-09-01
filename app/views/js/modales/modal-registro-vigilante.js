@@ -127,24 +127,15 @@ function validarConfirmacionContrasena(){
     const inputContrasena = document.getElementById('contrasena');
     const inputConfirmacion = document.getElementById('confirmacion_contrasena');
 
-    let temporizador;
-    let primeraValidacion = true;
-
     inputConfirmacion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            if (inputContrasena.value != inputConfirmacion.value){
-                if(primeraValidacion){
-                    inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
-                    inputConfirmacion.reportValidity();
-                    primeraValidacion = false;
-                }
+        inputConfirmacion.setCustomValidity("");
 
-            }else {
-                inputConfirmacion.setCustomValidity(""); 
-                primeraValidacion = true;
+        if(inputConfirmacion.checkValidity()){
+            if (inputContrasena.value != inputConfirmacion.value){
+                inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
+                inputConfirmacion.reportValidity();
             }
-        }, 1000);
+        }
     })
 }
 

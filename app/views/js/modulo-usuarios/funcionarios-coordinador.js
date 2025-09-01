@@ -49,18 +49,16 @@ function dibujarTablaFuncionarios(){
         if(respuesta.tipo == 'OK'){
             cuerpoTabla.innerHTML = '';
             respuesta.funcionarios.forEach(funcionario => {
-                let acciones = `<ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
+                let acciones = `<ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;   
 
-                if(funcionario.rol != 'SUBDIRECTOR'){
+                if(funcionario.rol == 'INSTRUCTOR'){
                     acciones += `<ion-icon name="create" class="editar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
 
-                    if(funcionario.rol == 'COORDINADOR' || funcionario.rol == 'INSTRUCTOR'){
-                        if(funcionario.estado_usuario == 'ACTIVO'){
-                        acciones += `<ion-icon name="lock-closed" class="inhabilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>` 
+                    if(funcionario.estado_usuario == 'ACTIVO'){
+                        acciones += `<ion-icon name="lock-closed" class="inhabilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
 
-                        }else if(funcionario.estado_usuario == 'INACTIVO'){
-                            acciones += `<ion-icon name="lock-open" class="habilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
-                        }
+                    }else if(funcionario.estado_usuario == 'INACTIVO'){
+                        acciones += `<ion-icon name="lock-open" class="habilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
                     }
                 }
 
@@ -106,17 +104,15 @@ function dibujarCardsFuncionarios(){
         if(respuesta.tipo == 'OK'){
             respuesta.funcionarios.forEach(funcionario => {
                 let acciones = `<ion-icon name="eye" class="ver-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
-
-                if(funcionario.rol != 'SUBDIRECTOR'){
+ 
+                if(funcionario.rol == 'INSTRUCTOR'){
                     acciones += `<ion-icon name="create" class="editar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
 
-                    if(funcionario.rol == 'COORDINADOR' || funcionario.rol == 'INSTRUCTOR'){
-                        if(funcionario.estado_usuario == 'ACTIVO'){
-                        acciones += `<ion-icon name="lock-closed" class="inhabilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>` 
+                    if(funcionario.estado_usuario == 'ACTIVO'){
+                        acciones += `<ion-icon name="lock-closed" class="inhabilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`; 
 
-                        }else if(funcionario.estado_usuario == 'INACTIVO'){
-                            acciones += `<ion-icon name="lock-open" class="habilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`
-                        }
+                    }else if(funcionario.estado_usuario == 'INACTIVO'){
+                        acciones += `<ion-icon name="lock-open" class="habilitar-funcionario" data-funcionario="${funcionario.numero_documento}"></ion-icon>`;
                     }
                 }
 

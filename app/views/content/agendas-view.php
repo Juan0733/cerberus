@@ -11,7 +11,7 @@
     <div id="contenedor_filtros">
         <div class="fecha filtro">
             <label class="label-fecha" for="fecha">Fecha:</label>
-            <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+            <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
                 <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>">
             <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
                 <input type="date" id="fecha" name="fecha" value="<?php echo $fechaActual; ?>" max="<?php echo $fechaActual; ?>" min="<?php echo $fechaActual; ?>">
@@ -28,7 +28,7 @@
             <input type="text" name="buscador_titulo" id="buscador_titulo" placeholder="Buscar Titulo Agenda">
         </div>
 
-        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
             <button class="btn-agenda" id="btn_crear_agenda">
                 <ion-icon name="add"></ion-icon>
             </button>
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
         <button class="btn-agenda" id="btn_crear_agenda_mobile">
             <ion-icon name="add"></ion-icon>
         </button>

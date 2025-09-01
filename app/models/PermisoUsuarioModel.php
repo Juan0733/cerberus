@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use DateTime;
+
 class PermisoUsuarioModel extends MainModel{
     private $objetoUsuario;
     private $objetoMovimiento;
@@ -21,8 +23,8 @@ class PermisoUsuarioModel extends MainModel{
         $codigoPermiso = 'PU'.date('YmdHis');
 
         $sentenciaInsertar = "
-            INSERT INTO permisos_usuarios(codigo_permiso, tipo_permiso, fk_usuario, descripcion, fecha_fin_permiso, fecha_registro, fk_usuario_sistema) 
-            VALUES('$codigoPermiso', '{$datosPermiso['tipo_permiso']}', '{$datosPermiso['numero_documento']}', '{$datosPermiso['descripcion']}', '{$datosPermiso['fecha_fin_permiso']}', '$fechaRegistro', '$usuarioSistema')";
+            INSERT INTO permisos_usuarios(codigo_permiso, tipo_permiso, fk_usuario, descripcion, fecha_fin_permiso, fecha_registro, estado_permiso, fk_usuario_sistema) 
+            VALUES('$codigoPermiso', '{$datosPermiso['tipo_permiso']}', '{$datosPermiso['numero_documento']}', '{$datosPermiso['descripcion']}', '{$datosPermiso['fecha_fin_permiso']}', '$fechaRegistro', '{$datosPermiso['estado_permiso']}', '$usuarioSistema')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -42,19 +44,19 @@ class PermisoUsuarioModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
-
         $usuario = $respuesta['usuario'];
-        if($usuario['ubicacion'] == 'FUERA'){
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Ubicación Incorrecta',
-                'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el usuario no se encuentra dentro del CAB.'
-            ];
-            return $respuesta;
-        }
-
+        
         if($tipoPermiso == 'PERMANENCIA'){
-            $respuesta = $this->consultarUltimoPermisoUsuario($documento);
+            if($usuario['ubicacion'] == 'FUERA'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Ubicación Incorrecta',
+                    'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el usuario no se encuentra dentro del CAB.'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = $this->consultarUltimoPermisoUsuario($documento, $tipoPermiso);
             if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
                 return $respuesta;
 
@@ -64,7 +66,7 @@ class PermisoUsuarioModel extends MainModel{
                     $respuesta = [
                         'tipo' => 'ERROR',
                         'titulo'=> 'Permiso Pendiente',
-                        'mensaje' => 'Lo sentimos, pero este usuario tiene una solicitud de permanencia que se encuentra en estado pendiente.'
+                        'mensaje' => 'Lo sentimos, pero este usuario tiene un permiso de permanencia que se encuentra en estado pendiente.'
                     ];
                     return $respuesta;
 
@@ -79,10 +81,30 @@ class PermisoUsuarioModel extends MainModel{
                         $respuesta = [
                             'tipo' => 'ERROR',
                             'titulo'=> 'Permiso Desaprobado',
-                            'mensaje' => 'Lo sentimos, pero la solictud de permanencia mas reciente de este usuario, ha sido desaprobada.'
+                            'mensaje' => 'Lo sentimos, pero el permiso de permanencia mas reciente de este usuario, ha sido desaprobado.'
                         ];
                         return $respuesta;
                     }
+                }
+            }
+
+        }elseif($tipoPermiso == 'SALIDA'){
+            $respuesta = $this->consultarUltimoPermisoUsuario($documento, $tipoPermiso);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'OK'){
+                $permiso = $respuesta['datos_permiso'];
+                $fechaFinPermiso = strtotime($permiso['fecha_fin_permiso']);
+                $fechaActual = strtotime('now');
+
+                if($fechaFinPermiso >= $fechaActual){
+                    $respuesta = [
+                        'tipo' => 'ERROR',
+                        'titulo'=> 'Permiso Vigente',
+                        'mensaje' => 'Lo sentimos, pero este usuario ya tiene un permiso de salida vigente.'
+                    ];
+                    return $respuesta;
                 }
             }
         }
@@ -106,7 +128,7 @@ class PermisoUsuarioModel extends MainModel{
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Error Permiso',
-                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque su estado ya ha sido modificado.'
+                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque ya no se encuentra en estado pendiente.'
             ];
             return $respuesta;
         }
@@ -143,7 +165,7 @@ class PermisoUsuarioModel extends MainModel{
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Error Permiso',
-                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque su estado ya ha sido modificado.'
+                'mensaje' => 'No se pudo realizar la aprobación del permiso, porque ya no se encuentra en estado pendiente.'
             ];
             return $respuesta;
         }
@@ -169,12 +191,12 @@ class PermisoUsuarioModel extends MainModel{
         return $respuesta;
     }
 
-    private function consultarUltimoPermisoUsuario($usuario){
+    private function consultarUltimoPermisoUsuario($usuario, $tipoPermiso){
         $sentenciaBuscar = "
-            SELECT estado_permiso, fecha_registro
+            SELECT estado_permiso, fecha_registro, fecha_fin_permiso
             FROM permisos_usuarios
-            WHERE fk_usuario = '$usuario'
-            ORDER BY fecha_registro DESC LIMIT 1";
+            WHERE fk_usuario = '$usuario' AND tipo_permiso = '$tipoPermiso'
+            ORDER BY fecha_registro DESC LIMIT 1;";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -220,12 +242,26 @@ class PermisoUsuarioModel extends MainModel{
             LEFT JOIN aprendices apr ON pu.fk_usuario = apr.numero_documento
             WHERE 1 = 1";
 
-        if(isset($parametros['fecha'])){
-            $sentenciaBuscar .=  " AND DATE(pu.fecha_registro) = '{$parametros['fecha']}'";
-        }
+        $rol = $_SESSION['datos_usuario']['rol'];
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $fechaActual = date('Y-m-d H:i:s');
 
         if(isset($parametros['tipo_permiso'])){
             $sentenciaBuscar .= " AND pu.tipo_permiso = '{$parametros['tipo_permiso']}'";
+
+            if(($parametros['tipo_permiso'] == 'PERMANENCIA' && $rol == 'SUPERVISOR') || ($parametros['tipo_permiso'] == 'SALIDA' && ($rol == 'COORDINADOR' || $rol == 'INSTRUCTOR'))){
+                $sentenciaBuscar .= " AND pu.fk_usuario_sistema = '$usuarioSistema'";
+                
+            }elseif($parametros['tipo_permiso'] == 'SALIDA' && ($rol == 'SUPERVISOR' || $rol == 'VIGILANTE')){
+                $sentenciaBuscar .= " AND pu.fecha_fin_permiso >= '$fechaActual'";
+            }
+
+        }elseif(!isset($parametros['tipo_permiso']) && $rol == 'SUPERVISOR'){
+            $sentenciaBuscar .= " AND ((pu.tipo_permiso = 'PERMANENCIA' AND pu.fk_usuario_sistema = '$usuarioSistema') OR (pu.tipo_permiso = 'SALIDA' AND pu.fecha_fin_permiso >= '$fechaActual'))";
+        }
+
+        if(isset($parametros['fecha'])){
+            $sentenciaBuscar .=  " AND DATE(pu.fecha_registro) = '{$parametros['fecha']}'";
         }
 
         if(isset($parametros['codigo_permiso'])){
@@ -279,10 +315,13 @@ class PermisoUsuarioModel extends MainModel{
                 COALESCE(pu.fecha_atencion, 'N/A') AS fecha_atencion,
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_beneficiario,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_beneficiario,
-                COALESCE(fun2.nombres, vig2.nombres) AS nombres_solicitante,
-                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_solicitante,
-                COALESCE(fun3.nombres, 'N/A') AS nombres_responsable,
-                COALESCE(fun3.apellidos, 'N/A') AS apellidos_responsable
+                COALESCE(fun1.tipo_usuario, apr1.tipo_usuario, vis1.tipo_usuario, vig1.tipo_usuario) AS tipo_beneficiario,
+                COALESCE(fun2.nombres, vig2.nombres) AS nombres_registro,
+                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_registro,
+                COALESCE(fun2.rol, vig2.rol) AS rol_registro,
+                COALESCE(fun3.nombres, 'N/A') AS nombres_atencion,
+                COALESCE(fun3.apellidos, 'N/A') AS apellidos_atencion,
+                COALESCE(fun3.rol, 'N/A') AS rol_atencion
             FROM permisos_usuarios pu
             LEFT JOIN funcionarios fun1 ON pu.fk_usuario = fun1.numero_documento
             LEFT JOIN visitantes vis1 ON pu.fk_usuario = vis1.numero_documento

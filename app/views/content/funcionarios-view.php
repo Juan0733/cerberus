@@ -28,7 +28,7 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
-        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
             <button class="btn-funcionario" id="btn_crear_funcionario">
                 <ion-icon name="add"></ion-icon>
             </button>
@@ -39,7 +39,7 @@
     <div id="contenedor_tabla_cards">
     </div>
 
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
         <button class="btn-funcionario" id="btn_crear_funcionario_mobile">
             <ion-icon name="add"></ion-icon>
         </button>

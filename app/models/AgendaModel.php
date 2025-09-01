@@ -277,6 +277,7 @@ class AgendaModel extends MainModel{
                 age.fecha_agenda,
                 fun1.nombres AS nombres_responsable,
                 fun1.apellidos AS apellidos_responsable,
+                fun1.rol AS rol_responsable,
                 COALESCE(fun2.numero_documento, apr.numero_documento, vis.numero_documento, vig.numero_documento) AS numero_documento,
                 COALESCE(fun2.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_agendado,
                 COALESCE(fun2.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_agendado
@@ -311,8 +312,9 @@ class AgendaModel extends MainModel{
             'titulo' => $resultados[0]['titulo'],
             'motivo' => $resultados[0]['motivo'],
             'fecha_agenda' => $resultados[0]['fecha_agenda'],
-            'nombres_responsable'=> $resultados[0]['nombres_responsable'],
-            'apellidos_responsable'=> $resultados[0]['apellidos_responsable'],
+            'nombres_responsable' => $resultados[0]['nombres_responsable'],
+            'apellidos_responsable' => $resultados[0]['apellidos_responsable'],
+            'rol_responsable' => $resultados[0]['rol_responsable'],
             'agendados' => []
         ];
         

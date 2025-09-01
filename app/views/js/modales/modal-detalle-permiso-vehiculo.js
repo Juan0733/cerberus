@@ -69,33 +69,32 @@ function dibujarPermiso() {
             const datosPermiso = respuesta.datos_permiso;
 
             document.getElementById('tipo_permiso').textContent = formatearString(datosPermiso.tipo_permiso);
-            document.getElementById('solicitante').textContent = datosPermiso.nombres_solicitante+' '+datosPermiso.apellidos_solicitante;
+            document.getElementById('responsable_registro').textContent = formatearString(datosPermiso.rol_registro)+' - '+datosPermiso.nombres_registro+' '+datosPermiso.apellidos_registro;
             document.getElementById('tipo_vehiculo').textContent = formatearString(datosPermiso.tipo_vehiculo);
             document.getElementById('numero_placa').textContent = datosPermiso.fk_vehiculo;
-            document.getElementById('propietario').textContent = datosPermiso.nombres_propietario+' '+datosPermiso.apellidos_propietario;
+            document.getElementById('propietario').textContent = formatearString(datosPermiso.tipo_propietario)+' - '+datosPermiso.nombres_propietario+' '+datosPermiso.apellidos_propietario;
             document.getElementById('fecha_registro').textContent = formatearFecha(datosPermiso.fecha_registro);
             document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
-            
+            document.getElementById('fecha_fin_permiso').textContent = formatearFecha(datosPermiso.fecha_fin_permiso);
             document.getElementById('descripcion').textContent = datosPermiso.descripcion;
 
-            if(datosPermiso.tipo_permiso == 'PERMANENCIA'){
-                document.getElementById('fecha_fin_permiso').textContent = formatearFecha(datosPermiso.fecha_fin_permiso);
-            }else{
-                document.getElementById('caja_fecha_fin_permiso').style.display = 'none';
-            }
-
-            if(datosPermiso.estado_permiso == 'APROBADO'){
+            if(datosPermiso.tipo_permiso == 'PERMANENCIA' && datosPermiso.estado_permiso == 'APROBADO'){
                 document.getElementById('fecha_aprobacion').textContent = formatearFecha(datosPermiso.fecatencion);
-                document.getElementById('responsable_aprobacion').textContent = datosPermiso.nombres_responsable+' '+datosPermiso.apellidos_responsable;
+                document.getElementById('responsable_aprobacion').textContent = formatearString(datosPermiso.rol_atencion)+' - '+datosPermiso.nombres_atencion+' '+datosPermiso.apellidos_atencion;
+
+                document.getElementById('caja_fecha_desaprobacion').style.display = 'none';
+                document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
+
+            }else if(datosPermiso.tipo_permiso == 'PERMANENCIA' && datosPermiso.estado_permiso == 'APROBADO'){
+                document.getElementById('fecha_desaprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
+                document.getElementById('responsable_desaprobacion').textContent = formatearString(datosPermiso.rol_atencion)+' - '+datosPermiso.nombres_atencion+' '+datosPermiso.apellidos_atencion;
+
+                document.getElementById('caja_fecha_aprobacion').style.display = 'none';
+                document.getElementById('caja_responsable_aprobacion').style.display = 'none';
+
             }else{
                 document.getElementById('caja_fecha_aprobacion').style.display = 'none';
                 document.getElementById('caja_responsable_aprobacion').style.display = 'none';
-            }
-            
-            if(datosPermiso.estado_permiso == 'DESAPROBADO'){
-                document.getElementById('fecha_desaprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
-                document.getElementById('responsable_desaprobacion').textContent = datosPermiso.nombres_responsable+' '+datosPermiso.apellidos_responsable;
-            }else{
                 document.getElementById('caja_fecha_desaprobacion').style.display = 'none';
                 document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
             }

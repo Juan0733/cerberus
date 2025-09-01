@@ -16,6 +16,7 @@ class PermisoUsuarioService{
         $tipoPermiso = $this->limpiarDatos($_POST['tipo_permiso']);
         $descripcion = $this->limpiarDatos($_POST['descripcion']);
         $fechaFinPermiso = $this->limpiarDatos($_POST['fecha_fin_permiso']);
+        $estadoPermiso = 'PENDIENTE';
         unset($_POST['documento_beneficiario'], $_POST['descripcion'], $_POST['fecha_fin_permiso']);
 
         $datos = [
@@ -24,7 +25,7 @@ class PermisoUsuarioService{
                 'cadena' => $numeroDocumento
             ],
             [
-                'filtro' => "(PERMANENCIA)",
+                'filtro' => "(PERMANENCIA|SALIDA)",
                 'cadena' => $tipoPermiso
             ],
             [
@@ -48,6 +49,10 @@ class PermisoUsuarioService{
 			}
         }
 
+        if($tipoPermiso == 'SALIDA'){
+            $estadoPermiso = 'APROBADO';
+        }
+
         $descripcion = mb_strtoupper(mb_substr(trim($descripcion), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($descripcion), 1, null, "UTF-8"), "UTF-8");
 
         $datosPermiso = [
@@ -55,6 +60,7 @@ class PermisoUsuarioService{
             'tipo_permiso' => $tipoPermiso,
             'descripcion' => $descripcion,
             'fecha_fin_permiso' => $fechaFinPermiso,
+            'estado_permiso' => $estadoPermiso
         ];
 
         $respuesta = [
@@ -80,7 +86,7 @@ class PermisoUsuarioService{
             $tipoPermiso = $this->limpiarDatos($_GET['tipo_permiso']);
             unset($_GET['tipo_permiso']);
 
-            if(preg_match('/^(PERMANENCIA)$/', $tipoPermiso)){
+            if(preg_match('/^(PERMANENCIA|SALIDA)$/', $tipoPermiso)){
                 $parametros['tipo_permiso'] = $tipoPermiso;
             }
         }

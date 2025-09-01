@@ -142,8 +142,11 @@ function eventoRegistrarPermisoVehiculo(){
 
         let formData = new FormData(formularioPermisoVehiculo);
         formData.append('operacion', 'registrar_permiso_vehiculo');
-        formData.append('tipo_permiso', selectTipoPermiso.value);
 
+        if(selectTipoPermiso.disabled == true){
+            formData.append('tipo_permiso', selectTipoPermiso.value);
+        }
+        
         registrarPermisoVehiculo(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
@@ -164,27 +167,15 @@ function eventoRegistrarPermisoVehiculo(){
 
 function eventoTextArea(){
     const textAreaDescripcion = document.getElementById('descripcion');
-    let temporizador;
-    let primeraValidacion = true;
+    const patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}$/;
 
     textAreaDescripcion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}$/;
-    
-            if (!patron.test(textAreaDescripcion.value)){
+        textAreaDescripcion.setCustomValidity("");
 
-                if(primeraValidacion){
-                    textAreaDescripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
-                    textAreaDescripcion.reportValidity();
-                    primeraValidacion = false;
-                }
-
-            }else {
-                textAreaDescripcion.setCustomValidity(""); 
-                primeraValidacion = true;
-            }
-        }, 1000);
+        if (!patron.test(textAreaDescripcion.value)){
+            textAreaDescripcion.setCustomValidity("Debes digitar solo números y/o letras, mínimo 5 y máximo 150 caracteres");
+            textAreaDescripcion.reportValidity();
+        }
     })
 }
 

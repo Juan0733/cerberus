@@ -519,6 +519,7 @@ class MovimientoModel extends MainModel{
                 mov.tipo_usuario,
                 vig2.nombres AS nombres_responsable,
                 vig2.apellidos AS apellidos_responsable,
+                vig2.rol AS rol_responsable,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
                 COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
                 COALESCE(veh.tipo_vehiculo, 'N/A') AS tipo_vehiculo,

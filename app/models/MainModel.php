@@ -37,6 +37,7 @@ class MainModel{
 		}
 		
 		try {
+			
 			$sql = $this->conexion->query($consulta);
 
 			$tipoConsulta = strtoupper(substr(trim($consulta), 0, 6));
@@ -67,7 +68,7 @@ class MainModel{
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error de Conexión',
-				"mensaje"=> 'Lo sentimos, parece que ocurrio un error al ejecutar la operación, intentalo más tarde.'
+				"mensaje"=> 'Lo sentimos, parece que ocurrio un error al ejecutar la operación, intentalo más tarde.'.$e
 			];
 			return $respuesta;
 		}

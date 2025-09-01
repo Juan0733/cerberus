@@ -85,7 +85,7 @@ class FuncionarioService{
             ];
         }
 
-        if($rol == 'COORDINADOR'){
+        if($rol == 'COORDINADOR' || $rol == 'INSTRUCTOR'){
             if(!isset($_POST['contrasena']) || $_POST['contrasena'] == ''){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -100,7 +100,7 @@ class FuncionarioService{
             unset($_POST['contrasena']);
 
             $datos[] = [
-                'filtro' => '[a-zA-Z0-9]{8,}',
+                'filtro' => '[A-Za-z0-9*_@\-]{8,}',
                 'cadena' => $contrasena
             ];
         }
@@ -228,7 +228,7 @@ class FuncionarioService{
             ];
         }
 
-        if($rol == 'COORDINADOR'){
+        if($rol == 'COORDINADOR' || $rol == 'INSTRUCTOR'){
            $estadoUsuario = "'INACTIVO'";
         }
 		
@@ -344,7 +344,7 @@ class FuncionarioService{
             ];
         }
 
-        if($rol == 'COORDINADOR'){
+        if($rol == 'COORDINADOR' || $rol == 'INSTRUCTOR'){
             if(!isset($_POST['contrasena'])){
                 $respuesta = [
                     "tipo" => "ERROR",
@@ -358,7 +358,7 @@ class FuncionarioService{
             unset($_POST['contrasena']);
 
             $datos[] = [
-                'filtro' => '|[a-zA-Z0-9]{8,}',
+                'filtro' => '|[A-Za-z0-9*_@\-]{8,}',
                 'cadena' => $contrasena
             ];
         }

@@ -6,7 +6,6 @@ import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let documentoPeaton;
 let formularioPeatonal;
-let observacion;
 let urlBase;
 
 function eventoAbrirFormularioPeatonal(){
@@ -41,10 +40,6 @@ function eventoAbrirFormularioPeatonal(){
 function eventoRegistrarEntradaPeatonal() {
     formularioPeatonal.addEventListener('submit', (e)=>{
         e.preventDefault();
-
-        if(!observacion.reportValidity()){
-            return;
-        }
 
         let formData = new FormData(formularioPeatonal);
         formData.append('operacion', 'registrar_entrada_peatonal');
@@ -87,27 +82,17 @@ function eventoScanerQrPeaton(){
 }
 
 function eventoTextArea(){
-    let temporizador;
-    let primeraValidacion = true;
+    const observacion = document.getElementById('observacion_peatonal');
+    const patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{0,150}$/;
 
     observacion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{0,150}$/;
-    
-            if (!patron.test(observacion.value)){
-
-                if(primeraValidacion){
-                    observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
-                    observacion.reportValidity();
-                    primeraValidacion = false;
-                }
-
-            } else {
-                observacion.setCustomValidity(""); 
-                primeraValidacion = true;
-            }
-        }, 1000);
+        observacion.setCustomValidity("");
+            
+        if (!patron.test(observacion.value)){
+            observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
+            observacion.reportValidity();
+                
+        }
     })
 }
 
@@ -178,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function() {
     urlBase = document.getElementById("url_base").value;
     documentoPeaton = document.getElementById("documento_peaton");
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
-    observacion = document.getElementById('observacion_peatonal');
     
     eventoAbrirFormularioPeatonal();
     eventoTextArea();

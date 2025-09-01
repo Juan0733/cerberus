@@ -73,7 +73,7 @@ function dibujarMovimiento() {
             document.getElementById('usuario').textContent = datosMovimiento.nombres+' '+datosMovimiento.apellidos;
             document.getElementById('tipo_usuario').textContent = formatearString(datosMovimiento.tipo_usuario);
             document.getElementById('puerta_registro').textContent = formatearString(datosMovimiento.puerta_registro);
-            document.getElementById('responsable').textContent = datosMovimiento.nombres_responsable+' '+datosMovimiento.apellidos_responsable;
+            document.getElementById('responsable').textContent = formatearString(datosMovimiento.rol_responsable)+' - '+datosMovimiento.nombres_responsable+' '+datosMovimiento.apellidos_responsable;
 
             if(datosMovimiento.fk_vehiculo != 'N/A'){
                 document.getElementById('tipo_vehiculo').textContent = formatearString(datosMovimiento.tipo_vehiculo);

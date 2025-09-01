@@ -125,10 +125,6 @@ function eventoActualizarAgenda(){
     document.getElementById('formulario_agenda').addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        if(!motivo.reportValidity()){
-            return;
-        }
-
         const formData = new FormData();
 
         formData.append('operacion', 'actualizar_agenda');
@@ -156,27 +152,15 @@ function eventoActualizarAgenda(){
 }
 
 function eventoTextArea(){
-    let temporizador;
-    let primeraValidacion = true;
+    const patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,100}$/;
 
-    textAreaMotivo.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,100}$/;
-    
-            if (!patron.test(textAreaMotivo.value)){
+    textAreaMotivo.addEventListener('keyup', ()=>{    
+        textAreaMotivo.setCustomValidity("");
 
-                if(primeraValidacion){
-                    textAreaMotivo.setCustomValidity("Debes digitar solo números y letras, mínimo 5 y máximo 100 caracteres");
-                    textAreaMotivo.reportValidity();
-                    primeraValidacion = false;
-                }
-
-            }else {
-                textAreaMotivo.setCustomValidity(""); 
-                primeraValidacion = true;
-            }
-        }, 1000);
+        if (!patron.test(textAreaMotivo.value)){
+            textAreaMotivo.setCustomValidity("Debes digitar solo números y/o letras, mínimo 5 y máximo 100 caracteres");
+            textAreaMotivo.reportValidity();
+        }
     })
 }
 

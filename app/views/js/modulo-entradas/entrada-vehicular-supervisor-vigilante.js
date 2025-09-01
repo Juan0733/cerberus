@@ -343,27 +343,14 @@ function eventoRegistrarEntradaVehicular(){
 }
 
 function eventoTextArea(){
-    let temporizador;
-    let primeraValidacion = true;
+    const patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{0,150}$/;
 
     observacion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{0,150}$/;
-    
-            if (!patron.test(observacion.value)){
-
-                if(primeraValidacion){
-                    observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
-                    observacion.reportValidity();
-                    primeraValidacion = false;
-                }
-
-            } else {
-                observacion.setCustomValidity(""); 
-                primeraValidacion = true;
-            }
-        }, 1000);
+        observacion.setCustomValidity("");
+        if (!patron.test(observacion.value)){
+            observacion.setCustomValidity("Debes digitar solo números y letras, máximo 100 caracteres");
+            observacion.reportValidity();
+        }
     })
 }
 

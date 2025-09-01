@@ -78,13 +78,16 @@
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/funcionarios-subdirector.js"></script>
 
-    <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
-        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/funcionarios-coordinador-supervisor-vigilante.js"></script>
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/funcionarios-coordinador.js"></script>
+
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/funcionarios-supervisor-vigilante.js"></script>
     <?php endif; ?>
 
 <?php elseif($url[0] == 'agendas'): ?>
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
-        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-agendas/agendas-subdirector-coordinador.js"></script>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-agendas/agendas-subdirector-coordinador-instructor.js"></script>
 
     <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-agendas/agendas-supervisor-vigilante.js"></script>
@@ -102,8 +105,14 @@
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-subdirector.js"></script>
 
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-coordinador-instructor.js"></script>
+
     <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-supervisor.js"></script>
+
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-permisos/permisos-usuario-vigilante.js"></script>
     <?php endif; ?>
 
 <?php elseif($url[0] == 'permisos-vehiculo'): ?>

@@ -68,21 +68,32 @@ function dibujarAgenda() {
         if(respuesta.tipo == 'OK'){
             const datosAgenda = respuesta.datos_agenda;
             document.getElementById('titulo').textContent = datosAgenda.titulo;
-            
-            const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
+
+            if(datosAgenda.agendados.length > 1){
+                const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
         
-            datosAgenda.agendados.forEach((agendado, indice) => {
-                cuerpoTablaAgendados.innerHTML += `
-                    <tr>
-                        <td>${indice+1}</td>
-                        <td>${agendado.nombres}</td>
-                        <td>${agendado.apellidos}</td>
-                    </tr>`
-            });
+                datosAgenda.agendados.forEach((agendado, indice) => {
+                    cuerpoTablaAgendados.innerHTML += `
+                        <tr>
+                            <td>${indice+1}</td>
+                            <td>${agendado.nombres}</td>
+                            <td>${agendado.apellidos}</td>
+                        </tr>`
+                });
+
+                document.getElementById('agendado').style.display = 'none';
+
+            }else{
+                document.getElementById('agendado').textContent = datosAgenda.agendados[0].nombres+' '+datosAgenda.agendados[0].apellidos;
+
+                document.getElementById('contenedor_agendados').style.display = 'none';
+            }
+            
+           
 
             const fecha = formatearFecha(datosAgenda.fecha_agenda);
 
-            document.getElementById('responsable').textContent = datosAgenda.nombres_responsable+' '+datosAgenda.apellidos_responsable;
+            document.getElementById('responsable_registro').textContent = formatearString(datosAgenda.rol_responsable)+' - '+datosAgenda.nombres_responsable+' '+datosAgenda.apellidos_responsable;
             document.getElementById('fecha_agenda').textContent = fecha.fecha_español;
             document.getElementById('hora').textContent = fecha.hora_español;
             document.getElementById('motivo').textContent = datosAgenda.motivo;
@@ -101,6 +112,12 @@ function dibujarAgenda() {
             }
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function formatearFecha(fecha){

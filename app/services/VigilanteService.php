@@ -54,7 +54,7 @@ class VigilanteService{
                 'cadena' => $rol
             ],
             [
-                'filtro' => "[a-zA-Z0-9]{8,}",
+                'filtro' => "[A-Za-z0-9*_@\-]{8,}",
                 'cadena' => $contrasena
             ]
 		];
@@ -226,7 +226,7 @@ class VigilanteService{
                 'cadena' => $rol
             ],
             [
-                'filtro' => "|[a-zA-Z0-9]{8,}",
+                'filtro' => "|[A-Za-z0-9*_@\-]{8,}",
                 'cadena' => $contrasena
             ]
 		];

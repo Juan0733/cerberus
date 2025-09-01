@@ -8,12 +8,12 @@
            <div id="contenedor_cajas_habilitar">
                 <div class="input-caja-registro">
                     <label for="contrasena" class="label-input">Nueva contraseña</label>
-                    <input type="password" class="campo campo-seccion-01" name="contrasena" id="contrasena" pattern="[A-Za-z0-9]{8,}" title="Debes digitar solo letras y números, mínimo 8" minlength="8" tabindex="11" required>
+                    <input type="password" class="campo campo-seccion-01" name="contrasena" id="contrasena" pattern="[A-Za-z0-9*_@-]{8,}" title="Debes digitar solo letras, números y/o caracteres especiales(*_-@), mínimo 8" minlength="8" tabindex="11" required>
                 </div>
 
                     <div class="input-caja-registro">
                     <label for="confirmacion_contrasena" class="label-input">Confirmar contraseña</label>
-                    <input type="password" class="campo campo-seccion-01" name="confirmacion_contrasena" id="confirmacion_contrasena" pattern="[A-Za-z0-9]{8,}" title="Debes digitar solo letras y númerors, mínimo 8" minlength="8" tabindex="12" required>
+                    <input type="password" class="campo campo-seccion-01" name="confirmacion_contrasena" id="confirmacion_contrasena" pattern="[A-Za-z0-9*_@\-]{8,}" title="Debes digitar solo letras, números y/o caracteres especiales(*_-@), mínimo 8" minlength="8" tabindex="12" required>
                 </div>
             </div>
             

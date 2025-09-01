@@ -62,7 +62,7 @@ class PermisoVehiculoModel extends MainModel{
         }
 
         if($tipoPermiso == 'PERMANENCIA'){
-            $respuesta = $this->consultarUltimoPermisoVehiculo($placa);
+            $respuesta = $this->consultarUltimoPermisoVehiculo($placa, $tipoPermiso);
             if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
                 return $respuesta;
 
@@ -72,7 +72,7 @@ class PermisoVehiculoModel extends MainModel{
                     $respuesta = [
                         'tipo' => 'ERROR',
                         'titulo'=> 'Permiso Pendiente',
-                        'mensaje' => 'Lo sentimos, pero este vehículo tiene una solicitud de permanencia que se encuentra en estado pendiente.'
+                        'mensaje' => 'Lo sentimos, pero este vehículo tiene un permiso de permanencia que se encuentra en estado pendiente.'
                     ];
                     return $respuesta;
 
@@ -87,7 +87,7 @@ class PermisoVehiculoModel extends MainModel{
                         $respuesta = [
                             'tipo' => 'ERROR',
                             'titulo'=> 'Permiso Desaprobado',
-                            'mensaje' => 'Lo sentimos, pero la solictud de permanencia mas reciente de este vehículo, ha sido desaprobada.'
+                            'mensaje' => 'Lo sentimos, pero el permiso de permanencia mas reciente de este vehículo, ha sido desaprobado.'
                         ];
                         return $respuesta;
                     }
@@ -177,11 +177,11 @@ class PermisoVehiculoModel extends MainModel{
         return $respuesta;
     }
 
-    private function consultarUltimoPermisoVehiculo($vehiculo){
+    private function consultarUltimoPermisoVehiculo($vehiculo, $tipoPermiso){
         $sentenciaBuscar = "
             SELECT estado_permiso, fecha_registro
             FROM permisos_vehiculos
-            WHERE fk_vehiculo = '$vehiculo'
+            WHERE fk_vehiculo = '$vehiculo' AND tipo_permiso = '$tipoPermiso'
             ORDER BY fecha_registro DESC LIMIT 1;";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
@@ -291,10 +291,14 @@ class PermisoVehiculoModel extends MainModel{
                 COALESCE(pv.fecha_atencion, 'N/A') AS fecha_atencion,
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_propietario,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_propietario,
-                COALESCE(fun2.nombres, vig2.nombres) AS nombres_solicitante,
-                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_solicitante,
-                COALESCE(fun3.nombres, 'N/A') AS nombres_responsable,
-                COALESCE(fun3.apellidos, 'N/A') AS apellidos_responsable
+                COALESCE(fun1.tipo_usuario, apr1.tipo_usuario, vis1.tipo_usuario, vig1.tipo_usuario) AS tipo_propietario,
+                COALESCE(fun2.nombres, vig2.nombres) AS nombres_registro,
+                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_registro,
+                COALESCE(fun2.rol, vig2.rol) AS rol_registro,
+                COALESCE(fun3.nombres, 'N/A') AS nombres_atencion,
+                COALESCE(fun3.apellidos, 'N/A') AS apellidos_atencion,
+                COALESCE(fun3.rol, 'N/A') AS rol_atencion
+
             FROM permisos_vehiculos pv
             INNER JOIN (SELECT numero_placa, tipo_vehiculo FROM vehiculos GROUP BY numero_placa, tipo_vehiculo) veh ON pv.fk_vehiculo = veh.numero_placa
             LEFT JOIN funcionarios fun1 ON pv.fk_usuario = fun1.numero_documento

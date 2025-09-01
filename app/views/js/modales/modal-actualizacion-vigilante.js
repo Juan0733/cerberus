@@ -77,6 +77,7 @@ async function modalActualizacionVigilante(vigilante, callback, url) {
         eventoCerrarModal();
         dibujarVigilante();
         validarConfirmacionContrasena();
+        eventoInputContrasena();
         mostrarCampos();
         volverCampos();
         eventoActualizarVigilante();
@@ -178,24 +179,26 @@ function eventoActualizarVigilante(){
 }
 
 function validarConfirmacionContrasena(){
-    let temporizador;
-    let primeraValidacion = true;
-
     inputConfirmacion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            if (inputContrasena.value != inputConfirmacion.value){
-                if(primeraValidacion){
-                    inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
-                    inputConfirmacion.reportValidity();
-                    primeraValidacion = false;
-                }
+        inputConfirmacion.setCustomValidity("");
 
-            }else {
-                inputConfirmacion.setCustomValidity(""); 
-                primeraValidacion = true;
-            }
-        }, 1000);
+        if(inputConfirmacion.checkValidity()){
+            if (inputContrasena.value != inputConfirmacion.value){
+                inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
+                inputConfirmacion.reportValidity();
+            }  
+        }  
+    })
+}
+
+function eventoInputContrasena(){
+    inputContrasena.addEventListener('keyup', ()=>{
+        if(inputContrasena.value.length > 7){
+            inputConfirmacion.required = true;
+
+        }else if(inputContrasena.value.length < 8){ 
+            inputConfirmacion.required = false;
+        }
     })
 }
 

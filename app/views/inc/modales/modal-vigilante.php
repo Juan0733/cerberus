@@ -23,7 +23,7 @@
 
                 <div class="input-caja-registro seccion-01">
                     <label for="numero_documento" class="label-input">Número de documento</label>
-                    <input type="text" class="campo campo-seccion-01" name="numero_documento" id="numero_documento" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y como mínimo 6 y máximo 10" placeholder="Ej: 123456Dil" tabindex="2" required>
+                    <input type="text" class="campo campo-seccion-01" name="numero_documento" id="numero_documento" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y/o letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456Dil" tabindex="2" required>
                 </div>
             
                 <div class="input-caja-registro seccion-01">
@@ -59,12 +59,12 @@
                
                 <div class="input-caja-registro seccion-02">
                     <label for="contrasena" class="label-input">Contraseña</label>
-                    <input type="password" class="campo" name="contrasena" id="contrasena" pattern="[A-Za-z0-9]{8,}" title="Debes digitar solo letras y números, mínimo 8" minlength="8" tabindex="8" required>
+                    <input type="password" class="campo" name="contrasena" id="contrasena" pattern="[A-Za-z0-9*_@-]{8,}" title="Debes digitar solo letras, números y/o caracteres especiales(*_-@), mínimo 8" minlength="8" tabindex="8" required>
                 </div>
 
                 <div class="input-caja-registro seccion-02">
                     <label for="confirmacion_contrasena" class="label-input">Confirmar contraseña</label>
-                    <input type="password" class="campo" name="confirmacion_contrasena" id="confirmacion_contrasena" pattern="[A-Za-z0-9]{8,}" title="Debes digitar solo letras y númerors, mínimo 8" minlength="8" tabindex="9" required>
+                    <input type="password" class="campo" name="confirmacion_contrasena" id="confirmacion_contrasena" pattern="[A-Za-z0-9*_@\-]{8,}" title="Debes digitar solo letras, números y/o caracteres especiales(*_-@), mínimo 8" minlength="8" tabindex="9" required>
                 </div>
             </div>
             

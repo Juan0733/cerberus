@@ -82,24 +82,16 @@ function eventoCerrarModal(){
 
 function validarConfirmacionContrasena(){
     const inputConfirmacion = document.getElementById('confirmacion_contrasena');
-    let temporizador;
-    let primeraValidacion = true;
-
+    
     inputConfirmacion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        inputConfirmacion.setCustomValidity("");
+        
+        if(inputConfirmacion.checkValidity()){
             if (inputContrasena.value != inputConfirmacion.value){
-                if(primeraValidacion){
-                    inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
-                    inputConfirmacion.reportValidity();
-                    primeraValidacion = false;
-                }
-
-            }else {
-                inputConfirmacion.setCustomValidity(""); 
-                primeraValidacion = true;
+                inputConfirmacion.setCustomValidity("Las contraseñas no coinciden");
+                inputConfirmacion.reportValidity();
             }
-        }, 1000);
+        }
     })
 }
 

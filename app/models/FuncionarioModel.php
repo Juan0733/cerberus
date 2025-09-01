@@ -47,7 +47,7 @@ class FuncionarioModel extends MainModel{
         $rolActual = $respuesta['datos_funcionario']['rol'];
         $estadoUsuarioActual = $respuesta['datos_funcionario']['estado_usuario'];
 
-        if($rolActual != 'COORDINADOR' && $datosFuncionario['rol'] == 'COORDINADOR' && !isset($datosFuncionario['contrasena'])){
+        if($rolActual != 'COORDINADOR' && $rolActual != 'INSTRUCTOR' && ($datosFuncionario['rol'] == 'COORDINADOR' || $datosFuncionario['rol'] == 'INSTRUCTOR') && !isset($datosFuncionario['contrasena'])){
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Contraseña Requerida',
@@ -56,7 +56,7 @@ class FuncionarioModel extends MainModel{
             return $respuesta;
         }
 
-        if($datosFuncionario['rol'] == 'COORDINADOR' && $estadoUsuarioActual == NULL){
+        if(($datosFuncionario['rol'] == 'COORDINADOR' || $datosFuncionario['rol'] == 'INSTRUCTOR') && $estadoUsuarioActual == NULL){
             $datosFuncionario['estado_usuario'] = 'ACTIVO';
         }
 

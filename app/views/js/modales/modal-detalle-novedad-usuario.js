@@ -72,7 +72,7 @@ function dibujarNovedad() {
             document.getElementById('puerta_suceso').textContent = formatearString(datosNovedad.puerta_suceso);
             document.getElementById('puerta_registro').textContent = formatearString(datosNovedad.puerta_registro);
             document.getElementById('involucrado').textContent = datosNovedad.nombres_involucrado+' '+datosNovedad.apellidos_involucrado;
-            document.getElementById('responsable').textContent = datosNovedad.nombres_responsable+' '+datosNovedad.apellidos_responsable;
+            document.getElementById('responsable').textContent = formatearString(datosNovedad.rol_responsable)+' - '+datosNovedad.nombres_responsable+' '+datosNovedad.apellidos_responsable;
             document.getElementById('fecha_suceso').textContent = formatearFecha(datosNovedad.fecha_suceso);
             document.getElementById('fecha_registro').textContent = formatearFecha(datosNovedad.fecha_registro);
             document.getElementById('descripcion').textContent = datosNovedad.descripcion;

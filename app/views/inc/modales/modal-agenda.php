@@ -63,7 +63,7 @@
 
                 <div class="input-caja-registro seccion-individual seccion-individual-01">
                     <label for="documento_agendado" class="label-input">Numero de documento</label>
-                    <input type="text" class="campo campo-individual-01 campo-individual" name="documento_agendado" id="documento_agendado" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números, mínimo 6 y máximo 15" placeholder="Ej: 123456" date="Numero de documento" tabindex="5">
+                    <input type="text" class="campo campo-individual-01 campo-individual" name="documento_agendado" id="documento_agendado" pattern="[A-Za-z0-9]{6,15}" title="Debes digitar solo números y/o letras, mínimo 6 y máximo 15 caracteres" placeholder="Ej: 123456" date="Numero de documento" tabindex="5">
                 </div>
             
                 <div class="input-caja-registro seccion-individual seccion-individual-01">

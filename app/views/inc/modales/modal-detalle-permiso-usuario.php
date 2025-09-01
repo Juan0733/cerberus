@@ -10,8 +10,8 @@
                 <p id="tipo_permiso"></p>
             </div>
             <div class='caja'>
-                <h3>Solicitante:</h3>
-                <p id="solicitante"></p>
+                <h3>Responsable registro:</h3>
+                <p id="responsable_registro"></p>
             </div>
             <div class='caja'>
                 <h3>Beneficario:</h3>
@@ -21,7 +21,7 @@
                 <h3>Fecha Registro:</h3>
                 <p id="fecha_registro"></p>
             </div>
-            <div id="caja_fecha_fin_pemiso" class='caja'>
+            <div id="caja_fecha_fin_permiso" class='caja'>
                 <h3>Fecha Vigencia:</h3>
                 <p id="fecha_fin_permiso"></p>
             </div>

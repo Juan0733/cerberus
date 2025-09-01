@@ -10,8 +10,8 @@
                 <p id="tipo_permiso"></p>
             </div>
             <div class='caja'>
-                <h3>Solicitante:</h3>
-                <p id="solicitante"></p>
+                <h3>Responsable registro:</h3>
+                <p id="responsable_registro"></p>
             </div>
             <div class='caja'>
                 <h3>Tipo Vehiculo:</h3>

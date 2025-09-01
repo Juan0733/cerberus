@@ -127,7 +127,7 @@ class UsuarioModel extends MainModel{
                 $sentenciaBuscar = "
                     SELECT `numero_documento` 
                     FROM `$tabla` 
-                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR');";
+                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR' OR rol = 'INSTRUCTOR');";
             }
             
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
@@ -171,7 +171,7 @@ class UsuarioModel extends MainModel{
                 $sentenciaBuscar = "
                     SELECT * 
                     FROM `$tabla` 
-                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR');";
+                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR' OR rol = 'INSTRUCTOR');";
             }
 
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

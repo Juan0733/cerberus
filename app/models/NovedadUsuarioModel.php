@@ -156,6 +156,7 @@ class NovedadUsuarioModel extends MainModel{
                 nu.descripcion,
                 vig1.nombres AS nombres_responsable,
                 vig1.apellidos AS apellidos_responsable,
+                vig1.rol AS rol_responsable,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_involucrado,
                 COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_involucrado
             FROM novedades_usuarios nu

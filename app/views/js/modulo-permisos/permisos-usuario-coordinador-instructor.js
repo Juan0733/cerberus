@@ -1,14 +1,12 @@
-import { aprobarPermisoUsuario, consultarPermisosUsuarios, desaprobarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
-import { dibujarNotificaciones } from '../general/notificaciones-subdirector.js';
+import { consultarPermisosUsuarios} from '../fetchs/permisos-usuarios-fetch.js';
 import { modalDetallePermisoUsuario } from '../modales/modal-detalle-permiso-usuario.js';
+import { modalRegistroPermisoUsuario } from '../modales/modal-registro-permiso-usuario.js'
 
 let urlBase;
-let codigoPermiso;
 let contenedorTabla;
 let cuerpoTabla;
 
 const parametros = {
-    codigo_permiso: '',
     tipo_permiso: '',
     estado: '',
     fecha: '',
@@ -51,13 +49,6 @@ function dibujarTablaPermisos(){
         if(respuesta.tipo == 'OK'){
             cuerpoTabla.innerHTML = '';
             respuesta.permisos_usuarios.forEach(permiso => { 
-                let acciones = `<ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>`;
-                if(permiso.tipo_permiso == 'PERMANENCIA' && permiso.estado_permiso == 'PENDIENTE'){
-                    acciones += `
-                        <ion-icon name="checkmark-circle" class="aprobar-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>
-                        <ion-icon name="close-circle" class="desaprobar-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>`;
-                }
-
                 cuerpoTabla.innerHTML += `
                     <tr>
                         <td>${permiso.fecha_registro}</td>
@@ -69,14 +60,12 @@ function dibujarTablaPermisos(){
                          <td>${permiso.estado_permiso}</td>
                         <td>${permiso.fk_usuario_sistema}</td>
                         <td class="contenedor-colum-acciones">
-                            ${acciones}
+                           <ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>
                         </td>
                     </tr>`;
             });
 
             eventoVerPermiso();
-            eventoAprobarPermiso();
-            eventoDesaprobarPermiso();
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -86,7 +75,7 @@ function dibujarTablaPermisos(){
                     <tr>
                         <td colspan="9">${respuesta.mensaje}</td>
                     </tr>`;
-                    
+                   
                 if(respuesta.titulo != 'Datos No Encontrados'){
                     alertaError(respuesta);
                 }
@@ -101,12 +90,6 @@ function dibujarCardsPermisos(){
         contenedorTabla.innerHTML = '';
         if(respuesta.tipo == 'OK'){
             respuesta.permisos_usuarios.forEach(permiso => {
-                let acciones = `<ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>`;
-                if(permiso.estado_permiso == 'PENDIENTE'){
-                    acciones += `
-                        <ion-icon name="checkmark-circle" class="aprobar-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>
-                        <ion-icon name="close-circle" class="desaprobar-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>`;
-                }
 
                 contenedorTabla.innerHTML += `
                     <div class="document-card-permiso-usuario">
@@ -123,14 +106,12 @@ function dibujarCardsPermisos(){
                             <p><strong>Vigilante: </strong>${permiso.fk_usuario_sistema}</p>
                         </div>
                         <div class="contenedor-acciones">
-                            ${acciones}
+                            <ion-icon name="eye" class="ver-permiso" data-permiso="${permiso.codigo_permiso}"></ion-icon>
                         </div>
                     </div>`;
             });
             toggleCard();
             eventoVerPermiso();
-            eventoAprobarPermiso();
-            eventoDesaprobarPermiso();
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -138,7 +119,7 @@ function dibujarCardsPermisos(){
 
             }else{
                 contenedorTabla.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
-                
+               
                 if(respuesta.titulo != 'Datos No Encontrados'){
                     alertaError(respuesta);
                 }
@@ -156,45 +137,6 @@ function eventoVerPermiso(){
             modalDetallePermisoUsuario(permiso, urlBase);
         });
     });
-}
-
-function eventoAprobarPermiso(){
-    const botonesAprobarPermiso = document.querySelectorAll('.aprobar-permiso');
-    
-    botonesAprobarPermiso.forEach(boton => {
-        let permiso = boton.getAttribute('data-permiso');
-        boton.addEventListener('click', ()=>{
-            alertaAdvertencia({
-                titulo: 'Aprobar Permiso',
-                mensaje: '¿Estas seguro que deseas aprobar este permiso?',
-                codigo_permiso: permiso
-            });
-        });
-    });
-}
-
-function eventoDesaprobarPermiso(){
-    const botonesDesaprobarPermiso = document.querySelectorAll('.desaprobar-permiso');
-    
-    botonesDesaprobarPermiso.forEach(boton => {
-        let permiso = boton.getAttribute('data-permiso');
-        boton.addEventListener('click', ()=>{
-            alertaAdvertencia({
-                titulo: 'Desaprobar Permiso',
-                mensaje: '¿Estas seguro que deseas desaprobar este permiso?',
-                codigo_permiso: permiso
-            });
-        });
-    });
-}
-
-function eventoEstadoPermiso(){
-    const selectEstado = document.getElementById('estado_permiso_filtro');
-
-    selectEstado.addEventListener('change', ()=>{
-        parametros.estado = selectEstado.value;
-        validarResolucion();
-    })
 }
 
 function eventoFecha(){
@@ -219,6 +161,18 @@ function eventoBuscarDocumento(){
     })
 }
 
+function eventoCrearPermisoUsuario(){
+    const botonCrearPermiso = document.getElementById('btn_crear_permiso_usuario');
+
+    botonCrearPermiso.addEventListener('click', ()=>{
+        modalRegistroPermisoUsuario(urlBase, '', '', validarResolucion);
+    })
+
+    document.getElementById('btn_crear_permiso_usuario_mobile').addEventListener('click', ()=>{
+        botonCrearPermiso.click();
+    })
+}
+
 function toggleCard() {
     const cards = document.querySelectorAll('.document-card-permiso-usuario');
     
@@ -231,80 +185,6 @@ function toggleCard() {
                 card.classList.toggle('active');
             }
         });
-    });
-}
-
-function alertaExito(respuesta){
-    Swal.fire({
-        toast: true, 
-        position: 'bottom-end', 
-        icon: 'success',
-        iconColor: "#2db910",
-        color: '#F3F4F4',
-        background: '#001629',
-        timer: 5000,
-        timerProgressBar: true,
-        title: respuesta.mensaje,
-        showConfirmButton: false,   
-        customClass: {
-            popup: 'alerta-contenedor exito',
-        },
-        didOpen: (toast) => {
-            toast.addEventListener('click', () => {
-                Swal.close();
-            });
-        }
-    })
-}
-
-function alertaAdvertencia(datos){
-    Swal.fire({
-        icon: "warning",
-        iconColor: "#feb211",
-        title: datos.titulo,
-        text: datos.mensaje,
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar',
-            cancelButton: 'btn-cancelar' 
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            if(datos.titulo == "Aprobar Permiso"){
-                aprobarPermisoUsuario(datos.codigo_permiso, urlBase).then(respuesta=>{
-                    if(respuesta.tipo == 'OK'){
-                        alertaExito(respuesta);
-                        dibujarNotificaciones();
-                        validarResolucion();
-
-                    }else if(respuesta.tipo == 'ERROR'){
-                        if(respuesta.titulo == 'Sesión Expirada'){
-                            window.location.replace(urlBase+'sesion-expirada');
-                        }else{
-                            alertaError(respuesta);
-                        }
-                    }
-                });   
-            }else if(datos.titulo == 'Desaprobar Permiso'){
-                desaprobarPermisoUsuario(datos.codigo_permiso, urlBase).then(respuesta=>{
-                    if(respuesta.tipo == 'OK'){
-                        alertaExito(respuesta);
-                        dibujarNotificaciones();
-                        validarResolucion();
-
-                    }else if(respuesta.tipo == 'ERROR'){
-                        if(respuesta.titulo == 'Sesión Expirada'){
-                            window.location.replace(urlBase+'sesion-expirada');
-                        }else{
-                            alertaError(respuesta);
-                        }
-                    }
-                }); 
-            }
-        } 
     });
 }
 
@@ -325,19 +205,16 @@ function alertaError(respuesta){
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
-    codigoPermiso = document.getElementById('codigo_permiso');
 
-    if(codigoPermiso){
-        parametros.codigo_permiso = codigoPermiso.value;
-        modalDetallePermisoUsuario(codigoPermiso.value, urlBase);
-    }
-
+    const selectEstado = document.getElementById('estado_permiso_filtro');
     const selectTipoPermiso = document.getElementById('tipo_permiso_filtro');
+    
+    parametros.estado = selectEstado.value;
     parametros.tipo_permiso = selectTipoPermiso.value;
 
-    eventoBuscarDocumento();
     eventoFecha();
-    eventoEstadoPermiso();
+    eventoBuscarDocumento();
+    eventoCrearPermisoUsuario();
     validarResolucion();
 
     window.addEventListener('resize', ()=>{

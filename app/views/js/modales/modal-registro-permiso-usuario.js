@@ -33,8 +33,8 @@ async function modalRegistroPermisoUsuario(url, permiso=false, documento=false, 
 
         contenedorModales.appendChild(modal);
 
-        if(documento){
-            const inputDocumento = document.getElementById('documento_beneficiario'); 
+        const inputDocumento = document.getElementById('documento_beneficiario');
+        if(documento){ 
             inputDocumento.value = documento;
             inputDocumento.readOnly = true;
         }
@@ -56,7 +56,13 @@ async function modalRegistroPermisoUsuario(url, permiso=false, documento=false, 
         contenedorModales.classList.add('mostrar');
         
         setTimeout(()=>{
-            document.getElementById('fecha_fin_permiso').focus();
+            if(permiso && documento){
+                document.getElementById('fecha_fin_permiso').focus();
+
+            }else{
+                selectTipoPermiso.focus();
+            }
+
         }, 250)
 
     } catch (error) {
@@ -97,7 +103,10 @@ function eventoRegistrarPermisoUsuario(){
 
         let formData = new FormData(formularioPermisoUsuario);
         formData.append('operacion', 'registrar_permiso_usuario');
-        formData.append('tipo_permiso', selectTipoPermiso.value);
+
+        if(selectTipoPermiso.disabled == true){
+            formData.append('tipo_permiso', selectTipoPermiso.value);
+        }
 
         registrarPermisoUsuario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
@@ -119,27 +128,15 @@ function eventoRegistrarPermisoUsuario(){
 
 function eventoTextArea(){
     const textAreaDescripcion = document.getElementById('descripcion');
-    let temporizador;
-    let primeraValidacion = true;
+    const patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}$/;
 
     textAreaDescripcion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            let patron = /^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9., ]{5,150}$/;
-    
-            if (!patron.test(textAreaDescripcion.value)){
-
-                if(primeraValidacion){
-                    textAreaDescripcion.setCustomValidity("Debes digitar solo números y letras, mínimo 1 y máximo 100 caracteres");
-                    textAreaDescripcion.reportValidity();
-                    primeraValidacion = false;
-                }
-
-            }else {
-                textAreaDescripcion.setCustomValidity(""); 
-                primeraValidacion = true;
-            }
-        }, 1000);
+        textAreaDescripcion.setCustomValidity(""); 
+        
+        if (!patron.test(textAreaDescripcion.value)){
+            textAreaDescripcion.setCustomValidity("Debes digitar solo números y/o letras, mínimo 5 y máximo 150 caracteres");
+            textAreaDescripcion.reportValidity();
+        }
     })
 }
 

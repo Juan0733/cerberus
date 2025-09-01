@@ -222,7 +222,7 @@
 }
 
     #modal_detalle_visitante #cont_info_modales #contenedor_cajas{
-        column-gap: 10px;
+        column-gap: 15px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         margin-bottom: 20px;

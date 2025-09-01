@@ -69,35 +69,35 @@ function dibujarPermiso() {
             const datosPermiso = respuesta.datos_permiso;
 
             document.getElementById('tipo_permiso').textContent = formatearString(datosPermiso.tipo_permiso);
-            document.getElementById('solicitante').textContent = datosPermiso.nombres_solicitante+' '+datosPermiso.apellidos_solicitante;
-            document.getElementById('beneficiario').textContent = datosPermiso.nombres_beneficiario+' '+datosPermiso.apellidos_beneficiario;
+            document.getElementById('responsable_registro').textContent = formatearString(datosPermiso.rol_registro)+' - '+datosPermiso.nombres_registro+' '+datosPermiso.apellidos_registro;
+            document.getElementById('beneficiario').textContent = formatearString(datosPermiso.tipo_beneficiario)+' - '+datosPermiso.nombres_beneficiario+' '+datosPermiso.apellidos_beneficiario;
             document.getElementById('fecha_registro').textContent = formatearFecha(datosPermiso.fecha_registro);
             document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
             document.getElementById('descripcion').textContent = datosPermiso.descripcion;
+            document.getElementById('fecha_fin_permiso').textContent =formatearFecha(datosPermiso.fecha_fin_permiso);
+            
 
-            if(datosPermiso.tipo_permiso == 'PERMANENCIA'){
-                document.getElementById('fecha_fin_permiso').textContent =formatearFecha(datosPermiso.fecha_fin_permiso);
-            }else{
-                document.getElementById('caja_fecha_fin_permiso').style.display = 'none';
-            }
-
-            if(datosPermiso.estado_permiso == 'APROBADO'){
+            if(datosPermiso.tipo_permiso == 'PERMANENCIA' && datosPermiso.estado_permiso == 'APROBADO'){
                 document.getElementById('fecha_aprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
-                document.getElementById('responsable_aprobacion').textContent = datosPermiso.nombres_responsable + datosPermiso.apellidos_responsable;
+                document.getElementById('responsable_aprobacion').textContent = formatearString(datosPermiso.rol_atencion)+' - '+datosPermiso.nombres_atencion + datosPermiso.apellidos_atencion;
+
+                document.getElementById('caja_fecha_desaprobacion').style.display = 'none';
+                document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
+
+            }else if(datosPermiso.tipo_permiso == 'PERMANENCIA' && datosPermiso.estado_permiso == 'DESAPROBADO'){
+                document.getElementById('fecha_desaprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
+                document.getElementById('responsable_desaprobacion').textContent = formatearString(datosPermiso.rol_atencion)+' - '+ datosPermiso.nombres_atencion + datosPermiso.apellidos_atencion;
+
+                document.getElementById('caja_fecha_aprobacion').style.display = 'none';
+                document.getElementById('caja_responsable_aprobacion').style.display = 'none';
 
             }else{
                 document.getElementById('caja_fecha_aprobacion').style.display = 'none';
                 document.getElementById('caja_responsable_aprobacion').style.display = 'none';
-            }
-            
-            if(datosPermiso.estado_permiso == 'DESAPROBADO'){
-                document.getElementById('fecha_desaprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
-                document.getElementById('responsable_desaprobacion').textContent = datosPermiso.nombres_responsable + datosPermiso.apellidos_responsable;
-            }else{
                 document.getElementById('caja_fecha_desaprobacion').style.display = 'none';
                 document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
             }
-
+            
             contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 

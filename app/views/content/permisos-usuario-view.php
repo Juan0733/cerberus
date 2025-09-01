@@ -13,24 +13,40 @@
         <div class="filtro">
             <label for="tipo_permiso_filtro">Tipo:</label>
             <select id="tipo_permiso_filtro" name="tipo_permiso_filtro">
-                <option value="">Todos</option>
-                <option value="PERMANENCIA">Permanencia</option>
+                <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+                    <option value="">Todos</option>
+                <?php endif; ?>
+                <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+                    <option value="PERMANENCIA">Permanencia</option>
+                <?php endif; ?>
+                <?php if($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
+                    <option value="SALIDA">Salida</option>
+                <?php endif; ?>
             </select>
         </div>
 
         <div class="filtro">
-            <label for="estado_permiso_filtro">Estado</label>
+            <label for="estado_permiso_filtro">Estado:</label>
             <select id="estado_permiso_filtro" name="estado_permiso_filtro">
-                <option value="">Todos</option>
-                <option value="APROBADO">Aprobado</option>
-                <option value="DESAPROBADO">Desaprobado</option>
-                <option value="PENDIENTE">Pendiente</option>
+                <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+                    <option value="">Todos</option>
+                    <option value="APROBADO">Aprobado</option>
+                    <option value="DESAPROBADO">Desaprobado</option>
+                    <option value="PENDIENTE">Pendiente</option>
+    
+                <?php elseif($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
+                    <option value="APROBADO">Aprobado</option>
+                <?php endif; ?>
             </select>
         </div>
 
         <div class="filtro">
             <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" name="fecha" max="<?php echo $fechaActual; ?>">
+            <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+                <input type="date" id="fecha" name="fecha" max="<?php echo $fechaActual; ?>">
+            <?php elseif($_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
+                <input type="date" id="fecha" name="fecha" max="<?php echo $fechaActual; ?>" min="<?php echo $fechaActual; ?>" value="<?php echo $fechaActual; ?>">
+            <?php endif; ?>
         </div>
 
         <div class="filtro">
@@ -38,7 +54,7 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
-        <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+        <?php if($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
             <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario">
                 <ion-icon name="add"></ion-icon>
             </button>
@@ -48,7 +64,7 @@
     <div id="contenedor_tabla_cards">
     </div>
 
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
         <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario_mobile">
             <ion-icon name="add"></ion-icon>
         </button>

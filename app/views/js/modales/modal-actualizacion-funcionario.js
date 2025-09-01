@@ -85,6 +85,7 @@ async function modalActualizacionFuncionario(funcionario, callback, url) {
         eventoSelectRol();
         dibujarFuncionario();
         validarConfirmacionContrasena();
+        eventoInputContrasena();
         mostrarCampos();
         volverCampos();
         eventoActualizarFuncionario();
@@ -183,7 +184,7 @@ function eventoActualizarFuncionario(){
             formData.append('fecha_fin_contrato', inputFechaContrato.value);
         }
 
-        if(selectRol.value == 'COORDINADOR'){
+        if(selectRol.value == 'COORDINADOR' || selectRol.value == 'INSTRUCTOR'){
             formData.append('contrasena', inputContrasena.value)
         }
 
@@ -206,24 +207,27 @@ function eventoActualizarFuncionario(){
 }
 
 function validarConfirmacionContrasena(){
-    let temporizador;
-    let primeraValidacion = true;
-
     inputConfirmacion.addEventListener('keyup', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
-            if (inputContrasena.value != inputConfirmacion.value){
-                if(primeraValidacion){
-                    inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
-                    inputConfirmacion.reportValidity();
-                    primeraValidacion = false;
-                }
+        inputConfirmacion.setCustomValidity("");
 
-            }else {
-                inputConfirmacion.setCustomValidity(""); 
-                primeraValidacion = true;
+        if(inputConfirmacion.checkValidity()){
+            if (inputContrasena.value != inputConfirmacion.value){
+                inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
+                inputConfirmacion.reportValidity();
+                
             }
-        }, 1000);
+        }
+    })
+}
+
+function eventoInputContrasena(){
+    inputContrasena.addEventListener('keyup', ()=>{
+        if(inputContrasena.value.length > 7 && inputConfirmacion.required != true){
+            inputConfirmacion.required = true;
+
+        }else if(inputContrasena.value.length < 8 && inputContrasena.required != true){ 
+            inputConfirmacion.required = false;
+        }
     })
 }
 
@@ -231,7 +235,7 @@ function eventoSelectRol(){
     const cajasContrasena = document.getElementsByClassName('input-caja-contrasena');
 
     selectRol.addEventListener('change', ()=>{
-        if(selectRol.value == 'COORDINADOR'){
+        if(selectRol.value == 'COORDINADOR' || selectRol.value == 'INSTRUCTOR'){
             for(const caja of cajasContrasena){
                 if(window.innerWidth < 768){
                     caja.classList.add('seccion-03');
@@ -245,7 +249,7 @@ function eventoSelectRol(){
                 }
             };
 
-            if(rolActual != 'COORDINADOR'){
+            if(rolActual != 'COORDINADOR' && rolActual != 'INSTRUCTOR'){
                 inputContrasena.required = true;
                 inputConfirmacion.required = true;
             }

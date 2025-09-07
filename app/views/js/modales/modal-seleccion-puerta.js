@@ -4,12 +4,13 @@ let contenedorModales;
 let modalesExistentes;
 let puertaActual;
 let puertaNueva;
+let funcionCallback;
 let botonCerrarModal;
 let urlBase;
 
 const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalSeleccionPuerta(url) {
+async function modalSeleccionPuerta(url, callback=false) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
         const response = await fetch(url+'app/views/inc/modales/modal-seleccion-puerta.php');
@@ -30,6 +31,8 @@ async function modalSeleccionPuerta(url) {
                 modalesExistentes[i].remove();
             }
         }
+
+        funcionCallback = callback;
 
         contenedorModales.appendChild(modal);
 
@@ -145,6 +148,11 @@ function eventoGuardarPuerta(){
 
         guardarPuerta(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
+                if(funcionCallback){
+                    document.getElementById('puerta').value = puertaNueva;
+                    funcionCallback();
+                }
+                    
                 alertaExito(respuesta);
                 puertaActual = puertaNueva;
                 botonCerrarModal.click();

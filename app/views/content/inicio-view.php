@@ -13,8 +13,6 @@
         <p id="bienvenida">Bienvenid@ a Cerberus</p>
     </div>
 
-    <p id="contador_multitud_mobile"></p>
-
     <div id="contenedor_cartas_multitudes">
         <div id="contenedor_cards">
 

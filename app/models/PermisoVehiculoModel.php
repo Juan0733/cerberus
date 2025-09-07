@@ -124,7 +124,7 @@ class PermisoVehiculoModel extends MainModel{
 
         $sentenciaActualizar = "
             UPDATE permisos_vehiculos 
-            SET estado_permiso = 'APROBADO', fecha_atencion = '$fechaActual', fk_usuario_atencion = '$usuarioSistema' 
+            SET estado_permiso = 'APROBADO', fecha_autorizacion = '$fechaActual', fk_usuario_autorizacion = '$usuarioSistema' 
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -161,7 +161,7 @@ class PermisoVehiculoModel extends MainModel{
 
         $sentenciaActualizar = "
             UPDATE permisos_vehiculos 
-            SET estado_permiso = 'DESAPROBADO', fecha_atencion = '$fechaActual', fk_usuario_atencion = '$usuarioSistema'
+            SET estado_permiso = 'DESAPROBADO', fecha_autorizacion = '$fechaActual', fk_usuario_autorizacion = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -288,7 +288,7 @@ class PermisoVehiculoModel extends MainModel{
                 pv.fk_vehiculo,
                 veh.tipo_vehiculo,
                 COALESCE(pv.fecha_fin_permiso, 'N/A') AS fecha_fin_permiso,
-                COALESCE(pv.fecha_atencion, 'N/A') AS fecha_atencion,
+                COALESCE(pv.fecha_autorizacion, 'N/A') AS fecha_autorizacion,
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_propietario,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_propietario,
                 COALESCE(fun1.tipo_usuario, apr1.tipo_usuario, vis1.tipo_usuario, vig1.tipo_usuario) AS tipo_propietario,
@@ -307,7 +307,7 @@ class PermisoVehiculoModel extends MainModel{
             LEFT JOIN aprendices apr1 ON pv.fk_usuario = apr1.numero_documento
             LEFT JOIN funcionarios fun2 ON pv.fk_usuario_sistema = fun2.numero_documento
             LEFT JOIN vigilantes vig2 ON pv.fk_usuario_sistema = vig2.numero_documento
-            LEFT JOIN funcionarios fun3 ON pv.fk_usuario_atencion = fun3.numero_documento
+            LEFT JOIN funcionarios fun3 ON pv.fk_usuario_autorizacion = fun3.numero_documento
             WHERE pv.codigo_permiso = '$codigoPermiso'";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

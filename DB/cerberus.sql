@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-08-2025 a las 13:43:22
+-- Tiempo de generación: 07-09-2025 a las 02:36:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -189,8 +189,8 @@ CREATE TABLE `permisos_usuarios` (
   `descripcion` varchar(255) NOT NULL,
   `fecha_fin_permiso` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
-  `fecha_atencion` datetime DEFAULT NULL,
-  `fk_usuario_atencion` varchar(15) DEFAULT NULL,
+  `fecha_autorizacion` datetime DEFAULT NULL,
+  `fk_usuario_autorizacion` varchar(15) DEFAULT NULL,
   `estado_permiso` varchar(11) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
@@ -210,8 +210,8 @@ CREATE TABLE `permisos_vehiculos` (
   `descripcion` varchar(255) NOT NULL,
   `fecha_fin_permiso` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
-  `fecha_atencion` datetime DEFAULT NULL,
-  `fk_usuario_atencion` datetime DEFAULT NULL,
+  `fecha_autorizacion` datetime DEFAULT NULL,
+  `fk_usuario_autorizacion` datetime DEFAULT NULL,
   `estado_permiso` varchar(11) NOT NULL DEFAULT 'PENDIENTE',
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;

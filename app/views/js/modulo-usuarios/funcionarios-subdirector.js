@@ -124,7 +124,7 @@ function dibujarCardsFuncionarios(){
                     <div class="document-card-funcionario">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${funcionario.nombres} | ${funcionario.apellidos}</p>
+                                <p class="document-title">${funcionario.nombres} ${funcionario.apellidos}</p>
                                 <p class="document-meta">${funcionario.tipo_documento}: ${funcionario.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

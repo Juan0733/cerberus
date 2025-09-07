@@ -77,27 +77,8 @@ function dibujarPermiso() {
             document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
             document.getElementById('fecha_fin_permiso').textContent = formatearFecha(datosPermiso.fecha_fin_permiso);
             document.getElementById('descripcion').textContent = datosPermiso.descripcion;
-
-            if(datosPermiso.tipo_permiso == 'PERMANENCIA' && datosPermiso.estado_permiso == 'APROBADO'){
-                document.getElementById('fecha_aprobacion').textContent = formatearFecha(datosPermiso.fecatencion);
-                document.getElementById('responsable_aprobacion').textContent = formatearString(datosPermiso.rol_atencion)+' - '+datosPermiso.nombres_atencion+' '+datosPermiso.apellidos_atencion;
-
-                document.getElementById('caja_fecha_desaprobacion').style.display = 'none';
-                document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
-
-            }else if(datosPermiso.tipo_permiso == 'PERMANENCIA' && datosPermiso.estado_permiso == 'APROBADO'){
-                document.getElementById('fecha_desaprobacion').textContent = formatearFecha(datosPermiso.fecha_atencion);
-                document.getElementById('responsable_desaprobacion').textContent = formatearString(datosPermiso.rol_atencion)+' - '+datosPermiso.nombres_atencion+' '+datosPermiso.apellidos_atencion;
-
-                document.getElementById('caja_fecha_aprobacion').style.display = 'none';
-                document.getElementById('caja_responsable_aprobacion').style.display = 'none';
-
-            }else{
-                document.getElementById('caja_fecha_aprobacion').style.display = 'none';
-                document.getElementById('caja_responsable_aprobacion').style.display = 'none';
-                document.getElementById('caja_fecha_desaprobacion').style.display = 'none';
-                document.getElementById('caja_responsable_desaprobacion').style.display = 'none';
-            }
+            document.getElementById('fecha_autorizacion').textContent = formatearFecha(datosPermiso.fecha_autorizacion);
+            document.getElementById('responsable_autorizacion').textContent = formatearString(datosPermiso.rol_autorizacion)+' - '+datosPermiso.nombres_autorizacion+' '+datosPermiso.apellidos_autorizacion;
              
             contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');

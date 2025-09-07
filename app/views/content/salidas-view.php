@@ -1,17 +1,9 @@
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
 
-<?php if(!isset($_SESSION['datos_usuario']['puerta'])): ?>
-    <input type="hidden" id="puerta" >
-<?php endif; ?>
+<input type="hidden" id="puerta" value="<?php if(isset($_SESSION['datos_usuario']['puerta'])) echo $_SESSION['datos_usuario']['puerta']; ?>">
 
 <div id="contenedor_principal">
     <div id="contenedor_btns_formularios">
-        <div id="contenedor_btn_volver">
-            <button type="button" id="btn_volver">
-                <ion-icon name="chevron-back-outline" role="img" class="md hydrated"></ion-icon>
-            </button>
-        </div>
-
         <div class="contenedor-btn-formulario" id="contenedor_peatonal">
             <button type="button" id="btn_peatonal" class="btn-peatonal-vehicular">
                 <ion-icon name="walk"></ion-icon>

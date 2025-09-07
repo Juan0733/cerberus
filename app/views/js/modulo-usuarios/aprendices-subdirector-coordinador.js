@@ -149,14 +149,12 @@ function eventoEditarAprendiz(){
 
 function eventoBuscarFicha(){
     let inputFicha = document.getElementById('buscador_ficha');
-    let temporizador;
     
     inputFicha.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputFicha.value.length == 0 || inputFicha.value.length > 3){
             parametros.ficha = inputFicha.value;
             validarResolucion();
-        }, 500)
+        }
     })
 }
 
@@ -171,14 +169,12 @@ function eventoUbicacion(){
 
 function eventoBuscarDocumento(){
     let inputDocumento = document.getElementById('buscador_documento');
-    let temporizador;
     
     inputDocumento.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputDocumento.value.length == 0 || inputDocumento.value.length > 5){
             parametros.documento = inputDocumento.value;
             validarResolucion();
-        }, 500)
+        }
     })
 }
 

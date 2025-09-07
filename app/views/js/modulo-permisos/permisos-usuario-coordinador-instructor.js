@@ -150,14 +150,12 @@ function eventoFecha(){
 
 function eventoBuscarDocumento(){
     const inputDocumento = document.getElementById('buscador_documento');
-    let temporizador;
     
     inputDocumento.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputDocumento.value.length == 0 || inputDocumento.value.length > 5)
             parametros.documento = inputDocumento.value;
             validarResolucion();
-        }, 500)
+       
     })
 }
 

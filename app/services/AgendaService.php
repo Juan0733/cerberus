@@ -301,7 +301,7 @@ class AgendaService{
             $numeroDocumento = $this->limpiarDatos($_GET['documento']);
             unset($_GET['documento']);
 
-            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
+            if(preg_match('/^[A-Za-z0-9]{6,15}$/', $numeroDocumento)){
                 $parametros['numero_documento'] = $numeroDocumento;
             }
         }
@@ -310,7 +310,7 @@ class AgendaService{
             $titulo = $this->limpiarDatos($_GET['titulo']);
             unset($_GET['titulo']);
 
-            if(preg_match('/^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{1,15}$/', $titulo)){
+            if(preg_match('/^[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}$/', $titulo)){
                 $parametros['titulo'] = $titulo;
             }
         }

@@ -66,7 +66,7 @@ class VehiculoService{
             $numeroPlaca= $this->limpiarDatos($_GET['placa']);
             unset($_GET['placa']);
 
-            if(preg_match('/^[A-Za-z0-9]{1,6}$/', $numeroPlaca)){
+            if(preg_match('/^[A-Za-z0-9]{3,6}$/', $numeroPlaca)){
                 $parametros['numero_placa'] = $numeroPlaca;
             }
         }
@@ -75,7 +75,7 @@ class VehiculoService{
             $numeroPlaca= $this->limpiarDatos($_GET['documento']);
             unset($_GET['documento']);
 
-            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroPlaca)){
+            if(preg_match('/^[A-Za-z0-9]{6,15}$/', $numeroPlaca)){
                 $parametros['numero_documento'] = $numeroPlaca;
             }
         }

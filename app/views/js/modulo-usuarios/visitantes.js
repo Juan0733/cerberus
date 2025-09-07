@@ -88,7 +88,7 @@ function dibujarCardsVisitantes(){
                     <div class="document-card-visitante">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${visitante.nombres} | ${visitante.apellidos}</p>
+                                <p class="document-title">${visitante.nombres} ${visitante.apellidos}</p>
                                 <p class="document-meta">${visitante.tipo_documento}: ${visitante.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

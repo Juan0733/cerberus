@@ -120,7 +120,7 @@ function dibujarCardsPermisos(){
                         <div class="card-details">
                             <p><strong>Fecha y Hora: </strong>${permiso.fecha_registro}</p>
                             <p><strong>Estado: </strong>${permiso.estado_permiso}</p>
-                            <p><strong>Vigilante: </strong>${permiso.fk_usuario_sistema}</p>
+                            <p><strong>${formatearString(permiso.rol_usuario_sistema)}: </strong>${permiso.fk_usuario_sistema}</p>
                         </div>
                         <div class="contenedor-acciones">
                             ${acciones}
@@ -232,6 +232,12 @@ function toggleCard() {
             }
         });
     });
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function alertaExito(respuesta){

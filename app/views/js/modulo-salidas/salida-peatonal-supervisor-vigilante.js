@@ -2,41 +2,10 @@ import {registrarSalidaPeatonal} from '../fetchs/movimientos-fetch.js'
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 import { modalScanerQr } from '../modales/modal-scaner-qr.js';
-import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let documentoPeaton;
 let formularioPeatonal;
 let urlBase;
-
-function eventoAbrirFormularioPeatonal(){
-    const formularioVehicular = document.getElementById('formulario_vehicular');
-    const contenedorBotonVolver = document.getElementById('contenedor_btn_volver');
-    const botonPeatonal = document.getElementById("btn_peatonal");
-    const botonVehicular = document.getElementById("btn_vehicular");
-
-    botonPeatonal.addEventListener("click", ()=>{
-        formularioPeatonal.reset();
-
-        if(window.innerWidth > 1023){
-            if (formularioVehicular.style.display == "flex") {
-                formularioVehicular.style.display = "none"
-                botonVehicular.style.display = 'flex';
-            }
-
-            botonPeatonal.style.display = "none"
-            formularioPeatonal.style.display = "flex"
-            documentoPeaton.focus();
-
-        }else{
-            botonVehicular.style.display = "none";
-            botonPeatonal.style.display = "none";
-            contenedorBotonVolver.style.display = 'flex';
-            formularioPeatonal.style.display = "flex"
-            documentoPeaton.focus();
-        }
-    })
-    
-}
 
 function eventoRegistrarSalidaPeatonal() {
     formularioPeatonal.addEventListener('submit', (e)=>{
@@ -164,14 +133,9 @@ document.addEventListener("DOMContentLoaded", function() {
     documentoPeaton = document.getElementById("documento_peaton");
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
 
-    eventoAbrirFormularioPeatonal();
     eventoTextArea();
     eventoRegistrarSalidaPeatonal();
     eventoScanerQrPeaton();
-
-    if(document.getElementById('puerta')){
-        modalSeleccionPuerta(urlBase);
-    }
 });
 
 

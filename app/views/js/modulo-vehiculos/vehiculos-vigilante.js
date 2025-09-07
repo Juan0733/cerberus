@@ -82,7 +82,7 @@ function dibujarCardsVehiculos(){
                     <div class="document-card-vehiculo">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${vehiculo.numero_placa} | ${vehiculo.tipo_vehiculo}</p>
+                                <p class="document-title">${vehiculo.numero_placa} ${vehiculo.tipo_vehiculo}</p>
                                 <p class="document-meta">Ubicación: ${vehiculo.ubicacion}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

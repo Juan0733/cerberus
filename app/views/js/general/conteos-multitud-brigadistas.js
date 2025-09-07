@@ -7,14 +7,13 @@ let urlBase;
 let contadorMultitud;
 let contadorMultitudMobile;
 let contadorBrigadistas;
+let contadorBrigadistasMobile;
 
 function dibujarConteoMultitud(){
     conteoTotalUsuarios(urlBase).then(respuesta => {
         if(respuesta.tipo == 'OK'){
             contadorMultitud.innerText = respuesta.total_usuarios;
-            if(contadorMultitudMobile){
-                contadorMultitudMobile.innerText ="Multitud: " + respuesta.total_usuarios;
-            }
+            contadorMultitudMobile.innerText = respuesta.total_usuarios;
             
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -30,6 +29,7 @@ function dibujarConteoBrigadistas(){
     conteoTotalBrigadistas(urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             contadorBrigadistas.innerText = respuesta.total_brigadistas;
+            contadorBrigadistasMobile.innerText = respuesta.total_brigadistas;
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -54,7 +54,7 @@ function eventoBrigadistas(){
 function eventoPuerta(){
     const botonPuerta = document.getElementById('btn_puerta');
 
-    if(botonPuerta){
+    if(botonPuerta && !document.getElementById('btn_peatonal')){
         botonPuerta.addEventListener('click', ()=>{
             modalSeleccionPuerta(urlBase);
         })
@@ -83,7 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
     urlBase = document.getElementById('url_base').value;
     contadorMultitud = document.getElementById('contador_multitud');
     contadorMultitudMobile = document.getElementById("contador_multitud_mobile");
-    contadorBrigadistas = document.getElementById('contador_brigadistas')
+    contadorBrigadistas = document.getElementById('contador_brigadistas');
+    contadorBrigadistasMobile = document.getElementById('contador_brigadistas_mobile');
+
+
     dibujarConteoMultitud();
     dibujarConteoBrigadistas();
     eventoBrigadistas();

@@ -19,8 +19,14 @@
     </div>
 
     <div id="cont_info_usuario-mobil">
+        <div id="btn_multitud_mobile">
+            <ion-icon name="people"></ion-icon>
+            <span id="contador_multitud_mobile">0</span>
+        </div>
+
         <div id="btn_brigadistas_mobile">
             <ion-icon name="medkit"></ion-icon>
+            <span id="contador_brigadistas_mobile">0</span>
         </div>
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>

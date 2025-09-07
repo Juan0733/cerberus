@@ -89,7 +89,7 @@ function dibujarCardsVigilantes(){
                     <div class="document-card-vigilante">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${vigilante.nombres} | ${vigilante.apellidos}</p>
+                                <p class="document-title">${vigilante.nombres} ${vigilante.apellidos}</p>
                                 <p class="document-meta">${vigilante.tipo_documento}: ${vigilante.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

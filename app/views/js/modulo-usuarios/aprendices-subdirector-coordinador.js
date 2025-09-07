@@ -91,7 +91,7 @@ function dibujarCardsAprendices(){
                     <div class="document-card-aprendiz">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${aprendiz.nombres} | ${aprendiz.apellidos}</p>
+                                <p class="document-title">${aprendiz.nombres} ${aprendiz.apellidos}</p>
                                 <p class="document-meta">${aprendiz.tipo_documento}: ${aprendiz.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

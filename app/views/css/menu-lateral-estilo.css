@@ -298,7 +298,7 @@
     align-items: center;
     border-radius: 50px;
     position: relative;
-    margin: 0 12px 0 5px;
+    margin: 0 10px 0 5px;
 
 }
     .menu #cont_info_usuario-mobil #btn_multitud_mobile #contador_multitud_mobile {
@@ -347,7 +347,7 @@
     border-radius: 50px;
     position: relative;
     background-color: #EC8103;
-    margin-right: 12px;
+    margin-right: 10px;
 }
 
     .menu #cont_info_usuario-mobil #btn_brigadistas_mobile #contador_brigadistas_mobile {
@@ -373,7 +373,7 @@
     align-items: center;
     border-radius: 50px;
     position: relative;
-    margin-right: 12px;
+    margin-right: 10px;
 }
 
     .menu #cont_info_usuario-mobil #btn_puerta_mobile svg{
@@ -404,7 +404,7 @@
     .menu{
         display: flex;
         justify-content: space-between;
-        padding: 0 12px;
+        padding: 0 10px;
         position: sticky;
         top: 0;
         background: var(--main-color);

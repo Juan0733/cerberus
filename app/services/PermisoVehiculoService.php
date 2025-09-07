@@ -95,7 +95,7 @@ class PermisoVehiculoService{
             $numeroPlaca = $this->limpiarDatos($_GET['placa']);
             unset($_GET['placa']);
 
-            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroPlaca)){
+            if(preg_match('/^[A-Za-z0-9]{3,6}$/', $numeroPlaca)){
                 $parametros['numero_placa'] = $numeroPlaca;
             }
         }

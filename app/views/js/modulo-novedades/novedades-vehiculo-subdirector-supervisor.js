@@ -155,14 +155,12 @@ function eventoTipoNovedad(){
 
 function eventoBuscarPlaca(){
     let inputPlaca = document.getElementById('buscador_placa');
-    let temporizador;
     
     inputPlaca.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputPlaca.value.length == 0 || inputPlaca.value.length > 2){
             parametros.placa = inputPlaca.value;
             validarResolucion();
-        }, 500)
+        }
     })
 }
 

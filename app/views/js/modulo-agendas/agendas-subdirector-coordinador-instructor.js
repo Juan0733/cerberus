@@ -155,27 +155,23 @@ function formatearFecha(fechaHora){
 
 function eventoBuscarDocumento(){
     const inputDocumento = document.getElementById('buscador_documento');
-    let temporizador;
-    
+
     inputDocumento.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputDocumento.value.length == 0 || inputDocumento.value.length > 5){
             parametros.documento = inputDocumento.value;
             dibujarAgendas();
-        }, 500)
+        }
     })
 }
 
 function eventoBuscarTitulo(){
     const inputTitulo = document.getElementById('buscador_titulo');
-    let temporizador;
-    
+
     inputTitulo.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputTitulo.value.length == 0 || inputTitulo.value.length > 4){
             parametros.titulo = inputTitulo.value;
             dibujarAgendas();
-        }, 500)
+        }
     })
 }
 

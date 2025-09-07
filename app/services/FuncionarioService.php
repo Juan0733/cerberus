@@ -479,7 +479,7 @@ class FuncionarioService{
             $numeroDocumento= $this->limpiarDatos($_GET['documento']);
             unset($_GET['documento']);
 
-            if(preg_match('/^[A-Za-z0-9]{1,15}$/', $numeroDocumento)){
+            if(preg_match('/^[A-Za-z0-9]{6,15}$/', $numeroDocumento)){
                 $parametros['numero_documento'] = $numeroDocumento;
             }
         }

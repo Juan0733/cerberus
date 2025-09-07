@@ -170,14 +170,12 @@ function eventoFechaFin(){
 
 function eventoBuscarDocumento(){
     let inputDocumento = document.getElementById('buscador_documento');
-    let temporizador;
     
     inputDocumento.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputDocumento.value.length == 0 || inputDocumento.value.length > 5){
             parametros.documento = inputDocumento.value;
             validarResolucion();
-        }, 500)
+        }
     })
 }
 
@@ -197,14 +195,12 @@ function eventoGenerarInforme(){
 
 function eventoBuscarPlaca(){
     let inputPlaca = document.getElementById('buscador_placa');
-    let temporizador;
 
     inputPlaca.addEventListener('input', ()=>{
-        clearTimeout(temporizador);
-        temporizador = setTimeout(()=>{
+        if(inputPlaca.value.length == 0 || inputPlaca.value.length > 2){
             parametros.placa = inputPlaca.value;
             validarResolucion();
-        }, 1000)
+        }
     })
 }
 

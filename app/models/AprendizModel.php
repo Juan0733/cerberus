@@ -1,8 +1,6 @@
 <?php
 namespace App\Models;
 
-use DateTime;
-
 class AprendizModel extends MainModel{
     private $objetoUsuario;
     private $objetoFicha;

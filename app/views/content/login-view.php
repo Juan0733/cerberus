@@ -15,8 +15,8 @@
                 <form  action="" method="post" id="forma_acceso" enctype="application/x-www-form-urlencoded">
 
                     <div id="caja_01" class="rotado">
-                        <label for="" class="label-input">Numero de identificacion</label>
-                        <input type="text" class="campo" inputmode="numeric" name="num_id_usuario" id="num_id_usuario" pattern="[a-zA-Z0-9]{6,15}" title="Debes digitar solo números y/o letras, mínimo 6 y máximo 15 caracteres" minlength="6" maxlength="15" placeholder="# Identificacion" required>
+                        <label for="" class="label-input">Numero de identificación</label>
+                        <input type="text" class="campo" inputmode="numeric" name="num_id_usuario" id="num_id_usuario" pattern="[a-zA-Z0-9]{6,15}" title="Debes digitar solo números y/o letras, mínimo 6 y máximo 15 caracteres" minlength="6" maxlength="15" placeholder="# Identificación" required>
 
                     </div>
                     

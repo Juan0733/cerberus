@@ -167,7 +167,7 @@ function eventoAprobarPermiso(){
         boton.addEventListener('click', ()=>{
             alertaAdvertencia({
                 titulo: 'Aprobar Permiso',
-                mensaje: '¿Estas seguro que deseas aprobar este permiso?',
+                mensaje: '¿Estás seguro que deseas aprobar este permiso?',
                 codigo_permiso: permiso
             });
         });
@@ -182,7 +182,7 @@ function eventoDesaprobarPermiso(){
         boton.addEventListener('click', ()=>{
             alertaAdvertencia({
                 titulo: 'Desaprobar Permiso',
-                mensaje: '¿Estas seguro que deseas desaprobar este permiso?',
+                mensaje: '¿Estás seguro que deseas desaprobar este permiso?',
                 codigo_permiso: permiso
             });
         });

@@ -27,24 +27,6 @@
         width: 100%;
     }
 
-        #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver{
-            display: none;
-            width: 85%;
-        }
-
-            #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver #btn_volver {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                background-color: var(--color-secundario);
-                border: none;
-                border-radius: 13px;
-                font-size: 30px;
-                color: white;
-            }
-
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario{
             display: flex;
             justify-content: center;
@@ -274,10 +256,6 @@
         padding: 0;
         overflow-y: auto;
     }
-
-        #contenedor_principal #contenedor_btns_formularios #contenedor_btn_volver{
-            width: clamp(300px, 100%, 600px);
-        }
 
         #contenedor_principal #contenedor_btns_formularios .contenedor-btn-formulario .btn-peatonal-vehicular{
             width: clamp(300px, 100%, 600px);

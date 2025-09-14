@@ -250,7 +250,7 @@ class VigilanteModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Cambio de Puerta',
-            'mensaje' => 'La puerta se guardo correctamente.'
+            'mensaje' => 'La puerta se guardó correctamente.'
         ];
         return $respuesta;
     }

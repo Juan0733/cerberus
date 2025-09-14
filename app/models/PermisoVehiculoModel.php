@@ -295,9 +295,9 @@ class PermisoVehiculoModel extends MainModel{
                 COALESCE(fun2.nombres, vig2.nombres) AS nombres_registro,
                 COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_registro,
                 COALESCE(fun2.rol, vig2.rol) AS rol_registro,
-                COALESCE(fun3.nombres, 'N/A') AS nombres_atencion,
-                COALESCE(fun3.apellidos, 'N/A') AS apellidos_atencion,
-                COALESCE(fun3.rol, 'N/A') AS rol_atencion
+                COALESCE(fun3.nombres, 'N/A') AS nombres_autorizacion,
+                COALESCE(fun3.apellidos, 'N/A') AS apellidos_autorizacion,
+                COALESCE(fun3.rol, 'N/A') AS rol_autorizacion
 
             FROM permisos_vehiculos pv
             INNER JOIN (SELECT numero_placa, tipo_vehiculo FROM vehiculos GROUP BY numero_placa, tipo_vehiculo) veh ON pv.fk_vehiculo = veh.numero_placa

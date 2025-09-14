@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-09-2025 a las 02:36:41
+-- Tiempo de generación: 15-09-2025 a las 00:05:36
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -418,7 +418,8 @@ INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
 (183, 'consultar_permiso_usuario', 'VIGILANTE'),
 (184, 'consultar_funcionarios', 'INSTRUCTOR'),
 (185, 'registrar_agenda_grupal', 'INSTRUCTOR'),
-(186, 'cerrar_sesion', 'INSTRUCTOR');
+(186, 'cerrar_sesion', 'INSTRUCTOR'),
+(187, 'registrar_vehiculo', 'INSTRUCTOR');
 
 -- --------------------------------------------------------
 
@@ -636,7 +637,7 @@ ALTER TABLE `permisos_vehiculos`
 -- AUTO_INCREMENT de la tabla `roles_operaciones`
 --
 ALTER TABLE `roles_operaciones`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`

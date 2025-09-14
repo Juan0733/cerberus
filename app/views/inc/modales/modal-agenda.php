@@ -13,8 +13,8 @@
         <form action="" id="formulario_agenda" method="post" >
             <div id="contenedor_cajas_agenda">
                 <div class="input-caja-registro seccion-principal">
-                    <label for="titulo_agenda" class="label-input">Titulo de la agenda</label>
-                    <input type="text" class="campo campo-principal" name="titulo_agenda" id="titulo_agenda" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}" title="Debes digitar solo números y letras, mínimo 5 y máximo 50 caracteres" maxlength="50" minlength="5" placeholder="Ej: 123456" tabindex="1" required>
+                    <label for="titulo_agenda" class="label-input">Título de la agenda</label>
+                    <input type="text" class="campo campo-principal" name="titulo_agenda" id="titulo_agenda" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,50}" title="Debes digitar solo números y letras, mínimo 5 y máximo 50 caracteres" maxlength="50" minlength="5" placeholder="Ej: Mercado Campesino" tabindex="1" required>
                 </div>
 
                 <div class="input-caja-registro seccion-principal">

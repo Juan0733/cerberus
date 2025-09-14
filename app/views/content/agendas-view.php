@@ -25,7 +25,7 @@
 
         <div class="buscar filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_titulo" id="buscador_titulo" placeholder="Buscar Titulo Agenda">
+            <input type="text" name="buscador_titulo" id="buscador_titulo" placeholder="Buscar Título Agenda">
         </div>
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>

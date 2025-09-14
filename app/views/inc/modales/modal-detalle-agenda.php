@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <h3>Responsable registro:</h3>
+        <h3>Responsable Agenda:</h3>
         <p id="responsable_registro"></p>
 
         <h3>Motivo:</h3>

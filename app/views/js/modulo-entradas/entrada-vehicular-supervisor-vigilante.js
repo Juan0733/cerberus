@@ -194,7 +194,7 @@ function eventoInputPropietario(){
             }else{
                 let mensaje = {
                     titulo: "Error Propietario",
-                    mensaje: `El usuario con numero de documento ${documentoPropietario.value}, ya se encuentra en la lista de pasajeros.`
+                    mensaje: `El usuario con número de documento ${documentoPropietario.value} ya se encuentra en la lista de pasajeros.`
                 };
 
                 documentoPropietario.classList.add('input-error');
@@ -247,14 +247,14 @@ function eventoFormularioPasajeros(){
             }else{
                 let mensaje = {
                     titulo: "Error Pasajero",
-                    mensaje: `El usuario con numero de documento ${documentoPasajero.value}, ya se encuentra en la lista de pasajeros.`
+                    mensaje: `El usuario con número de documento ${documentoPasajero.value} ya se encuentra en la lista de pasajeros.`
                 };
                 alertaError(mensaje);
             }
         }else{
             let mensaje = {
                 titulo: "Error Pasajero",
-                mensaje: `El usuario con numero de documento ${documentoPasajero.value}, ya se encuentra como propietario.`
+                mensaje: `El usuario con número de documento ${documentoPasajero.value} ya se encuentra como propietario.`
             };
             alertaError(mensaje);
         }

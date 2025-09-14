@@ -206,7 +206,7 @@ function eventoEliminarPropietarioVehiculo(){
         boton.addEventListener('click', ()=>{
             let mensaje = {
                 titulo: "Eliminar Propietario",
-                mensaje: "¿Estas seguro que quieres eliminar este propietario?",
+                mensaje: "¿Estás seguro que quieres eliminar este propietario?",
                 propietario: propietario
             };
             alertaAdvertencia(mensaje);

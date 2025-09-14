@@ -36,7 +36,7 @@ function dibujarTablaMovimientos(){
                         <th>Número Doc.</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
-                        <th>Vehiculo</th>
+                        <th>Vehículo</th>
                         <th>Relacion vehículo</th>
                         <th>Acciones</th>
                     </tr>

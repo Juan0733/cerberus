@@ -78,7 +78,7 @@ class UsuarioModel extends MainModel{
         $sentenciaEliminar = "
             DELETE 
             FROM $tablaOrigen 
-            WHERE numero_documento = '$usuario' ;";
+            WHERE numero_documento = '$usuario';";
         
         $respuesta= $this->ejecutarConsulta($sentenciaEliminar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -87,7 +87,7 @@ class UsuarioModel extends MainModel{
 
         $respuesta = [
             "tipo"=>"OK",
-            "titulo" => 'Cambio Exitoso',
+            "titulo" => 'Eliminación Exitosa',
             "mensaje"=> 'El usuario fue eliminado correctamente.'
         ];
         return $respuesta;

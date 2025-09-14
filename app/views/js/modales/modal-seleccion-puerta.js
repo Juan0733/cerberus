@@ -25,17 +25,9 @@ async function modalSeleccionPuerta(url, callback=false) {
         modal.innerHTML = contenidoModal;
         contenedorModales = document.getElementById('contenedor_modales');
         
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
-            }
-        }
-
-        funcionCallback = callback;
-
         contenedorModales.appendChild(modal);
 
+        funcionCallback = callback;
         urlBase = url;
 
         eventoCerrarModal();
@@ -65,7 +57,11 @@ function eventoCerrarModal(){
         botonCerrarModal.addEventListener('click', ()=>{
             if(puertaActual){
                 modalesExistentes[modalesExistentes.length-1].remove();
-                contenedorModales.classList.remove('mostrar');
+                if(modalesExistentes.length > 0) {
+                    modalesExistentes[modalesExistentes.length-1].style.display = 'block';
+                }else{
+                    contenedorModales.classList.remove('mostrar');
+                }
             }
         });
     
@@ -83,7 +79,13 @@ function dibujarPuertaActual() {
             document.getElementById('icono_puerta_'+puertaActual.toLowerCase()).style.color = 'var(--color-secundario)';
 
             contenedorSpinner.classList.remove("mostrar_spinner");
-            contenedorModales.classList.add('mostrar');
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 1){
+                modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+
+            }else{
+                contenedorModales.classList.add('mostrar');
+            }
     
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -94,7 +96,13 @@ function dibujarPuertaActual() {
                 puertaNueva = '';
 
                 contenedorSpinner.classList.remove("mostrar_spinner");
-                contenedorModales.classList.add('mostrar');
+                modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+                if(modalesExistentes.length > 1){
+                    modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+
+                }else{
+                    contenedorModales.classList.add('mostrar');
+                }
 
             }else{
                 botonCerrarModal.click();

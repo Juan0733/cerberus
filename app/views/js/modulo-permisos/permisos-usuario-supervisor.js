@@ -204,12 +204,13 @@ function toggleCard() {
             }
         });
     });
+}
 
 function formatearString(cadena) { 
     cadena = cadena.toLowerCase();
     cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
     return cadena; 
-}}
+}
 
 function alertaError(respuesta){
     Swal.fire({

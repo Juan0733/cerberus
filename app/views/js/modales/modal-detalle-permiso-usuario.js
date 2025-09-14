@@ -82,12 +82,13 @@ function dibujarPermiso() {
             document.getElementById('estado_permiso').textContent = formatearString(datosPermiso.estado_permiso);
             document.getElementById('descripcion').textContent = datosPermiso.descripcion;
             document.getElementById('fecha_fin_permiso').textContent = formatearFecha(datosPermiso.fecha_fin_permiso);
-            document.getElementById('fecha_autorizacion').textContent = datosPermiso.fecha_autorizacion;
 
-            if(datosPermiso.nombres_autorizacion == 'N/A'){
+            if(datosPermiso.fecha_autorizacion == 'N/A'){
+                document.getElementById('fecha_autorizacion').textContent = datosPermiso.fecha_autorizacion;
                 document.getElementById('responsable_autorizacion').textContent = datosPermiso.nombres_autorizacion;
 
             }else{
+                document.getElementById('fecha_autorizacion').textContent = formatearFecha(datosPermiso.fecha_autorizacion);
                 document.getElementById('responsable_autorizacion').textContent = formatearString(datosPermiso.rol_autorizacion)+' - '+datosPermiso.nombres_autorizacion+' '+datosPermiso.apellidos_autorizacion;
             }
             

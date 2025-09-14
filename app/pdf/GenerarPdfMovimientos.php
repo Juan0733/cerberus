@@ -52,7 +52,7 @@ class PDF extends tFPDF{
             $this->SetFont('DejaVu', 'B', 18);
             $this->SetY(65);
             $this->SetTextColor(0, 22, 41);
-            $this->Cell(30, 60,'REPORTES DE INGRESO Y SALIDA:', 0, 0);
+            $this->Cell(30, 60,'REPORTES DE ENTRADAS Y SALIDAS:', 0, 0);
 
             $this->SetY(100);
             $this->dibujarCabeceraTabla();
@@ -73,23 +73,23 @@ class PDF extends tFPDF{
 
         $this->SetFont('DejaVu', '', 14);
 
-        $this->setXY(20, 23);
+        $this->setY(23);
         $this->Cell(30, 60, "Tipo documento: ".$this->usuario['tipo_documento'], 0, 0);
 
         $this->setXY(157, 23);
         $this->Cell(30, 60, 'Número documento: '.$this->usuario['numero_documento'], 0, 0);
     
-        $this->setXY(20, 33);
+        $this->setY(33);
         $this->Cell(30, 60, "Nombres: ".$this->usuario['nombres'], 0, 0);
 
         $this->setXY(157, 33);
         $this->Cell(30, 60, "Apellidos: ".$this->usuario['apellidos'], 0, 0);
 
-        $this->setXY(20, 43);
+        $this->setY(43);
         $this->Cell(30, 60, 'Número telefóno: '.$this->usuario['telefono'], 0, 0);
 
          $this->setXY(157, 43);
-        $this->Cell(30, 60, 'Grupo usuario: '.$this->usuario['grupo'], 0, 0);
+        $this->Cell(30, 60, 'Tipo usuario: '.ucfirst(strtolower($this->usuario['tipo_usuario'])), 0, 0);
     }
 
     function dibujarInformacionVehiculo(){
@@ -100,11 +100,11 @@ class PDF extends tFPDF{
 
         $this->SetFont('DejaVu', '', 14);
     
-        $this->setXY(20, 23);
+        $this->setY(23);
         $this->Cell(30, 60, "Número placa: ".$this->vehiculo['numero_placa'], 0, 0);
 
-        $this->setXY(20, 33);
-        $this->Cell(30, 60, "Tipo vehículo: ".$this->vehiculo['tipo_vehiculo'], 0, 0);
+        $this->setY(33);
+        $this->Cell(30, 60, "Tipo vehículo: ".ucfirst(strtolower($this->usuario['tipo_vehiculo'])), 0, 0);
     }
 
     function dibujarCabeceraTabla(){
@@ -216,7 +216,7 @@ try {
             exit();
         }
 
-        $pdf = new PDF($parametros['fecha_inicio'], $parametros['fecha_fin'], '', $respuesta['vehiculo']);
+        $pdf = new PDF($parametros['fecha_inicio'], $parametros['fecha_fin'], '', $respuesta['datos_vehiculo']);
 
     }else{
         $pdf = new PDF($parametros['fecha_inicio'], $parametros['fecha_fin']);

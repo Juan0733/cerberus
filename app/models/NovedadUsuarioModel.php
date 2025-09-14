@@ -18,8 +18,17 @@ class NovedadUsuarioModel extends MainModel{
         
         $tablaUsuario = $respuesta['tabla_usuario'];
 
-        $fechaRegistro = date('Y-m-d H:i:s');
+        if(!isset($_SESSION['datos_usuario']['puerta'])){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Puerta Actual',
+                'mensaje' => 'Lo sentimos, pero es necesario que selecciones la puerta en la que estás actualmente. ¿Deseas seleccionar la puerta actual?'
+            ];
+            return $respuesta;
+        }
+
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
+        $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $codigoNovedad = 'NU'.date('YmdHis');
 

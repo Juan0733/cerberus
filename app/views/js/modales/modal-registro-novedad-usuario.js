@@ -1,4 +1,5 @@
 import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
+import { modalSeleccionPuerta } from './modal-seleccion-puerta.js';
 
 let contenedorModales;
 let modalesExistentes;
@@ -106,6 +107,9 @@ function eventoRegistrarNovedadUsuario(){
                 if(respuesta.titulo == 'Sesión Expirada'){
                     window.location.replace(urlBase+'sesion-expirada');
 
+                }else if(respuesta.titulo == 'Error Puerta Actual'){
+                    alertaAdvertencia(respuesta);
+                    
                 }else{
                     alertaError(respuesta);
                 }
@@ -149,6 +153,29 @@ function alertaExito(respuesta){
             });
         }
     })
+}
+
+function alertaAdvertencia(respuesta){
+    Swal.fire({
+        icon: "warning",
+        iconColor: "#feb211",
+        title: respuesta.titulo,
+        text: respuesta.mensaje,
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar',
+            cancelButton: 'btn-cancelar' 
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if(respuesta.titulo == "Error Puerta Actual"){
+                modalSeleccionPuerta(urlBase);
+            }
+        } 
+    });
 }
 
 function alertaError(respuesta){

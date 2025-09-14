@@ -95,7 +95,7 @@ function eventoEliminarAgenda(){
         boton.addEventListener('click', ()=>{
             let mensaje = {
                 titulo: 'Eliminar Agenda',
-                mensaje: '¿Estas seguro que deseas eliminar esta agenda?',
+                mensaje: '¿Estás seguro que deseas eliminar esta agenda?',
                 codigo_agenda: codigoAgenda
             };
 

@@ -195,7 +195,7 @@ function eventoInhabilitarVigilante(){
         boton.addEventListener('click', ()=>{
             alertaAdvertencia({
                 titulo: 'Inhabilitar Usuario',
-                mensaje: '¿Estas seguro que deseas inhabilitar a este usuario?',
+                mensaje: '¿Estás seguro que deseas inhabilitar a este usuario?',
                 documento: documento
             });
         });

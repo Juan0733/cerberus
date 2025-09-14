@@ -164,6 +164,12 @@ function toggleCard() {
     });
 }
 
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
+}
+
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",
@@ -176,12 +182,6 @@ function alertaError(respuesta){
             confirmButton: 'btn-confirmar'
         }
     });
-}
-
-function formatearString(cadena) { 
-    cadena = cadena.toLowerCase();
-    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
-    return cadena; 
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{

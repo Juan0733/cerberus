@@ -87,7 +87,7 @@
                     <table id="tabla_pasajeros">
                         <thead>
                             <tr>
-                                <th>Identificacion</th>
+                                <th>Identificación</th>
                                 <th>Nombres</th>
                                 <th>Acciones</th>
                             </tr>

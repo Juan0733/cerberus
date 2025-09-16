@@ -1,10 +1,6 @@
 <?php
     require_once "../../../../config/app.php";
-    $fechaActual = new DateTime();
-    $fechaMinima = (clone $fechaActual)->modify('-3 year'); 
-    $fechaMaxima = $fechaActual;
-    $fechaMinimaFormatted = $fechaMinima->format('Y-m-d\TH:i');
-    $fechaMaximaFormatted = $fechaMaxima->format('Y-m-d\TH:i');
+    $fechaMaxima = date('Y-m-d\TH:i');
 ?>
 
 <div class="contenedor-titulo-modal">
@@ -40,8 +36,7 @@
                         title="Selecciona la fecha del suceso." 
                         tabindex="6" 
                         required 
-                        min="<?php echo $fechaMinimaFormatted; ?>" 
-                        max="<?php echo $fechaMaximaFormatted; ?>">
+                        max="<?php echo $fechaMaxima; ?>">
                 </div>
 
                 <div class="input-caja-registro">

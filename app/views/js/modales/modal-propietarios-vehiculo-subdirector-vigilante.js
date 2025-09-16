@@ -103,12 +103,11 @@ function dibujarTablaPropietarios(){
                     <tr class="propietarios">
                         <td>${propietario.numero_documento}</td>
                         <td>${propietario.nombres} ${propietario.apellidos}</td>
-                        <td>${propietario.telefono}</td>
+                        <td>${formatearNumeroTelefono(propietario.telefono)}</td>
                         <td>${propietario.ubicacion}</td>
                     </tr>`;
             });
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
             
         }else if(respuesta.tipo == 'ERROR'){
@@ -145,7 +144,7 @@ function dibujarCardsPropietarios(){
                         </div>
                         
                         <div class="card-details">
-                            <p><strong>Teléfono: </strong>${propietario.telefono}</p>
+                            <p><strong>Teléfono: </strong>${formatearNumeroTelefono(propietario.telefono)}</p>
                             <p><strong>Ubicación: </strong>${propietario.ubicacion}</p>
                         </div>
                     </div>`;
@@ -153,7 +152,6 @@ function dibujarCardsPropietarios(){
 
             toggleCard();
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -184,6 +182,19 @@ function toggleCard() {
             }
         });
     });
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

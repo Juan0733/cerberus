@@ -77,7 +77,6 @@ function dibujarNovedad() {
             document.getElementById('fecha_registro').textContent = formatearFecha(datosNovedad.fecha_registro);
             document.getElementById('descripcion').textContent = datosNovedad.descripcion;
             
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

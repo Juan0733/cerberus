@@ -53,9 +53,9 @@ async function modalActualizarAgenda(codigo, callback, url) {
         urlBase = url;
 
         eventoCerrarModal();
-        dibujarAgenda();
         eventoTextArea();
         eventoActualizarAgenda();
+        dibujarAgenda();
            
         setTimeout(()=>{
            titulo.focus();
@@ -105,7 +105,6 @@ function dibujarAgenda(){
                 checkIndividual.checked = true;
             }
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

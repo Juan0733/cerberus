@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
 	}elseif($operacion == 'consultar_vehiculo'){
 		$respuesta = $objetoServicio->sanitizarParametros();
-		if(empty($respuesta['parametros'])){
+		if(!isset($respuesta['parametros']['numero_placa'])){
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error De Parámetros',
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
 	}elseif($operacion == 'consultar_propietarios'){
 		$respuesta = $objetoServicio->sanitizarParametros();
-		if(empty($respuesta['parametros'])){
+		if(!isset($respuesta['parametros']['numero_placa'])){
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error De Parámetros',
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
 	}elseif($operacion == 'eliminar_propietario_vehiculo'){
 		$respuesta = $objetoServicio->sanitizarParametros();
-		if(!isset($respuesta['parametros']['numero_placa']) || !isset($respuesta['parametros']['numero_documento'])){
+		if(!isset($respuesta['parametros']['numero_placa'], $respuesta['parametros']['numero_documento'])){
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error De Parámetros',

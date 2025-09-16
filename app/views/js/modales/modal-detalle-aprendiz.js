@@ -71,13 +71,12 @@ function dibujarAprendiz() {
             document.getElementById('numero_documento').textContent = datosAprendiz.numero_documento;
             document.getElementById('nombres').textContent = datosAprendiz.nombres;
             document.getElementById('apellidos').textContent = datosAprendiz.apellidos;
-            document.getElementById('telefono').textContent = datosAprendiz.telefono;
+            document.getElementById('telefono').textContent = formatearNumeroTelefono(datosAprendiz.telefono);
             document.getElementById('correo_electronico').textContent = datosAprendiz.correo_electronico;
             document.getElementById('numero_ficha').textContent = datosAprendiz.numero_ficha;
             document.getElementById('nombre_programa').textContent = datosAprendiz.nombre_programa;
             document.getElementById('fecha_fin_ficha').textContent = formatearFecha(datosAprendiz.fecha_fin_ficha);
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -101,6 +100,19 @@ function formatearFecha(fecha){
     const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
 
     return fechaEspañol;
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

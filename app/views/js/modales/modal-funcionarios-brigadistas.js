@@ -74,34 +74,23 @@ function dibujarBrigadistas(){
         const contenedor = document.getElementById('cont_info_modales');
         if(respuesta.tipo == 'OK'){
             respuesta.funcionarios.forEach(funcionario => {
-                let telefonoFormateado = '';
-                for (let i = 0; i < funcionario.telefono.length; i++) {
-                    telefonoFormateado += funcionario.telefono[i];
-                    if(i == 2 || i == 5 || i == 7 ){
-                        telefonoFormateado += '-';
-                    }
-                }
-
-                funcionario.telefono = telefonoFormateado;
                 contenedor.innerHTML += `
                     <div class="document-card-brigadista">
                         <div class="card-header">
                             <div>
                                 <p class="document-title">${funcionario.nombres} ${funcionario.apellidos}</p>
-                                <p class="document-meta">${funcionario.telefono}</p>
+                                <p class="document-meta">${formatearNumeroTelefono(funcionario.telefono)}</p>
                             </div>
                         </div>
                     </div>`;
             });
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Datos No Encontrados'){
                 contenedor.innerHTML = `<p id="mensaje_respuesta">No hay brigadistas dentro del CAB</p>`;
 
-                contenedorSpinner.classList.remove("mostrar_spinner");
                 contenedorModales.classList.add('mostrar');
 
             }else if(respuesta.titulo == 'Sesión Expirada'){
@@ -113,6 +102,19 @@ function dibujarBrigadistas(){
             }
         }
     });
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

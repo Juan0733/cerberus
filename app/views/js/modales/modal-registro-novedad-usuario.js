@@ -1,9 +1,11 @@
+import { consultarUltimoMovimientoUsuario } from '../fetchs/movimientos-fetch.js';
 import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
 import { modalSeleccionPuerta } from './modal-seleccion-puerta.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
+let inputDocumento;
 let selectTipoNovedad;
 let funcionCallback;
 let urlBase;
@@ -26,7 +28,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback) {
         contenedorModales = document.getElementById('contenedor_modales');
         contenedorModales.appendChild(modal);
 
-        const inputDocumento = document.getElementById('documento_involucrado'); 
+        inputDocumento = document.getElementById('documento_involucrado'); 
         selectTipoNovedad = document.getElementById('tipo_novedad');
 
         inputDocumento.value = documento;
@@ -40,18 +42,7 @@ async function modalRegistroNovedadUsuario(url, novedad, documento, callback) {
         eventoCerrarModal();
         eventoTextArea();
         eventoRegistrarNovedadUsuario();
-
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 1){
-            modalesExistentes[modalesExistentes.length-2].style.display = 'none';
-        }else{
-            contenedorModales.classList.add('mostrar');
-        }
-
-        setTimeout(()=>{
-            document.getElementById('fecha_suceso').focus();
-        }, 250)
+        establecerMinFechaSuceso();
 
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
@@ -85,6 +76,50 @@ function eventoCerrarModal(){
     document.getElementById('btn_cancelar_novedad_usuario').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function establecerMinFechaSuceso(){
+    const inputFechaSuceso = document.getElementById('fecha_suceso');
+    consultarUltimoMovimientoUsuario(inputDocumento.value, urlBase).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const fechaUltimoMovimiento = respuesta.datos_movimiento.fecha_registro;
+            const fechaFormateada = fechaUltimoMovimiento.replace(" ", "T").slice(0, 16);
+
+            inputFechaSuceso.min = fechaFormateada;
+
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 1){
+                modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+            }else{
+                contenedorModales.classList.add('mostrar');
+            }
+
+            setTimeout(()=>{
+                inputFechaSuceso.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            if(respuesta.titulo == 'Sesión Expirada'){
+                window.location.replace(urlBase+'sesion-expirada');
+
+            }else if(respuesta.titulo == 'Movimiento No Encontrado'){
+                modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+                if(modalesExistentes.length > 1){
+                    modalesExistentes[modalesExistentes.length-2].style.display = 'none';
+                }else{
+                    contenedorModales.classList.add('mostrar');
+                }
+
+                setTimeout(()=>{
+                    inputFechaSuceso.focus();
+                }, 250)
+                
+            }else{
+                botonCerrarModal.click();
+                alertaError(respuesta);
+            }
+        }
+    })
 }
 
 function eventoRegistrarNovedadUsuario(){

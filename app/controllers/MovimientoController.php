@@ -194,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
     }elseif($operacion == 'consultar_movimientos_usuarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
-        if(!isset($respuesta['parametros']['fecha']) || !isset($respuesta['parametros']['jornada']) || !isset($respuesta['parametros']['tipo_movimiento'])){
+        if(!isset($respuesta['parametros']['fecha'], $respuesta['parametros']['jornada'], $respuesta['parametros']['tipo_movimiento'])){
             $respuesta = [
                 "tipo" => "ERROR",
                 "titulo" => 'Error De Parámetros',
@@ -207,5 +207,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoMovimiento->consultarMovimientosUsuarios($respuesta['parametros']));
 
+    }elseif($operacion == 'consultar_ultimo_movimiento_usuario'){
+        $respuesta = $objetoServicio->sanitizarParametros();
+        if(!isset($respuesta['parametros']['numero_documento'])){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Error De Parámetros',
+                "mensaje" => 'No se han enviado parámetros o son incorrectos.',
+            ];
+
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoMovimiento->consultarUltimoMovimientoUsuario($respuesta['parametros']['numero_documento']));
     }
 }

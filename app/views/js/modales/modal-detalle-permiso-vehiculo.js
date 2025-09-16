@@ -97,7 +97,6 @@ function dibujarPermiso() {
             }else{
                 botonCerrarModal.click();
                 alertaError(respuesta);
-                
             }
         }
     })

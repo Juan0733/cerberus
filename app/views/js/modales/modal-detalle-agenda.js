@@ -85,12 +85,9 @@ function dibujarAgenda() {
 
             }else{
                 document.getElementById('agendado').textContent = datosAgenda.agendados[0].nombres+' '+datosAgenda.agendados[0].apellidos;
-
                 document.getElementById('contenedor_agendados').style.display = 'none';
             }
             
-           
-
             const fecha = formatearFecha(datosAgenda.fecha_agenda);
 
             document.getElementById('responsable_registro').textContent = formatearString(datosAgenda.rol_responsable)+' - '+datosAgenda.nombres_responsable+' '+datosAgenda.apellidos_responsable;
@@ -98,7 +95,6 @@ function dibujarAgenda() {
             document.getElementById('hora').textContent = fecha.hora_español;
             document.getElementById('motivo').textContent = datosAgenda.motivo;
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

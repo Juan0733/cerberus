@@ -141,19 +141,19 @@ class ViewModel{
 						"URL" => '#',
 						"ICON" => 'people-outline',
 						"SUBMENU" => [
-							"APRENDRIZ" => [
+							"APRENDICES" => [
 								"TITULO" => 'Aprendices',
 								"URL" => 'aprendices',
-								"ICON" => 'person-outline'
-							],
-							"FUNCIONARIO" => [
-								"TITULO" => 'Funcionarios',
-								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VISITANTES" => [
 								"TITULO" => 'Visitantes',
 								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIOS" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [
@@ -266,19 +266,19 @@ class ViewModel{
 						"URL" => '#',
 						"ICON" => 'people-outline',
 						"SUBMENU" => [
-							"APRENDRIZ" => [
+							"APRENDICES" => [
 								"TITULO" => 'Aprendices',
 								"URL" => 'aprendices',
-								"ICON" => 'person-outline'
-							],
-							"FUNCIONARIO" => [
-								"TITULO" => 'Funcionarios',
-								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VISITANTES" => [
 								"TITULO" => 'Visitantes',
 								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIOS" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [
@@ -336,19 +336,19 @@ class ViewModel{
 						"URL" => '#',
 						"ICON" => 'people-outline',
 						"SUBMENU" => [
-							"APRENDRIZ" => [
+							"APRENDICES" => [
 								"TITULO" => 'Aprendices',
 								"URL" => 'aprendices',
-								"ICON" => 'person-outline'
-							],
-							"FUNCIONARIO" => [
-								"TITULO" => 'Funcionarios',
-								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VISITANTES" => [
 								"TITULO" => 'Visitantes',
 								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIOS" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [
@@ -432,19 +432,19 @@ class ViewModel{
 						"URL" => '#',
 						"ICON" => 'people-outline',
 						"SUBMENU" => [
-							"APRENDRIZ" => [
+							"APRENDICES" => [
 								"TITULO" => 'Aprendices',
 								"URL" => 'aprendices',
-								"ICON" => 'person-outline'
-							],
-							"FUNCIONARIO" => [
-								"TITULO" => 'Funcionarios',
-								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VISITANTES" => [
 								"TITULO" => 'Visitantes',
 								"URL" => 'visitantes',
+								"ICON" => 'person-outline'
+							],
+							"FUNCIONARIOS" => [
+								"TITULO" => 'Funcionarios',
+								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
 							"VIGILANTES" => [

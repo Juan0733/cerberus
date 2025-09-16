@@ -316,5 +316,6 @@
 
         #modal_detalle_permiso_usuario #cont_info_modales #contenedor_cajas{
             grid-template-columns: repeat(1, 1fr);
+            row-gap: 12px;
         }
 }

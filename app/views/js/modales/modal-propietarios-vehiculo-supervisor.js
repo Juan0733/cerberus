@@ -1,4 +1,4 @@
-import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
+import {consultarPropietarios, eliminarPropietarioVehiculo} from '../fetchs/vehiculos-fetch.js';
 
 let contenedorModales;
 let botonCerrarModal;
@@ -87,6 +87,7 @@ function dibujarTablaPropietarios(){
                         <th>Nombres</th>
                         <th>Teléfono</th>
                         <th>Ubicación</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="body-table" id="cuerpo_tabla_propietarios">
@@ -105,11 +106,16 @@ function dibujarTablaPropietarios(){
                         <td>${propietario.nombres} ${propietario.apellidos}</td>
                         <td>${propietario.telefono}</td>
                         <td>${propietario.ubicacion}</td>
+                        <td class="contenedor-colum-acciones-ptr">
+                            <ion-icon name="trash" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
+                        </td>
                     </tr>`;
             });
 
             contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
+
+            eventoEliminarPropietarioVehiculo();
             
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -133,13 +139,14 @@ function dibujarCardsPropietarios(){
     cuerpoTabla = '';
     consultarPropietarios(numeroPlaca, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
+            contenedorInformacion.innerHTML = '';
             respuesta.propietarios.forEach(propietario => {
                 contenedorInformacion.innerHTML += `
                     <div class="document-card-propietario">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${propietario.nombres} | ${propietario.apellidos}</p>
-                                <p class="document-meta">${propietario.tipo_documento}: ${propietario.numero_documento}</p>
+                                <p class="document-title">${propietario.nombres} ${propietario.apellidos}</p>
+                                <p class="document-meta">${propietario.tipo_documento}. ${propietario.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
@@ -148,10 +155,15 @@ function dibujarCardsPropietarios(){
                             <p><strong>Teléfono: </strong>${propietario.telefono}</p>
                             <p><strong>Ubicación: </strong>${propietario.ubicacion}</p>
                         </div>
+
+                        <div class="contenedor-acciones">
+                            <ion-icon name="trash" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
+                        </div>
                     </div>`;
             });
 
             toggleCard();
+            eventoEliminarPropietarioVehiculo();
 
             contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
@@ -184,6 +196,80 @@ function toggleCard() {
             }
         });
     });
+}
+
+function eventoEliminarPropietarioVehiculo(){
+    const botonesEliminar = document.querySelectorAll('.eliminar-propietario');
+
+    botonesEliminar.forEach(boton => {
+        let propietario = boton.getAttribute('data-propietario');
+        boton.addEventListener('click', ()=>{
+            let mensaje = {
+                titulo: "Eliminar Propietario",
+                mensaje: "¿Estás seguro que quieres eliminar este propietario?",
+                propietario: propietario
+            };
+            alertaAdvertencia(mensaje);
+        })
+    })
+}
+
+
+function alertaAdvertencia(datos){
+    Swal.fire({
+        icon: "warning",
+        iconColor: "#feb211",
+        title: datos.titulo,
+        text: datos.mensaje,
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+            popup: 'alerta-contenedor',
+            confirmButton: 'btn-confirmar',
+            cancelButton: 'btn-cancelar' 
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarPropietarioVehiculo(numeroPlaca, datos.propietario, urlBase).then(respuesta=>{
+                if(respuesta.tipo == 'OK'){
+                    alertaExito(respuesta);
+                    validarResolucion();
+
+                }else if(respuesta.tipo == 'ERROR'){
+                    if(respuesta.titulo == 'Sesión Expirada'){
+                        window.location.replace(urlBase+'sesion-expirada');
+
+                    }else{
+                        alertaError(respuesta);
+                    }
+                }
+            })
+        } 
+    });
+}
+
+function alertaExito(respuesta){
+    Swal.fire({
+        toast: true, 
+        position: 'bottom-end', 
+        icon: 'success',
+        iconColor: "#2db910",
+        color: '#F3F4F4',
+        background: '#001629',
+        timer: 5000,
+        timerProgressBar: true,
+        title: respuesta.mensaje,
+        showConfirmButton: false,   
+        customClass: {
+            popup: 'alerta-contenedor exito',
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('click', () => {
+                Swal.close();
+            });
+        }
+    })
 }
 
 function alertaError(respuesta){

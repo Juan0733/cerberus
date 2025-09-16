@@ -18,11 +18,11 @@
                 <p id="placa_vehiculo"></p>
             </div>
             <div class="caja">
-                <h3>Involucrado:</h3>
+                <h3>Autorizado:</h3>
                 <p id="involucrado"></p>
             </div>
             <div class="caja">
-                <h3>Propietario Autorizador:</h3>
+                <h3>Responsable Autorización:</h3>
                 <p id="propietario_autorizador"></p>
             </div>
             <div class="caja">

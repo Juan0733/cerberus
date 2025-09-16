@@ -161,6 +161,21 @@ function eventoBuscarDocumento(){
     })
 }
 
+function toggleCard() {
+    const cards = document.querySelectorAll('.document-card-aprendiz');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            if(card.classList.contains('active')){
+                card.classList.remove('active');
+            }else{
+                document.querySelector('.active')?.classList.remove('active');
+                card.classList.toggle('active');
+            }
+        });
+    });
+}
+
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",

@@ -148,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
     parametros.fecha = inputFecha.value;
 
     dibujarAgendas();
-    eventoFecha();
     eventoBuscarDocumento();
     eventoBuscarTitulo();
 })

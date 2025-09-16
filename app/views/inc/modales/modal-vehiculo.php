@@ -25,8 +25,7 @@
     
                 <div class="input-caja-registro">
                     <label for="numero_placa" class="label-input">Número de la placa del vehículo</label>
-                    <input type="text" class="campo  validacion-campo-03 input-placa"  name="numero_placa" id="numero_placa" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, mínimo 5 y máximo 6 caracteres." placeholder="Ej: ABC123" tabindex="6" required>
-    
+                    <input type="text" class="campo  validacion-campo-03 input-placa"  name="numero_placa" id="numero_placa" pattern="[A-Za-z0-9]{5,6}" title="Debes digitar solo números y letras, mínimo 5 y máximo 6 caracteres." minlength="6" maxlength="6" placeholder="Ej: ABC123" tabindex="6" required>
                 </div>
             </div>
 

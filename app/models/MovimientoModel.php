@@ -414,8 +414,9 @@ class MovimientoModel extends MainModel{
         $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
-            'datos_moviento' => $movimiento
+            'datos_movimiento' => $movimiento
         ];
+        return $respuesta;
     }
 
     public function consultarUltimoMovimientoVehiculo($vehiculo){
@@ -445,8 +446,9 @@ class MovimientoModel extends MainModel{
         $this->cerrarConexion();
         $respuesta = [
             'tipo' => 'OK',
-            'datos_moviento' => $movimiento
+            'datos_movimiento' => $movimiento
         ];
+        return $respuesta;
     }
 
     public function consultarMovimientos($parametros){

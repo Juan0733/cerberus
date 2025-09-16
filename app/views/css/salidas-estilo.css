@@ -260,7 +260,6 @@
                         color: var(--color-placeholder);
                         font-size: 20px;
                         margin-bottom: 5px;
-                        padding-left: 10px;
                     }
                 
                     #formulario_novedad_vehiculo #contenedor_cajas_novedad_vehiculo .input-caja-registro .campo{

@@ -12,7 +12,6 @@ const parametros = {
 }
 
 function validarResolucion(){
-    
     if(window.innerWidth >= 1024){
         dibujarTablaVisitantes();
     }else{
@@ -52,7 +51,7 @@ function dibujarTablaVisitantes(){
                         <td>${visitante.numero_documento}</td>
                         <td>${visitante.nombres}</td>
                         <td>${visitante.apellidos}</td>
-                        <td>${visitante.telefono}</td>
+                        <td>${formatearNumeroTelefono(visitante.telefono)}</td>
                         <td>${visitante.ubicacion}</td>
                         <td class="contenedor-colum-acciones">
                             <ion-icon name="eye" class="ver-visitante" data-visitante="${visitante.numero_documento}"></ion-icon>
@@ -94,7 +93,7 @@ function dibujarCardsVisitantes(){
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                         <div class="card-details">
-                            <p><strong>Teléfono: </strong>${visitante.telefono}</p>
+                            <p><strong>Teléfono: </strong>${formatearNumeroTelefono(visitante.telefono)}</p>
                             <p><strong>Ubicación: </strong>${visitante.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
@@ -176,6 +175,19 @@ function toggleCard() {
             }
         });
     });
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

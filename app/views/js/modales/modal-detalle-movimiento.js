@@ -93,7 +93,6 @@ function dibujarMovimiento() {
                 document.getElementById('caja_observacion').style.display = 'none';
             }
              
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

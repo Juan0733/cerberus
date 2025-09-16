@@ -66,12 +66,12 @@ function eventoCerrarModal(){
 function dibujarFuncionario() {
     consultarFuncionario(documentoFuncionario, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            const datosFuncionario = respuesta.datos_funcionario
-            document.getElementById('tipo_documento').textContent = datosFuncionario.tipo_documento
+            const datosFuncionario = respuesta.datos_funcionario;
+            document.getElementById('tipo_documento').textContent = datosFuncionario.tipo_documento;
             document.getElementById('numero_documento').textContent = datosFuncionario.numero_documento;
             document.getElementById('nombres').textContent = datosFuncionario.nombres;
             document.getElementById('apellidos').textContent = datosFuncionario.apellidos;
-            document.getElementById('telefono').textContent = datosFuncionario.telefono;
+            document.getElementById('telefono').textContent = formatearNumeroTelefono(datosFuncionario.telefono);
             document.getElementById('correo_electronico').textContent = datosFuncionario.correo_electronico;
             document.getElementById('rol').textContent = formatearString(datosFuncionario.rol);
             document.getElementById('brigadista').textContent = formatearString(datosFuncionario.brigadista);
@@ -83,7 +83,6 @@ function dibujarFuncionario() {
                 document.getElementById('caja_fecha_fin_contrato').style.display='none';;
             }
             
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -113,6 +112,19 @@ function formatearFecha(fecha){
     const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
 
     return fechaEspañol;
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

@@ -66,15 +66,15 @@ function eventoCerrarModal(){
 function dibujarVisitante() {
     consultarVisitante(documentoVisitante, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            document.getElementById('tipo_documento').textContent = respuesta.datos_visitante.tipo_documento
-            document.getElementById('numero_documento').textContent = respuesta.datos_visitante.numero_documento;
-            document.getElementById('nombres').textContent = respuesta.datos_visitante.nombres;
-            document.getElementById('apellidos').textContent = respuesta.datos_visitante.apellidos;
-            document.getElementById('telefono').textContent = respuesta.datos_visitante.telefono;
-            document.getElementById('correo_electronico').textContent = respuesta.datos_visitante.correo_electronico;
-            document.getElementById('motivo_ingreso').textContent = respuesta.datos_visitante.motivo_ingreso;
+            const datosVisitante = respuesta.datos_visitante;
+            document.getElementById('tipo_documento').textContent = datosVisitante.tipo_documento
+            document.getElementById('numero_documento').textContent = datosVisitante.numero_documento;
+            document.getElementById('nombres').textContent = datosVisitante.nombres;
+            document.getElementById('apellidos').textContent = datosVisitante.apellidos;
+            document.getElementById('telefono').textContent = formatearNumeroTelefono(datosVisitante.telefono);
+            document.getElementById('correo_electronico').textContent = datosVisitante.correo_electronico;
+            document.getElementById('motivo_ingreso').textContent = datosVisitante.motivo_ingreso;
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -88,6 +88,19 @@ function dibujarVisitante() {
             }
         }
     })
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

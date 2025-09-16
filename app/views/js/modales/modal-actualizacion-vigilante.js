@@ -75,12 +75,12 @@ async function modalActualizacionVigilante(vigilante, callback, url) {
         urlBase = url;
 
         eventoCerrarModal();
-        dibujarVigilante();
         validarConfirmacionContrasena();
         eventoInputContrasena();
         mostrarCampos();
         volverCampos();
         eventoActualizarVigilante();
+        dibujarVigilante();
 
         setTimeout(()=>{
            selectTipoDocumento.focus();
@@ -130,7 +130,6 @@ function dibujarVigilante(){
             inputCorreo.value = datosVigilante.correo_electronico;
             selectRol.value = datosVigilante.rol;
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

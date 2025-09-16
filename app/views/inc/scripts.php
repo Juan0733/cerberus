@@ -94,11 +94,11 @@
     <?php endif; ?>
 
 <?php elseif($url[0] == 'vehiculos'): ?>
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos-subdirector-supervisor.js"></script>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos-supervisor.js"></script>
 
-    <?php elseif($_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
-        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos-vigilante.js"></script>
+    <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos-subdirector-vigilante.js"></script>
     <?php endif; ?>
 
 <?php elseif($url[0] == 'permisos-usuario'): ?>

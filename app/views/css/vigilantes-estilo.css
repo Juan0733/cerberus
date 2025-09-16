@@ -323,7 +323,6 @@
                         display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
-                        padding-left: 10px;
                     }
                 
                     #contenedor_cajas_vigilante  .input-caja-registro .campo{
@@ -450,5 +449,6 @@
 
         #modal_detalle_vigilante #cont_info_modales #contenedor_cajas{
             grid-template-columns: repeat(1, 1fr);
+            row-gap: 12px;
         }
 }

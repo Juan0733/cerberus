@@ -65,7 +65,7 @@ function dibujarTablaVigilantes(){
                         <td>${vigilante.numero_documento}</td>
                         <td>${vigilante.nombres}</td>
                         <td>${vigilante.apellidos}</td>
-                        <td>${vigilante.telefono}</td>
+                        <td>${formatearNumeroTelefono(vigilante.telefono)}</td>
                         <td>${vigilante.ubicacion}</td>
                         <td class="contenedor-colum-acciones">
                             ${acciones}
@@ -122,7 +122,7 @@ function dibujarCardsVigilantes(){
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                         <div class="card-details">
-                            <p><strong>Teléfono: </strong>${vigilante.telefono}</p>
+                            <p><strong>Teléfono: </strong>${formatearNumeroTelefono(vigilante.telefono)}</p>
                             <p><strong>Ubicación: </strong>${vigilante.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
@@ -253,6 +253,19 @@ function toggleCard() {
             }
         });
     });
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaExito(respuesta){

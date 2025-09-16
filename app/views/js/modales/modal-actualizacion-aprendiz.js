@@ -74,12 +74,12 @@ async function modalActualizacionAprendiz(aprendiz, callback, url) {
         urlBase = url;
 
         eventoCerrarModal();
-        dibujarAprendiz();
         dibujarFichas();
         eventoInputFicha();
         mostrarCampos();
         volverCampos();
         eventoActualizarAprendiz();
+        dibujarAprendiz();
 
         setTimeout(()=>{
            selectTipoDocumento.focus();
@@ -131,7 +131,6 @@ function dibujarAprendiz(){
             inputPrograma.value = datosAprendiz.nombre_programa;
             inputFechaFicha.value = datosAprendiz.fecha_fin_ficha;
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

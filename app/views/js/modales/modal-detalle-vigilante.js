@@ -66,15 +66,15 @@ function eventoCerrarModal(){
 function dibujarVigilante() {
     consultarVigilante(documentoVigilante, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
-            document.getElementById('tipo_documento').textContent = respuesta.datos_vigilante.tipo_documento
-            document.getElementById('numero_documento').textContent = respuesta.datos_vigilante.numero_documento;
-            document.getElementById('nombres').textContent = respuesta.datos_vigilante.nombres;
-            document.getElementById('apellidos').textContent = respuesta.datos_vigilante.apellidos;
-            document.getElementById('telefono').textContent = respuesta.datos_vigilante.telefono;
-            document.getElementById('correo_electronico').textContent = respuesta.datos_vigilante.correo_electronico;
-            document.getElementById('rol').textContent = formatearString(respuesta.datos_vigilante.rol);
+            const datosVigilante = respuesta.datos_vigilante;
+            document.getElementById('tipo_documento').textContent = datosVigilante.tipo_documento
+            document.getElementById('numero_documento').textContent = datosVigilante.numero_documento;
+            document.getElementById('nombres').textContent = datosVigilante.nombres;
+            document.getElementById('apellidos').textContent = datosVigilante.apellidos;
+            document.getElementById('telefono').textContent = formatearNumeroTelefono(datosVigilante.telefono);
+            document.getElementById('correo_electronico').textContent = datosVigilante.correo_electronico;
+            document.getElementById('rol').textContent = formatearString(datosVigilante.rol);
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -93,6 +93,19 @@ function formatearString(cadena) {
     cadena = cadena.toLowerCase();
     cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
     return cadena; 
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

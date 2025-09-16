@@ -137,7 +137,6 @@ function dibujarPropietarios(){
                 selectPropietario.innerHTML += `<option value="${propietario.numero_documento}">${propietario.numero_documento} - ${propietario.nombres} ${propietario.apellidos}</option>`
             });
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
             
             setTimeout(()=>{

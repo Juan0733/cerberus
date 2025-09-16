@@ -51,7 +51,7 @@ function dibujarTablaAprendices(){
                         <td>${aprendiz.numero_documento}</td>
                         <td>${aprendiz.nombres}</td>
                         <td>${aprendiz.apellidos}</td>
-                        <td>${aprendiz.telefono}</td>
+                        <td>${formatearNumeroTelefono(aprendiz.telefono)}</td>
                         <td>${aprendiz.ubicacion}</td>
                         <td class="contenedor-colum-acciones">
                             <ion-icon name="eye" class="ver-aprendiz" data-aprendiz="${aprendiz.numero_documento}"></ion-icon>
@@ -93,7 +93,7 @@ function dibujarCardsAprendices(){
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                         <div class="card-details">
-                            <p><strong>Teléfono: </strong>${aprendiz.telefono}</p>
+                            <p><strong>Teléfono: </strong>${formatearNumeroTelefono(aprendiz.telefono)}</p>
                             <p><strong>Ubicación: </strong>${aprendiz.ubicacion}</p>
                         </div>
                         <div class="contenedor-acciones">
@@ -159,6 +159,34 @@ function eventoBuscarDocumento(){
             validarResolucion();
         }
     })
+}
+
+function toggleCard() {
+    const cards = document.querySelectorAll('.document-card-aprendiz');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            if(card.classList.contains('active')){
+                card.classList.remove('active');
+            }else{
+                document.querySelector('.active')?.classList.remove('active');
+                card.classList.toggle('active');
+            }
+        });
+    });
+}
+
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
 }
 
 function alertaError(respuesta){

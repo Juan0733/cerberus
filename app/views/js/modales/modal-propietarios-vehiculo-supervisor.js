@@ -104,7 +104,7 @@ function dibujarTablaPropietarios(){
                     <tr class="propietarios">
                         <td>${propietario.numero_documento}</td>
                         <td>${propietario.nombres} ${propietario.apellidos}</td>
-                        <td>${propietario.telefono}</td>
+                        <td>${formatearNumeroTelefono(propietario.telefono)}</td>
                         <td>${propietario.ubicacion}</td>
                         <td class="contenedor-colum-acciones-ptr">
                             <ion-icon name="trash" class="eliminar-propietario" data-propietario="${propietario.numero_documento}"></ion-icon>
@@ -112,7 +112,6 @@ function dibujarTablaPropietarios(){
                     </tr>`;
             });
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
             eventoEliminarPropietarioVehiculo();
@@ -145,14 +144,14 @@ function dibujarCardsPropietarios(){
                     <div class="document-card-propietario">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${propietario.nombres} | ${propietario.apellidos}</p>
+                                <p class="document-title">${propietario.nombres} ${propietario.apellidos}</p>
                                 <p class="document-meta">${propietario.tipo_documento}. ${propietario.numero_documento}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 
                         </div>
                         
                         <div class="card-details">
-                            <p><strong>Teléfono: </strong>${propietario.telefono}</p>
+                            <p><strong>Teléfono: </strong>${formatearNumeroTelefono(propietario.telefono)}</p>
                             <p><strong>Ubicación: </strong>${propietario.ubicacion}</p>
                         </div>
 
@@ -165,7 +164,6 @@ function dibujarCardsPropietarios(){
             toggleCard();
             eventoEliminarPropietarioVehiculo();
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -214,6 +212,18 @@ function eventoEliminarPropietarioVehiculo(){
     })
 }
 
+function formatearNumeroTelefono(numeroTelefono){
+    let telefonoFormateado = '';
+
+    for (let i = 0; i < numeroTelefono.length; i++) {
+        telefonoFormateado += numeroTelefono[i];
+        if(i == 2 || i == 5 || i == 7 ){
+            telefonoFormateado += '-';
+        }
+    }
+
+    return telefonoFormateado;
+}
 
 function alertaAdvertencia(datos){
     Swal.fire({

@@ -52,10 +52,11 @@ async function modalSeleccionPuerta(url, callback=false) {
 export{modalSeleccionPuerta}
 
 function eventoCerrarModal(){
+    const formularioPeatonal = document.getElementById('formulario_peatonal');
     botonCerrarModal = document.getElementById('cerrar_modal_puerta');
 
         botonCerrarModal.addEventListener('click', ()=>{
-            if(puertaActual){
+            if(puertaActual || !formularioPeatonal){
                 modalesExistentes[modalesExistentes.length-1].remove();
                 if(modalesExistentes.length > 0) {
                     modalesExistentes[modalesExistentes.length-1].style.display = 'block';
@@ -78,7 +79,6 @@ function dibujarPuertaActual() {
             document.getElementById(puertaActual.toLowerCase()).checked = true;
             document.getElementById('icono_puerta_'+puertaActual.toLowerCase()).style.color = 'var(--color-secundario)';
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
             if(modalesExistentes.length > 1){
                 modalesExistentes[modalesExistentes.length-2].style.display = 'none';
@@ -95,7 +95,6 @@ function dibujarPuertaActual() {
                 puertaActual = '';
                 puertaNueva = '';
 
-                contenedorSpinner.classList.remove("mostrar_spinner");
                 modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
                 if(modalesExistentes.length > 1){
                     modalesExistentes[modalesExistentes.length-2].style.display = 'none';

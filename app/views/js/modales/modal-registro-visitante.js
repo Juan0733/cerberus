@@ -50,10 +50,10 @@ async function modalRegistroVisitante(url, documento=false, callback) {
         urlBase = url;
         
         eventoCerrarModal();
-        dibujarMotivosIngreso();
         eventoRegistrarVisitante();
         motrarCampos();
         volverCampos();
+        dibujarMotivosIngreso();
  
     } catch (error) {
         contenedorSpinner.classList.remove("mostrar_spinner");
@@ -101,7 +101,6 @@ function dibujarMotivosIngreso(){
                     <option value="${motivo.motivo}">`;
             });
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
             if (modalesExistentes.length > 1) {
                 modalesExistentes[modalesExistentes.length-2].style.display = 'none';

@@ -83,12 +83,12 @@ async function modalActualizacionFuncionario(funcionario, callback, url) {
         eventoCerrarModal();
         eventoSelectContrato();
         eventoSelectRol();
-        dibujarFuncionario();
         validarConfirmacionContrasena();
         eventoInputContrasena();
         mostrarCampos();
         volverCampos();
         eventoActualizarFuncionario();
+        dibujarFuncionario();
 
         setTimeout(()=>{
            selectTipoDocumento.focus();
@@ -149,7 +149,6 @@ function dibujarFuncionario(){
             selectRol.dispatchEvent(new Event("change", { bubbles: true }));
             selectTipoContrato.dispatchEvent(new Event("change", { bubbles: true }));
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
         }else if(respuesta.tipo == 'ERROR'){

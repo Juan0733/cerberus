@@ -1,5 +1,5 @@
 import { consultarVehiculos } from '../fetchs/vehiculos-fetch.js';
-import { modalPropietariosVehiculo } from '../modales/modal-propietarios-vehiculo-subdirector-supervisor.js';
+import { modalPropietariosVehiculo } from '../modales/modal-propietarios-vehiculo-supervisor.js';
 
 let urlBase;
 let contenedorTabla;

@@ -103,7 +103,6 @@ function dibujarFichas(){
                     `;
             });
 
-            contenedorSpinner.classList.remove("mostrar_spinner");
             contenedorModales.classList.add('mostrar');
 
             setTimeout(()=>{

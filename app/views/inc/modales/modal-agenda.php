@@ -30,11 +30,11 @@
                 <div id="contenedor_checkbox" class="input-caja-registro seccion-principal">
                     <div class="caja-checkbox">
                         <input type="checkbox" class="checkbox" id="individual" name="individual" value="individual">
-                        <label for="individual" class="label-input">Individual</label>
+                        <label for="individual" class="label-input label-checkbox">Individual</label>
                     </div>
                     <div class="caja-checkbox">
                         <input type="checkbox" class="checkbox" id="grupal" name="grupal" value="grupal">
-                        <label for="grupal" class="label-input">Grupal</label>
+                        <label for="grupal" class="label-input label-checkbox">Grupal</label>
                     </div>
                 </div>
             

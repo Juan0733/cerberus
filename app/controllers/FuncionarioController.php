@@ -176,6 +176,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
 
         echo json_encode($objetoFuncionario->inhabilitarFuncionario($respuesta['parametros']['numero_documento']));
     }
-
-
 }

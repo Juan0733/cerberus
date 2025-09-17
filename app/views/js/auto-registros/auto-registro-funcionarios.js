@@ -16,6 +16,7 @@ function eventoAutoRegistrarFuncionario(){
 
         autoRegistrarFuncionario(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK"){
+                respuesta.mensaje = "Te has registrado correctamente, ¡Bienvenido al CAB!"
                 alertaExito(respuesta);
 
             }else if(respuesta.tipo == "ERROR"){ 
@@ -82,15 +83,15 @@ function volverCampos() {
 
 function alertaExito(respuesta){
     Swal.fire({
-        icon: 'success',
-        iconColor: "#2db910",
+        iconHtml: `<img src="${urlBase}app/views/img/logo-sena-verde-png-sin-fondo.webp" width="75" height="75">`,
         color: '#F3F4F4',
         title: respuesta.titulo,
         text: respuesta.mensaje,
-        confirmButtonText: 'OK',
+        confirmButtonText: 'Aceptar',
         customClass: {
             popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
+            confirmButton: 'btn-confirmar',
+            icon: 'icono-exito-sena'
         }
     }).then((result) => {
         if (result.isConfirmed) {

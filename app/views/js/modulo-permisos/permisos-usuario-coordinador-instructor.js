@@ -152,10 +152,10 @@ function eventoBuscarDocumento(){
     const inputDocumento = document.getElementById('buscador_documento');
     
     inputDocumento.addEventListener('input', ()=>{
-        if(inputDocumento.value.length == 0 || inputDocumento.value.length > 5)
+        if(inputDocumento.value.length == 0 || inputDocumento.value.length > 5){
             parametros.documento = inputDocumento.value;
-            validarResolucion();
-       
+            validarResolucion()
+        }
     })
 }
 

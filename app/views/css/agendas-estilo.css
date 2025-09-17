@@ -328,6 +328,7 @@
                     cursor: pointer;
                     font-size: 16px;
                     height: 60px;
+                    margin-top: 20px;
                     padding: 10px;
                     width: 100%;
                 }
@@ -628,6 +629,10 @@
             padding: 1em;
             row-gap: 10px;
         }
+
+            #modal_agenda #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo {
+                margin-top: 10px;
+            }
        
             #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox{
                 flex-direction: column;

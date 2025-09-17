@@ -183,22 +183,19 @@ class UsuarioModel extends MainModel{
             if ($respuestaSentencia->num_rows > 0) {
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
                 $this->cerrarConexion();
-                $datosUsuario['hora_sesion'] = time();
-                $datosUsuario['panel_acceso'] = 'inicio';
 
+                $datosUsuario['panel_acceso'] = 'inicio';
                 if($datosUsuario['rol'] == 'VIGILANTE'){
                     $datosUsuario['panel_acceso'] = 'entradas';
                 }
-
-                session_regenerate_id(true);
-                setcookie(session_name(), session_id(), $datosUsuario['hora_sesion'] + 315360000, "/");
 
                 $respuesta = $this->actualizarFechaSesion($datosUsuario['numero_documento'], $tabla);
                 if($respuesta['tipo'] == 'ERROR'){
                     return $respuesta;
                 }
 
-                $_SESSION['datos_usuario'] = $datosUsuario;
+                $datosUsuario['hora_sesion'] = time();
+                $this->iniciarSesion($datosUsuario);
 
                 $respuesta = [
                     'tipo' => 'OK',
@@ -219,44 +216,40 @@ class UsuarioModel extends MainModel{
         return $respuesta;
     }
 
-    public function validarAccesoUsuario($operacion){
-        $respuesta = $this->objetoRolOperacion->consultarOperacion($operacion);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
+    private function iniciarSesion($datosUsuario){
+        session_regenerate_id(true);
+
+        $duracion = 30 * 24 * 60 * 60;
+        $expira = $datosUsuario['hora_sesion'] + $duracion;
+
+        setcookie(session_name(), session_id(), $expira, "/");
+
+        $_SESSION['datos_usuario'] = $datosUsuario;
+    }
+
+    public function cerrarSesion(){
+        if(ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
         }
 
-        $rol = 'INVITADO';
-        if(isset($_SESSION['datos_usuario'])){
-            $rol = $_SESSION['datos_usuario']['rol'];
-        }
-
-        $respuesta = $this->objetoRolOperacion->consultarRolOperacion($rol, $operacion);
-        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-            return $respuesta;
-
-        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Acceso Denegado',
-                'mensaje' => 'Lo sentimos, no tienes acceso a este recurso'
-            ];
-            return $respuesta;
-        }
+        session_unset();
+        session_destroy();
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Acceso Permitido',
-            'mensaje'  => 'Tienes acceso a este recurso'
+            'titulo' => 'Sesión Cerrada',
+            'mensaje' => 'La sesión ha sido cerrada correctamente'
         ];
         return $respuesta;
     }
 
     public function validarTiempoSesion(){
         if(isset($_SESSION['datos_usuario'])){
-            $tiempoLimite = 28800;
+            $tiempoLimite = 8 * 60 * 60;
 
             if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'){
-                $tiempoLimite = 43200;
+                $tiempoLimite = 12 * 60 * 60;
             }
 
             $tiempoTranscurrido = time() -  $_SESSION['datos_usuario']['hora_sesion'];
@@ -276,19 +269,6 @@ class UsuarioModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Sesión Vigente',
             'mensaje' => 'La sesión no ha expirado'
-        ];
-        return $respuesta;
-    }
-
-    public function cerrarSesion(){
-        session_unset();
-        session_destroy();
-        setcookie(session_name(), '', time() - 3600, '/');
-
-        $respuesta = [
-            'tipo' => 'OK',
-            'titulo' => 'Sesión Cerrada',
-            'mensaje' => 'La sesión ha sido cerrada correctamente'
         ];
         return $respuesta;
     }

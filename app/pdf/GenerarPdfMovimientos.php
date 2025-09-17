@@ -8,6 +8,7 @@ require_once "../../config/app.php";
 require_once('tfpdf/tfpdf.php');
 use App\Models\MovimientoModel;
 use App\Models\UsuarioModel;
+use App\Models\RolOperacionModel;
 use App\Models\VehiculoModel;
 use App\Services\MovimientoService;
 
@@ -177,6 +178,7 @@ class PDF extends tFPDF{
 
 try {
     $objetoUsuario = new UsuarioModel();
+    $objetoRolOperacion = new RolOperacionModel();
     $objetoVehiculo = new VehiculoModel();
     $objetoMovimiento = new MovimientoModel();
     $objetoServicio = new MovimientoService();
@@ -187,7 +189,7 @@ try {
         exit();
     }
 
-    $respuesta = $objetoUsuario->validarAccesoUsuario('generar_pdf_movimientos');
+    $respuesta = $objetoRolOperacion->validarAccesoOperacion('generar_pdf_movimientos');
     if($respuesta['tipo'] == 'ERROR'){
         header('Location: ../../acceso-denegado');
         exit();

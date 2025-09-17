@@ -65,4 +65,46 @@ class RolOperacionModel extends MainModel{
         ];
         return $respuesta;
     }
+
+    public function validarAccesoOperacion($operacion){
+        $operacionesAccesibles = ['validar_usuario', 'validar_contrasena', 'registrar_visitante', 'registrar_aprendiz', 'auto_registrar_funcionario', 'auto_registrar_vigilante', 'consultar_fichas', 'consultar_ficha', 'consultar_motivos_ingreso'];
+
+        if(!in_array($operacion, $operacionesAccesibles)){
+            $respuesta = $this->consultarOperacion($operacion);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+            if(!isset($_SESSION['datos_usuario'])){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Acceso Denegado',
+                    'mensaje' => 'Lo sentimos, no tienes acceso a este recurso'
+                ];
+                return $respuesta;
+            }
+
+            $rol = $_SESSION['datos_usuario']['rol'];
+
+            $respuesta = $this->consultarRolOperacion($rol, $operacion);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Acceso Denegado',
+                    'mensaje' => 'Lo sentimos, no tienes acceso a este recurso'
+                ];
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Acceso Permitido',
+            'mensaje'  => 'Tienes acceso a este recurso'
+        ];
+        return $respuesta;
+    }
 }

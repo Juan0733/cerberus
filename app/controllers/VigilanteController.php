@@ -2,6 +2,7 @@
 require_once "../../config/app.php";
 require_once "../../vendor/autoload.php";
 
+use App\Models\RolOperacionModel;
 use App\Models\VigilanteModel;
 use App\Models\UsuarioModel;
 use App\Services\VigilanteService;
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	$objetoVigilante = new VigilanteModel();
     $objetoServicio = new VigilanteService();
     $objetoUsuario = new UsuarioModel();
+    $objetoRolOperacion = new RolOperacionModel();
 
     $operacion = $objetoServicio->limpiarDatos($_POST['operacion']);
     unset($_POST['operacion']);
@@ -30,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         }
     }
 
-   $respuesta = $objetoUsuario->validarAccesoUsuario($operacion);
+   $respuesta = $objetoRolOperacion->validarAccesoOperacion($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
         echo json_encode($respuesta);
         exit();
@@ -106,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 	$objetoVigilante = new VigilanteModel();
     $objetoServicio = new VigilanteService();
     $objetoUsuario = new UsuarioModel();
+    $objetoRolOperacion = new RolOperacionModel();
 
     $operacion = $objetoServicio->limpiarDatos($_GET['operacion']);
     unset($_GET['operacion']);
@@ -122,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         }
     }
 
-    $respuesta = $objetoUsuario->validarAccesoUsuario($operacion);
+    $respuesta = $objetoRolOperacion->validarAccesoOperacion($operacion);
     if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
         echo json_encode($respuesta);
         exit();

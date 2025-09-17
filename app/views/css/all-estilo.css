@@ -77,6 +77,10 @@ main#cuerpo{
         color: var(--color-primario);
     }
 
+    .alerta-contenedor .icono-exito-sena{
+        border: 0;
+    }
+
     .alerta-contenedor .btn-confirmar{
         border: none;
         border-radius: 15px;

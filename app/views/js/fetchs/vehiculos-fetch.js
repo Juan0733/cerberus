@@ -21,18 +21,22 @@ async function registrarVehiculo(datos, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{registrarVehiculo}
@@ -55,18 +59,22 @@ async function conteoTipoVehiculo(urlBase) {
     } catch (error) {
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{conteoTipoVehiculo}
@@ -91,18 +99,22 @@ async function consultarVehiculos(parametros, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarVehiculos}
@@ -127,18 +139,22 @@ async function consultarVehiculo(placa, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarVehiculo}
@@ -163,18 +179,22 @@ async function consultarPropietarios(placa, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarPropietarios}
@@ -199,18 +219,22 @@ async function eliminarPropietarioVehiculo(placa, documento, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{eliminarPropietarioVehiculo}
@@ -232,35 +256,26 @@ async function consultarNotificacionesVehiculo(urlBase) {
     } catch (error) {
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarNotificacionesVehiculo}
 
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
-}
 
 
 

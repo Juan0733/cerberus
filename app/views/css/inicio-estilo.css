@@ -1,11 +1,12 @@
 #contenedor_principal {
     display: flex;
+    height: 100%;
     flex-direction: column;
     width: 100%;
 }
 
     #contenedor_principal #contenedor_saludo{
-        margin: 16px 0;
+        margin-top: 16px;
         padding-left: 35px;
     }
 
@@ -29,7 +30,9 @@
 
     #contenedor_principal #contenedor_cartas_multitudes {
         display: flex;
+        height: 100%;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
         width: 100%;
     }
@@ -108,6 +111,41 @@
                         width: 0%;
                         background-color: var(--color-secundario);
                     }
+
+@media (min-width: 1441px) and (min-height: 901px) {
+
+    #contenedor_principal #contenedor_saludo h1 {
+        font-size: 35px;
+    }
+
+    #contenedor_principal #contenedor_saludo p {
+        font-size: 18px;
+    }
+
+    #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
+        row-gap: 6em;
+    }
+
+        #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards .card-multitud{
+            row-gap: 15px;
+        }
+
+        #contenedor_cards .card-multitud .contenedor-titulo h2{
+            font-size: 1.5em;
+        }
+
+        #contenedor_cards .card-multitud .contenedor-titulo ion-icon {
+            font-size: 30px;
+        }
+
+    #contenedor_cartas_multitudes #contenedor_cards .card-multitud h3{
+        font-size: 1.3em;
+    }
+
+    #contenedor_cartas_multitudes #contenedor_cards .card-multitud p{
+        font-size: 20px;
+    }
+}
 
 @media(min-width: 768px) and (max-width: 1023px){
     #contenedor_principal #contenedor_saludo{

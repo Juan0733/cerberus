@@ -1,9 +1,7 @@
 <?php
 namespace App\Services;
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
-class AgendaService{
+class AgendaService extends MainService{
 
     public function sanitizarDatosActualizacionAgenda(){
         if (!isset($_POST['codigo_agenda'], $_POST['motivo'], $_POST['titulo'], $_POST['fecha_agenda']) || $_POST['codigo_agenda'] == '' || $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
@@ -46,7 +44,7 @@ class AgendaService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
@@ -134,7 +132,7 @@ class AgendaService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
@@ -162,7 +160,7 @@ class AgendaService{
         return $respuesta;
     }
 
-    public function sanitizarDatosRegistroAgendaGrupal(){
+    public function sanitizarDatosRegistroAgendaCargaMasiva(){
         if (!isset($_FILES['plantilla_excel'],  $_POST['titulo'], $_POST['motivo'], $_POST['fecha_agenda']) || $_FILES['plantilla_excel'] == '' ||  $_POST['titulo'] == '' || $_POST['motivo'] == '' || $_POST['fecha_agenda'] == '') {
             $respuesta = [
                 "tipo" => "ERROR",
@@ -198,7 +196,7 @@ class AgendaService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
@@ -210,15 +208,35 @@ class AgendaService{
         }
 
         $rutaArchivo = $respuesta['ruta_archivo'];
+        $encabezados = ['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'telefono', 'correo_electronico'];
+        $columnaLimite = 'F';
 
-        $respuesta = $this->leerArchivoExcel($rutaArchivo);
+        $respuesta = $this->leerArchivoExcel($rutaArchivo, $encabezados, $columnaLimite);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
+        $agendados = $respuesta['datos_excel'];
 
-        $agendados = $respuesta['agendados'];
+        if(count($agendados) < 1){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Excel',
+                'mensaje' => 'Lo sentimos, pero parece que el archivo excel se encuentra vacío o no esta diligenciado correctamente.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = $this->validarDuplicidadDatosArray($agendados, 'numero_documento');
+        if($respuesta['tipo'] == 'ERROR'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Duplicidad Datos Excel',
+                'mensaje' => 'Lo sentimos, pero en el archivo excel se encontraron números de documento duplicados.'
+            ];
+            return $respuesta;
+        }
+
         foreach ($agendados as $agendado) {
-            
             $datos = [
                 [
                     'filtro' => "[A-Z]{2,3}",
@@ -320,101 +338,5 @@ class AgendaService{
             'parametros' => $parametros
         ];
     }
-
-    private function guardarArhivoExcel($archivo){
-        $carpetaPlantilla = "../excel/";
-
-        if(!file_exists($carpetaPlantilla)){
-            mkdir($carpetaPlantilla);
-        }
-
-        $nombrePlantilla = time() . "_" . $archivo['name'];
-        $rutaTemporal = $archivo['tmp_name'];
-        $rutaPlantilla = $carpetaPlantilla . $nombrePlantilla;
-            
-        move_uploaded_file($rutaTemporal, $rutaPlantilla);
-
-        if(!file_exists($rutaPlantilla)){
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Archivo No Subido',
-                'mensaje' => 'Se produjo un erro al subir el archivo.'
-            ];
-            return $respuesta;
-        }
-
-        $respuesta = [
-            'tipo' => 'OK',
-            'ruta_archivo' => $rutaPlantilla
-        ];
-        return $respuesta;
-    }
-
-
-
-    private function leerArchivoExcel($rutaArchivo){
-        try {
-            $archivo = IOFactory::load($rutaArchivo);
-                    
-            $agendados = [];
-            $encabezados = ['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'telefono', 'correo_electronico'];
-            
-            $hojaActual = $archivo->getActiveSheet(0);
-            $filas = $hojaActual->getRowIterator();
-            foreach($filas as $fila){
-                $valoresCeldas = [];
-                if($fila->getRowIndex() == 1){
-                    continue;
-                }
-
-                $celdas = $fila->getCellIterator();
-                $celdas->setIterateOnlyExistingCells(true);
-                foreach($celdas as $celda){
-                    $valorCelda = $this->limpiarDatos($celda->getValue());
-                    if(!empty($valorCelda)){
-                        $valoresCeldas[] = $valorCelda;
-                    }
-                }
-
-                if(count($valoresCeldas) == 6){
-                    $agendado = array_combine($encabezados, $valoresCeldas);
-                    $agendados[] = $agendado;
-                }
-            }
-
-            unlink($rutaArchivo);
-
-            $respuesta = [
-                'tipo' => 'OK',
-                'agendados' => $agendados
-            ]; 
-            return $respuesta;
-
-        } catch (\Throwable $th) {
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Error Excel',
-                'mensaje' => 'Se produjo un error al tratar de leer el archivo excel.'
-            ];
-            return $respuesta;
-        }
-    }
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
 }
     

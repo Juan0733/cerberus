@@ -1,3 +1,4 @@
+import { consultarModalNovedadVehiculo } from '../fetchs/modal-fetch.js';
 import {registrarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
 import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 
@@ -9,66 +10,50 @@ let botonCerrarModal;
 let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalRegistroNovedadVehiculo(url, novedad, documento, placa, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-novedad-vehiculo.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalRegistroNovedadVehiculo(url, novedad, documento, placa, callback) {
+    consultarModalNovedadVehiculo(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_novedad_vehiculo';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_novedad_vehiculo';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
-        }
 
-        contenedorModales.appendChild(modal);
+            contenedorModales.appendChild(modal);
 
-        const inputDocumento = document.getElementById('documento_involucrado'); 
-        const inputPlaca = document.getElementById('numero_placa');
-        selectTipoNovedad = document.getElementById('tipo_novedad');
+            const inputDocumento = document.getElementById('documento_involucrado'); 
+            const inputPlaca = document.getElementById('numero_placa');
+            selectTipoNovedad = document.getElementById('tipo_novedad');
 
-        inputDocumento.value = documento;
-        inputDocumento.readOnly = true;
-        selectTipoNovedad.value = novedad;
-        selectTipoNovedad.disabled = true;
-        inputPlaca.value = placa;
-        inputPlaca.readOnly = true;
+            inputDocumento.value = documento;
+            inputDocumento.readOnly = true;
+            selectTipoNovedad.value = novedad;
+            selectTipoNovedad.disabled = true;
+            inputPlaca.value = placa;
+            inputPlaca.readOnly = true;
 
-        placaVehiculo = placa;
-        urlBase = url;
-        funcionCallback = callback;
-       
-        eventoCerrarModal();
-        eventoTextArea();
-        eventoRegistrarNovedadVehiculo();
-        dibujarPropietarios(placa);
+            placaVehiculo = placa;
+            urlBase = url;
+            funcionCallback = callback;
+        
+            eventoCerrarModal();
+            eventoTextArea();
+            eventoRegistrarNovedadVehiculo();
+            dibujarPropietarios(placa);
            
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
+        }else if(respuesta.tipo == 'OK'){
+            alertaError(respuesta);
         }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro novedad vehículo'
-        });
-    }
-    
+    })
 }
 export { modalRegistroNovedadVehiculo };
 

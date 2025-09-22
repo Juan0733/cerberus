@@ -47,60 +47,59 @@
     </div>
 </div>
 
-    <div class="barra-lateral mini-barra-lateral">
-        <div>
-            <div class="nombre-pagina">
-                <article id="logo_sena">
-                    <figure id="marca">
-                        <img src="<?php echo $urlBaseVariable; ?>app/views/img/logo-sena-verde-png-sin-fondo.webp" alt="">
-                    </figure>
-                </article>
+<div class="barra-lateral mini-barra-lateral">
+    <div>
+        <div class="nombre-pagina">
+            <article id="logo_sena">
+                <figure id="marca">
+                    <img src="<?php echo $urlBaseVariable; ?>app/views/img/logo-sena-verde-png-sin-fondo.webp" alt="">
+                </figure>
+            </article>
+        </div>
+    </div>
+
+    <nav class="navegacion">
+        <ul>
+            <?php foreach($opcionesMenu as $clave => $opcion): ?>
+                <li class="<?php if($opcion['CLASE'] == 'sub-menu' ) echo $opcion['CLASE']; ?>">
+                    <a href="<?php echo $opcion['URL'] == '#' ? $opcion['URL'] : $urlBaseVariable.$opcion['URL']; ?>" class="<?php if($opcion['CLASE02'] == 'sub-menu-link') echo $opcion['CLASE02']; if($opcion['URL'] == $urlActual) echo 'inbox'; ?>">
+                        <ion-icon name="<?php echo $opcion['ICON']; ?>"></ion-icon>
+                        <span><?php echo $opcion['TITULO']; ?></span>
+                    </a>
+
+                    <?php if ($opcion['CLASE'] == 'sub-menu'): ?>
+                        <ul class="<?php echo $opcion['CLASE03'];  
+                            foreach ($opcion['SUBMENU'] as $subClave => $subOpcion){
+                                if( $subOpcion['URL'] == $urlActual) echo ' desplegado';
+                            }; ?>">
+                            <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
+                                <li>
+                                    <a href="<?php echo $urlBaseVariable.$subOpcion['URL'];?>" class="<?php echo $subOpcion['URL'] == $urlActual ? 'inbox' : '';?>">
+                                        <ion-icon name="<?php echo $subOpcion['ICON']; ?>"></ion-icon>
+                                        <span class="links_nombre"><?php echo $subOpcion['TITULO']; ?></span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </nav>
+
+    <div id="contenedor_sesion_autor">
+        <div id="contenedor_cerrar_sesion">
+            <ion-icon id="cerrar_sesion" name="exit-outline"></ion-icon>           
+        </div>
+        <div class="linea"></div>
+        <div id="contenedor_autor">
+            <ion-icon id="btn_autor" name="code-slash-outline"></ion-icon>
+            <div id="informacion_autor">
+                <h2>CERBERUS</h2>
+                <h3>Análisis y Desarrollo de Software 2714805</h3>
+                <p>Laura Daniela Canizales</p>
+                <p>Juan David Tilmans</p>
             </div>
         </div>
-
-        <nav class="navegacion">
-            <ul>
-                <?php foreach($opcionesMenu as $clave => $opcion): ?>
-                    <li class="<?php if($opcion['CLASE'] == 'sub-menu' ) echo $opcion['CLASE']; ?>">
-                        <a href="<?php echo $opcion['URL'] == '#' ? $opcion['URL'] : $urlBaseVariable.$opcion['URL']; ?>" class="<?php if($opcion['CLASE02'] == 'sub-menu-link') echo $opcion['CLASE02']; if($opcion['URL'] == $urlActual) echo 'inbox'; ?>">
-                            <ion-icon name="<?php echo $opcion['ICON']; ?>"></ion-icon>
-                            <span><?php echo $opcion['TITULO']; ?></span>
-                        </a>
-
-                        <?php if ($opcion['CLASE'] == 'sub-menu'): ?>
-                            <ul class="<?php echo $opcion['CLASE03'];  
-                                foreach ($opcion['SUBMENU'] as $subClave => $subOpcion){
-                                    if( $subOpcion['URL'] == $urlActual) echo ' desplegado';
-                                }; ?>">
-                                <?php foreach ($opcion['SUBMENU'] as $subClave => $subOpcion): ?>
-                                    <li>
-                                        <a href="<?php echo $urlBaseVariable.$subOpcion['URL'];?>" class="<?php echo $subOpcion['URL'] == $urlActual ? 'inbox' : '';?>">
-                                            <ion-icon name="<?php echo $subOpcion['ICON']; ?>"></ion-icon>
-                                            <span class="links_nombre"><?php echo $subOpcion['TITULO']; ?></span>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
-
-        <div id="contenedor_sesion_autor">
-            <div id="contenedor_cerrar_sesion">
-                <ion-icon id="cerrar_sesion" name="exit-outline"></ion-icon>           
-            </div>
-            <div class="linea"></div>
-            <div id="contenedor_autor">
-                <ion-icon id="btn_autor" name="code-slash-outline"></ion-icon>
-                <div id="informacion_autor">
-                    <h2>CERBERUS</h2>
-                    <h3>Análisis y Desarrollo de Software 2714805</h3>
-                    <p>Laura Daniela Canizales</p>
-                    <p>Juan David Tilmans</p>
-                </div>
-            </div>
-        </div>
-
-    </div> 
+    </div>
+</div> 

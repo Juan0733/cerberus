@@ -13,7 +13,7 @@
                 </div>
                     
                 <div class="caja-checkbox">
-                    <ion-icon id='icono_puerta_principal' name="car" class=" icono-puerta"></ion-icon>
+                    <ion-icon id='icono_puerta_principal' name="car" class="icono-puerta"></ion-icon>
                     <input type="checkbox" class="checkbox-puerta" id="principal" name="principal" value="PRINCIPAL">
                     <label for="principal" class="label-input">Vehicular Principal</label>
                 </div>

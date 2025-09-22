@@ -1,74 +1,64 @@
 import {registrarVisitante} from '../fetchs/visitantes-fetch.js';
 import { consultarMotivosIngreso } from '../fetchs/motivos-ingreso.js';
+import { consultarModalVisitante } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let funcionCallback;
-let urlBase;
-let inputTipoDocumento;
+let selectTipoDocumento;
+let inputCorreo;
 let seccion01;
 let seccion02;
 let botonCancelar;
 let botonAtras;
 let botonSiguiente;
 let botonRegistrar;
+let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalRegistroVisitante(url, documento=false, callback=false, datosUsuario=false) {
+   consultarModalVisitante(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_visitante';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
+            contenedorModales.appendChild(modal);
 
-async function modalRegistroVisitante(url, documento=false, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-visitante.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_visitante';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        contenedorModales.appendChild(modal);
-
-        if(documento){
-            const inputDocumento = document.getElementById('documento_visitante'); 
-            inputDocumento.value = documento;
-            inputDocumento.readOnly = true;
-        }
-    
-        inputTipoDocumento = document.getElementById('tipo_documento');
-        seccion01 = document.getElementsByClassName('seccion-01');
-        seccion02 = document.getElementsByClassName('seccion-02');
-        botonCancelar = document.getElementById('btn_cancelar_visitante');
-        botonAtras = document.getElementById('btn_atras_visitante');
-        botonSiguiente = document.getElementById('btn_siguiente_visitante');
-        botonRegistrar = document.getElementById('btn_registrar_visitante');
-
-        funcionCallback = callback;
-        urlBase = url;
+            if(documento){
+                const inputDocumento = document.getElementById('documento_visitante'); 
+                inputDocumento.value = documento;
+                inputDocumento.readOnly = true;
+            }
         
-        eventoCerrarModal();
-        eventoRegistrarVisitante();
-        motrarCampos();
-        volverCampos();
-        dibujarMotivosIngreso();
- 
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
+            selectTipoDocumento = document.getElementById('tipo_documento');
+            inputCorreo = document.getElementById('correo_electronico');
+            seccion01 = document.getElementsByClassName('seccion-01');
+            seccion02 = document.getElementsByClassName('seccion-02');
+            botonCancelar = document.getElementById('btn_cancelar_visitante');
+            botonAtras = document.getElementById('btn_atras_visitante');
+            botonSiguiente = document.getElementById('btn_siguiente_visitante');
+            botonRegistrar = document.getElementById('btn_registrar_visitante');
 
-        if(botonCerrarModal){
-            botonCerrarModal.click();
+            funcionCallback = callback;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            if(datosUsuario){
+                dibujarUsuario(datosUsuario);
+            }
+            eventoRegistrarVisitante();
+            motrarCampos();
+            volverCampos();
+            dibujarMotivosIngreso();
+        
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal visitante.'
-        });
-    }
-    
+    })
 }
 export { modalRegistroVisitante };
 
@@ -87,6 +77,26 @@ function eventoCerrarModal(){
     botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function dibujarUsuario(usuario){
+    const inputNumeroDocumento = document.getElementById('documento_visitante');
+    const inputNombres = document.getElementById('nombres');
+    const inptApellidos = document.getElementById('apellidos');
+    const inputTelefono = document.getElementById('telefono');
+
+    selectTipoDocumento.value = usuario.tipo_documento;
+    inputNumeroDocumento.value = usuario.numero_documento;
+    inputNombres.value = usuario.nombres;
+    inptApellidos.value = usuario.apellidos;
+    inputCorreo.value = usuario.correo_electronico;
+    inputTelefono.value = usuario.telefono;
+
+    selectTipoDocumento.disabled = true;
+    inputNumeroDocumento.readOnly = true;
+    inptApellidos.readOnly = true;
+    inputCorreo.readOnly = true;
+    inputTelefono.readOnly = true;
 }
 
 function dibujarMotivosIngreso(){
@@ -109,7 +119,7 @@ function dibujarMotivosIngreso(){
             } 
 
             setTimeout(()=>{
-                inputTipoDocumento.focus();
+                selectTipoDocumento.focus();
             }, 250)
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -131,10 +141,17 @@ function eventoRegistrarVisitante(){
         let formData = new FormData(formularioVisitante);
         formData.append('operacion', 'registrar_visitante');
 
+        if(selectTipoDocumento.disabled == true){
+            formData.append('tipo_documento', selectTipoDocumento.value);
+        }
+
         registrarVisitante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK"){
                 alertaExito(respuesta);
-                funcionCallback(respuesta);
+                
+                if(funcionCallback){
+                    funcionCallback(respuesta);
+                }
 
                 botonCerrarModal.click();
                 
@@ -152,7 +169,6 @@ function eventoRegistrarVisitante(){
 
 function motrarCampos() {
     const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
-    const inputCorreo = document.getElementById('correo_electronico');
 
     botonSiguiente.addEventListener('click', ()=>{
         let validos = true;
@@ -195,7 +211,7 @@ function volverCampos() {
             caja.style.display = 'block';
         }
 
-        inputTipoDocumento.focus();
+        selectTipoDocumento.focus();
 
         botonAtras.style.display = 'none';
         botonRegistrar.style.display = 'none'

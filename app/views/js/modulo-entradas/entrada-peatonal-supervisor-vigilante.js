@@ -25,7 +25,7 @@ function eventoRegistrarEntradaPeatonal() {
                 }, 1000)
                 
             }else if(respuesta.tipo == "ERROR"){
-                if(respuesta.titulo == "Salida No Registrada" || respuesta.titulo == "Usuario No Encontrado"){
+                if(respuesta.titulo == "Salida No Registrada" || respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == 'Ficha Caducada' || respuesta.titulo == 'Contrato Caducado'){
                     respuesta.documento = documentoPeaton.value;
                     respuesta.callback = eventoManualFormularioPeatonal;
                     alertaAdvertencia(respuesta);
@@ -125,6 +125,9 @@ function alertaAdvertencia(respuesta){
                 
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
+
+            }else if(respuesta.titulo == 'Ficha Caducada' || respuesta.titulo == 'Contrato Caducado'){
+                modalRegistroVisitante(urlBase, '', respuesta.callback, respuesta.datos_usuario)
             }
         } 
     });

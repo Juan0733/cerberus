@@ -57,23 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
     }
 
-    if($operacion == 'registrar_funcionario'){
-        $respuesta = $objetoServicio->sanitizarDatosRegistroFuncionario();
+    if($operacion == 'registrar_funcionario_individual'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroFuncionarioIndividual();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-        echo json_encode($objetoFuncionario->registrarFuncionario($respuesta['datos_funcionario']));
+        echo json_encode($objetoFuncionario->registrarFuncionarioIndividual($respuesta['datos_funcionario']));
 
-    }elseif($operacion == 'auto_registrar_funcionario'){
-        $respuesta = $objetoServicio->sanitizarDatosAutoRegistroFuncionario();
+    }elseif($operacion == 'registrar_funcionario_carga_masiva'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroFuncionarioCargaMasiva();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-        echo json_encode($objetoFuncionario->registrarFuncionario($respuesta['datos_funcionario']));
+        echo json_encode($objetoFuncionario->registrarFuncionarioCargaMasiva($respuesta['datos_funcionarios']));
 
     }else if($operacion == 'actualizar_funcionario'){
         $respuesta = $objetoServicio->sanitizarDatosActualizacionFuncionario();
@@ -85,13 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         echo json_encode($objetoFuncionario->actualizarFuncionario($respuesta['datos_funcionario']));
         
     }else if($operacion == 'habilitar_funcionario'){
-        $respuesta = $objetoServicio->sanitizarDatosHabilitacionFuncionario();
+        $respuesta = $objetoServicio->sanitizarDatosHabilitacionUsuario();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-        echo json_encode($objetoFuncionario->habilitarFuncionario($respuesta['datos_funcionario']));
+        echo json_encode($objetoFuncionario->habilitarFuncionario($respuesta['datos_usuario']));
     }
 
 

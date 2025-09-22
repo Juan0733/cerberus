@@ -5,12 +5,10 @@ use DateTime;
 
 class MovimientoModel extends MainModel{
     private $objetoUsuario;
-    private $objetoVisitante;
     private $objetoVehiculo;
 
     public function __construct() {
         $this->objetoUsuario = new UsuarioModel();
-        $this->objetoVisitante = new VisitanteModel();
         $this->objetoVehiculo = new VehiculoModel();
     }
 
@@ -66,6 +64,7 @@ class MovimientoModel extends MainModel{
             $pasajero['tipo_pasajero'] = $respuesta['usuario']['tipo_usuario'];
             $pasajero['tabla_pasajero'] = $respuesta['usuario']['tabla_usuario'];
         }
+        unset($pasajero);
 
         $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
@@ -185,6 +184,7 @@ class MovimientoModel extends MainModel{
             $pasajero['tipo_pasajero'] = $respuesta['usuario']['tipo_usuario'];
             $pasajero['tabla_pasajero'] = $respuesta['usuario']['tabla_usuario'];
         }
+        unset($pasajero);
 
         $respuesta = $this->objetoVehiculo->consultarVehiculo($datosSalida['numero_placa']);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
@@ -276,6 +276,16 @@ class MovimientoModel extends MainModel{
     }
 
     public function validarUsuarioAptoEntrada($usuario){
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        if($usuarioSistema == $usuario){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Registro No Permitido',
+                'mensaje' => 'Los integrantes del personal de seguridad no pueden registrar su propia entrada. Solicite a un compañero que realice el registro por usted.'
+            ];
+            return $respuesta;
+        }
+
         $respuesta = $this->objetoUsuario->consultarUsuario($usuario);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
@@ -292,31 +302,29 @@ class MovimientoModel extends MainModel{
         }
         
         if($datosUsuario['tipo_usuario'] == 'APRENDIZ'){
-            $fechaActual = new DateTime();
+            $fechaActual = new DateTime(date('Y-m-d'));
             $fechaFinFicha = new DateTime($datosUsuario['fecha_fin_ficha']);
             if($fechaFinFicha < $fechaActual){
-                $datosUsuario['motivo_ingreso'] = 'La ficha del aprendiz ha finalizado';
-                $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
-                $datosUsuario['tipo_usuario'] = 'VISITANTE';
-                $datosUsuario['tabla_usuario'] = 'visitantes';
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Ficha Caducada',
+                    'mensaje' => 'La ficha del aprendiz ya ha finalizado, por lo tanto se requiere que indique cuál es el motivo de su ingreso.',
+                    'datos_usuario' => $datosUsuario
+                ];
+                return $respuesta;
             }
 
         }elseif($datosUsuario['tipo_usuario'] == 'FUNCIONARIO' && $datosUsuario['tipo_contrato'] == 'CONTRATISTA'){
-            $fechaActual = new DateTime();
+            $fechaActual = new DateTime(date('Y-m-d'));
             $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
             if($fechaFinContrato < $fechaActual){
-                $datosUsuario['motivo_ingreso'] = 'El contrato del funcionario ha finalizado';
-                $respuesta = $this->objetoVisitante->registrarVisitante($datosUsuario);
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
-                $datosUsuario['tipo_usuario'] = 'VISITANTE';
-                $datosUsuario['tabla_usuario'] = 'visitantes';
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Contrato Caducado',
+                    'mensaje' => 'El contrato del funcionario ya ha finalizado, por lo tanto se requiere que indique cuál es el motivo de su ingreso.',
+                    'datos_usuario' => $datosUsuario
+                ];
+                return $respuesta;
             }
         }
 
@@ -330,6 +338,16 @@ class MovimientoModel extends MainModel{
     }
 
      public function validarUsuarioAptoSalida($usuario){
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        if($usuarioSistema == $usuario){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Registro No Permitido',
+                'mensaje' => 'Los integrantes del personal de seguridad no pueden registrar su propia salida. Solicite a un compañero que realice el registro por usted.'
+            ];
+            return $respuesta;
+        }
+
         $respuesta = $this->objetoUsuario->consultarUsuario($usuario);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;

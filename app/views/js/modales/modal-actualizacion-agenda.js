@@ -1,4 +1,5 @@
-import {consultarAgenda, actualizarAgenda} from '../fetchs/agenda-fetch.js'
+import {consultarAgenda, actualizarAgenda} from '../fetchs/agenda-fetch.js';
+import { consultarModalAgenda } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
@@ -12,67 +13,57 @@ let checkGrupal;
 let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
 
-async function modalActualizarAgenda(codigo, callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-agenda.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalActualizarAgenda(codigo, callback, url) {
+    consultarModalAgenda(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal
+            const modal = document.createElement('div');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_agenda';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_agenda';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
-        }
 
-        contenedorModales.appendChild(modal);
+            contenedorModales.appendChild(modal);
 
-        document.getElementById('btn_siguiente_agenda').style.display = 'none';
-        document.getElementById('btn_actualizar_agenda').style.display = 'flex';
-        document.getElementById('titulo_modal_agenda').textContent = 'Actualizar Agenda'
+            const btnRegistrar = document.getElementById('btn_registrar_agenda');
+            btnRegistrar.textContent = 'Actualizar';
+            btnRegistrar.style.display = 'flex';
 
-        inputTitulo =  document.getElementById('titulo_agenda');
-        inputFechAgenda = document.getElementById('fecha_agenda');
-        textAreaMotivo = document.getElementById('motivo');
-        checkIndividual = document.getElementById('individual');
-        checkGrupal = document.getElementById('grupal');
-    
-        codigoAgenda = codigo;
-        funcionCallback = callback;
-        urlBase = url;
+            document.getElementById('btn_siguiente_agenda').style.display = 'none';
+            document.getElementById('titulo_modal_agenda').textContent = 'Actualizar Agenda';
 
-        eventoCerrarModal();
-        eventoTextArea();
-        eventoActualizarAgenda();
-        dibujarAgenda();
-           
-        setTimeout(()=>{
-           titulo.focus();
-        }, 250)
+            inputTitulo =  document.getElementById('titulo_agenda');
+            inputFechAgenda = document.getElementById('fecha_agenda');
+            textAreaMotivo = document.getElementById('motivo');
+            checkIndividual = document.getElementById('individual');
+            checkGrupal = document.getElementById('grupal');
         
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
+            codigoAgenda = codigo;
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            eventoTextArea();
+            eventoActualizarAgenda();
+            dibujarAgenda();
+            
+            setTimeout(()=>{
+            titulo.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal agenda.'
-        });
-    }
+    })
 }
 export{modalActualizarAgenda}
 

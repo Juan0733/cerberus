@@ -58,23 +58,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
         }
     }
 
-	if($operacion == 'registrar_vigilante'){
-        $respuesta = $objetoServicio->sanitizarDatosRegistroVigilante();
+	if($operacion == 'registrar_vigilante_individual'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroVigilanteIndividual();
         if ($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-		echo json_encode($objetoVigilante->registrarVigilante($respuesta['datos_vigilante']));
+		echo json_encode($objetoVigilante->registrarVigilanteIndividual($respuesta['datos_vigilante']));
 
-	}elseif($operacion == 'auto_registrar_vigilante'){
-        $respuesta = $objetoServicio->sanitizarDatosAutoRegistroVigilante();
+	}elseif($operacion == 'registrar_vigilante_carga_masiva'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroVigilanteCargaMasiva();
         if ($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-		echo json_encode($objetoVigilante->registrarVigilante($respuesta['datos_vigilante']));
+		echo json_encode($objetoVigilante->registrarVigilanteCargaMasiva($respuesta['datos_vigilantes']));
 
 	}elseif($operacion == 'actualizar_vigilante'){
         $respuesta = $objetoServicio->sanitizarDatosActualizacionVigilante();
@@ -86,13 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 		echo json_encode($objetoVigilante->actualizarVigilante($respuesta['datos_vigilante']));
 
 	}elseif($operacion == 'habilitar_vigilante'){
-        $respuesta = $objetoServicio->sanitizarDatosHabilitacionVigilante();
+        $respuesta = $objetoServicio->sanitizarDatosHabilitacionUsuario();
         if ($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-		echo json_encode($objetoVigilante->habilitarVigilante($respuesta['datos_vigilante']));
+		echo json_encode($objetoVigilante->habilitarVigilante($respuesta['datos_usuario']));
 
 	}elseif($operacion == 'guardar_puerta'){
         $respuesta = $objetoServicio->sanitizarDatosPuerta();

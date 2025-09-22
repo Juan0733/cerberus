@@ -8,25 +8,83 @@ class VigilanteModel extends MainModel{
         $this->objetoUsuario = new UsuarioModel();
     }
 
-    public function registrarVigilante($datosVigilante){
+    public function registrarVigilanteIndividual($datosVigilante){
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+        if($rolSistema == 'SUPERVISOR' && $datosVigilante['rol'] != 'VIGILANTE'){
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Rol No Autorizado',
+                "mensaje"=> 'No tienes autorización para registrar vigilantes con este rol.'
+            ];
+            return $respuesta;
+        }
+
         $respuesta = $this->validarDuplicidadVigilante($datosVigilante['numero_documento']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
-        $ubicacion = 'FUERA';
+        $datosVigilante['ubicacion'] = 'FUERA';
         if(isset($respuesta['ubicacion'])){
-            $ubicacion = $respuesta['ubicacion'];
+            $datosVigilante['ubicacion'] = $respuesta['ubicacion'];
         }
 
         $fechaRegistro = date('Y-m-d H:i:s');
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $sentenciaInsertar = "
-            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario) 
-            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '$ubicacion', '$fechaRegistro', '{$datosVigilante['estado_usuario']}')";
+            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario, fk_usuario_sistema) 
+            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '{$datosVigilante['ubicacion']}', '$fechaRegistro', '{$datosVigilante['estado_usuario']}', '$usuarioSistema')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            "titulo" => 'Registro Exitoso',
+            "mensaje"=> 'El vigilante fue registrado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function registrarVigilanteCargaMasiva($datosVigilantes){
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+
+        foreach ($datosVigilantes as &$vigilante) {
+            if($rolSistema == 'SUPERVISOR' && $vigilante['rol'] != 'VIGILANTE'){
+                $respuesta = [
+                    "tipo" => "ERROR",
+                    "titulo" => 'Rol No Autorizado',
+                    "mensaje"=> 'No tienes autorización para registrar vigilantes con este rol.'
+                ];
+                return $respuesta;
+            }
+
+            $respuesta = $this->validarDuplicidadvigilante($vigilante['numero_documento']);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+            $vigilante['ubicacion'] = 'FUERA';
+            if(isset($respuesta['ubicacion'])){
+                $vigilante['ubicacion'] = $respuesta['ubicacion'];
+            }
+        }
+        unset($vigilante);
+
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+
+        foreach ($datosVigilantes as $vigilante) {
+            $sentenciaInsertar = "
+                INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario, fk_usuario_sistema)
+                VALUES('{$vigilante['tipo_documento']}', '{$vigilante['numero_documento']}', '{$vigilante['nombres']}', '{$vigilante['apellidos']}', '{$vigilante['telefono']}', '{$vigilante['correo_electronico']}', '{$vigilante['rol']}', '{$vigilante['contrasena']}', '{$vigilante['ubicacion']}', '$fechaRegistro', '{$vigilante['estado_usuario']}', '$usuarioSistema');";
+            
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
         }
 
         $respuesta = [
@@ -75,8 +133,8 @@ class VigilanteModel extends MainModel{
         if($estadoUsuario == 'ACTIVO'){
             $respuesta = [
                 'tipo' => 'ERROR',
-                'titulo' => 'Usuario Activo',
-                'mensaje' => 'No se pudo realiza la habilitacion, porque el vigilante ya se encuentra activo'
+                'titulo' => 'Vigilante Activo',
+                'mensaje' => 'No se pudo realiza la habilitación, porque el vigilante ya se encuentra activo'
             ];
             return $respuesta;
         }
@@ -91,7 +149,7 @@ class VigilanteModel extends MainModel{
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Usuario Activo',
+            'titulo' => 'Habilitación Exitosa',
             'mensaje' => 'El vigilante fue habilitado correctamente.'
         ];
         return $respuesta;
@@ -108,7 +166,7 @@ class VigilanteModel extends MainModel{
             $respuesta = [
                 'tipo' => 'ERROR',
                 'titulo' => 'Usuario Inactivo',
-                'mensaje' => 'No se pudo realiza la inhabilitacion, porque el vigilante ya se encuentra inactivo'
+                'mensaje' => 'No se pudo realiza la inhabilitación, porque el vigilante ya se encuentra inactivo'
             ];
             return $respuesta;
         }
@@ -123,7 +181,7 @@ class VigilanteModel extends MainModel{
 
         $respuesta = [
             'tipo' => 'OK',
-            'titulo' => 'Usuario Inactivo',
+            'titulo' => 'Inhabilitación Exitosa',
             'mensaje' => 'El vigilante fue inhabilitado correctamente.'
         ];
         return $respuesta;
@@ -140,7 +198,7 @@ class VigilanteModel extends MainModel{
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
-                    'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el sistema como vigilante.'
+                    'mensaje' => 'No fue posible realizar el registro, el usuario con número de documento '.$vigilante.' ya se encuentra registrado en el sistema como vigilante.'
                 ];
                 return $respuesta;
             }

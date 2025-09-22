@@ -4,7 +4,7 @@ namespace App\Models;
 class FichaModel extends MainModel{
 
     public function registrarFicha($datosFicha){
-        $respuesta = $this->validarDuplicidadFicha($datosFicha);
+        $respuesta = $this->validarDuplicidadFicha($datosFicha['numero_ficha']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -27,26 +27,18 @@ class FichaModel extends MainModel{
         return $respuesta;
     }
 
-    public function validarDuplicidadFicha($datosFicha){
-        $respuesta = $this->consultarFicha($datosFicha['numero_ficha']);
+    public function validarDuplicidadFicha($ficha){
+        $respuesta = $this->consultarFicha($ficha);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
         }elseif($respuesta['tipo'] == 'OK'){
-            $fichaActual = $respuesta['datos_ficha'];
-            if($fichaActual['nombre_programa'] == $datosFicha['nombre_programa'] && $fichaActual['fecha_fin_ficha'] == $datosFicha['fecha_fin_ficha']){
-                $respuesta = [
-                    'tipo' => 'ERROR',
-                    'titulo' => 'Ficha Existente',
-                    'mensaje' => 'No es posible registrar la ficha, porque ya se encuentra registrada en el sistema'
-                ];
-                return $respuesta; 
-            }
-
-            $respuesta = $this->eliminarFicha($datosFicha['numero_ficha']);
-            if($respuesta['tipo'] == 'ERROR'){
-                return $respuesta;
-            }
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Ficha Existente',
+                'mensaje' => 'No es posible registrar la ficha, porque ya se encuentra registrada en el sistema'
+            ];
+            return $respuesta;  
         }
 
         $respuesta = [
@@ -116,25 +108,6 @@ class FichaModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'datos_ficha' => $ficha
-        ];
-        return $respuesta;
-    }
-
-    private function eliminarFicha($ficha){
-        $sentenciaEliminar = "
-            DELETE
-            FROM fichas
-            WHERE numero_ficha = '$ficha';";
-        
-        $respuesta = $this->ejecutarConsulta($sentenciaEliminar);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
-        $respuesta = [
-            'tipo' => 'OK',
-            'titulo' => 'Eliminación Exitosa',
-            'mensaje' => 'La ficha fue eliminada correctamente'
         ];
         return $respuesta;
     }

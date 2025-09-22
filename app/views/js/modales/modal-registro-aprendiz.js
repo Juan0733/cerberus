@@ -1,79 +1,84 @@
 import {registrarAprendiz} from '../fetchs/aprendices-fetch.js';
 import {consultarFicha, consultarFichas} from '../fetchs/fichas-fetch.js';
+import { consultarModalAprendiz } from '../fetchs/modal-fetch.js';
 
+let tipoRegistro;
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let funcionCallback;
+let modal;
+let contenedorCajas;
+let seccionPrincipal;
+let seccionIndividual;
+let seccionIndividual01;
+let seccionIndividual02;
+let seccionMasiva;
 let selectTipoDocumento;
 let inputCorreo;
-let seccion01;
-let seccion02;
+let inputPlantillaExcel;
 let botonAtras;
 let botonCancelar;
 let botonRegistrar;
 let botonSiguiente;
+let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalRegistroAprendiz(callback, url) {
+    consultarModalAprendiz(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
 
-async function modalRegistroAprendiz(callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-aprendiz.php');
+            const contenidoModal = respuesta.modal;
+            modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_aprendiz';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_aprendiz';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            contenedorCajas = document.getElementById('contenedor_cajas_aprendiz');
+            seccionPrincipal = document.getElementsByClassName('seccion-principal');
+            seccionIndividual = document.getElementsByClassName('seccion-individual');
+            seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
+            seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
+            seccionMasiva = document.getElementsByClassName('seccion-masiva');
+            selectTipoDocumento = document.getElementById('tipo_documento');
+            inputCorreo = document.getElementById('correo_electronico');
+            inputPlantillaExcel = document.getElementById('plantilla_excel');
+            botonCancelar = document.getElementById('btn_cancelar_aprendiz');
+            botonAtras = document.getElementById('btn_atras_aprendiz');
+            botonSiguiente = document.getElementById('btn_siguiente_aprendiz');
+            botonRegistrar = document.getElementById('btn_registrar_aprendiz');
+
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            eventoTipoRegistro();
+            eventoInputFicha();
+            eventoInputFile();
+            mostrarCampos();
+            volverCampos();
+            eventoRegistrarAprendiz();
+
+            contenedorModales.classList.add('mostrar');
+
+            setTimeout(()=>{
+                selectTipoDocumento.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        selectTipoDocumento = document.getElementById('tipo_documento');
-        inputCorreo = document.getElementById('correo_electronico');
-        seccion01 = document.getElementsByClassName('seccion-01');
-        seccion02 = document.getElementsByClassName('seccion-02');
-        botonCancelar = document.getElementById('btn_cancelar_aprendiz');
-        botonAtras = document.getElementById('btn_atras_aprendiz');
-        botonSiguiente = document.getElementById('btn_siguiente_aprendiz');
-        botonRegistrar = document.getElementById('btn_registrar_aprendiz');
-
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        eventoInputFicha();
-        mostrarCampos();
-        volverCampos();
-        eventoRegistrarAprendiz();
-        dibujarFichas();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro aprendiz.'
-        });
-    }
-    
+    })
 }
 export { modalRegistroAprendiz };
 
@@ -91,6 +96,38 @@ function eventoCerrarModal(){
     });
 }
 
+function eventoTipoRegistro() {
+    const inputsCheckbox = document.querySelectorAll('.checkbox');
+    const iconosTipoRegistro = document.querySelectorAll('.icono-tipo-registro');
+
+    inputsCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('change', ()=>{
+            iconosTipoRegistro.forEach(icono => {
+                icono.removeAttribute('style');
+            });
+
+            if (checkbox.checked){
+                tipoRegistro = checkbox.value;
+                for(const icono of iconosTipoRegistro){
+                    if(icono.id == 'icono_'+tipoRegistro){
+                        icono.style.color = 'var(--color-secundario)';
+                        break;
+                    }
+                }
+
+                inputsCheckbox.forEach(input => {
+                    if(input != checkbox){
+                        input.checked = false;
+                    }
+                });
+
+            }else{
+                tipoRegistro = '';
+            }
+        })
+    });
+}
+
 function dibujarFichas(){
     const dataListFichas = document.getElementById('lista_fichas');
     consultarFichas(urlBase).then(respuesta=>{
@@ -102,12 +139,6 @@ function dibujarFichas(){
                     <option value="${ficha.numero_ficha}">
                     `;
             });
-
-            contenedorModales.classList.add('mostrar');
-
-            setTimeout(()=>{
-                selectTipoDocumento.focus();
-            }, 250)
 
         }else if(respuesta.tipo == 'ERROR'){
             if(respuesta.titulo == 'Sesión Expirada'){
@@ -133,11 +164,21 @@ function eventoInputFicha(){
                     inputPrograma.value = respuesta.datos_ficha.nombre_programa;
                     inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
 
+                    inputPrograma.readOnly = true;
+                    inputFechaFicha.readOnly = true;
+
                 }else if(respuesta.tipo == 'ERROR'){
                     if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
                         
-                    }else if(respuesta.titulo != 'Ficha No Encontrada'){
+                    }else if(respuesta.titulo == 'Ficha No Encontrada'){
+                        inputPrograma.value = '';
+                        inputFechaFicha.value = '';
+
+                        inputPrograma.readonly = false;
+                        inputFechaFicha.readOnly = false;
+
+                    }else{
                         alertaError(respuesta);
                     }
                 }
@@ -149,6 +190,18 @@ function eventoInputFicha(){
     })
 }
 
+function eventoInputFile(){
+    const nombreArchivo = document.getElementById('nombre_archivo');
+
+    inputPlantillaExcel.addEventListener('change', ()=>{
+        if(inputPlantillaExcel.files.length > 0){
+            nombreArchivo.textContent = inputPlantillaExcel.files[0].name;
+        }else{
+            nombreArchivo.textContent = "Seleccionar archivo"
+        }
+    })
+}
+
 function eventoRegistrarAprendiz(){
     let formularioAprendiz = document.getElementById('formulario_aprendiz');
     formularioAprendiz.addEventListener('submit', (e)=>{
@@ -156,7 +209,22 @@ function eventoRegistrarAprendiz(){
 
         let formData = new FormData(formularioAprendiz);
 
-        formData.append('operacion', 'registrar_aprendiz');
+        if(tipoRegistro == 'individual'){
+            formData.append('operacion', 'registrar_aprendiz_individual');
+            formData.append('tipo_documento', selectTipoDocumento.value);
+            formData.append('numero_documento', document.getElementById('numero_documento').value);
+            formData.append('nombres', document.getElementById('nombres').value);
+            formData.append('apellidos', document.getElementById('apellidos').value);
+            formData.append('correo_electronico', inputCorreo.value);
+            formData.append('telefono', document.getElementById('telefono').value);
+            formData.append('numero_ficha', document.getElementById('numero_ficha').value);
+            formData.append('nombre_programa', document.getElementById('nombre_programa').value);
+            formData.append('fecha_fin_ficha', document.getElementById('fecha_fin_ficha').value);
+
+        }else if(tipoRegistro == 'carga_masiva'){
+            formData.append('operacion', 'registrar_aprendiz_carga_masiva');
+            formData.append('plantilla_excel', inputPlantillaExcel.files[0]);
+        }
        
         registrarAprendiz(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
@@ -177,54 +245,146 @@ function eventoRegistrarAprendiz(){
 }
 
 function mostrarCampos(){
-    const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
+    const inputsSeccionIndividual = document.getElementsByClassName('campo-individual');
+    const inputsSeccionIndividual01 = document.getElementsByClassName('campo-individual-01');
 
     botonSiguiente.addEventListener('click', ()=>{
-        let validos = true;
-        
-        for(const input of inputsSeccion01) {
-            if(!input.checkValidity()){
-                input.reportValidity();
-                validos = false;
-                break;
-            }
-        };
+        if(seccionPrincipal[0].style.display != 'none'){
+            if(tipoRegistro){
+                for(const caja of seccionPrincipal){
+                    caja.style.display = 'none';
+                }
 
-        if(validos){
-            for(const caja of seccion01){
-                caja.style.display = 'none';
-            }
-        
-            for(const caja of seccion02){
-                caja.style.display = 'block';
+                if(tipoRegistro == 'individual'){
+                    dibujarFichas();
+
+                    if(window.innerWidth >= 768){
+                        for(const caja of seccionIndividual){
+                            caja.style.display = 'block'
+                        }
+
+                        botonSiguiente.style.display = 'none';
+                        botonRegistrar.style.display = 'flex';
+                        modal.style.width = 'clamp(550px, 50%, 980px)';
+                        contenedorCajas.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+                    }else if(window.innerWidth <= 767){
+                        for(const caja of seccionIndividual01){
+                            caja.style.display = 'block'
+                        }
+                    }
+
+                    for(const input of inputsSeccionIndividual){
+                        input.required = true;
+                    }
+                    inputPlantillaExcel.required = false;
+
+                    botonCancelar.style.display = 'none';
+                    botonAtras.style.display = 'flex';
+
+                    selectTipoDocumento.focus();
+                
+                }else if(tipoRegistro == 'carga_masiva'){
+                    for(const caja of seccionMasiva){
+                        caja.style.display = 'flex';
+                    }
+
+                    for(const input of inputsSeccionIndividual){
+                        input.required = false;
+                    }
+                    inputPlantillaExcel.required = true;
+                   
+                    botonSiguiente.style.display = 'none';
+                    botonRegistrar.style.display = 'flex';
+                    botonCancelar.style.display = 'none';
+                    botonAtras.style.display = 'flex';
+
+                    inputPlantillaExcel.focus();
+                }
             }
 
-            inputCorreo.focus();
+        }else if(seccionIndividual01[0].style.display == 'block' && seccionIndividual02[0].style.display != 'block'){
+            let camposValidos = true;
+            for(const input of inputsSeccionIndividual01) {
+                if(!input.checkValidity()){
+                    input.reportValidity();
+                    camposValidos = false;
+                    break;
+                }
+            };
 
-            botonCancelar.style.display = 'none';
-            botonSiguiente.style.display = 'none';
-            botonRegistrar.style.display = 'flex';
-            botonAtras.style.display = 'flex';
+            if(camposValidos){
+                for(const caja of seccionIndividual01){
+                    caja.style.display = 'none';
+                }
+
+                for(const caja of seccionIndividual02){
+                    caja.style.display = 'block';
+                }
+
+                botonSiguiente.style.display = 'none';
+                botonRegistrar.style.display = 'flex';
+
+                inputCorreo.focus();
+            }
         }
     })
 }
 
 function volverCampos(){
     botonAtras.addEventListener('click', ()=>{
-        for(const caja of seccion02){
-            caja.style.display = 'none';
-        }
-        
-        for(const caja of seccion01){
-            caja.style.display = 'block';
-        }
-        
-        botonAtras.style.display = 'none';
-        botonRegistrar.style.display = 'none';
-        botonCancelar.style.display = 'flex';
-        botonSiguiente.style.display = 'flex';
+        if(seccionMasiva[0].style.display == 'flex'){
+            for(const caja of seccionMasiva){
+                caja.style.display = 'none';
+            }
 
-        selectTipoDocumento.focus();
+            for(const caja of seccionPrincipal){
+                caja.style.display = 'flex';
+            }
+
+            botonAtras.style.display = 'none';
+            botonRegistrar.style.display = 'none';
+            botonCancelar.style.display = 'flex';
+            botonSiguiente.style.display = 'flex';
+
+        }else if(seccionIndividual01[0].style.display == 'block'){
+            if(window.innerWidth >= 768){
+                for(const caja of seccionIndividual){
+                    caja.style.display = 'none';
+                }
+
+                modal.style.width = 'clamp(350px, 32%, 600px)';
+                contenedorCajas.style.gridTemplateColumns = 'repeat(1, 1fr)';
+
+            }else if(window.innerWidth <= 767){
+                for(const caja of seccionIndividual01){
+                    caja.style.display = 'none';
+                }
+            }
+
+            for(const caja of seccionPrincipal){
+                caja.style.display = 'flex';
+            }
+        
+            botonAtras.style.display = 'none';
+            botonRegistrar.style.display = 'none';
+            botonCancelar.style.display = 'flex';
+            botonSiguiente.style.display = 'flex';
+
+        }else if(seccionIndividual01[0].style.display == 'none' && seccionIndividual02[0].style.display == 'block'){
+            for(const caja of seccionIndividual02){
+                caja.style.display = 'none';
+            }
+
+            for(const caja of seccionIndividual01){
+                caja.style.display = 'block';
+            }
+
+            botonRegistrar.style.display = 'none';
+            botonSiguiente.style.display = 'flex';
+
+            selectTipoDocumento.focus();
+        }
     })
 }
 

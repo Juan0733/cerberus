@@ -1,3 +1,4 @@
+import { consultarModalPropietariosVehiculo } from '../fetchs/modal-fetch.js';
 import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 
 let contenedorModales;
@@ -8,8 +9,6 @@ let modalesExistentes;
 let cuerpoTabla;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
 function validarResolucion(){
     if(window.innerWidth >= 1024){
         dibujarTablaPropietarios();
@@ -18,53 +17,39 @@ function validarResolucion(){
     }
 }
 
-async function modalPropietariosVehiculo(placa, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-propietarios-vehiculo.php');
+function modalPropietariosVehiculo(placa, url) {
+   consultarModalPropietariosVehiculo(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal =  respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_propietarios';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_propietarios';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            document.getElementById('titulo_modal').textContent = 'Propietarios Vehículo '+placa.toUpperCase();
+            contenedorInformacion = document.getElementById('cont_info_modales');
+            urlBase = url;
+            cuerpoTabla = '';
+            numeroPlaca = placa;
+            
+            eventoCerrarModal(); 
+            validarResolucion();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        document.getElementById('titulo_modal').textContent = 'Propietarios Vehículo '+placa.toUpperCase();
-        contenedorInformacion = document.getElementById('cont_info_modales');
-        urlBase = url;
-        cuerpoTabla = '';
-        numeroPlaca = placa;
-        
-        eventoCerrarModal(); 
-        validarResolucion();
-        
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal propietarios.'
-        });
-    }
-    
+    })
 }
 export { modalPropietariosVehiculo };
 

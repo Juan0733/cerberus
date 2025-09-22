@@ -1,3 +1,4 @@
+import { consultarModalPermisoVehiculo } from '../fetchs/modal-fetch.js';
 import {registrarPermisoVehiculo} from '../fetchs/permisos-vehiculos-fetch.js';
 import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 
@@ -9,75 +10,58 @@ let selectTipoPermiso;
 let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalRegistroPermisoVehiculo(url, permiso=false, placa=false, callback) {
+    consultarModalPermisoVehiculo(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_permiso_vehiculo';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalRegistroPermisoVehiculo(url, permiso=false, placa=false, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-permiso-vehiculo.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_permiso_vehiculo';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            inputPlaca = document.getElementById('numero_placa');
+            selectTipoPermiso = document.getElementById('tipo_permiso');
+
+            funcionCallback = callback;
+            urlBase = url;
+
+            if(placa){ 
+                inputPlaca.value = placa;
+                inputPlaca.readOnly = true;
+                dibujarPropietarios();
+            }
+
+            if(permiso){
+                selectTipoPermiso.value = permiso;
+                selectTipoPermiso.disabled = true;
+            }
+
+            eventoCerrarModal();
+            eventoTextArea();
+            eventoInputPlaca();
+            eventoRegistrarPermisoVehiculo();
+
+            contenedorModales.classList.add('mostrar');
+            
+            setTimeout(()=>{
+                document.getElementById('propietario').focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        inputPlaca = document.getElementById('numero_placa');
-        selectTipoPermiso = document.getElementById('tipo_permiso');
-
-        funcionCallback = callback;
-        urlBase = url;
-
-        if(placa){ 
-            inputPlaca.value = placa;
-            inputPlaca.readOnly = true;
-            dibujarPropietarios();
-        }
-
-        if(permiso){
-            selectTipoPermiso.value = permiso;
-            selectTipoPermiso.disabled = true;
-        }
-
-        eventoCerrarModal();
-        eventoTextArea();
-        eventoInputPlaca();
-        eventoRegistrarPermisoVehiculo();
-
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        contenedorModales.classList.add('mostrar');
-        
-        setTimeout(()=>{
-            document.getElementById('propietario').focus();
-        }, 250)
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro permiso vehículo.'
-        });
-    }
-    
+    })
 }
 export { modalRegistroPermisoVehiculo };
 

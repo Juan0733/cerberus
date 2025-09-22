@@ -27,34 +27,34 @@
                     <textarea class="campo" name="motivo" id="motivo" maxlength="100" minlength="5" placeholder="Escribe aquí..." tabindex="3" required></textarea>
                 </div>
 
-                <div id="contenedor_checkbox" class="input-caja-registro seccion-principal">
-                    <div class="caja-checkbox">
-                        <input type="checkbox" class="checkbox" id="individual" name="individual" value="individual">
-                        <label for="individual" class="label-input label-checkbox">Individual</label>
-                    </div>
-                    <div class="caja-checkbox">
-                        <input type="checkbox" class="checkbox" id="grupal" name="grupal" value="grupal">
-                        <label for="grupal" class="label-input label-checkbox">Grupal</label>
-                    </div>
+                <div class="caja-checkbox seccion-principal">
+                    <ion-icon id="icono_individual" class="icono-tipo-agenda" name="person"></ion-icon>
+                    <input type="checkbox" class="checkbox" id="individual" name="individual" value="individual">
+                    <label for="individual" class="label-input">Individual</label>
+                </div>
+                <div class="caja-checkbox seccion-principal">
+                    <ion-icon id="icono_carga_masiva" class="icono-tipo-agenda" name="people"></ion-icon>
+                    <input type="checkbox" class="checkbox" id="carga_masiva" name="carga_masiva" value="carga_masiva">
+                    <label for="carga_masiva" class="label-input">Carga masiva</label>
                 </div>
             
-                <div class="seccion-grupal" id="caja_excel">
+                <div class="seccion-carga-masiva" id="caja_excel">
                     <div class="input-caja-registro">
-                        <label class="label-input">Carga masiva</label>
+                        <label class="label-input">Excel de visitantes</label>
                         <label class="campo" for="plantilla_excel">
                             <input type="file" name="plantilla_excel" id="plantilla_excel" accept=".xlsx, .xls, .xlsm">
                             <span id="nombre_archivo">Seleccionar archivo</span>
                         </label>
                     </div>
-                    <a id="btn_plantilla_excel" href="<?php echo $urlBaseVariable; ?>app/excel/formato_agenda.xlsm" download="formato_agenda.xlsm"><ion-icon name="download"></ion-icon></a>
+                    <a id="btn_plantilla_excel" href="<?php echo $urlBaseVariable; ?>app/excel/carga_masiva_agenda.xlsm" download="carga_masiva_agenda.xlsm"><ion-icon name="download"></ion-icon></a>
                 </div>
                 
                 <div class="input-caja-registro seccion-individual seccion-individual-01">
                     <label for="tipo_documento_agendado" class="label-input">Tipo de documento</label>
                     <select class="campo campo-individual-01 campo-individual"  name="tipo_documento_agendado" id="tipo_documento_agendado" tabindex="4" date="Tipo de documento">
                         <option value="" selected disabled>Seleccionar</option>
-                        <option value="CC">Cedula de ciudadanía</option>
-                        <option value="CE">Cedula de extranjería</option>
+                        <option value="CC">Cédula de ciudadanía</option>
+                        <option value="CE">Cédula de extranjería</option>
                         <option value="TI">Tarjeta de identidad</option>
                         <option value="PS">Pasaporte</option>
                         <option value="PEP">Permiso especial de permanencia</option>
@@ -86,7 +86,7 @@
                     <input type="tel" class="campo campo-individual" inputmode="numeric" name="telefono_agendado" id="telefono_agendado" pattern="[0-9]{10}" title="Debes digitar solo 10 números, sin espacios ni caracteres especiales" maxlength="10" minlength="10" placeholder="Ej: 3104444333" date="Numero de telefono" tabindex="9">
                 </div>
             
-                <button class="seccion-individual seccion-grupal seccion-individual-02" id="btn_agregar_vehiculo" type="button">
+                <button class="seccion-individual seccion-carga-masiva seccion-individual-02" id="btn_agregar_vehiculo" type="button">
                     <ion-icon name="car-outline"></ion-icon>
                     <p>Agregar vehículo</p>
                 </button>
@@ -98,7 +98,6 @@
                 <button type="button" id="btn_cancelar_agenda">Cancelar</button>
                 <button type="button" id="btn_siguiente_agenda">Siguiente</button>
                 <button type="submit" id="btn_registrar_agenda">Registrar</button>
-                <button type="submit" id="btn_actualizar_agenda">Actualizar</button>
             </div>
         </form>
     </div>

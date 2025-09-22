@@ -1,3 +1,4 @@
+import { consultarModalNovedadUsuario } from '../fetchs/modal-fetch.js';
 import { consultarUltimoMovimientoUsuario } from '../fetchs/movimientos-fetch.js';
 import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
 import { modalSeleccionPuerta } from './modal-seleccion-puerta.js';
@@ -10,54 +11,38 @@ let selectTipoNovedad;
 let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalRegistroNovedadUsuario(url, novedad, documento, callback) {
+    consultarModalNovedadUsuario(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_novedad_usuario';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
+            contenedorModales.appendChild(modal);
 
-async function modalRegistroNovedadUsuario(url, novedad, documento, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-novedad-usuario.php');
+            inputDocumento = document.getElementById('documento_involucrado'); 
+            selectTipoNovedad = document.getElementById('tipo_novedad');
 
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+            inputDocumento.value = documento;
+            inputDocumento.readOnly = true;
+            selectTipoNovedad.value = novedad;
+            selectTipoNovedad.disabled = true;
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_novedad_usuario';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        contenedorModales.appendChild(modal);
+            funcionCallback = callback;
+            urlBase = url;
 
-        inputDocumento = document.getElementById('documento_involucrado'); 
-        selectTipoNovedad = document.getElementById('tipo_novedad');
+            eventoCerrarModal();
+            eventoTextArea();
+            eventoRegistrarNovedadUsuario();
+            establecerMinFechaSuceso();
 
-        inputDocumento.value = documento;
-        inputDocumento.readOnly = true;
-        selectTipoNovedad.value = novedad;
-        selectTipoNovedad.disabled = true;
-        
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        eventoTextArea();
-        eventoRegistrarNovedadUsuario();
-        establecerMinFechaSuceso();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro novedad usuario.'
-        });
-    }
-    
+    })
 }
 export { modalRegistroNovedadUsuario };
 

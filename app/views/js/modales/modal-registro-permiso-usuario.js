@@ -1,3 +1,4 @@
+import { consultarModalPermisoUsuario } from '../fetchs/modal-fetch.js';
 import {registrarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
 
 let contenedorModales;
@@ -7,78 +8,61 @@ let selectTipoPermiso;
 let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalRegistroPermisoUsuario(url, permiso=false, documento=false, callback) {
+    consultarModalPermisoUsuario(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_permiso_usuario';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalRegistroPermisoUsuario(url, permiso=false, documento=false, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-permiso-usuario.php');
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
+            }
 
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
+            contenedorModales.appendChild(modal);
 
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+            const inputDocumento = document.getElementById('documento_beneficiario');
+            if(documento){ 
+                inputDocumento.value = documento;
+                inputDocumento.readOnly = true;
+            }
+
+            selectTipoPermiso = document.getElementById('tipo_permiso');
+            if(permiso){
+                selectTipoPermiso.value = permiso;
+                selectTipoPermiso.disabled = true;
+            }
+
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            eventoTextArea();
+            eventoRegistrarPermisoUsuario();
+
+            contenedorModales.classList.add('mostrar');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_permiso_usuario';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
+            setTimeout(()=>{
+                if(permiso && documento){
+                    document.getElementById('fecha_fin_permiso').focus();
 
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
-            }
+                }else{
+                    selectTipoPermiso.focus();
+                }
+
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        const inputDocumento = document.getElementById('documento_beneficiario');
-        if(documento){ 
-            inputDocumento.value = documento;
-            inputDocumento.readOnly = true;
-        }
-
-        selectTipoPermiso = document.getElementById('tipo_permiso');
-        if(permiso){
-            selectTipoPermiso.value = permiso;
-            selectTipoPermiso.disabled = true;
-        }
-
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        eventoTextArea();
-        eventoRegistrarPermisoUsuario();
-
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        contenedorModales.classList.add('mostrar');
-        
-        setTimeout(()=>{
-            if(permiso && documento){
-                document.getElementById('fecha_fin_permiso').focus();
-
-            }else{
-                selectTipoPermiso.focus();
-            }
-
-        }, 250)
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro permiso permanencia usuario.'
-        });
-    }
-    
+    }) 
 }
 export { modalRegistroPermisoUsuario };
 

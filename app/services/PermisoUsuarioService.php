@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-class PermisoUsuarioService{
+class PermisoUsuarioService extends MainService{
     public function sanitizarDatosRegistroPermisoUsuario(){
         if (!isset($_POST['documento_beneficiario'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['documento_beneficiario'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '') {
             $respuesta = [
@@ -43,7 +43,7 @@ class PermisoUsuarioService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
@@ -123,22 +123,5 @@ class PermisoUsuarioService{
             'parametros' => $parametros
         ];
     }
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
-    
 }
     

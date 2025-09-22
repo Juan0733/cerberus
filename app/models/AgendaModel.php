@@ -56,7 +56,7 @@ class AgendaModel extends MainModel{
         return $respuesta;
     }
 
-    public function registrarAgendaGrupal($datosAgenda){
+    public function registrarAgendaCargaMasiva($datosAgenda){
         $respuesta = $this->validarDuplicidadAgenda($datosAgenda['agendados'], $datosAgenda['fecha_agenda']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
@@ -258,13 +258,13 @@ class AgendaModel extends MainModel{
             $agenda['fecha'] = $fechaFormateada;
             $agenda['hora'] = $horaFormateada;
         }
+        unset($agenda);
         
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Consulta Exitosa',
             'mensaje' => 'Consulta ejecutada correctamente.',
             'agendas' => $agendas
-            
         ];
         return $respuesta;
     }

@@ -8,10 +8,7 @@ class ViewModel{
 			"agendas",
 			"acceso-denegado",
 			"aprendices",
-			"auto-registro-aprendices",
-			"auto-registro-vigilantes",
 			"auto-registro-visitantes",
-			"auto-registro-funcionarios",
 			"entradas",
 			"funcionarios",
 			"inicio",
@@ -31,7 +28,7 @@ class ViewModel{
 
 		if(in_array($vista, $vistasExistentes)){
 
-			$vistasAccesibles = ['acceso-denegado', 'auto-registro-aprendices', 'auto-registro-visitantes', 'auto-registro-vigilantes', 'auto-registro-funcionarios', 'login', 'sesion-expirada'];
+			$vistasAccesibles = ['acceso-denegado', 'auto-registro-visitantes', 'login', 'sesion-expirada'];
 
 			if(isset($_SESSION['datos_usuario'])){
 				if ($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR') {
@@ -73,6 +70,7 @@ class ViewModel{
 
 				}elseif ($_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR') {
 					$vistasAccesibles[] = 'inicio';
+					$vistasAccesibles[] = 'aprendices';
 					$vistasAccesibles[] = 'agendas';
 					$vistasAccesibles[] = 'permisos-usuario';
 
@@ -390,6 +388,21 @@ class ViewModel{
 						"CLASE02" => '',
 						"URL" => 'inicio',
 						"ICON" => 'grid-outline'
+					],
+					"USUARIOS" => [
+						"TITULO" => 'Usuarios',
+						"CLASE" => 'sub-menu',
+						"CLASE02" => 'sub-menu-link',
+						"CLASE03" => 'sub-menu-list',
+						"URL" => '#',
+						"ICON" => 'people-outline',
+						"SUBMENU" => [
+							"APRENDICES" => [
+								"TITULO" => 'Aprendices',
+								"URL" => 'aprendices',
+								"ICON" => 'person-outline'
+							]
+						]
 					],
 					"AGENDAS" => [
 						"TITULO" => 'Agendas',

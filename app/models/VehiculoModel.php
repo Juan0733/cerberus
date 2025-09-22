@@ -429,6 +429,7 @@ class VehiculoModel extends MainModel {
 
             $vehiculo['porcentaje'] = $porcentaje;
         }
+        unset($vehiculo);
 
         $respuesta = [
             'tipo' => "OK",
@@ -527,6 +528,7 @@ class VehiculoModel extends MainModel {
 
                 $notificaciones[] = $vehiculo;
             };
+            unset($vehiculo);
         }
 
         $this->cerrarConexion();

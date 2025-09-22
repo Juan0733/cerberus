@@ -67,7 +67,7 @@ class RolOperacionModel extends MainModel{
     }
 
     public function validarAccesoOperacion($operacion){
-        $operacionesAccesibles = ['validar_usuario', 'validar_contrasena', 'registrar_visitante', 'registrar_aprendiz', 'auto_registrar_funcionario', 'auto_registrar_vigilante', 'consultar_fichas', 'consultar_ficha', 'consultar_motivos_ingreso'];
+        $operacionesAccesibles = ['validar_usuario', 'validar_contrasena', 'registrar_visitante', 'consultar_motivos_ingreso'];
 
         if(!in_array($operacion, $operacionesAccesibles)){
             $respuesta = $this->consultarOperacion($operacion);

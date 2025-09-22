@@ -34,6 +34,10 @@
                 <h3>Rol:</h3>
                 <p id="rol"></p>
             </div>
+            <div class="caja">
+                <h3>Responsable Registro:</h3>
+                <p id="responsable_registro"></p>
+            </div>
         </div>
     </div>
 </div>

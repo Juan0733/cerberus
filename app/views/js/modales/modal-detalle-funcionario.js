@@ -1,4 +1,5 @@
 import { consultarFuncionario } from '../fetchs/funcionarios-fetch.js';
+import { consultarModalDetalleFuncionario } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
@@ -6,51 +7,36 @@ let documentoFuncionario;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalDetalleFuncionario(funcionario, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-funcionario.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalDetalleFuncionario(funcionario, url) {
+    consultarModalDetalleFuncionario(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_detalle_funcionario';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_funcionario';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            documentoFuncionario = funcionario;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarFuncionario();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        documentoFuncionario = funcionario;
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarFuncionario();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle funcionario.'
-        });
-    }
+    }) 
 }
 export{modalDetalleFuncionario}
 
@@ -67,6 +53,13 @@ function dibujarFuncionario() {
     consultarFuncionario(documentoFuncionario, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosFuncionario = respuesta.datos_funcionario;
+
+            if(datosFuncionario.tipo_contrato == 'CONTRATISTA'){
+                document.getElementById('fecha_fin_contrato').textContent = formatearFecha(datosFuncionario.fecha_fin_contrato);
+            }else{
+                document.getElementById('caja_fecha_fin_contrato').style.display='none';;
+            }
+
             document.getElementById('tipo_documento').textContent = datosFuncionario.tipo_documento;
             document.getElementById('numero_documento').textContent = datosFuncionario.numero_documento;
             document.getElementById('nombres').textContent = datosFuncionario.nombres;
@@ -76,12 +69,7 @@ function dibujarFuncionario() {
             document.getElementById('rol').textContent = formatearString(datosFuncionario.rol);
             document.getElementById('brigadista').textContent = formatearString(datosFuncionario.brigadista);
             document.getElementById('tipo_contrato').textContent = formatearString(datosFuncionario.tipo_contrato);
-            
-            if(datosFuncionario.tipo_contrato == 'CONTRATISTA'){
-                document.getElementById('fecha_fin_contrato').textContent = formatearFecha(datosFuncionario.fecha_fin_contrato);
-            }else{
-                document.getElementById('caja_fecha_fin_contrato').style.display='none';;
-            }
+            document.getElementById('responsable_registro').textContent = formatearString(datosFuncionario.rol_responsable)+' -  '+datosFuncionario.nombres_responsable+' '+datosFuncionario.apellidos_responsable;
             
             contenedorModales.classList.add('mostrar');
 

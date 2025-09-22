@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-class NovedadUsuarioService{
+class NovedadUsuarioService extends MainService{
     public function sanitizarDatosRegistroNovedadUsuario(){
         if (!isset($_POST['documento_involucrado'], $_POST['tipo_novedad'], $_POST['fecha_suceso'], $_POST['puerta_suceso'], $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['tipo_novedad'] == '' || $_POST['fecha_suceso'] == '' || $_POST['puerta_suceso'] == '' || $_POST['descripcion'] == '') {
             $respuesta = [
@@ -47,7 +47,7 @@ class NovedadUsuarioService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
@@ -114,22 +114,5 @@ class NovedadUsuarioService{
             'parametros' => $parametros
         ];
     }
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
-    
 }
     

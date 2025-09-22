@@ -57,14 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
     }
 
-    if($operacion == 'registrar_aprendiz'){
-        $respuesta = $objetoServicio->sanitizarDatosRegistroAprendiz();
+    if($operacion == 'registrar_aprendiz_individual'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAprendizIndividual();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-        echo json_encode($objetoAprendiz->registrarAprendiz($respuesta['datos_aprendiz']));
+        echo json_encode($objetoAprendiz->registrarAprendizIndividual($respuesta['datos_aprendiz']));
+
+    }elseif($operacion == 'registrar_aprendiz_carga_masiva'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAprendizCargaMasiva();
+        if($respuesta['tipo'] == 'ERROR'){
+            echo json_encode($respuesta);
+            exit();
+        }
+
+        echo json_encode($objetoAprendiz->registrarAprendizCargaMasiva($respuesta['datos_aprendices']));
 
     }elseif($operacion == 'actualizar_aprendiz'){
         $respuesta = $objetoServicio->sanitizarDatosActualizacionAprendiz();

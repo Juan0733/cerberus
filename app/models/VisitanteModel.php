@@ -57,7 +57,7 @@ class VisitanteModel extends MainModel{
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
-                    'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el sistema como visitante.'
+                    'mensaje' => 'No fue posible realizar el registro, el usuario con número de documento '.$visitante.' ya se encuentra registrado en el sistema como visitante.'
                 ];
                 return $respuesta;
             }

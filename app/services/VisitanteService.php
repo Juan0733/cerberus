@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-class VisitanteService{
+class VisitanteService extends MainService{
     public function sanitizarDatosRegistroVisitante(){
         if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['documento_visitante'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['motivo_ingreso']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['documento_visitante'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['motivo_ingreso'] == ''){
             $respuesta = [
@@ -58,15 +58,16 @@ class VisitanteService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $motivoIngreso = mb_strtoupper(mb_substr(trim($motivoIngreso), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($motivoIngreso), 1, null, "UTF-8"), "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
+        $motivoIngreso = mb_strtoupper(mb_substr($motivoIngreso, 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($motivoIngreso, 1, null, "UTF-8"), "UTF-8");
 
         $datosVisitante = [
             'tipo_documento' => $tipoDocumento,
@@ -112,21 +113,5 @@ class VisitanteService{
             'parametros' => $parametros
         ];
     }
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
 }
     

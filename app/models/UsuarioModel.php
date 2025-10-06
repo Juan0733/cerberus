@@ -4,30 +4,29 @@ namespace App\Models;
 use DateTime;
 
 class UsuarioModel extends MainModel{
-    private $objetoRolOperacion;
-
-    public function __construct() {
-        $this->objetoRolOperacion = new RolOperacionModel();
-    }
 
     public function consultarUsuario($usuario){
         $tablas = ['vigilantes', 'visitantes', 'funcionarios', 'aprendices'];
         foreach($tablas as $tabla){
+            $sentenciaBuscar = "
+                SELECT tipo_usuario, tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, ubicacion
+                FROM $tabla 
+                WHERE numero_documento = '$usuario';";
+            
             if($tabla == 'aprendices'){
                 $sentenciaBuscar = "
-                    SELECT 
-                        tipo_usuario, tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, 
-                        fecha_fin_ficha, ubicacion 
+                    SELECT tipo_usuario, tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, ubicacion, fecha_fin_ficha
                     FROM $tabla 
                     INNER JOIN fichas ON fk_ficha = numero_ficha 
-                    WHERE numero_documento = '$usuario';";
-            }else{
+                    WHERE numero_documento = '$usuario';";;
+
+            }else if($tabla == 'funcionarios'){
                 $sentenciaBuscar = "
-                    SELECT * 
-                    FROM $tabla 
+                    SELECT tipo_usuario, tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, ubicacion, tipo_contrato, fecha_fin_contrato
+                    FROM $tabla  
                     WHERE numero_documento = '$usuario';";
             }
-            
+ 
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
             if ($respuesta['tipo'] == 'ERROR') {
                 return $respuesta;
@@ -70,6 +69,29 @@ class UsuarioModel extends MainModel{
             "tipo"=>"OK",
             "titulo" => 'Ubicación Actualizada',
             "mensaje"=> 'La ubicación del usuario fue actualizada correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function actualizarContrasenaUsuario($contrasena){
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $tablaUsuarioSistema = $_SESSION['datos_usuario']['tabla'];
+
+        $sentenciaActualizar = "
+            UPDATE $tablaUsuarioSistema SET contrasena = '$contrasena' 
+            WHERE numero_documento = '$usuarioSistema';";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $_SESSION['datos_usuario']['contrasena_actualizada'] = 'SI';
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Contraseña Actualizada',
+            'mensaje' => 'La contraseña fue actualizada correctamente.'
         ];
         return $respuesta;
     }
@@ -117,18 +139,18 @@ class UsuarioModel extends MainModel{
     public function validarUsuarioLogin($usuario){
         $tablas = ['vigilantes', 'funcionarios'];
         foreach ($tablas as $tabla) {
-            if($tabla == 'vigilantes'){
-                $sentenciaBuscar = "
-                    SELECT `numero_documento` 
-                    FROM `$tabla` 
-                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO';";
+            $columnas = "numero_documento, tipo_usuario";
+            $condicion = "numero_documento = '$usuario' AND estado_usuario = 'ACTIVO'";
 
-            }elseif($tabla == 'funcionarios'){
-                $sentenciaBuscar = "
-                    SELECT `numero_documento` 
-                    FROM `$tabla` 
-                    WHERE  numero_documento = '$usuario' AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR' OR rol = 'INSTRUCTOR');";
+            if($tabla == 'funcionarios'){
+                $columnas .= ", tipo_contrato, fecha_fin_contrato";
+                $condicion .= " AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR' OR rol = 'INSTRUCTOR')";
             }
+
+            $sentenciaBuscar = "
+                SELECT $columnas
+                FROM `$tabla` 
+                WHERE  $condicion;";
             
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
             if ($respuesta['tipo'] == 'ERROR') {
@@ -137,7 +159,22 @@ class UsuarioModel extends MainModel{
 
             $respuestaSentencia = $respuesta['respuesta_sentencia'];
             if ($respuestaSentencia->num_rows > 0) {
+                $datosUsuario = $respuestaSentencia->fetch_assoc();
                 $this->cerrarConexion();
+
+                if($datosUsuario['tipo_usuario'] == 'FUNCIONARIO' && $datosUsuario['tipo_contrato'] == 'CONTRATISTA'){
+                    $fechaActual = new DateTime(date('Y-m-d'));
+                    $fechaFinContrato = new DateTime($datosUsuario['fecha_fin_contrato']);
+                    if($fechaFinContrato < $fechaActual){
+                        $respuesta = [
+                            "tipo"=>"ERROR",
+                            "titulo" =>'Acceso Denegado',
+                            "mensaje"=> 'Lo sentimos, parece que no tienes acceso a Cerberus o tu número de identificación es incorrecto.',
+                        ];
+                        return $respuesta;
+                    } 
+                }
+
                 $respuesta = [
                     'tipo' => 'OK',
                     'titulo' => 'Usuario Encontrado',
@@ -152,8 +189,6 @@ class UsuarioModel extends MainModel{
             "tipo"=>"ERROR",
             "titulo" =>'Acceso Denegado',
             "mensaje"=> 'Lo sentimos, parece que no tienes acceso a Cerberus o tu número de identificación es incorrecto.',
-            "icono" => "warning",
-            "cod_error"=> "350"
         ];
         return $respuesta;
     }
@@ -161,18 +196,16 @@ class UsuarioModel extends MainModel{
     public function validarContrasenaLogin($datosLogin){
         $tablas = ['vigilantes', 'funcionarios'];
         foreach ($tablas as $tabla) {
-            if($tabla == 'vigilantes'){
-                $sentenciaBuscar = "
-                    SELECT * 
-                    FROM `$tabla` 
-                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO';";
+            $condicion = "numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO'";
 
-            }elseif($tabla == 'funcionarios'){
-                $sentenciaBuscar = "
-                    SELECT * 
-                    FROM `$tabla` 
-                    WHERE numero_documento = '{$datosLogin['usuario']}' AND contrasena = MD5('{$datosLogin['contrasena']}') AND estado_usuario = 'ACTIVO' AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR' OR rol = 'INSTRUCTOR');";
+            if($tabla == 'funcionarios'){
+                $condicion .= "  AND (rol = 'COORDINADOR' OR rol = 'SUBDIRECTOR' OR rol = 'INSTRUCTOR')";
             }
+
+            $sentenciaBuscar = "
+                SELECT * 
+                FROM `$tabla` 
+                WHERE $condicion;";
 
             $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
             if ($respuesta['tipo'] == 'ERROR') {
@@ -184,9 +217,16 @@ class UsuarioModel extends MainModel{
                 $datosUsuario = $respuestaSentencia->fetch_assoc();
                 $this->cerrarConexion();
 
+                $datosUsuario['tabla'] = $tabla;
+
                 $datosUsuario['panel_acceso'] = 'inicio';
                 if($datosUsuario['rol'] == 'VIGILANTE'){
                     $datosUsuario['panel_acceso'] = 'entradas';
+                }
+
+                $datosUsuario['contrasena_actualizada'] = 'SI';
+                if($datosUsuario['fecha_ultima_sesion'] == NULL){
+                    $datosUsuario['contrasena_actualizada'] = 'NO';
                 }
 
                 $respuesta = $this->actualizarFechaSesion($datosUsuario['numero_documento'], $tabla);
@@ -341,6 +381,7 @@ class UsuarioModel extends MainModel{
 
             $usuario['porcentaje'] = $porcentaje;
         }
+        unset($usuario);
 
         $respuesta = [
             'tipo' => "OK",
@@ -426,6 +467,7 @@ class UsuarioModel extends MainModel{
 
                     $notificaciones[] = $usuario;
                 };
+                unset($usuario);
             }
 
             $this->cerrarConexion();

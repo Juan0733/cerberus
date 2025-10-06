@@ -1,3 +1,4 @@
+import { consultarModalSeleccionPuerta } from "../fetchs/modal-fetch.js";
 import { consultarPuerta, guardarPuerta } from "../fetchs/vigilantes-fetch.js";
 
 let contenedorModales;
@@ -8,46 +9,31 @@ let funcionCallback;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalSeleccionPuerta(url, callback=false) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-seleccion-puerta.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalSeleccionPuerta(url, callback=false) {
+    consultarModalSeleccionPuerta(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_puerta';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_puerta';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        contenedorModales.appendChild(modal);
+            contenedorModales.appendChild(modal);
 
-        funcionCallback = callback;
-        urlBase = url;
+            funcionCallback = callback;
+            urlBase = url;
 
-        eventoCerrarModal();
-        dibujarPuertaActual();
-        eventoSeleccionarPuerta();
-        eventoGuardarPuerta();
+            eventoCerrarModal();
+            dibujarPuertaActual();
+            eventoSeleccionarPuerta();
+            eventoGuardarPuerta();
          
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal seleccion puerta.'
-        });
-    }
+    })
 }
 export{modalSeleccionPuerta}
 
@@ -124,7 +110,13 @@ function eventoSeleccionarPuerta() {
 
             if (checkbox.checked){
                 puertaNueva = checkbox.value;
-                document.getElementById('icono_puerta_'+puertaNueva.toLowerCase()).style.color = 'var(--color-secundario)';
+                for(const icono of iconosPuerta){
+                    if(icono.id == 'icono_puerta_'+puertaNueva.toLowerCase()){
+                        icono.style.color = 'var(--color-secundario)';
+                        break;
+                    }
+                };
+              
                 inputsCheckbox.forEach(input => {
                     if(input != checkbox){
                         input.checked = false;

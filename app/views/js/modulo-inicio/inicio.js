@@ -1,5 +1,6 @@
 import {conteoTipoUsuario} from '../fetchs/usuarios-fetch.js'
 import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js'
+import { modalActualizacionContrasenaUsuario } from '../modales/modal-actualizacion-contrasena-usuario.js';
 import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let conteoAprendices;
@@ -20,7 +21,7 @@ let porcentajeCarros;
 let conteoMotos;
 let barraMotos;
 let porcentajeMotos;
-
+let contrasenaActualizada;
 let urlBase;
 
 function dibujarConteoUsuarios(){
@@ -83,6 +84,12 @@ function dibujarConteoVehiculos(){
     })
 }
 
+function validarContrasenaActualizada(){
+    if(contrasenaActualizada.value == 'NO'){
+       modalActualizacionContrasenaUsuario(urlBase);
+    }
+}
+
 function alertaError(respuesta){
     Swal.fire({
         icon: "error",
@@ -117,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     conteoMotos = document.getElementById('conteo_motos');
     barraMotos = document.getElementById('barra_motos');
     porcentajeMotos = document.getElementById('subtitle_barra_motos');
+    contrasenaActualizada = document.getElementById('contrasena_actualizada');
 
     if(document.getElementById('puerta')){
         modalSeleccionPuerta(urlBase);
@@ -124,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     dibujarConteoUsuarios();
     dibujarConteoVehiculos();
+    validarContrasenaActualizada();
 
     setInterval(() => {
         dibujarConteoUsuarios();

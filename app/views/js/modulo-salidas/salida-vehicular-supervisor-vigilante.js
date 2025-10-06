@@ -1,6 +1,5 @@
 import {validarUsuarioAptoSalida, registrarSalidaVehicular} from '../fetchs/movimientos-fetch.js';
 import {consultarVehiculo, consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
-import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 import { modalRegistroNovedadVehiculo } from '../modales/modal-registro-novedad-vehiculo.js';
@@ -521,8 +520,6 @@ function alertaAdvertencia(respuesta){
                 modalRegistroNovedadUsuario( urlBase, 'ENTRADA NO REGISTRADA',  respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
-            }else if(respuesta.titulo == "Vehículo No Encontrado"){
-                modalRegistroVehiculo(urlBase, respuesta.vehiculo, respuesta.callback);
             }else if(respuesta.titulo == "Propietario Incorrecto"){
                 modalRegistroNovedadVehiculo(urlBase, 'VEHICULO PRESTADO', respuesta.documento, respuesta.vehiculo, respuesta.callback);
             }

@@ -20,18 +20,21 @@ class PermisoUsuarioModel extends MainModel{
 
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $codigoPermiso = 'PU'.date('YmdHis');
         $fechaAutorizacion = 'NULL';
+        $rolAutorizacion = 'NULL';
         $usuarioAutorizacion = 'NULL';
 
         if($datosPermiso['tipo_permiso'] == 'SALIDA'){
             $fechaAutorizacion = "'$fechaRegistro'";
+            $rolAutorizacion = "'$rolSistema'";
             $usuarioAutorizacion = "'$usuarioSistema'";
         }
 
         $sentenciaInsertar = "
-            INSERT INTO permisos_usuarios(codigo_permiso, tipo_permiso, fk_usuario, descripcion, fecha_fin_permiso, fecha_registro, fecha_autorizacion, fk_usuario_autorizacion, estado_permiso, fk_usuario_sistema) 
-            VALUES('$codigoPermiso', '{$datosPermiso['tipo_permiso']}', '{$datosPermiso['numero_documento']}', '{$datosPermiso['descripcion']}', '{$datosPermiso['fecha_fin_permiso']}', '$fechaRegistro', $fechaAutorizacion, $usuarioAutorizacion, '{$datosPermiso['estado_permiso']}', '$usuarioSistema')";
+            INSERT INTO permisos_usuarios(codigo_permiso, tipo_permiso, fk_usuario, descripcion, fecha_fin_permiso, fecha_registro, fecha_autorizacion, rol_usuario_autorizacion, fk_usuario_autorizacion, estado_permiso, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES('$codigoPermiso', '{$datosPermiso['tipo_permiso']}', '{$datosPermiso['numero_documento']}', '{$datosPermiso['descripcion']}', '{$datosPermiso['fecha_fin_permiso']}', '$fechaRegistro', $fechaAutorizacion, $rolAutorizacion,$usuarioAutorizacion, '{$datosPermiso['estado_permiso']}', '$rolSistema', '$usuarioSistema')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -142,10 +145,11 @@ class PermisoUsuarioModel extends MainModel{
 
         $fechaActual = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
 
         $sentenciaActualizar = "
             UPDATE permisos_usuarios 
-            SET estado_permiso = 'APROBADO', fecha_autorizacion = '$fechaActual', fk_usuario_autorizacion = '$usuarioSistema'
+            SET estado_permiso = 'APROBADO', fecha_autorizacion = '$fechaActual', rol_usuario_autorizacion = '$rolSistema', fk_usuario_autorizacion = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -179,10 +183,11 @@ class PermisoUsuarioModel extends MainModel{
 
         $fechaActual = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
 
         $sentenciaActualizar = "
             UPDATE permisos_usuarios 
-            SET estado_permiso = 'DESAPROBADO', fecha_autorizacion = '$fechaActual', fk_usuario_autorizacion = '$usuarioSistema'
+            SET estado_permiso = 'DESAPROBADO', fecha_autorizacion = '$fechaActual', rol_usuario_autorizacion = '$rolSistema', fk_usuario_autorizacion = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -239,17 +244,15 @@ class PermisoUsuarioModel extends MainModel{
                 pu.fecha_registro,
                 pu.fk_usuario,
                 pu.fk_usuario_sistema,
+                pu.rol_usuario_sistema,
                 COALESCE(fun.tipo_documento, apr.tipo_documento, vis.tipo_documento, vig.tipo_documento) AS tipo_documento,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
-                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
-                COALESCE(fun2.rol, vig2.rol) AS rol_usuario_sistema
+                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos
             FROM permisos_usuarios pu
             LEFT JOIN funcionarios fun ON pu.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON pu.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON pu.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON pu.fk_usuario = apr.numero_documento
-            LEFT JOIN funcionarios fun2 ON pu.fk_usuario_sistema = fun2.numero_documento
-            LEFT JOIN vigilantes vig2 ON pu.fk_usuario_sistema = vig2.numero_documento
             WHERE 1 = 1";
 
         $rol = $_SESSION['datos_usuario']['rol'];
@@ -286,7 +289,11 @@ class PermisoUsuarioModel extends MainModel{
             $sentenciaBuscar .= " AND pu.estado_permiso = '{$parametros['estado_permiso']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY pu.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY pu.fecha_registro DESC";
+
+        if(!isset($parametros['tipo_permiso'], $parametros['fecha'], $parametros['codigo_permiso'], $parametros['numero_documento'], $parametros['estado_permiso'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -326,20 +333,25 @@ class PermisoUsuarioModel extends MainModel{
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_autorizado,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_autorizado,
                 COALESCE(fun1.tipo_usuario, apr1.tipo_usuario, vis1.tipo_usuario, vig1.tipo_usuario) AS tipo_autorizado,
-                COALESCE(fun2.nombres, vig2.nombres) AS nombres_registro,
-                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_registro,
-                COALESCE(fun2.rol, vig2.rol) AS rol_registro,
-                COALESCE(fun3.nombres, 'N/A') AS nombres_autorizacion,
-                COALESCE(fun3.apellidos, 'N/A') AS apellidos_autorizacion,
-                COALESCE(fun3.rol, 'N/A') AS rol_autorizacion
+                COALESCE(fun2.nombres, apr2.nombres, vis2.nombres, vig2.nombres) AS nombres_registro,
+                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_registro,
+                pu.rol_usuario_sistema AS rol_registro,
+                COALESCE(fun3.nombres, apr3.nombres, vis3.nombres, vig3.nombres, 'N/A') AS nombres_autorizacion,
+                COALESCE(fun3.apellidos, apr3.apellidos, vis3.apellidos, vig3.apellidos, 'N/A') AS apellidos_autorizacion,
+                COALESCE(pu.rol_usuario_autorizacion, 'N/A') AS rol_autorizacion
             FROM permisos_usuarios pu
             LEFT JOIN funcionarios fun1 ON pu.fk_usuario = fun1.numero_documento
             LEFT JOIN visitantes vis1 ON pu.fk_usuario = vis1.numero_documento
             LEFT JOIN vigilantes vig1 ON pu.fk_usuario = vig1.numero_documento
             LEFT JOIN aprendices apr1 ON pu.fk_usuario = apr1.numero_documento
             LEFT JOIN funcionarios fun2 ON pu.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN visitantes vis2 ON pu.fk_usuario_sistema = vis2.numero_documento
             LEFT JOIN vigilantes vig2 ON pu.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN aprendices apr2 ON pu.fk_usuario_sistema = apr2.numero_documento
             LEFT JOIN funcionarios fun3 ON pu.fk_usuario_autorizacion = fun3.numero_documento
+            LEFT JOIN visitantes vis3 ON pu.fk_usuario_autorizacion = vis3.numero_documento
+            LEFT JOIN vigilantes vig3 ON pu.fk_usuario_autorizacion = vig3.numero_documento
+            LEFT JOIN aprendices apr3 ON pu.fk_usuario_autorizacion = apr3.numero_documento
             WHERE pu.codigo_permiso = '$codigoPermiso'";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

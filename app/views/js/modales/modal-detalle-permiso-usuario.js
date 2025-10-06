@@ -1,3 +1,4 @@
+import { consultarModalDetallePermisoUsuario } from '../fetchs/modal-fetch.js';
 import { consultarPermisoUsuario } from '../fetchs/permisos-usuarios-fetch.js';
 
 let contenedorModales;
@@ -6,51 +7,36 @@ let codigoPermiso;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalDetallePermisoUsuario(permiso, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-permiso-usuario.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalDetallePermisoUsuario(permiso, url) {
+    consultarModalDetallePermisoUsuario(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_detalle_permiso_usuario';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_permiso_usuario';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            codigoPermiso = permiso;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarPermiso();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        codigoPermiso = permiso;
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarPermiso();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle permiso usuario.'
-        });
-    }
+    }) 
 }
 export{modalDetallePermisoUsuario}
 

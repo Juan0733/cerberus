@@ -21,18 +21,22 @@ async function registrarNovedadUsuario(datos, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 
@@ -58,18 +62,22 @@ async function consultarNovedadesUsuario(parametros, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarNovedadesUsuario}
@@ -94,32 +102,22 @@ async function consultarNovedadUsuario(codigoNovedad, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarNovedadUsuario}
-
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
-}

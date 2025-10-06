@@ -12,6 +12,7 @@ function eventoAbrirMenu(){
     menu.addEventListener("click",()=>{
         barraLateral.classList.toggle("max-barra-lateral");
         if(barraLateral.classList.contains("max-barra-lateral")){
+            barraLateral.classList.remove("mini-barra-lateral");
             menu.children[0].style.display = "none";
             menu.children[1].style.display = "block";
         }else{

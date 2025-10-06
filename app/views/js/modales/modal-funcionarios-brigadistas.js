@@ -1,55 +1,40 @@
 import {consultarFuncionarios} from '../fetchs/funcionarios-fetch.js';
+import { consultarModalFuncionariosBrigadistas } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
 async function modalFuncionariosBrigadistas(url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-funcionarios-brigadistas.php');
+   consultarModalFuncionariosBrigadistas(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_brigadistas';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_brigadistas';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
-        }
 
-        contenedorModales.appendChild(modal);
+            contenedorModales.appendChild(modal);
 
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarBrigadistas();
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarBrigadistas();
 
-           
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal brigadistas.'
-        });
-    }
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
+        } 
+    })
 }
 export { modalFuncionariosBrigadistas };
 

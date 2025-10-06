@@ -257,8 +257,9 @@
 
 /*----------------------------------------------------- Estilos Modal registrar aprendiz-------------------------------------------*/
 #contenedor_modales #modal_aprendiz{
-    width: clamp(550px, 50%, 980px);
+    width: clamp(450px, 32%, 650px);
 }
+
     #contenedor_modales #modal_aprendiz #cont_info_modales{
         width: 100%;
     }
@@ -273,39 +274,37 @@
                 align-items: end;
                 column-gap: 20px;
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                max-height: 595px;
-                overflow-y: auto;
+                grid-template-columns: repeat(1, 1fr);
+                overflow-x: hidden;
                 padding: 1.5em;
                 row-gap: 20px;
                 width: 100%;
             }
 
-            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz::-webkit-scrollbar{
-                background: transparent;
-                width: 8px;
-            }
+                #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz .seccion-individual, .seccion-masiva{
+                    display: none;
+                }
 
-            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz::-webkit-scrollbar-thumb{
-                border-radius: 20px;
-                background-color: rgb(180, 180, 180);
-            }
-
-                #formulario_aprendiz #contenedor_cajas_aprendiz  .input-caja-registro{
+                #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz .input-caja-registro{
                     animation: slideIn 0.5s ease-out;
                     color: var(--color-placeholder);
                     font-size: 16px;
                     width: 100%;
                 }
 
-                    #contenedor_cajas_aprendiz  .input-caja-registro .label-input{
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .input-caja-registro .label-input{
                         color: var(--color-placeholder);
-                        display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                     }
+
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .caja-checkbox .label-input{
+                        color: var(--color-placeholder);
+                        display: flex;
+                        font-size: 20px;
+                    }
                 
-                    #contenedor_cajas_aprendiz  .input-caja-registro .campo{
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .input-caja-registro .campo{
                         background: var(--background-inputs);
                         border: none;
                         border-radius: 13px;
@@ -316,44 +315,108 @@
                         width: 100%;
                     }
 
-                    #contenedor_cajas_aprendiz .input-caja-registro .campo::placeholder{
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .input-caja-registro .campo::placeholder{
                         color: var(--color-placeholder);
                         font-size: 16px;
+                    } 
+                
+                #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz .caja-checkbox{
+                    animation: slideIn 0.5s ease-out;
+                    align-items: center;
+                    column-gap: 20px;
+                    display: flex;
+                    width: 100%;
+                }
+
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .caja-checkbox .checkbox{
+                        appearance: none; 
+                        border: none;
+                        border-radius: 13px;
+                        width: 60px;
+                        height: 60px;
+                        background: var(--background-inputs); 
+                        cursor: pointer;
+                    }
+                    
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .caja-checkbox .checkbox:checked {
+                        background-color: var(--color-secundario);
                     }
 
-            #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz {
+                    #formulario_aprendiz #contenedor_cajas_aprendiz .caja-checkbox ion-icon{
+                        color: var(--color-btn-cancelar);
+                        font-size: 50px;
+                    }
+
+                #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz #caja_excel{
+                    animation: slideIn 0.5s ease-out;
+                    align-items: end;
+                    column-gap: 15px;
+                    width: 100%;
+                }
+
+                        #contenedor_cajas_aprendiz #caja_excel .input-caja-registro .campo{
+                            align-items: center;
+                            cursor: pointer;
+                            display: flex;
+                        }
+
+                        #contenedor_cajas_aprendiz #caja_excel .input-caja-registro .campo:hover{
+                            background-color: rgb(176, 176, 176);
+                            color: var(--color-primario);
+                        }
+
+                            #caja_excel .input-caja-registro .campo #plantilla_excel {
+                                display: none; 
+                            }
+
+                    #formulario_aprendiz #contenedor_cajas_aprendiz #caja_excel #btn_plantilla_excel{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: var( --color-terciario);
+                        border-radius: 13px;
+                        height: 60px;
+                        padding: 0 12px;
+                    }
+
+                        #contenedor_cajas_aprendiz #caja_excel #btn_plantilla_excel ion-icon{
+                            font-size: 35px;
+                        }
+                 
+        #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz {
+            display: flex;
+            width: 100%;
+        }
+
+            #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz button {
+                align-items: center;
+                background-color: var(--color-btn-cancelar);
+                border: none;
+                color: var(--color-placeholder);
+                cursor: pointer;
                 display: flex;
-                width: 100%;
+                font-size: 20px;
+                height: 60px;
+                justify-content: center;
+                width: 50%;
+            }
+                    
+            #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz {
+                display: none;
+                background-color: var(--color-secundario);
+                color: var(--color-primario);
             }
 
-                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz button {
-                    align-items: center;
-                    background-color: var(--color-btn-cancelar);
-                    border: none;
-                    color: var(--color-placeholder);
-                    cursor: pointer;
-                    display: flex;
-                    font-size: 20px;
-                    height: 60px;
-                    justify-content: center;
-                    width: 50%;
-                }
+            #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
+                background-color: var(--color-secundario);
+                color: var(--color-primario);
+            }
 
-                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_atras_aprendiz {
-                    display: none;
-                }  
-
-                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
-                    background-color: var(--color-secundario);
-                    color: var(--color-primario);
-                    display: none;
-                }
-
-                #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz{
-                    background-color: var(--color-secundario);
-                    color: var(--color-primario);
-                }
-
+            #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_atras_aprendiz {
+                display: none;
+            } 
+                
+                
 @media(min-width: 768px) and (max-width: 1023px){
     #contenedor_principal #contenedor_filtros .filtro{
         width: 100%;
@@ -402,24 +465,12 @@
 
 /* ----------------------------------------- Estilos Modal registrar Aprendiz ---------------------------------------------*/
     #contenedor_modales #modal_aprendiz{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 500px)!important;
     }
+
         #modal_aprendiz #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz{
-            grid-template-columns: repeat(1, 1fr);
             padding: 1em;
             row-gap: 10px;
-        }
-          
-            #cont_info_modales #formulario_aprendiz #contenedor_cajas_aprendiz .seccion-02, .seccion-03{
-                display: none;
-            }
-
-        #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_siguiente_aprendiz {
-            display: flex;
-        }
-
-        #cont_info_modales #formulario_aprendiz #contenedor_btns_aprendiz #btn_registrar_aprendiz{
-            display: none;
         }
 
     /* -------------------------------------------------- Estilos Modal detalle aprendiz ----------------------------------------*/

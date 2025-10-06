@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-class NovedadVehiculoService{
+class NovedadVehiculoService extends MainService{
     public function sanitizarDatosRegistroNovedadVehiculo(){
         if (!isset($_POST['documento_involucrado'], $_POST['propietario'], $_POST['tipo_novedad'], $_POST['numero_placa'],  $_POST['descripcion']) || $_POST['documento_involucrado'] == '' || $_POST['propietario'] == '' || $_POST['tipo_novedad'] == '' || $_POST['numero_placa'] == '' || $_POST['descripcion'] == '') {
             $respuesta = [
@@ -47,14 +47,14 @@ class NovedadVehiculoService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
         }
 
         $numeroPlaca = strtoupper($numeroPlaca);
-        $descripcion = mb_strtoupper(mb_substr(trim($descripcion), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($descripcion), 1, null, "UTF-8"), "UTF-8");
+        $descripcion = mb_strtoupper(mb_substr($descripcion, 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($descripcion, 1, null, "UTF-8"), "UTF-8");
 
         $datosNovedad = [
             'documento_involucrado' => $documentoInvolucrado,
@@ -115,24 +115,5 @@ class NovedadVehiculoService{
             'parametros' => $parametros
         ];
     }
-
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
-    
 }
     

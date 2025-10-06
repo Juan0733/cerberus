@@ -1,3 +1,4 @@
+import { consultarModalActualizarContrasena } from '../fetchs/modal-fetch.js';
 import {habilitarVigilante} from '../fetchs/vigilantes-fetch.js';
 
 let contenedorModales;
@@ -8,74 +9,61 @@ let documentoVigilante;
 let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalHabilitacionVigilante(vigilante, callback, url) {
+    consultarModalActualizarContrasena(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_actualizar_contrasena';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalHabilitacionVigilante(vigilante, callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-habilitar-usuario.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_habilitar_usuario';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            document.getElementById('btn_actualizar').textContent = 'Habilitar';
+            document.getElementById('titulo_modal_actualizar_contrasena').textContent = 'Habilitar Vigilante';
+
+            inputContrasena = document.getElementById('contrasena');
+
+            documentoVigilante = vigilante;
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            validarConfirmacionContrasena();
+            eventoHabilitar();
+
+            contenedorModales.classList.add('mostrar');
+
+            setTimeout(()=>{
+            inputContrasena.focus();
+            }, 250);
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        inputContrasena = document.getElementById('contrasena');
-
-        documentoVigilante = vigilante;
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        validarConfirmacionContrasena();
-        eventoHabilitar();
-
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        contenedorModales.classList.add('mostrar');
-
-        setTimeout(()=>{
-           inputContrasena.focus();
-        }, 250);
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal habilitacion usuario.'
-        });
-    }
+    })
 }
 export { modalHabilitacionVigilante };
 
 function eventoCerrarModal(){
-    botonCerrarModal = document.getElementById('cerrar_modal_habilitar_usuario');
+    botonCerrarModal = document.getElementById('cerrar_modal_actualizar_contrasena');
 
     botonCerrarModal.addEventListener('click', ()=>{
         modalesExistentes[modalesExistentes.length-1].remove();
         contenedorModales.classList.remove('mostrar');
     });
 
-    document.getElementById('btn_cancelar_habilitacion').addEventListener('click', ()=>{
+    document.getElementById('btn_cancelar_actualizacion').addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
 }
@@ -96,7 +84,7 @@ function validarConfirmacionContrasena(){
 }
 
 function eventoHabilitar(){
-    let formularioHabilitarUsuario = document.getElementById('formulario_habilitar_usuario');
+    let formularioHabilitarUsuario = document.getElementById('formulario_actualizar_contrasena');
     formularioHabilitarUsuario.addEventListener('submit', (e)=>{
         e.preventDefault();
 

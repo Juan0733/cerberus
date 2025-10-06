@@ -1,4 +1,5 @@
 import { consultarAprendiz } from '../fetchs/aprendices-fetch.js';
+import { consultarModalDetalleAprendiz } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
@@ -6,51 +7,36 @@ let documentoAprendiz;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalDetalleAprendiz(aprendiz, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-aprendiz.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalDetalleAprendiz(aprendiz, url) {
+    consultarModalDetalleAprendiz(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_detalle_aprendiz';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_aprendiz';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            documentoAprendiz = aprendiz;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarAprendiz();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        documentoAprendiz = aprendiz;
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarAprendiz();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle aprendiz.'
-        });
-    }
+    })
 }
 export{modalDetalleAprendiz}
 
@@ -76,6 +62,7 @@ function dibujarAprendiz() {
             document.getElementById('numero_ficha').textContent = datosAprendiz.numero_ficha;
             document.getElementById('nombre_programa').textContent = datosAprendiz.nombre_programa;
             document.getElementById('fecha_fin_ficha').textContent = formatearFecha(datosAprendiz.fecha_fin_ficha);
+            document.getElementById('responsable_registro').textContent = formatearString(datosAprendiz.rol_responsable)+' -  '+datosAprendiz.nombres_responsable+' '+datosAprendiz.apellidos_responsable;
 
             contenedorModales.classList.add('mostrar');
 
@@ -90,6 +77,12 @@ function dibujarAprendiz() {
             }
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function formatearFecha(fecha){

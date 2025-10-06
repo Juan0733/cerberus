@@ -72,7 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion']) && $_POST
 		}
 
 		echo json_encode($objetoUsuario->validarContrasenaLogin($respuesta['datos_login']));
-	}
+
+	}else if($operacion == 'actualizar_contrasena_usuario'){
+		$respuesta = $objetoServicio->sanitizarDatosActualizacionContrasenaUsuario();
+		if ($respuesta['tipo'] == 'ERROR') {
+			echo json_encode($respuesta);
+			exit();
+		}
+
+		echo json_encode($objetoUsuario->actualizarContrasenaUsuario($respuesta['contrasena']));
+    }
 	
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion']) && $_GET['operacion'] != '' ){
 	

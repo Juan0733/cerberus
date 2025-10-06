@@ -219,7 +219,7 @@
                 width: 100%;
             }
 
-                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda .seccion-individual, .seccion-grupal{
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda .seccion-individual, .seccion-carga-masiva{
                     display: none;
                 }
 
@@ -236,8 +236,10 @@
                         margin-bottom: 5px;
                     }
 
-                    #formulario_agenda #contenedor_cajas_agenda .input-caja-registro .label-checkbox{
-                        padding-left: 10px;
+                    #formulario_agenda #contenedor_cajas_agenda .caja-checkbox .label-input{
+                        color: var(--color-placeholder);
+                        display: flex;
+                        font-size: 20px;
                     }
                 
                     #formulario_agenda #contenedor_cajas_agenda .input-caja-registro .campo{
@@ -256,19 +258,15 @@
                         font-size: 16px;
                     } 
 
-            #modal_agenda #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox{
-                animation: slideIn 0.5s ease-out;
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
-            }
-
-                #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox .caja-checkbox{
-                    display: flex;
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda .caja-checkbox{
+                    animation: slideIn 0.5s ease-out;
                     align-items: center;
+                    column-gap: 20px;
+                    display: flex;
+                    width: 100%;
                 }
 
-                    #contenedor_cajas_agenda #contenedor_checkbox .caja-checkbox .checkbox{
+                    #formulario_agenda #contenedor_cajas_agenda .caja-checkbox .checkbox{
                         appearance: none; 
                         border: none;
                         border-radius: 13px;
@@ -277,12 +275,17 @@
                         background: var(--background-inputs); 
                         cursor: pointer;
                     }
-
-                   #contenedor_cajas_agenda #contenedor_checkbox .caja-checkbox .checkbox:checked {
+                    
+                    #formulario_agenda #contenedor_cajas_agenda .caja-checkbox .checkbox:checked {
                         background-color: var(--color-secundario);
                     }
 
-                #modal_agenda #formulario_agenda #contenedor_cajas_agenda #caja_excel{
+                    #formulario_agenda #contenedor_cajas_agenda .caja-checkbox ion-icon{
+                        color: var(--color-btn-cancelar);
+                        font-size: 50px;
+                    }
+
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda #caja_excel{
                     animation: slideIn 0.5s ease-out;
                     align-items: end;
                     column-gap: 15px;
@@ -315,10 +318,10 @@
                     }
 
                         #contenedor_cajas_agenda #caja_excel #btn_plantilla_excel ion-icon{
-                            font-size: 30px;
+                            font-size: 35px;
                         }
 
-                #modal_agenda #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo {
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo {
                     animation: slideIn 0.5s ease-out;
                     align-items: center;
                     background: var(--background-inputs);
@@ -333,7 +336,7 @@
                     width: 100%;
                 }
 
-                #modal_agenda #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo:hover{
+                #cont_info_modales #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo:hover{
                     background-color: rgb(176, 176, 176);
                     color: var(--color-primario);
                 }
@@ -353,17 +356,12 @@
                     background-color: var(--color-btn-cancelar);
                     border: none;
                     color: var(--color-placeholder);
+                    cursor: pointer;
                     display: flex;
                     font-size: 20px;
                     height: 60px;
                     justify-content: center;
                     width: 50%;
-                }
-
-                #cont_info_modales #formulario_agenda #contenedor_btns_agenda #btn_actualizar_agenda {
-                    display: none;
-                    background-color: var(--color-secundario);
-                    color: var(--color-primario);
                 }
                         
                 #cont_info_modales #formulario_agenda #contenedor_btns_agenda #btn_registrar_agenda {
@@ -630,15 +628,10 @@
             row-gap: 10px;
         }
 
-            #modal_agenda #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo {
+            #cont_info_modales #formulario_agenda #contenedor_cajas_agenda #btn_agregar_vehiculo {
                 margin-top: 10px;
             }
        
-            #formulario_agenda #contenedor_cajas_agenda #contenedor_checkbox{
-                flex-direction: column;
-                row-gap: 10px;
-            }
-
     /* ------------------------------------------------- Estilos Modal Vehículo ---------------------------------------*/
     #contenedor_modales #modal_vehiculo{
         width: clamp(300px, 92.5%, 500px);

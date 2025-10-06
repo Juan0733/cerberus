@@ -1,8 +1,8 @@
 <?php
 namespace App\Services;
 
-class AprendizService{
-    public function sanitizarDatosRegistroAprendiz(){
+class AprendizService extends MainService{
+    public function sanitizarDatosRegistroAprendizIndividual(){
         if(!isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_documento'], $_POST['numero_documento'], $_POST['telefono'], $_POST['correo_electronico'], $_POST['numero_ficha'], $_POST['nombre_programa'], $_POST['fecha_fin_ficha']) || $_POST['nombres'] == '' || $_POST['apellidos'] == '' || $_POST['tipo_documento'] == '' || $_POST['numero_documento'] == '' || $_POST['telefono'] == '' || $_POST['correo_electronico'] == '' || $_POST['numero_ficha'] == '' || $_POST['nombre_programa'] == '' || $_POST['fecha_fin_ficha'] == ''){
             $respuesta = [
                 "tipo" => "ERROR",
@@ -67,15 +67,16 @@ class AprendizService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $nombrePrograma = mb_convert_case(mb_strtolower(trim($nombrePrograma), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
+        $nombrePrograma = mb_convert_case(mb_strtolower($nombrePrograma, "UTF-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosAprendiz = [
             'tipo_documento' => $tipoDocumento,
@@ -94,6 +95,121 @@ class AprendizService{
             "datos_aprendiz" => $datosAprendiz
         ];
         return $respuesta;
+    }
+
+    public function sanitizarDatosRegistroAprendizCargaMasiva(){
+        if (!isset($_FILES['plantilla_excel']) || $_FILES['plantilla_excel'] == '') {
+            $respuesta = [
+                "tipo" => "ERROR",
+                "titulo" => 'Campos Obligatorios',
+                "mensaje" => 'Lo sentimos, es necesario que ingreses todos los datos que son obligatorios.'
+            ];
+          return $respuesta;
+        }
+
+        $archivo = $_FILES['plantilla_excel'];
+        unset($_FILES['plantilla_excel']); 
+
+        $respuesta = $this->guardarArhivoExcel($archivo);
+        if($respuesta == 'ERROR'){
+            return $respuesta;
+        }
+
+        $rutaArchivo = $respuesta['ruta_archivo'];
+        $encabezados = ['tipo_documento', 'numero_documento', 'nombres', 'apellidos', 'telefono', 'correo_electronico', 'numero_ficha', 'nombre_programa', 'fecha_fin_ficha'];
+        $columnaLimite = 'I';
+
+        $respuesta = $this->leerArchivoExcel($rutaArchivo, $encabezados, $columnaLimite);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+        $aprendices = $respuesta['datos_excel'];
+
+        if(count($aprendices) < 1){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Excel',
+                'mensaje' => 'Lo sentimos, pero parece que el archivo excel se encuentra vacío o no esta diligenciado correctamente.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = $this->validarDuplicidadDatosArray($aprendices, 'numero_documento');
+        if($respuesta['tipo'] == 'ERROR'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Duplicidad Datos Excel',
+                'mensaje' => 'Lo sentimos, pero en el archivo excel se encontraron números de documento duplicados.'
+            ];
+            return $respuesta;
+        }
+
+        foreach ($aprendices as &$aprendiz) {
+            $datos = [
+                [
+                    'filtro' => "[A-Z]{2,3}",
+                    'cadena' => $aprendiz['tipo_documento']
+                ],
+                [
+                    'filtro' => "[A-Za-z0-9]{6,15}",
+                    'cadena' => $aprendiz['numero_documento']
+                ],
+                [
+                    'filtro' => "[A-Za-z ]{2,50}",
+                    'cadena' => $aprendiz['nombres']
+                ],
+                [
+                    'filtro' => "[A-Za-z ]{2,50}",
+                    'cadena' => $aprendiz['apellidos']
+                ],
+                [
+                    'filtro' => "[0-9]{10}",
+                    'cadena' => $aprendiz['telefono']
+                ],
+                [
+                    'filtro' => "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}",
+                    'cadena' => $aprendiz['correo_electronico']
+                ],
+                [
+                    'filtro' => "[0-9]{7}",
+                    'cadena' => $aprendiz['numero_ficha']
+                ],
+                [
+                    'filtro' => "[A-Za-zñÑáéíóúÁÉÍÓÚüÜ0-9 ]{5,100}",
+                    'cadena' => $aprendiz['nombre_programa']
+                ],
+                [
+                    'filtro' => '(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}',
+                    'cadena' => $aprendiz['fecha_fin_ficha']
+                ]
+            ];
+
+            foreach ($datos as $dato) {
+                if(!preg_match("/^".$dato['filtro']."$/", $dato['cadena'])){
+                    $respuesta = [
+                        "tipo" => "ERROR",
+                        'titulo' => "Formato Inválido",
+                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
+                    ];
+                    return $respuesta;
+                }
+            }
+
+            $aprendiz['nombres'] = mb_convert_case(mb_strtolower($aprendiz['nombres'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $aprendiz['apellidos'] = mb_convert_case(mb_strtolower($aprendiz['apellidos'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $aprendiz['correo_electronico'] = mb_strtolower($aprendiz['correo_electronico'], "UTF-8");
+            $aprendiz['nombre_programa'] = mb_convert_case(mb_strtolower($aprendiz['nombre_programa'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            
+            $fechaFinFicha = explode('-', $aprendiz['fecha_fin_ficha']);
+            $aprendiz['fecha_fin_ficha'] = $fechaFinFicha[2] . '-' . $fechaFinFicha[1] . '-' . $fechaFinFicha[0];
+        }
+        unset($aprendiz);
+
+        $respuesta = [
+            "tipo" => "OK",
+            "datos_aprendices" => $aprendices
+        ];
+        return $respuesta; 
     }
 
     public function sanitizarDatosActualizacionAprendiz(){
@@ -156,15 +272,16 @@ class AprendizService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $nombrePrograma = mb_convert_case(mb_strtolower(trim($nombrePrograma), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
+        $nombrePrograma = mb_convert_case(mb_strtolower($nombrePrograma, "UTF-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosAprendiz = [
             'numero_documento' => $numeroDocumento,
@@ -220,22 +337,5 @@ class AprendizService{
             'parametros' => $parametros
         ];
     }
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
 }
     

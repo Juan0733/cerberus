@@ -1,3 +1,4 @@
+import { consultarModalDetalleNovedadVehiculo } from '../fetchs/modal-fetch.js';
 import { consultarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
 
 let contenedorModales;
@@ -6,51 +7,37 @@ let codigoNovedad;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalDetalleNovedadVehiculo(novedad, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-novedad-vehiculo.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalDetalleNovedadVehiculo(novedad, url) {
+    consultarModalDetalleNovedadVehiculo(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_detalle_novedad_vehiculo';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_novedad_vehiculo';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            codigoNovedad = novedad;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarNovedad();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
 
-        contenedorModales.appendChild(modal);
-
-        codigoNovedad = novedad;
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarNovedad();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle novedad vehiculo.'
-        });
-    }
+    }) 
 }
 export{modalDetalleNovedadVehiculo}
 

@@ -38,7 +38,7 @@ function dibujarNotificaciones(){
                                 <div class="contenedor-alerta">
                                     <div class="contenedor-mensaje-alerta">
                                         <h3>Solicitud Permiso Vehículo</h3>
-                                        <p>Se ha solicitado un permiso de tipo ${notificacion.tipo_permiso}, para el vehículo con número de placa <strong>${notificacion.fk_vehiculo}</strong></p>
+                                        <p>Se ha solicitado un permiso de tipo ${formatearString(notificacion.tipo_permiso)}, para el vehículo con número de placa <strong>${notificacion.fk_vehiculo}</strong></p>
                                         <div id="contenedor_btns_notificacion">
                                             <button class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}" >Ver detalle</button>
                                         </div>
@@ -50,7 +50,7 @@ function dibujarNotificaciones(){
                         eventoVerPermisoVehiculo();
 
                     }else if(notificacionesPermisosUsuario.length < 1 && notificacionesPermisosVehiculo.length < 1){
-                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones en este momento.</p>`;
+                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones actualmente.</p>`;
                     }
                 }else if(respuesta.tipo == 'ERROR'){
                     if(respuesta.titulo == 'Sesión Expirada'){

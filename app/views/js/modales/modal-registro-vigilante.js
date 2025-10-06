@@ -1,84 +1,82 @@
+import { consultarModalVigilante } from '../fetchs/modal-fetch.js';
 import {registrarVigilante} from '../fetchs/vigilantes-fetch.js';
 
+let tipoRegistro;
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let funcionCallback;
+let modal;
+let contenedorCajas;
+let seccionPrincipal;
+let seccionIndividual;
+let seccionIndividual01;
+let seccionIndividual02;
+let seccionMasiva;
 let selectTipoDocumento;
 let inputCorreo;
-let seccion01;
-let seccion02;
+let inputPlantillaExcel;
 let botonAtras;
 let botonCancelar;
 let botonRegistrar;
 let botonSiguiente;
+let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
 async function modalRegistroVigilante(callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-vigilante.php');
+    consultarModalVigilante(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_vigilante';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_vigilante';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            contenedorCajas = document.getElementById('contenedor_cajas_vigilante');
+            seccionPrincipal = document.getElementsByClassName('seccion-principal');
+            seccionIndividual = document.getElementsByClassName('seccion-individual');
+            seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
+            seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
+            seccionMasiva = document.getElementsByClassName('seccion-masiva');
+            selectTipoDocumento = document.getElementById('tipo_documento');
+            inputCorreo = document.getElementById('correo_electronico');
+            inputPlantillaExcel = document.getElementById('plantilla_excel');
+            botonCancelar = document.getElementById('btn_cancelar_vigilante');
+            botonAtras = document.getElementById('btn_atras_vigilante');
+            botonSiguiente = document.getElementById('btn_siguiente_vigilante');
+            botonRegistrar = document.getElementById('btn_registrar_vigilante');
+
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            eventoTipoRegistro();
+            eventoInputFile();
+            validarConfirmacionContrasena();
+            mostrarCampos();
+            volverCampos();
+            eventoRegistrarVigilante();
+
+            contenedorModales.classList.add('mostrar');
+
+            setTimeout(()=>{
+            selectTipoDocumento.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        selectTipoDocumento = document.getElementById('tipo_documento');
-        inputCorreo = document.getElementById('correo_electronico');
-        seccion01 = document.getElementsByClassName('seccion-01');
-        seccion02 = document.getElementsByClassName('seccion-02');
-        botonCancelar = document.getElementById('btn_cancelar_vigilante');
-        botonAtras = document.getElementById('btn_atras_vigilante');
-        botonSiguiente = document.getElementById('btn_siguiente_vigilante');
-        botonRegistrar = document.getElementById('btn_registrar_vigilante');
-
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        validarConfirmacionContrasena();
-        mostrarCampos();
-        volverCampos();
-        eventoRegistrarVigilante();
-
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        contenedorModales.classList.add('mostrar');
-
-        setTimeout(()=>{
-           selectTipoDocumento.focus();
-        }, 250)
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-       console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal registro funcionario.'
-        });
-    }
-    
+    })
 }
 export { modalRegistroVigilante };
 
@@ -96,15 +94,73 @@ function eventoCerrarModal(){
     });
 }
 
+function eventoTipoRegistro() {
+    const inputsCheckbox = document.querySelectorAll('.checkbox');
+    const iconosTipoRegistro = document.querySelectorAll('.icono-tipo-registro');
+
+    inputsCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('change', ()=>{
+            iconosTipoRegistro.forEach(icono => {
+                icono.removeAttribute('style');
+            });
+
+            if (checkbox.checked){
+                tipoRegistro = checkbox.value;
+                for(const icono of iconosTipoRegistro){
+                    if(icono.id == 'icono_'+tipoRegistro){
+                        icono.style.color = 'var(--color-secundario)';
+                        break;
+                    }
+                }
+
+                inputsCheckbox.forEach(input => {
+                    if(input != checkbox){
+                        input.checked = false;
+                    }
+                });
+
+            }else{
+                tipoRegistro = '';
+            }
+        })
+    });
+}
+
+function eventoInputFile(){
+    const nombreArchivo = document.getElementById('nombre_archivo');
+
+    inputPlantillaExcel.addEventListener('change', ()=>{
+        if(inputPlantillaExcel.files.length > 0){
+            nombreArchivo.textContent = inputPlantillaExcel.files[0].name;
+        }else{
+            nombreArchivo.textContent = "Seleccionar archivo"
+        }
+    })
+}
+
 function eventoRegistrarVigilante(){
     let formularioVigilante = document.getElementById('formulario_vigilante');
     formularioVigilante.addEventListener('submit', (e)=>{
         e.preventDefault();
 
-        let formData = new FormData(formularioVigilante);
+        let formData = new FormData();
 
-        formData.append('operacion', 'registrar_vigilante');
-       
+        if(tipoRegistro == 'individual'){
+            formData.append('operacion', 'registrar_vigilante_individual');
+            formData.append('tipo_documento', selectTipoDocumento.value);
+            formData.append('numero_documento', document.getElementById('numero_documento').value);
+            formData.append('nombres', document.getElementById('nombres').value);
+            formData.append('apellidos', document.getElementById('apellidos').value);
+            formData.append('correo_electronico', inputCorreo.value);
+            formData.append('telefono', document.getElementById('telefono').value);
+            formData.append('rol', document.getElementById('rol').value);
+            formData.append('contrasena', document.getElementById('contrasena').value);
+
+        }else if(tipoRegistro == 'carga_masiva'){
+            formData.append('operacion', 'registrar_vigilante_carga_masiva');
+            formData.append('plantilla_excel', inputPlantillaExcel.files[0]);
+        }
+        
         registrarVigilante(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
@@ -140,54 +196,144 @@ function validarConfirmacionContrasena(){
 }
 
 function mostrarCampos(){
-    const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
+    const inputsSeccionIndividual = document.getElementsByClassName('campo-individual');
+    const inputsSeccionIndividual01 = document.getElementsByClassName('campo-individual-01');
 
     botonSiguiente.addEventListener('click', ()=>{
-        let validos = true;
-        
-        for(const input of inputsSeccion01) {
-            if(!input.checkValidity()){
-                input.reportValidity();
-                validos = false;
-                break;
-            }
-        };
+        if(seccionPrincipal[0].style.display != 'none'){
+            if(tipoRegistro){
+                for(const caja of seccionPrincipal){
+                    caja.style.display = 'none';
+                }
 
-        if(validos){
-            for(const caja of seccion01){
-                caja.style.display = 'none';
-            }
-        
-            for(const caja of seccion02){
-                caja.style.display = 'block';
+                if(tipoRegistro == 'individual'){
+                    if(window.innerWidth >= 768){
+                        for(const caja of seccionIndividual){
+                            caja.style.display = 'block'
+                        }
+
+                        botonSiguiente.style.display = 'none';
+                        botonRegistrar.style.display = 'flex';
+                        modal.style.width = 'clamp(550px, 50%, 980px)';
+                        contenedorCajas.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+                    }else if(window.innerWidth <= 767){
+                        for(const caja of seccionIndividual01){
+                            caja.style.display = 'block'
+                        }
+                    }
+
+                    for(const input of inputsSeccionIndividual){
+                        input.required = true;
+                    }
+                    inputPlantillaExcel.required = false;
+
+                    botonCancelar.style.display = 'none';
+                    botonAtras.style.display = 'flex';
+
+                    selectTipoDocumento.focus();
+                
+                }else if(tipoRegistro == 'carga_masiva'){
+                    for(const caja of seccionMasiva){
+                        caja.style.display = 'flex';
+                    }
+
+                    for(const input of inputsSeccionIndividual){
+                        input.required = false;
+                    }
+                    inputPlantillaExcel.required = true;
+                   
+                    botonSiguiente.style.display = 'none';
+                    botonRegistrar.style.display = 'flex';
+                    botonCancelar.style.display = 'none';
+                    botonAtras.style.display = 'flex';
+
+                    inputPlantillaExcel.focus();
+                }
             }
 
-            inputCorreo.focus();
+        }else if(seccionIndividual01[0].style.display == 'block' && seccionIndividual02[0].style.display != 'block'){
+            let camposValidos = true;
+            for(const input of inputsSeccionIndividual01) {
+                if(!input.checkValidity()){
+                    input.reportValidity();
+                    camposValidos = false;
+                    break;
+                }
+            };
 
-            botonCancelar.style.display = 'none';
-            botonSiguiente.style.display = 'none';
-            botonRegistrar.style.display = 'flex';
-            botonAtras.style.display = 'flex';
+            if(camposValidos){
+                for(const caja of seccionIndividual01){
+                    caja.style.display = 'none';
+                }
+
+                for(const caja of seccionIndividual02){
+                    caja.style.display = 'block';
+                }
+
+                botonSiguiente.style.display = 'none';
+                botonRegistrar.style.display = 'flex';
+
+                inputCorreo.focus();
+            }
         }
     })
 }
 
 function volverCampos(){
     botonAtras.addEventListener('click', ()=>{
-        for(const caja of seccion02){
-            caja.style.display = 'none';
-        }
-        
-        for(const caja of seccion01){
-            caja.style.display = 'block';
-        }
-        
-        botonAtras.style.display = 'none';
-        botonRegistrar.style.display = 'none';
-        botonCancelar.style.display = 'flex';
-        botonSiguiente.style.display = 'flex';
+        if(seccionMasiva[0].style.display == 'flex'){
+            for(const caja of seccionMasiva){
+                caja.style.display = 'none';
+            }
 
-        selectTipoDocumento.focus();
+            for(const caja of seccionPrincipal){
+                caja.style.display = 'flex';
+            }
+
+            botonAtras.style.display = 'none';
+            botonRegistrar.style.display = 'none';
+            botonCancelar.style.display = 'flex';
+            botonSiguiente.style.display = 'flex';
+
+        }else if(seccionIndividual01[0].style.display == 'block'){
+            if(window.innerWidth >= 768){
+                for(const caja of seccionIndividual){
+                    caja.style.display = 'none';
+                }
+
+                modal.style.width = 'clamp(350px, 32%, 600px)';
+                contenedorCajas.style.gridTemplateColumns = 'repeat(1, 1fr)';
+
+            }else if(window.innerWidth <= 767){
+                for(const caja of seccionIndividual01){
+                    caja.style.display = 'none';
+                }
+            }
+
+            for(const caja of seccionPrincipal){
+                caja.style.display = 'flex';
+            }
+        
+            botonAtras.style.display = 'none';
+            botonRegistrar.style.display = 'none';
+            botonCancelar.style.display = 'flex';
+            botonSiguiente.style.display = 'flex';
+
+        }else if(seccionIndividual01[0].style.display == 'none' && seccionIndividual02[0].style.display == 'block'){
+            for(const caja of seccionIndividual02){
+                caja.style.display = 'none';
+            }
+
+            for(const caja of seccionIndividual01){
+                caja.style.display = 'block';
+            }
+
+            botonRegistrar.style.display = 'none';
+            botonSiguiente.style.display = 'flex';
+
+            selectTipoDocumento.focus();
+        }
     })
 }
 

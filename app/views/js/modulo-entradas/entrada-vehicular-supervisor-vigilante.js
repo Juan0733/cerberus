@@ -1,10 +1,10 @@
 import {validarUsuarioAptoEntrada, registrarEntradaVehicular} from '../fetchs/movimientos-fetch.js';
 import {consultarVehiculo, consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
-import {modalRegistroVehiculo} from '../modales/modal-registro-vehiculo.js';
 import {modalRegistroVisitante} from '../modales/modal-registro-visitante.js';
 import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usuario.js';
 import { modalScanerQr } from '../modales/modal-scaner-qr.js';
 import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
+import { modalActualizacionContrasenaUsuario } from '../modales/modal-actualizacion-contrasena-usuario.js';
 
 let documentoPeaton;
 let documentoPropietario;
@@ -24,6 +24,7 @@ let formularioVehicular;
 let formularioPasajeros;
 let contenedorBotonesFormularios;
 let puerta;
+let contrasenaActualizada;
 let urlBase;
 
 const datosEntradaVehicular = {
@@ -176,7 +177,7 @@ function eventoInputPropietario(){
 
                     }else if(respuesta.tipo == "ERROR"){
                         datosEntradaVehicular.propietario = "";
-                        if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
+                        if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada" || respuesta.titulo == 'Ficha Caducada' || respuesta.titulo == 'Contrato Caducado'){
                             documentoPropietario.classList.add('input-error');
                             respuesta.documento = documentoPropietario.value;
                             respuesta.callback = eventoManualInputPropietario;
@@ -230,7 +231,7 @@ function eventoFormularioPasajeros(){
                         dibujarTablaPasajeros();
 
                     }else if(respuesta.tipo == "ERROR"){
-                        if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada"){
+                        if(respuesta.titulo == "Usuario No Encontrado" || respuesta.titulo == "Salida No Registrada" || respuesta.titulo == 'Ficha Caducada' || respuesta.titulo == 'Contrato Caducado'){
                             respuesta.documento = documentoPasajero.value;
                             respuesta.callback = eventoManualFormularioPasajeros;
                             alertaAdvertencia(respuesta);
@@ -398,6 +399,15 @@ function validarPuertaActual(){
     }
 }
 
+function validarContrasenaActualizada(){
+    if(contrasenaActualizada.value == 'NO'){
+       modalActualizacionContrasenaUsuario(urlBase, validarContrasenaActualizada);
+
+    }else if(contrasenaActualizada.value == 'SI'){
+        validarPuertaActual();
+    }
+}
+
 function eventoManualInputPlaca(){
     const evento = new Event("change", { bubbles: true, cancelable: true });
     placaVehiculo.dispatchEvent(evento);
@@ -510,8 +520,8 @@ function alertaAdvertencia(respuesta){
                 modalRegistroNovedadUsuario( urlBase, 'SALIDA NO REGISTRADA',  respuesta.documento, respuesta.callback);
             }else if(respuesta.titulo == "Usuario No Encontrado"){
                 modalRegistroVisitante(urlBase, respuesta.documento, respuesta.callback);
-            }else if(respuesta.titulo == "Vehículo No Encontrado"){
-                modalRegistroVehiculo(urlBase, respuesta.vehiculo, respuesta.callback);
+            }else if(respuesta.titulo == 'Ficha Caducada' || respuesta.titulo == 'Contrato Caducado'){
+                modalRegistroVisitante(urlBase, '', respuesta.callback, respuesta.datos_usuario)
             }
         } 
     });
@@ -537,6 +547,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     formularioPasajeros = document.getElementById('formulario_pasajeros');
     contenedorBotonesFormularios = document.getElementById('contenedor_btns_formularios');
     puerta = document.getElementById('puerta');
+    contrasenaActualizada = document.getElementById('contrasena_actualizada');
 
     eventoInputPlaca();
     eventoSelectTipoVehiculo();
@@ -547,5 +558,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     eventoScanerQrPropietario();
     eventoScanerQrPasajero();
     eventoPuerta();
-    validarPuertaActual();
+    validarContrasenaActualizada();
+    
 });

@@ -6,6 +6,7 @@
 ?>
 
 <input type="hidden" id="url_base" value="<?php echo $urlBaseVariable; ?>">
+<input type="hidden" id="contrasena_actualizada" value="<?php if($_SESSION['datos_usuario']['contrasena_actualizada']) echo $_SESSION['datos_usuario']['contrasena_actualizada']; ?>">
 
 <div id="contenedor_principal">
     <div id="contenedor_saludo">

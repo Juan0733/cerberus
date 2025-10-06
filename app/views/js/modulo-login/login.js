@@ -22,7 +22,9 @@ function eventoFormulario(){
                 if(respuesta.tipo == 'OK'){
                     caja01.style.display = 'none';
                     caja02.style.display = 'block';
-                    contrasena.focus();
+                    setTimeout(()=>{
+                        contrasena.focus();
+                    }, 250)
                 }else if(respuesta.tipo == 'ERROR'){
                     alertaError(respuesta);
                 };

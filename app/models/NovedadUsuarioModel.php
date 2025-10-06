@@ -30,11 +30,12 @@ class NovedadUsuarioModel extends MainModel{
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $codigoNovedad = 'NU'.date('YmdHis');
 
         $sentenciaInsertar = "
-            INSERT INTO novedades_usuarios(codigo_novedad, tipo_novedad, fk_usuario, fecha_suceso, puerta_suceso, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) 
-            VALUES('$codigoNovedad', '{$datosNovedad['tipo_novedad']}', '{$datosNovedad['numero_documento']}', '{$datosNovedad['fecha_suceso']}', '{$datosNovedad['puerta_suceso']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$usuarioSistema')";
+            INSERT INTO novedades_usuarios(codigo_novedad, tipo_novedad, fk_usuario, fecha_suceso, puerta_suceso, puerta_registro, descripcion, fecha_registro, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES('$codigoNovedad', '{$datosNovedad['tipo_novedad']}', '{$datosNovedad['numero_documento']}', '{$datosNovedad['fecha_suceso']}', '{$datosNovedad['puerta_suceso']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -42,11 +43,13 @@ class NovedadUsuarioModel extends MainModel{
         }
 
         if($datosNovedad['tipo_novedad'] == 'SALIDA NO REGISTRADA'){
-            $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, 'FUERA');
+            $ubicacion = 'FUERA';
+
         }elseif($datosNovedad['tipo_novedad'] == 'ENTRADA NO REGISTRADA'){
-            $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, 'DENTRO');
+            $ubicacion = 'DENTRO';
         }
 
+        $respuesta = $this->objetoUsuario->actualizarUbicacionUsuario($datosNovedad['numero_documento'], $tablaUsuario, $ubicacion);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -54,7 +57,7 @@ class NovedadUsuarioModel extends MainModel{
         $respuesta = [
             'tipo' => 'OK',
             'titulo' => 'Registro Exitoso',
-            'mensaje' => 'La novedad fue registrada correctamente',
+            'mensaje' => 'La novedad fue registrada correctamente.',
         ];
         return $respuesta;
     }
@@ -127,7 +130,11 @@ class NovedadUsuarioModel extends MainModel{
             $sentenciaBuscar .= " AND nu.tipo_novedad = '{$parametros['tipo_novedad']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY nu.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY nu.fecha_registro DESC";
+
+        if(!isset($parametros['fecha'], $parametros['numero_documento'], $parametros['tipo_novedad'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -163,17 +170,20 @@ class NovedadUsuarioModel extends MainModel{
                 nu.fecha_suceso, 
                 nu.fecha_registro,
                 nu.descripcion,
-                vig1.nombres AS nombres_responsable,
-                vig1.apellidos AS apellidos_responsable,
-                vig1.rol AS rol_responsable,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_involucrado,
-                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_involucrado
+                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_involucrado,
+                COALESCE(fun2.nombres, apr2.nombres, vis2.nombres, vig2.nombres) AS nombres_responsable,
+                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_responsable,
+                nu.rol_usuario_sistema AS rol_responsable
             FROM novedades_usuarios nu
-            INNER JOIN vigilantes vig1 ON nu.fk_usuario_sistema = vig1.numero_documento
             LEFT JOIN funcionarios fun ON nu.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON nu.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON nu.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON nu.fk_usuario = apr.numero_documento
+            LEFT JOIN funcionarios fun2 ON nu.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN visitantes vis2 ON nu.fk_usuario_sistema = vis2.numero_documento
+            LEFT JOIN vigilantes vig2 ON nu.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN aprendices apr2 ON nu.fk_usuario_sistema = apr2.numero_documento
             WHERE nu.codigo_novedad = '$codigoNovedad'";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

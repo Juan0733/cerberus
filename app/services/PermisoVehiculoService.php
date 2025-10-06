@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-class PermisoVehiculoService{
+class PermisoVehiculoService extends MainService{
     public function sanitizarDatosRegistroPermisoVehiculo(){
         if(!isset($_POST['propietario'], $_POST['numero_placa'], $_POST['tipo_permiso'], $_POST['descripcion'], $_POST['fecha_fin_permiso']) || $_POST['propietario'] == '' || $_POST['numero_placa'] == '' || $_POST['tipo_permiso'] == '' || $_POST['descripcion'] == '' || $_POST['fecha_fin_permiso'] == '' ) {
             $respuesta = [
@@ -47,13 +47,13 @@ class PermisoVehiculoService{
 				$respuesta = [
                     "tipo" => "ERROR",
                     'titulo' => "Formato Inválido",
-                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['cadena'],
+                    'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                 ];
                 return $respuesta;
 			}
         }
 
-        $descripcion = mb_strtoupper(mb_substr(trim($descripcion), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($descripcion), 1, null, "UTF-8"), "UTF-8");
+        $descripcion = mb_strtoupper(mb_substr($descripcion, 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($descripcion, 1, null, "UTF-8"), "UTF-8");
 
         $datosPermiso = [
             'numero_documento' => $numeroDocumento,
@@ -122,23 +122,6 @@ class PermisoVehiculoService{
             'tipo' => 'OK',
             'parametros' => $parametros
         ];
-    }
-
-    public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
-		}
-
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
-	}
-    
+    } 
 }
     

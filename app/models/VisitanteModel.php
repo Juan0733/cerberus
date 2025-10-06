@@ -22,22 +22,28 @@ class VisitanteModel extends MainModel{
         }
 
         $fechaRegistro = date('Y-m-d H:i:s');
+        $usuarioSistema = 'NULL';
+        $rolSistema = 'NULL';
+
+        if(isset($_SESSION['datos_usuario'])){
+            $usuarioSistema = "'{$_SESSION['datos_usuario']['numero_documento']}'";
+            $rolSistema = "'{$_SESSION['datos_usuario']['rol']}'";
+        }
+
         $sentenciaInsertar = "
-            INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, ubicacion, fecha_registro) 
-            VALUES('{$datosVisitante['tipo_documento']}', '{$datosVisitante['numero_documento']}', '{$datosVisitante['nombres']}', '{$datosVisitante['apellidos']}', '{$datosVisitante['telefono']}', '{$datosVisitante['correo_electronico']}', '{$datosVisitante['motivo_ingreso']}', '$ubicacion', '$fechaRegistro')";
+            INSERT INTO visitantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso, ubicacion, fecha_registro, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES('{$datosVisitante['tipo_documento']}', '{$datosVisitante['numero_documento']}', '{$datosVisitante['nombres']}', '{$datosVisitante['apellidos']}', '{$datosVisitante['telefono']}', '{$datosVisitante['correo_electronico']}', '{$datosVisitante['motivo_ingreso']}', '$ubicacion', '$fechaRegistro', $rolSistema, $usuarioSistema)";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
-        if($datosVisitante['motivo_ingreso'] != 'La ficha del aprendiz ha finalizado' && $datosVisitante['motivo_ingreso'] != 'El contrato del funcionario ha finalizado'){
-            $respuesta = $this->objetoMotivo->registrarMotivoIngreso($datosVisitante['motivo_ingreso']);
-            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-                return $respuesta;
-            }
+        $respuesta = $this->objetoMotivo->registrarMotivoIngreso($datosVisitante['motivo_ingreso']);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
         }
-
+        
         $respuesta = [
             "tipo"=>"OK",
             "titulo" => 'Registro Exitoso',
@@ -57,7 +63,7 @@ class VisitanteModel extends MainModel{
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
-                    'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el sistema como visitante.'
+                    'mensaje' => 'No fue posible realizar el registro, el usuario con número de documento '.$visitante.' ya se encuentra registrado en el sistema como visitante.'
                 ];
                 return $respuesta;
             }
@@ -97,7 +103,7 @@ class VisitanteModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
-        if(!isset($parametros['ubicacion']) || $parametros['ubicacion'] != 'DENTRO'){
+        if(!isset($parametros['numero_documento'], $parametros['ubicacion'])){
             $sentenciaBuscar .= " LIMIT 10;";
         }
 
@@ -128,9 +134,23 @@ class VisitanteModel extends MainModel{
 
     public function consultarVisitante($documento){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, motivo_ingreso
-            FROM visitantes
-            WHERE numero_documento = '$documento';";
+            SELECT 
+                vis.tipo_documento, 
+                vis.numero_documento, 
+                vis.nombres, 
+                vis.apellidos, 
+                vis.telefono, 
+                vis.correo_electronico,
+                vis.motivo_ingreso,
+                COALESCE(fun.nombres, apr.nombres, vis2.nombres, vig.nombres, 'N/A') AS nombres_responsable,
+                COALESCE(fun.apellidos, apr.apellidos, vis2.apellidos, vig.apellidos, 'N/A') AS apellidos_responsable,
+                COALESCE(vis.rol_usuario_sistema, 'N/A') AS rol_responsable
+            FROM visitantes vis
+            LEFT JOIN funcionarios fun ON vis.fk_usuario_sistema = fun.numero_documento
+            LEFT JOIN aprendices apr ON vis.fk_usuario_sistema = apr.numero_documento
+            LEFT JOIN vigilantes vig ON vis.fk_usuario_sistema = vig.numero_documento
+            LEFT JOIN visitantes vis2 ON vis.fk_usuario_sistema = vis2.numero_documento
+            WHERE vis.numero_documento = '$documento';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

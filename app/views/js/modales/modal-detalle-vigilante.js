@@ -1,3 +1,4 @@
+import { consultarModalDetalleVigilante } from '../fetchs/modal-fetch.js';
 import { consultarVigilante } from '../fetchs/vigilantes-fetch.js';
 
 let contenedorModales;
@@ -6,51 +7,36 @@ let documentoVigilante;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalDetalleVigilante(vigilante, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-vigilante.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalDetalleVigilante(vigilante, url) {
+    consultarModalDetalleVigilante(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){ 
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_detalle_vigilante';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_vigilante';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            documentoVigilante = vigilante;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarVigilante();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        documentoVigilante = vigilante;
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarVigilante();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle vigilante.'
-        });
-    }
+    })
 }
 export{modalDetalleVigilante}
 
@@ -74,6 +60,7 @@ function dibujarVigilante() {
             document.getElementById('telefono').textContent = formatearNumeroTelefono(datosVigilante.telefono);
             document.getElementById('correo_electronico').textContent = datosVigilante.correo_electronico;
             document.getElementById('rol').textContent = formatearString(datosVigilante.rol);
+            document.getElementById('responsable_registro').textContent = formatearString(datosVigilante.rol_responsable)+' -  '+datosVigilante.nombres_responsable+' '+datosVigilante.apellidos_responsable;
 
             contenedorModales.classList.add('mostrar');
 

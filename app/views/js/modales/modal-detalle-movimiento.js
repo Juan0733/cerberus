@@ -1,3 +1,4 @@
+import { consultarModalDetalleMovimiento } from '../fetchs/modal-fetch.js';
 import { consultarMovimiento } from '../fetchs/movimientos-fetch.js';
 
 let contenedorModales;
@@ -6,51 +7,36 @@ let codigoMovimiento;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalDetalleMovimiento(movimiento, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-detalle-movimiento.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalDetalleMovimiento(movimiento, url) {
+    consultarModalDetalleMovimiento(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_detalle_movimiento';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_detalle_movimiento';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            codigoMovimiento = movimiento;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            dibujarMovimiento();
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        codigoMovimiento = movimiento;
-        urlBase = url;
-         
-        eventoCerrarModal();
-        dibujarMovimiento();
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal detalle permiso usuario.'
-        });
-    }
+    })
 }
 export{modalDetalleMovimiento}
 
@@ -67,13 +53,6 @@ function dibujarMovimiento() {
     consultarMovimiento(codigoMovimiento, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosMovimiento = respuesta.datos_movimiento;
-
-            document.getElementById('tipo_movimiento').textContent = formatearString(datosMovimiento.tipo_movimiento);
-            document.getElementById('fecha_registro').textContent = formatearFecha(datosMovimiento.fecha_registro);
-            document.getElementById('usuario').textContent = datosMovimiento.nombres+' '+datosMovimiento.apellidos;
-            document.getElementById('tipo_usuario').textContent = formatearString(datosMovimiento.tipo_usuario);
-            document.getElementById('puerta_registro').textContent = formatearString(datosMovimiento.puerta_registro);
-            document.getElementById('responsable').textContent = formatearString(datosMovimiento.rol_responsable)+' - '+datosMovimiento.nombres_responsable+' '+datosMovimiento.apellidos_responsable;
 
             if(datosMovimiento.fk_vehiculo != 'N/A'){
                 document.getElementById('tipo_vehiculo').textContent = formatearString(datosMovimiento.tipo_vehiculo);
@@ -92,6 +71,13 @@ function dibujarMovimiento() {
             }else{
                 document.getElementById('caja_observacion').style.display = 'none';
             }
+
+            document.getElementById('tipo_movimiento').textContent = formatearString(datosMovimiento.tipo_movimiento);
+            document.getElementById('fecha_registro').textContent = formatearFecha(datosMovimiento.fecha_registro);
+            document.getElementById('usuario').textContent = datosMovimiento.nombres+' '+datosMovimiento.apellidos;
+            document.getElementById('tipo_usuario').textContent = formatearString(datosMovimiento.tipo_usuario);
+            document.getElementById('puerta_registro').textContent = formatearString(datosMovimiento.puerta_registro);
+            document.getElementById('responsable').textContent = formatearString(datosMovimiento.rol_responsable)+' - '+datosMovimiento.nombres_responsable+' '+datosMovimiento.apellidos_responsable;
              
             contenedorModales.classList.add('mostrar');
 

@@ -5,14 +5,14 @@ require_once "../../vendor/autoload.php";
 use App\Models\MotivoIngresoModel;
 use App\Models\RolOperacionModel;
 use App\Models\UsuarioModel;
-use App\Services\MotivoIngresoService;
+use App\Services\MainService;
 
 
 header('Content-Type: application/json; charset=utf-8');
 
 if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['operacion'])){
     $objetoMotivo = new MotivoIngresoModel();
-    $objetoServicio = new MotivoIngresoService();
+    $objetoServicio = new MainService();
     $objetoUsuario = new UsuarioModel();
     $objetoRolOperacion = new RolOperacionModel();
 

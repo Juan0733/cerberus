@@ -44,6 +44,10 @@
                 <h3>Finalización Ficha:</h3>
                 <p id="fecha_fin_ficha"></p>
             </div>
+            <div class="caja">
+                <h3>Responsable Registro:</h3>
+                <p id="responsable_registro"></p>
+            </div>
         </div>
     </div>
 </div>

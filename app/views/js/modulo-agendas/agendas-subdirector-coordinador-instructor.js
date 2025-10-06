@@ -179,12 +179,17 @@ function eventoCrearAgenda(){
     const botonCrearAgenda = document.getElementById('btn_crear_agenda');
 
     botonCrearAgenda.addEventListener('click', ()=>{
-        modalRegistroAgenda(urlBase, dibujarAgendas);
+        modalRegistroAgenda(urlBase, eventoManualFechaAgenda);
     })
 
     document.getElementById('btn_crear_agenda_mobile').addEventListener('click', ()=>{
         botonCrearAgenda.click();
     })
+}
+
+function eventoManualFechaAgenda(){
+    const evento = new Event("change", { bubbles: true, cancelable: true });
+    inputFecha.dispatchEvent(evento);
 }
 
 function alertaExito(respuesta){

@@ -1,3 +1,5 @@
+import { consultarModalScanerQr } from "../fetchs/modal-fetch.js";
+
 let contenedorModales;
 let modalesExistentes;
 let html5QrCode;
@@ -7,55 +9,40 @@ let audio;
 let botonCerrarModal;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
-
-async function modalScanerQr(url, input, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-scaner-qr.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
+function modalScanerQr(url, input, callback) {
+   consultarModalScanerQr(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            const modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_scaner_qr';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
             
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_scaner_qr';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-        
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            html5QrCode = new Html5Qrcode("reader");
+            audio = new Audio(url+'app/views/audio/sonido-scaner.mp3');
+
+            inputDocumento = input;
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            abrirCamara(); 
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        html5QrCode = new Html5Qrcode("reader");
-        audio = new Audio(url+'app/views/audio/sonido-scaner.mp3');
-
-        inputDocumento = input;
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        abrirCamara(); 
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-        
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal escanear QR.'
-        });
-    }
+    })
 }
 export{modalScanerQr}
 
@@ -77,8 +64,11 @@ function eventoCerrarModal(){
 }
 
 function abrirCamara(){
-    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    const contenedorSpinner = document.getElementById('contenedor_spinner');
+    contenedorSpinner.classList.add('mostrar_spinner');
 
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    
     Html5Qrcode.getCameras().then(camaras => {
         const camaraTrasera = camaras.find(camara => camara.label.toLowerCase().includes("back"));
         const camaraDisponible = camaraTrasera ? camaraTrasera : camaras[0];
@@ -103,10 +93,9 @@ function abrirCamara(){
             });
 
         } else {
-            contenedorSpinner.classList.remove("mostrar_spinner");
             alertaError({
                 titulo: 'Error Cámara',
-                mensaje: 'No se encontro ninguna cámara disponibley.'
+                mensaje: 'No se encontro ninguna cámara disponible.'
             })
             botonCerrarModal.click();
         }

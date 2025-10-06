@@ -273,7 +273,7 @@
 
 /*----------------------------------------------------- Estilos Modal registrar funcionario -------------------------------------------*/
 #contenedor_modales #modal_funcionario{
-    width: clamp(550px, 50%, 980px);
+    width: clamp(450px, 32%, 650px);
 }
     #contenedor_modales #modal_funcionario #cont_info_modales{
         width: 100%;
@@ -289,9 +289,10 @@
                 align-items: end;
                 column-gap: 20px;
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(1, 1fr);
                 max-height: 595px;
                 overflow-y: auto;
+                overflow-x: hidden;
                 padding: 1.5em;
                 row-gap: 20px;
                 width: 100%;
@@ -306,6 +307,10 @@
                 border-radius: 20px;
                 background-color: rgb(180, 180, 180);
             }
+
+                #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario .seccion-individual, .seccion-masiva{
+                    display: none;
+                }
 
                 #formulario_funcionario #contenedor_cajas_funcionario  .input-caja-registro{
                     animation: slideIn 0.5s ease-out;
@@ -324,6 +329,12 @@
                         font-size: 20px;
                         margin-bottom: 5px;
                     }
+
+                    #formulario_funcionario #contenedor_cajas_funcionario .caja-checkbox .label-input{
+                        color: var(--color-placeholder);
+                        display: flex;
+                        font-size: 20px;
+                    }
                 
                     #contenedor_cajas_funcionario  .input-caja-registro .campo{
                         background: var(--background-inputs);
@@ -340,6 +351,69 @@
                         color: var(--color-placeholder);
                         font-size: 16px;
                     }
+
+                #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario .caja-checkbox{
+                    animation: slideIn 0.5s ease-out;
+                    align-items: center;
+                    column-gap: 20px;
+                    display: flex;
+                    width: 100%;
+                }
+
+                    #formulario_funcionario #contenedor_cajas_funcionario .caja-checkbox .checkbox{
+                        appearance: none; 
+                        border: none;
+                        border-radius: 13px;
+                        width: 60px;
+                        height: 60px;
+                        background: var(--background-inputs); 
+                        cursor: pointer;
+                    }
+                    
+                    #formulario_funcionario #contenedor_cajas_funcionario .caja-checkbox .checkbox:checked {
+                        background-color: var(--color-secundario);
+                    }
+
+                    #formulario_funcionario #contenedor_cajas_funcionario .caja-checkbox ion-icon{
+                        color: var(--color-btn-cancelar);
+                        font-size: 50px;
+                    }
+
+                #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario #caja_excel{
+                    animation: slideIn 0.5s ease-out;
+                    align-items: end;
+                    column-gap: 15px;
+                    width: 100%;
+                }
+
+                        #contenedor_cajas_funcionario #caja_excel .input-caja-registro .campo{
+                            align-items: center;
+                            cursor: pointer;
+                            display: flex;
+                        }
+
+                        #contenedor_cajas_funcionario #caja_excel .input-caja-registro .campo:hover{
+                            background-color: rgb(176, 176, 176);
+                            color: var(--color-primario);
+                        }
+
+                            #caja_excel .input-caja-registro .campo #plantilla_excel {
+                                display: none; 
+                            }
+
+                    #formulario_funcionario #contenedor_cajas_funcionario #caja_excel #btn_plantilla_excel{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: var( --color-terciario);
+                        border-radius: 13px;
+                        height: 60px;
+                        padding: 0 12px;
+                    }
+
+                        #contenedor_cajas_funcionario #caja_excel #btn_plantilla_excel ion-icon{
+                            font-size: 35px;
+                        }
 
             #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario {
                 display: flex;
@@ -359,19 +433,19 @@
                     width: 50%;
                 }
 
-                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_atras_funcionario {
+                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_registrar_funcionario {
                     display: none;
+                    background-color: var(--color-secundario);
+                    color: var(--color-primario);
                 }  
 
                 #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_siguiente_funcionario {
                     background-color: var(--color-secundario);
                     color: var(--color-primario);
-                    display: none;
                 }
 
-                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_registrar_funcionario{
-                    background-color: var(--color-secundario);
-                    color: var(--color-primario);
+                #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_atras_funcionario{
+                    display: none;
                 }
 
 @media(min-width: 768px) and (max-width: 1023px){
@@ -422,24 +496,12 @@
 
 /* ----------------------------------------- Estilos Modal registrar Funcionario ---------------------------------------------*/
     #contenedor_modales #modal_funcionario{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 500px)!important;
     }
+
         #modal_funcionario #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario{
-            grid-template-columns: repeat(1, 1fr);
             padding: 1em;
             row-gap: 10px;
-        }
-          
-            #cont_info_modales #formulario_funcionario #contenedor_cajas_funcionario .seccion-02, .seccion-03{
-                display: none;
-            }
-
-        #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_siguiente_funcionario {
-            display: flex;
-        }
-
-        #cont_info_modales #formulario_funcionario #contenedor_btns_funcionario #btn_registrar_funcionario{
-            display: none;
         }
 
     /* -------------------------------------------------- Estilos Modal detalle funcionario ----------------------------------------*/

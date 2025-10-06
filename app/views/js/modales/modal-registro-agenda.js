@@ -1,4 +1,5 @@
 import {registrarAgenda} from '../fetchs/agenda-fetch.js'
+import { consultarModalAgenda } from '../fetchs/modal-fetch.js';
 import {modalRegistroVehiculo} from './modal-registro-vehiculo.js'
 
 let tipoAgenda;
@@ -11,8 +12,7 @@ let seccionPrincipal;
 let seccionIndividual;
 let seccionIndividual01;
 let seccionIndividual02;
-let seccionGrupal;
-let botonAtras;
+let seccionCargaMasiva;
 let selectTipoDocumento;
 let inputTitulo;
 let textAreaMotivo;
@@ -21,85 +21,69 @@ let inputPlantillaExcel;
 let botonSiguiente;
 let botonRegistrar;
 let botonCancelar;
+let botonAtras;
 let funcioCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalRegistroAgenda(url, callback) {
+    consultarModalAgenda(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_agenda';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalRegistroAgenda(url, callback) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-agenda.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-       
-        modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_agenda';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
-        }
 
-        contenedorModales.appendChild(modal);
+            contenedorModales.appendChild(modal);
 
-        contenedorCajas = document.getElementById('contenedor_cajas_agenda');
-        seccionPrincipal = document.getElementsByClassName('seccion-principal');
-        seccionIndividual = document.getElementsByClassName('seccion-individual');
-        seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
-        seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
-        seccionGrupal = document.getElementsByClassName('seccion-grupal');
-        selectTipoDocumento = document.getElementById('tipo_documento_agendado');
-        inputTitulo = document.getElementById('titulo_agenda');
-        textAreaMotivo = document.getElementById('motivo');
-        inputCorreo = document.getElementById('correo_electronico_agendado');
-        inputPlantillaExcel = document.getElementById('plantilla_excel');
-        botonAtras = document.getElementById('btn_atras_agenda');
-        botonCancelar = document.getElementById('btn_cancelar_agenda');
-        botonSiguiente = document.getElementById('btn_siguiente_agenda');
-        botonRegistrar = document.getElementById('btn_registrar_agenda');
-       
-        tipoAgenda = '';
-        funcioCallback = callback;
-        urlBase = url;
+            contenedorCajas = document.getElementById('contenedor_cajas_agenda');
+            seccionPrincipal = document.getElementsByClassName('seccion-principal');
+            seccionIndividual = document.getElementsByClassName('seccion-individual');
+            seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
+            seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
+            seccionCargaMasiva = document.getElementsByClassName('seccion-carga-masiva');
+            selectTipoDocumento = document.getElementById('tipo_documento_agendado');
+            inputTitulo = document.getElementById('titulo_agenda');
+            textAreaMotivo = document.getElementById('motivo');
+            inputCorreo = document.getElementById('correo_electronico_agendado');
+            inputPlantillaExcel = document.getElementById('plantilla_excel');
+            botonAtras = document.getElementById('btn_atras_agenda');
+            botonCancelar = document.getElementById('btn_cancelar_agenda');
+            botonSiguiente = document.getElementById('btn_siguiente_agenda');
+            botonRegistrar = document.getElementById('btn_registrar_agenda');
         
-        eventoCerrarModal();
-        eventoTipoAgenda();
-        eventoMostrarCampos();
-        eventoVolverCampos();
-        eventoAgregarVehiculo();
-        eventoInputFile();
-        eventoTextArea();
-        eventoRegistrarAgenda();
+            tipoAgenda = '';
+            funcioCallback = callback;
+            urlBase = url;
+            
+            eventoCerrarModal();
+            eventoTipoAgenda();
+            mostrarCampos();
+            volverCampos();
+            eventoAgregarVehiculo();
+            eventoInputFile();
+            eventoTextArea();
+            eventoRegistrarAgenda();
 
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        contenedorModales.classList.add('mostrar');
+            contenedorModales.classList.add('mostrar');
 
-        setTimeout(()=>{
-           inputTitulo.focus();
-        }, 250)
-           
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
+            setTimeout(()=>{
+            inputTitulo.focus();
+            }, 250)
 
-        if(botonCerrarModal){
-            botonCerrarModal.click();
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal agenda.'
-        });
-    }
+    })
 }
 export{modalRegistroAgenda}
 
@@ -135,14 +119,16 @@ function eventoRegistrarAgenda(){
             formData.append('correo_electronico', inputCorreo.value);
             formData.append('telefono', document.getElementById('telefono_agendado').value);
 
-        }else if(tipoAgenda == 'grupal'){
-            formData.append('operacion', 'registrar_agenda_grupal');
+        }else if(tipoAgenda == 'carga_masiva'){
+            formData.append('operacion', 'registrar_agenda_carga_masiva');
             formData.append('plantilla_excel', inputPlantillaExcel.files[0])
         }
 
         registrarAgenda(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
                 alertaExito(respuesta);
+                console.log(formData.get('fecha_agenda'));
+                document.getElementById('fecha').value = formData.get('fecha_agenda').split('T')[0];
                 funcioCallback();
                 botonCerrarModal.click();
 
@@ -173,11 +159,23 @@ function eventoTextArea(){
 
 function eventoTipoAgenda() {
     const inputsCheckbox = document.querySelectorAll('.checkbox');
+    const iconosTipoAgenda = document.querySelectorAll('.icono-tipo-agenda');
 
     inputsCheckbox.forEach(checkbox => {
         checkbox.addEventListener('change', ()=>{
+            iconosTipoAgenda.forEach(icono => {
+                icono.removeAttribute('style');
+            });
+
             if (checkbox.checked){
                 tipoAgenda = checkbox.value;
+                for(const icono of iconosTipoAgenda){
+                    if(icono.id == 'icono_'+tipoAgenda){
+                        icono.style.color = 'var(--color-secundario)';
+                        break;
+                    }
+                }
+
                 inputsCheckbox.forEach(input => {
                     if(input != checkbox){
                         input.checked = false;
@@ -198,40 +196,33 @@ function eventoAgregarVehiculo(){
     })
 }
 
-function eventoMostrarCampos(){
+function mostrarCampos(){
     const inputsSeccionPrincipal = document.getElementsByClassName('campo-principal');
     const inputsSeccionIndividual = document.getElementsByClassName('campo-individual');
     const inputsSeccionIndividual01 = document.getElementsByClassName('campo-individual-01');
 
     botonSiguiente.addEventListener('click', ()=>{
         if(seccionPrincipal[0].style.display != 'none'){
-            let validos = true;
-
+            let camposValidos = true;
             for(const input of inputsSeccionPrincipal) {
                 if(!input.checkValidity()){
                     input.reportValidity();
-                    validos = false;
+                    camposValidos = false;
                     break;
                 }
             };
 
-            if(validos && tipoAgenda){
+            if(camposValidos && tipoAgenda){
                 if(!textAreaMotivo.reportValidity()){
                     return;
                 }
 
+                for(const caja of seccionPrincipal){
+                    caja.style.display = 'none';
+                }
+
                 if(tipoAgenda == 'individual'){
-                    for(const caja of seccionPrincipal){
-                        caja.style.display = 'none';
-                    }
-
-                    for(const input of inputsSeccionIndividual){
-                        input.required = true;
-                    }
-
-                    inputPlantillaExcel.required = false;
-
-                    if(window.innerWidth > 768){
+                    if(window.innerWidth >= 768){
                         for(const caja of seccionIndividual){
                             if(caja.id == 'btn_agregar_vehiculo'){
                                 caja.style.display = 'flex';
@@ -246,31 +237,31 @@ function eventoMostrarCampos(){
                         modal.style.width = 'clamp(550px, 50%, 980px)';
                         contenedorCajas.style.gridTemplateColumns = 'repeat(2, 1fr)';
 
-                    }else{
+                    }else if(window.innerWidth < 768){
                         for(const caja of seccionIndividual01){
                             caja.style.display = 'block'
                         }
                     }
+
+                    for(const input of inputsSeccionIndividual){
+                        input.required = true;
+                    }
+                    inputPlantillaExcel.required = false;
 
                     botonCancelar.style.display = 'none';
                     botonAtras.style.display = 'flex';
 
                     selectTipoDocumento.focus();
                 
-                }else if(tipoAgenda == 'grupal'){
-                    for(const caja of seccionPrincipal){
-                        caja.style.display = 'none';
+                }else if(tipoAgenda == 'carga_masiva'){
+                    for(const caja of seccionCargaMasiva){
+                        caja.style.display = 'flex';
                     }
 
                     for(const input of inputsSeccionIndividual){
                         input.required = false;
                     }
-
                     inputPlantillaExcel.required = true;
-                    
-                    for(const caja of seccionGrupal){
-                        caja.style.display = 'flex';
-                    }
                    
                     botonSiguiente.style.display = 'none';
                     botonRegistrar.style.display = 'flex';
@@ -282,17 +273,16 @@ function eventoMostrarCampos(){
             }
 
         }else if(seccionIndividual01[0].style.display == 'block' && seccionIndividual02[0].style.display != 'block'){
-            let validos = true;
-
+            let camposValidos = true;
             for(const input of inputsSeccionIndividual01) {
                 if(!input.checkValidity()){
                     input.reportValidity();
-                    validos = false;
+                    camposValidos = false;
                     break;
                 }
             };
 
-            if(validos){
+            if(camposValidos){
                 for(const caja of seccionIndividual01){
                     caja.style.display = 'none';
                 }
@@ -302,7 +292,6 @@ function eventoMostrarCampos(){
                         caja.style.display = 'flex';
                         continue;
                     }
-
                     caja.style.display = 'block';
                 }
 
@@ -315,15 +304,15 @@ function eventoMostrarCampos(){
     })
 }
 
-function eventoVolverCampos(){
+function volverCampos(){
     botonAtras.addEventListener('click', ()=>{
-        if(seccionGrupal[0].style.display == 'flex'){
-            for(const caja of seccionGrupal){
+        if(seccionCargaMasiva[0].style.display == 'flex'){
+            for(const caja of seccionCargaMasiva){
                 caja.style.display = 'none';
             }
 
             for(const caja of seccionPrincipal){
-                if(caja.id == 'contenedor_checkbox'){
+                if(caja.classList.contains('caja-checkbox')){
                     caja.style.display = 'flex';
                     continue;
                 }
@@ -339,7 +328,7 @@ function eventoVolverCampos(){
             inputTitulo.focus();
 
         }else if(seccionIndividual01[0].style.display == 'block'){
-            if(window.innerWidth > 768){
+            if(window.innerWidth >= 768){
                 for(const caja of seccionIndividual){
                     caja.style.display = 'none';
                 }
@@ -347,14 +336,14 @@ function eventoVolverCampos(){
                 modal.style.width = 'clamp(350px, 32%, 600px)';
                 contenedorCajas.style.gridTemplateColumns = 'repeat(1, 1fr)';
 
-            }else{
+            }else if(window.innerWidth <= 767){
                 for(const caja of seccionIndividual01){
                     caja.style.display = 'none';
                 }
             }
 
-             for(const caja of seccionPrincipal){
-                if(caja.id == 'contenedor_checkbox'){
+            for(const caja of seccionPrincipal){
+                if(caja.classList.contains('caja-checkbox')){
                     caja.style.display = 'flex';
                     continue;
                 }

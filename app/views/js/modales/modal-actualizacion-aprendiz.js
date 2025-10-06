@@ -1,10 +1,14 @@
 import {actualizarAprendiz, consultarAprendiz} from '../fetchs/aprendices-fetch.js';
 import {consultarFicha, consultarFichas} from '../fetchs/fichas-fetch.js';
+import { consultarModalAprendiz } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let funcionCallback;
+let modal;
+let contenedorCajas;
+let seccionIndividual01;
+let seccionIndividual02;
 let documentoAprendiz;
 let selectTipoDocumento;
 let inputDocumento;
@@ -15,89 +19,74 @@ let inputCorreo;
 let inputFicha;
 let inputPrograma;
 let inputFechaFicha;
-let seccion01;
-let seccion02;
 let botonAtras;
 let botonCancelar;
 let botonRegistrar;
 let botonSiguiente;
+let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalActualizacionAprendiz(aprendiz, callback, url) {
+    consultarModalAprendiz(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_aprendiz';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalActualizacionAprendiz(aprendiz, callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-aprendiz.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_aprendiz';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            contenedorCajas = document.getElementById('contenedor_cajas_aprendiz');
+            seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
+            seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
+            selectTipoDocumento = document.getElementById('tipo_documento');
+            inputDocumento = document.getElementById('numero_documento');
+            inputNombres =  document.getElementById('nombres');
+            inputApellidos = document.getElementById('apellidos');
+            inputTelefono = document.getElementById('telefono');
+            inputCorreo =  document.getElementById('correo_electronico');
+            inputFicha = document.getElementById('numero_ficha');
+            inputPrograma = document.getElementById('nombre_programa');
+            inputFechaFicha = document.getElementById('fecha_fin_ficha');
+            botonCancelar = document.getElementById('btn_cancelar_aprendiz');
+            botonAtras = document.getElementById('btn_atras_aprendiz');
+            botonSiguiente = document.getElementById('btn_siguiente_aprendiz');
+            botonRegistrar = document.getElementById('btn_registrar_aprendiz');
+
+            botonRegistrar.textContent = 'Actualizar';
+            document.getElementById('titulo_modal_aprendiz').textContent = 'Actualizar Aprendiz';
+            
+            documentoAprendiz = aprendiz;
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            mostrarSeccionIndividual();
+            dibujarFichas();
+            eventoInputFicha();
+            mostrarCampos();
+            volverCampos();
+            eventoActualizarAprendiz();
+            dibujarAprendiz();
+
+            setTimeout(()=>{
+            selectTipoDocumento.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        selectTipoDocumento = document.getElementById('tipo_documento');
-        inputDocumento = document.getElementById('numero_documento');
-        inputNombres =  document.getElementById('nombres');
-        inputApellidos = document.getElementById('apellidos');
-        inputTelefono = document.getElementById('telefono');
-        inputCorreo =  document.getElementById('correo_electronico');
-        inputFicha = document.getElementById('numero_ficha');
-        inputPrograma = document.getElementById('nombre_programa');
-        inputFechaFicha = document.getElementById('fecha_fin_ficha');
-        seccion01 = document.getElementsByClassName('seccion-01');
-        seccion02 = document.getElementsByClassName('seccion-02');
-        botonCancelar = document.getElementById('btn_cancelar_aprendiz');
-        botonAtras = document.getElementById('btn_atras_aprendiz');
-        botonSiguiente = document.getElementById('btn_siguiente_aprendiz');
-        botonRegistrar = document.getElementById('btn_registrar_aprendiz');
-
-        
-        botonRegistrar.textContent = 'Actualizar';
-        document.getElementById('titulo_modal_aprendiz').textContent = 'Actualizar Aprendiz';
-        
-        documentoAprendiz = aprendiz;
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        dibujarFichas();
-        eventoInputFicha();
-        mostrarCampos();
-        volverCampos();
-        eventoActualizarAprendiz();
-        dibujarAprendiz();
-
-        setTimeout(()=>{
-           selectTipoDocumento.focus();
-        }, 250)
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal actualización aprendiz.'
-        });
-    }
+    })
 }
 export { modalActualizacionAprendiz };
 
@@ -113,6 +102,37 @@ function eventoCerrarModal(){
     botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function mostrarSeccionIndividual(){
+    const seccionPrincipal = document.getElementsByClassName('seccion-principal');
+    const seccionIndividual = document.getElementsByClassName('seccion-individual');
+    const inputsSeccionIndividual = document.getElementsByClassName('campo-individual');
+
+    for(const caja of seccionPrincipal){
+        caja.style.display = 'none';
+    };
+
+    if(window.innerWidth >= 768){
+        for(const caja of seccionIndividual){
+            caja.style.display = 'block';
+        };
+
+        modal.style.width = 'clamp(550px, 50%, 980px)';
+        contenedorCajas.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+        botonSiguiente.style.display = 'none';
+        botonRegistrar.style.display = 'flex';
+
+    }else if(window.innerWidth <= 767){
+        for(const caja of seccionIndividual01){
+            caja.style.display = 'block';
+        };
+    }
+
+    for(const input of inputsSeccionIndividual){
+        input.required = true;
+    };
 }
 
 function dibujarAprendiz(){
@@ -173,7 +193,11 @@ function eventoInputFicha(){
                     if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
                         
-                    }else if(respuesta.titulo != 'Ficha No Encontrada'){
+                    }else if(respuesta.titulo == 'Ficha No Encontrada'){
+                        inputPrograma.value = '';
+                        inputFechaFicha.value = '';
+
+                    }else{
                         alertaError(respuesta);
                     }
                 }
@@ -221,25 +245,25 @@ function eventoActualizarAprendiz(){
 }
 
 function mostrarCampos(){
-    const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
+    const inputsSeccionIndividual01 = document.getElementsByClassName('campo-individual-01');
 
     botonSiguiente.addEventListener('click', ()=>{
-        let validos = true;
+        let camposValidos = true;
         
-        for(const input of inputsSeccion01) {
+        for(const input of inputsSeccionIndividual01) {
             if(!input.checkValidity()){
                 input.reportValidity();
-                validos = false;
+                camposValidos = false;
                 break;
             }
         };
 
-        if(validos){
-            for(const caja of seccion01){
+        if(camposValidos){
+            for(const caja of seccionIndividual01){
                 caja.style.display = 'none';
             }
         
-            for(const caja of seccion02){
+            for(const caja of seccionIndividual02){
                 caja.style.display = 'block';
             }
 
@@ -255,11 +279,11 @@ function mostrarCampos(){
 
 function volverCampos(){
     botonAtras.addEventListener('click', ()=>{
-        for(const caja of seccion02){
+        for(const caja of seccionIndividual02){
             caja.style.display = 'none';
         }
         
-        for(const caja of seccion01){
+        for(const caja of seccionIndividual01){
             caja.style.display = 'block';
         }
         

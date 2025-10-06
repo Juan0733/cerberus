@@ -363,9 +363,11 @@ main#cuerpo{
         }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
-                left: 20%;
                 position: absolute;
                 top: 50%;
+                left: 50%;
+                width: max-content;
+                transform: translate(-50%, -50%);
             }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal .contenedor-alerta {
@@ -805,15 +807,15 @@ main#cuerpo{
                 }
 
 /*---------------------------------------------- Estilos Modal Habilitar Usuario ----------------------------------------------- */
-#contenedor_modales #modal_habilitar_usuario{
+#contenedor_modales #modal_actualizar_contrasena{
     width: clamp(450px, 32%, 650px);
 }
 
-    #contenedor_modales #modal_habilitar_usuario #cont_info_modales{
+    #contenedor_modales #modal_actualizar_contrasena #cont_info_modales{
         width: 100%;
     }
 
-        #contenedor_modales #modal_habilitar_usuario #cont_info_modales #formulario_habilitar_usuario{
+        #contenedor_modales #modal_actualizar_contrasena #cont_info_modales #formulario_actualizar_contrasena{
             align-items: center;
             display: flex;
             flex-direction: column;
@@ -821,7 +823,7 @@ main#cuerpo{
             width: 100%;
         }
    
-            #modal_habilitar_usuario #cont_info_modales #formulario_habilitar_usuario #contenedor_cajas_habilitar {
+            #modal_actualizar_contrasena #cont_info_modales #formulario_actualizar_contrasena #contenedor_cajas_habilitar {
                 column-gap: 20px;
                 display: grid;
                 grid-template-columns: repeat(1, 1fr);
@@ -830,20 +832,20 @@ main#cuerpo{
                 width: 100%;
             }
 
-                #cont_info_modales #formulario_habilitar_usuario #contenedor_cajas_habilitar .input-caja-registro{
+                #cont_info_modales #formulario_actualizar_contrasena #contenedor_cajas_habilitar .input-caja-registro{
                     animation: slideIn 0.5s ease-out;
                     color: var(--color-placeholder);
                     font-size: 16px;
                 }
 
-                    #formulario_habilitar_usuario #contenedor_cajas_habilitar .input-caja-registro .label-input{
+                    #formulario_actualizar_contrasena #contenedor_cajas_habilitar .input-caja-registro .label-input{
                         color: var(--color-placeholder);
                         display: flex;
                         font-size: 20px;
                         margin-bottom: 5px;
                     }
                 
-                    #formulario_habilitar_usuario #contenedor_cajas_habilitar .input-caja-registro .campo{
+                    #formulario_actualizar_contrasena #contenedor_cajas_habilitar .input-caja-registro .campo{
                         background: var(--background-inputs);
                         border: none;
                         border-radius: 13px;
@@ -854,17 +856,17 @@ main#cuerpo{
                         width: 100%;
                     }
 
-                    #formulario_habilitar_usuario #contenedor_cajas_habilitar .input-caja-registro .campo::placeholder{
+                    #formulario_actualizar_contrasena #contenedor_cajas_habilitar .input-caja-registro .campo::placeholder{
                         color: var(--color-placeholder);
                         font-size: 16px;
                     } 
                  
-            #modal_habilitar_usuario #cont_info_modales #formulario_habilitar_usuario #contenedor_btns_habilitar_usuario {
+            #modal_actualizar_contrasena #cont_info_modales #formulario_actualizar_contrasena #contenedor_btns_actualizar_contrasena {
                 display: flex;
                 width: 100%;
             }
 
-                #cont_info_modales #formulario_habilitar_usuario #contenedor_btns_habilitar_usuario button {
+                #cont_info_modales #formulario_actualizar_contrasena #contenedor_btns_actualizar_contrasena button {
                     align-items: center;
                     background-color: var(--color-btn-cancelar);
                     border: none;
@@ -877,7 +879,7 @@ main#cuerpo{
                     width: 50%;
                 }
                         
-                #cont_info_modales #formulario_habilitar_usuario #contenedor_btns_habilitar_usuario #btn_habilitar {
+                #cont_info_modales #formulario_actualizar_contrasena #contenedor_btns_actualizar_contrasena #btn_actualizar {
                     background-color: var(--color-secundario);
                     color: var(--color-primario);
                 }
@@ -1075,16 +1077,12 @@ main#cuerpo{
 
     /* --------------------------------------- Estilos modal notificaciones----------------------------------------------------------*/
     #contenedor_notificaciones .contenedor-ppal-modal{
-        width: clamp(300px, 100%, 500px);
+        width: clamp(300px, 100%, 600px);
     }
 
         #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal{
             height: 100vh;
         }
-
-            #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
-                left: 12%;
-            }
 
     /* --------------------------------------- Estilos generales para cada modal ----------------------------------------------------------*/
     #contenedor_modales .contenedor-titulo-modal h2{
@@ -1145,11 +1143,11 @@ main#cuerpo{
         }
 
     /* ------------------------------------------------- Estilos Modal Habilitar Usuario ---------------------------------------*/
-    #contenedor_modales #modal_habilitar_usuario{
+    #contenedor_modales #modal_actualizar_contrasena{
         width: clamp(300px, 92.5%, 500px);
     }
 
-        #modal_habilitar_usuario #cont_info_modales #formulario_habilitar_usuario #contenedor_cajas_habilitar{
+        #modal_actualizar_contrasena #cont_info_modales #formulario_actualizar_contrasena #contenedor_cajas_habilitar{
             padding: 1em;
             row-gap: 10px;
         }

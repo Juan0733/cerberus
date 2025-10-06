@@ -1,9 +1,13 @@
+import { consultarModalVigilante } from '../fetchs/modal-fetch.js';
 import {actualizarVigilante, consultarVigilante} from '../fetchs/vigilantes-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let funcionCallback;
+let modal;
+let contenedorCajas;
+let seccionIndividual01;
+let seccionIndividual02;
 let documentoVigilante;
 let selectTipoDocumento;
 let inputDocumento;
@@ -14,91 +18,74 @@ let inputCorreo;
 let selectRol;
 let inputContrasena;
 let inputConfirmacion;
-let seccion01;
-let seccion02;
 let botonAtras;
 let botonCancelar;
 let botonRegistrar;
 let botonSiguiente;
+let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalActualizacionVigilante(vigilante, callback, url) {
+    consultarModalVigilante(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_vigilante';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalActualizacionVigilante(vigilante, callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-vigilante.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_vigilante';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            contenedorCajas = document.getElementById('contenedor_cajas_vigilante');
+            seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
+            seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
+            selectTipoDocumento = document.getElementById('tipo_documento');
+            inputDocumento = document.getElementById('numero_documento');
+            inputNombres =  document.getElementById('nombres');
+            inputApellidos = document.getElementById('apellidos');
+            inputTelefono = document.getElementById('telefono');
+            inputCorreo =  document.getElementById('correo_electronico');
+            selectRol = document.getElementById('rol');
+            inputContrasena = document.getElementById('contrasena');
+            inputConfirmacion = document.getElementById('confirmacion_contrasena');
+            botonCancelar = document.getElementById('btn_cancelar_vigilante');
+            botonAtras = document.getElementById('btn_atras_vigilante');
+            botonSiguiente = document.getElementById('btn_siguiente_vigilante');
+            botonRegistrar = document.getElementById('btn_registrar_vigilante');
+
+            document.getElementById('titulo_modal_vigilante').textContent = 'Actualizar Vigilante';
+            botonRegistrar.textContent = 'Actualizar';
+            
+            documentoVigilante = vigilante;
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            mostrarSeccionIndividual();
+            validarConfirmacionContrasena();
+            eventoInputContrasena();
+            mostrarCampos();
+            volverCampos();
+            eventoActualizarVigilante();
+            dibujarVigilante();
+
+            setTimeout(()=>{
+            selectTipoDocumento.focus();
+            }, 250)
+
+        }else if(respuesta.tipo == 'ERROR'){
+            alertaError(respuesta);
         }
-
-        contenedorModales.appendChild(modal);
-
-        selectTipoDocumento = document.getElementById('tipo_documento');
-        inputDocumento = document.getElementById('numero_documento');
-        inputNombres =  document.getElementById('nombres');
-        inputApellidos = document.getElementById('apellidos');
-        inputTelefono = document.getElementById('telefono');
-        inputCorreo =  document.getElementById('correo_electronico');
-        selectRol = document.getElementById('rol');
-        inputContrasena = document.getElementById('contrasena');
-        inputConfirmacion = document.getElementById('confirmacion_contrasena');
-        seccion01 = document.getElementsByClassName('seccion-01');
-        seccion02 = document.getElementsByClassName('seccion-02');
-        botonCancelar = document.getElementById('btn_cancelar_vigilante');
-        botonAtras = document.getElementById('btn_atras_vigilante');
-        botonSiguiente = document.getElementById('btn_siguiente_vigilante');
-        botonRegistrar = document.getElementById('btn_registrar_vigilante');
-
-        document.getElementById('titulo_modal_vigilante').textContent = 'Actualizar Vigilante';
-        botonRegistrar.textContent = 'Actualizar';
-
-        inputContrasena.required = false;
-        inputConfirmacion.required = false;
-        
-        documentoVigilante = vigilante;
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        validarConfirmacionContrasena();
-        eventoInputContrasena();
-        mostrarCampos();
-        volverCampos();
-        eventoActualizarVigilante();
-        dibujarVigilante();
-
-        setTimeout(()=>{
-           selectTipoDocumento.focus();
-        }, 250)
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal actualización vigilante.'
-        });
-    }
+    })
 }
 export { modalActualizacionVigilante };
 
@@ -114,6 +101,40 @@ function eventoCerrarModal(){
     botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function mostrarSeccionIndividual(){
+    const seccionPrincipal = document.getElementsByClassName('seccion-principal');
+    const seccionIndividual = document.getElementsByClassName('seccion-individual');
+    const inputsSeccionIndividual = document.getElementsByClassName('campo-individual');
+
+    for(const caja of seccionPrincipal){
+        caja.style.display = 'none';
+    };
+
+    if(window.innerWidth >= 768){
+        for(const caja of seccionIndividual){
+            caja.style.display = 'block';
+        };
+
+        modal.style.width = 'clamp(550px, 50%, 980px)';
+        contenedorCajas.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+        botonSiguiente.style.display = 'none';
+        botonRegistrar.style.display = 'flex';
+
+    }else if(window.innerWidth <= 767){
+        for(const caja of seccionIndividual01){
+            caja.style.display = 'block';
+        };
+    }
+
+    for(const input of inputsSeccionIndividual){
+        input.required = true;
+    };
+
+    inputContrasena.required = false;
+    inputConfirmacion.required = false;
 }
 
 function dibujarVigilante(){
@@ -202,45 +223,45 @@ function eventoInputContrasena(){
 }
 
 function mostrarCampos(){
-    const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
+    const inputsSeccionIndividual01 = document.getElementsByClassName('campo-individual-01');
 
     botonSiguiente.addEventListener('click', ()=>{
-        let validos = true;
+        let camposValidos = true;
         
-        for(const input of inputsSeccion01) {
+        for(const input of inputsSeccionIndividual01) {
             if(!input.checkValidity()){
                 input.reportValidity();
-                validos = false;
+                camposValidos = false;
                 break;
             }
         };
 
-        if(validos){
-            for(const caja of seccion01){
+        if(camposValidos){
+            for(const caja of seccionIndividual01){
                 caja.style.display = 'none';
             }
         
-            for(const caja of seccion02){
+            for(const caja of seccionIndividual02){
                 caja.style.display = 'block';
             }
-
-            inputCorreo.focus();
 
             botonCancelar.style.display = 'none';
             botonSiguiente.style.display = 'none';
             botonRegistrar.style.display = 'flex';
             botonAtras.style.display = 'flex';
+
+            inputCorreo.focus();
         }
     })
 }
 
 function volverCampos(){
     botonAtras.addEventListener('click', ()=>{
-        for(const caja of seccion02){
+        for(const caja of seccionIndividual02){
             caja.style.display = 'none';
         }
         
-        for(const caja of seccion01){
+        for(const caja of seccionIndividual01){
             caja.style.display = 'block';
         }
         

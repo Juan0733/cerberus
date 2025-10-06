@@ -10,8 +10,8 @@
                     <label for="tipo_documento" class="label-input">Tipo de documento</label>
                     <select class="campo campo-seccion-01"  name="tipo_documento" id="tipo_documento" tabindex="8" date="Tipo de documento" required>
                         <option value="" selected disabled>Seleccionar</option>
-                        <option value="CC">Cedula de ciudadanía</option>
-                        <option value="CE">Cedula de extranjería</option>
+                        <option value="CC">Cédula de ciudadanía</option>
+                        <option value="CE">Cédula de extranjería</option>
                         <option value="TI">Tarjeta de identidad</option>
                         <option value="PP">Pasaporte</option>
                         <option value="PEP">Permiso especial de permanencia</option>

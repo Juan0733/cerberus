@@ -24,11 +24,12 @@ class NovedadVehiculoModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $codigoNovedad = 'NV'.date('YmdHis');
 
         $sentenciaInsertar = "
-            INSERT INTO novedades_vehiculos(codigo_novedad, tipo_novedad, fk_usuario_involucrado, fk_usuario_autoriza, fk_vehiculo, puerta_registro, descripcion, fecha_registro, fk_usuario_sistema) 
-            VALUES('$codigoNovedad', '{$datosNovedad['tipo_novedad']}', '{$datosNovedad['documento_involucrado']}', '{$datosNovedad['propietario']}', '{$datosNovedad['numero_placa']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$usuarioSistema');";
+            INSERT INTO novedades_vehiculos(codigo_novedad, tipo_novedad, fk_usuario_involucrado, fk_usuario_autoriza, fk_vehiculo, puerta_registro, descripcion, fecha_registro, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES('$codigoNovedad', '{$datosNovedad['tipo_novedad']}', '{$datosNovedad['documento_involucrado']}', '{$datosNovedad['propietario']}', '{$datosNovedad['numero_placa']}', '$puertaActual', '{$datosNovedad['descripcion']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema');";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -85,7 +86,11 @@ class NovedadVehiculoModel extends MainModel{
             $sentenciaBuscar .= " AND nv.tipo_novedad = '{$parametros['tipo_novedad']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY nv.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY nv.fecha_registro DESC";
+
+        if(!isset($parametros['fecha'], $parametros['numero_placa'], $parametros['tipo_novedad'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -120,14 +125,14 @@ class NovedadVehiculoModel extends MainModel{
                 nv.fecha_registro,
                 nv.descripcion,
                 nv.fk_vehiculo,
-                vig.nombres AS nombres_responsable,
-                vig.apellidos AS apellidos_responsable,
-                vig.rol AS rol_responsable,
                 vh.tipo_vehiculo,
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_involucrado,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_involucrado,
                 COALESCE(fun2.nombres, apr2.nombres, vis2.nombres, vig2.nombres) AS nombres_autorizador,
-                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_autorizador
+                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_autorizador,
+                COALESCE(fun3.nombres, apr3.nombres, vis3.nombres, vig3.nombres) AS nombres_responsable,
+                COALESCE(fun3.apellidos, apr3.apellidos, vis3.apellidos, vig3.apellidos) AS apellidos_responsable,
+                nv.rol_usuario_sistema AS rol_responsable
             FROM novedades_vehiculos nv
             INNER JOIN vigilantes vig ON nv.fk_usuario_sistema = vig.numero_documento
             INNER JOIN (SELECT numero_placa, tipo_vehiculo FROM vehiculos GROUP BY numero_placa) vh ON nv.fk_vehiculo = vh.numero_placa
@@ -139,6 +144,10 @@ class NovedadVehiculoModel extends MainModel{
             LEFT JOIN visitantes vis2 ON nv.fk_usuario_autoriza = vis2.numero_documento
             LEFT JOIN vigilantes vig2 ON nv.fk_usuario_autoriza = vig2.numero_documento
             LEFT JOIN aprendices apr2 ON nv.fk_usuario_autoriza = apr2.numero_documento
+            LEFT JOIN funcionarios fun3 ON nv.fk_usuario_sistema = fun3.numero_documento
+            LEFT JOIN visitantes vis3 ON nv.fk_usuario_sistema = vis3.numero_documento
+            LEFT JOIN vigilantes vig3 ON nv.fk_usuario_sistema = vig3.numero_documento
+            LEFT JOIN aprendices apr3 ON nv.fk_usuario_sistema = apr3.numero_documento
             WHERE nv.codigo_novedad = '$codigoNovedad'";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

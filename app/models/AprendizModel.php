@@ -10,15 +10,15 @@ class AprendizModel extends MainModel{
         $this->objetoFicha = new FichaModel();
     }
 
-    public function registrarAprendiz($datosAprendiz){
+    public function registrarAprendizIndividual($datosAprendiz){
         $respuesta = $this->validarDuplicidadAprendiz($datosAprendiz['numero_documento']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
-        $ubicacion = 'FUERA';
+        $datosAprendiz['ubicacion'] = 'FUERA';
         if(isset($respuesta['ubicacion'])){
-            $ubicacion = $respuesta['ubicacion'];
+            $datosAprendiz['ubicacion'] = $respuesta['ubicacion'];
         }
 
         $datosFicha = [
@@ -32,9 +32,11 @@ class AprendizModel extends MainModel{
         }
 
         $fechaRegistro = date('Y-m-d H:i:s');
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $sentenciaInsertar = "
-            INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, ubicacion, fecha_registro)
-            VALUES('{$datosAprendiz['tipo_documento']}', '{$datosAprendiz['numero_documento']}', '{$datosAprendiz['nombres']}', '{$datosAprendiz['apellidos']}', '{$datosAprendiz['telefono']}', '{$datosAprendiz['correo_electronico']}', '{$datosAprendiz['numero_ficha']}', '$ubicacion', '$fechaRegistro');";
+            INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, ubicacion, fecha_registro, rol_usuario_sistema, fk_usuario_sistema)
+            VALUES('{$datosAprendiz['tipo_documento']}', '{$datosAprendiz['numero_documento']}', '{$datosAprendiz['nombres']}', '{$datosAprendiz['apellidos']}', '{$datosAprendiz['telefono']}', '{$datosAprendiz['correo_electronico']}', '{$datosAprendiz['numero_ficha']}', '{$datosAprendiz['ubicacion']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema');";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -45,6 +47,54 @@ class AprendizModel extends MainModel{
             "tipo" => "OK",
             "titulo" => 'Registro Exitoso',
             "mensaje"=> 'El aprendiz fue registrado correctamente.'
+        ];
+        return $respuesta;
+    }
+
+    public function registrarAprendizCargaMasiva($datosAprendices){
+        foreach($datosAprendices as &$aprendiz){
+            $respuesta = $this->validarDuplicidadAprendiz($aprendiz['numero_documento']);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+            $aprendiz['ubicacion'] = 'FUERA';
+            if(isset($respuesta['ubicacion'])){
+                $aprendiz['ubicacion'] = $respuesta['ubicacion'];
+            }
+
+            $datosFicha = [
+                'numero_ficha' => $aprendiz['numero_ficha'],
+                'nombre_programa' => $aprendiz['nombre_programa'],
+                'fecha_fin_ficha' => $aprendiz['fecha_fin_ficha']
+            ];
+
+            $respuesta = $this->objetoFicha->registrarFicha($datosFicha);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+            }
+        }
+        unset($aprendiz);
+        
+        $fechaRegistro = date('Y-m-d H:i:s');
+        $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+
+        foreach ($datosAprendices as $aprendiz) {
+            $sentenciaInsertar = "
+                INSERT INTO aprendices(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, fk_ficha, ubicacion, fecha_registro, rol_usuario_sistema, fk_usuario_sistema)
+                VALUES('{$aprendiz['tipo_documento']}', '{$aprendiz['numero_documento']}', '{$aprendiz['nombres']}', '{$aprendiz['apellidos']}', '{$aprendiz['telefono']}', '{$aprendiz['correo_electronico']}', '{$aprendiz['numero_ficha']}', '{$aprendiz['ubicacion']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema');";
+            
+            $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+        }
+
+        $respuesta = [
+            "tipo" => "OK",
+            "titulo" => 'Registro Exitoso',
+            "mensaje"=> 'Fueron registrados '.count($datosAprendices).' aprendices correctamente.'
         ];
         return $respuesta;
     }
@@ -94,7 +144,7 @@ class AprendizModel extends MainModel{
                 $respuesta = [
                     'tipo' => "ERROR",
                     'titulo' => 'Usuario Existente',
-                    'mensaje' => 'No fue posible realizar el registro, el usuario ya se encuentra registrado en el sistema como aprendiz.'
+                    'mensaje' => 'No fue posible realizar el registro, el usuario con número de documento '.$aprendiz.' ya se encuentra registrado en el sistema como aprendiz.'
                 ];
                 return $respuesta;
             }
@@ -138,11 +188,9 @@ class AprendizModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
-        if(!isset($parametros['ubicacion']) || $parametros['ubicacion'] != 'DENTRO'){
+        if(!isset($parametros['numero_ficha'], $parametros['numero_documento'], $parametros['ubicacion'])){
             $sentenciaBuscar .= " LIMIT 10;";
         }
-
-       
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -171,10 +219,26 @@ class AprendizModel extends MainModel{
 
     public function consultarAprendiz($documento){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, numero_ficha, nombre_programa, fecha_fin_ficha
-            FROM aprendices
-            INNER JOIN fichas ON fk_ficha = numero_ficha
-            WHERE numero_documento = '$documento';";
+            SELECT 
+                apr.tipo_documento, 
+                apr.numero_documento, 
+                apr.nombres, 
+                apr.apellidos, 
+                apr.telefono, 
+                apr.correo_electronico, 
+                fich.numero_ficha, 
+                fich.nombre_programa, 
+                fich.fecha_fin_ficha,
+                COALESCE(fun.nombres, apr2.nombres, vis.nombres, vig.nombres) AS nombres_responsable,
+                COALESCE(fun.apellidos, apr2.apellidos, vis.apellidos, vig.apellidos) AS apellidos_responsable,
+                apr.rol_usuario_sistema AS rol_responsable
+            FROM aprendices apr
+            INNER JOIN fichas fich ON apr.fk_ficha = fich.numero_ficha
+            LEFT JOIN funcionarios fun ON apr.fk_usuario_sistema = fun.numero_documento
+            LEFT JOIN aprendices apr2 ON apr.fk_usuario_sistema = apr2.numero_documento
+            LEFT JOIN vigilantes vig ON apr.fk_usuario_sistema = vig.numero_documento
+            LEFT JOIN visitantes vis ON apr.fk_usuario_sistema = vis.numero_documento
+            WHERE apr.numero_documento = '$documento';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

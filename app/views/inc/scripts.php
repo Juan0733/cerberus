@@ -1,4 +1,4 @@
-<?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-aprendices' && $url[0] != 'auto-registro-visitantes' && $url[0] != 'auto-registro-vigilantes' && $url[0] != 'auto-registro-funcionarios'): ?>
+<?php if($url[0] != 'login'&& $url[0] != '404' && $url[0] != 'acceso-denegado' && $url[0] != 'sesion-expirada' && $url[0] != 'auto-registro-visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/menu-lateral.js"></script>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/general/conteos-multitud-brigadistas.js"></script>
 
@@ -13,15 +13,6 @@
 
 <?php if($url[0] == 'auto-registro-visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-visitantes.js"></script>
-
-<?php elseif($url[0] == 'auto-registro-aprendices'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-aprendices.js"></script>
-
-<?php elseif($url[0] == 'auto-registro-funcionarios'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-funcionarios.js"></script>
-
-<?php elseif($url[0] == 'auto-registro-vigilantes'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/auto-registros/auto-registro-vigilantes.js"></script>
 
 <?php elseif($url[0] == 'login'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-login/login.js"></script>
@@ -42,22 +33,9 @@
 <?php elseif($url[0] == 'visitantes'): ?>
     <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/visitantes.js"></script>
 
-<?php elseif($url[0] == 'informes-listado'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-listado-subdirector-supervisor.js"></script>
-
-<?php elseif($url[0] == 'informes-grafica'): ?>
-    <script src="<?php echo $urlBaseVariable; ?>app/views/js/librerias/chart.umd.js"></script>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-grafica-subdirector.js"></script>
-
-<?php elseif($url[0] == 'novedades-usuario'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-novedades/novedades-usuario-subdirector-supervisor.js"></script>
-
-<?php elseif($url[0] == 'novedades-vehiculo'): ?>
-    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-novedades/novedades-vehiculo-subdirector-supervisor.js"></script>
-
 <?php elseif($url[0] == 'aprendices'): ?>
-    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
-        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/aprendices-subdirector-coordinador.js"></script>
+    <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
+        <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/aprendices-subdirector-coordinador-instructor.js"></script>
 
     <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-usuarios/aprendices-supervisor-vigilante.js"></script>
@@ -100,6 +78,19 @@
     <?php elseif($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
         <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-vehiculos/vehiculos-subdirector-vigilante.js"></script>
     <?php endif; ?>
+
+<?php elseif($url[0] == 'informes-listado'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-listado-subdirector-supervisor.js"></script>
+
+<?php elseif($url[0] == 'informes-grafica'): ?>
+    <script src="<?php echo $urlBaseVariable; ?>app/views/js/librerias/chart.umd.js"></script>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-informes/informes-grafica-subdirector.js"></script>
+
+<?php elseif($url[0] == 'novedades-usuario'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-novedades/novedades-usuario-subdirector-supervisor.js"></script>
+
+<?php elseif($url[0] == 'novedades-vehiculo'): ?>
+    <script type="module" src="<?php echo $urlBaseVariable; ?>app/views/js/modulo-novedades/novedades-vehiculo-subdirector-supervisor.js"></script>
 
 <?php elseif($url[0] == 'permisos-usuario'): ?>
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>

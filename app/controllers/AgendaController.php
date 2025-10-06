@@ -57,14 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
         }
     }
 
-    if($operacion == 'registrar_agenda_grupal'){
-        $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaGrupal();
+    if($operacion == 'registrar_agenda_carga_masiva'){
+        $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaCargaMasiva();
         if($respuesta['tipo'] == 'ERROR'){
             echo json_encode($respuesta);
             exit();
         }
 
-        echo json_encode($objetoAgenda->registrarAgendaGrupal($respuesta['datos_agenda']));
+        echo json_encode($objetoAgenda->registrarAgendaCargaMasiva($respuesta['datos_agenda']));
 
     }elseif($operacion == 'registrar_agenda_individual'){
         $respuesta = $objetoServicio->sanitizarDatosRegistroAgendaIndividual();

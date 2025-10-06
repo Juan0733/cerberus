@@ -1,9 +1,14 @@
 import {actualizarFuncionario, consultarFuncionario} from '../fetchs/funcionarios-fetch.js';
+import { consultarModalFuncionario } from '../fetchs/modal-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
-let funcionCallback;
+let modal;
+let contenedorCajas;
+let seccionIndividual01;
+let seccionIndividual02;
+let seccionIndividual03;
 let rolActual;
 let documentoFuncionario;
 let selectTipoDocumento;
@@ -18,95 +23,79 @@ let selectRol;
 let inputContrasena;
 let inputConfirmacion;
 let inputFechaContrato;
-let seccion01;
-let seccion02;
-let seccion03;
 let botonAtras;
 let botonCancelar;
 let botonRegistrar;
 let botonSiguiente;
+let funcionCallback;
 let urlBase;
 
-const contenedorSpinner = document.getElementById('contenedor_spinner');
+function modalActualizacionFuncionario(funcionario, callback, url) {
+    consultarModalFuncionario(url).then(respuesta=>{
+        if(respuesta.tipo == 'OK'){
+            const contenidoModal = respuesta.modal;
+            modal = document.createElement('div');
+                
+            modal.classList.add('contenedor-ppal-modal');
+            modal.id = 'modal_funcionario';
+            modal.innerHTML = contenidoModal;
+            contenedorModales = document.getElementById('contenedor_modales');
 
-async function modalActualizacionFuncionario(funcionario, callback, url) {
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(url+'app/views/inc/modales/modal-funcionario.php');
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const contenidoModal = await response.text();
-        const modal = document.createElement('div');
-            
-        modal.classList.add('contenedor-ppal-modal');
-        modal.id = 'modal_funcionario';
-        modal.innerHTML = contenidoModal;
-        contenedorModales = document.getElementById('contenedor_modales');
-
-        modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
-        if(modalesExistentes.length > 0){
-           for (let i = 0; i < modalesExistentes.length; i++) {
-                modalesExistentes[i].remove();
+            modalesExistentes = contenedorModales.getElementsByClassName('contenedor-ppal-modal');
+            if(modalesExistentes.length > 0){
+            for (let i = 0; i < modalesExistentes.length; i++) {
+                    modalesExistentes[i].remove();
+                }
             }
+
+            contenedorModales.appendChild(modal);
+
+            contenedorCajas = document.getElementById('contenedor_cajas_funcionario');
+            seccionIndividual01 = document.getElementsByClassName('seccion-individual-01');
+            seccionIndividual02 = document.getElementsByClassName('seccion-individual-02');
+            seccionIndividual03 = document.getElementsByClassName('seccion-individual-03');
+            selectTipoDocumento = document.getElementById('tipo_documento');
+            inputDocumento = document.getElementById('numero_documento');
+            inputNombres =  document.getElementById('nombres');
+            inputApellidos = document.getElementById('apellidos');
+            inputTelefono = document.getElementById('telefono');
+            inputCorreo =  document.getElementById('correo_electronico');
+            selectBrigadista = document.getElementById('brigadista');
+            selectRol = document.getElementById('rol');
+            selectTipoContrato = document.getElementById('tipo_contrato');
+            inputFechaContrato = document.getElementById('fecha_fin_contrato');
+            inputContrasena = document.getElementById('contrasena');
+            inputConfirmacion = document.getElementById('confirmacion_contrasena');
+            botonCancelar = document.getElementById('btn_cancelar_funcionario');
+            botonAtras = document.getElementById('btn_atras_funcionario');
+            botonSiguiente = document.getElementById('btn_siguiente_funcionario');
+            botonRegistrar = document.getElementById('btn_registrar_funcionario');
+            
+            botonRegistrar.textContent = 'Actualizar';
+            document.getElementById('titulo_modal_funcionario').textContent = 'Actualizar Funcionario';
+            
+            documentoFuncionario = funcionario;
+            funcionCallback = callback;
+            urlBase = url;
+
+            eventoCerrarModal();
+            mostrarSeccionIndividual();
+            eventoSelectContrato();
+            eventoSelectRol();
+            validarConfirmacionContrasena();
+            eventoInputContrasena();
+            mostrarCampos();
+            volverCampos();
+            eventoActualizarFuncionario();
+            dibujarFuncionario();
+
+            setTimeout(()=>{
+            selectTipoDocumento.focus();
+            }, 250)
         }
+    })
+      
 
-        contenedorModales.appendChild(modal);
-
-        selectTipoDocumento = document.getElementById('tipo_documento');
-        inputDocumento = document.getElementById('numero_documento');
-        inputNombres =  document.getElementById('nombres');
-        inputApellidos = document.getElementById('apellidos');
-        inputTelefono = document.getElementById('telefono');
-        inputCorreo =  document.getElementById('correo_electronico');
-        selectBrigadista = document.getElementById('brigadista');
-        selectRol = document.getElementById('rol');
-        selectTipoContrato = document.getElementById('tipo_contrato');
-        inputFechaContrato = document.getElementById('fecha_fin_contrato');
-        inputContrasena = document.getElementById('contrasena');
-        inputConfirmacion = document.getElementById('confirmacion_contrasena');
-        seccion01 = document.getElementsByClassName('seccion-01');
-        seccion02 = document.getElementsByClassName('seccion-02');
-        seccion03 = document.getElementsByClassName('seccion-03');
-        botonCancelar = document.getElementById('btn_cancelar_funcionario');
-        botonAtras = document.getElementById('btn_atras_funcionario');
-        botonSiguiente = document.getElementById('btn_siguiente_funcionario');
-        botonRegistrar = document.getElementById('btn_registrar_funcionario');
-        
-        botonRegistrar.textContent = 'Actualizar';
-        document.getElementById('titulo_modal_funcionario').textContent = 'Actualizar Funcionario';
-        
-        documentoFuncionario = funcionario;
-        funcionCallback = callback;
-        urlBase = url;
-
-        eventoCerrarModal();
-        eventoSelectContrato();
-        eventoSelectRol();
-        validarConfirmacionContrasena();
-        eventoInputContrasena();
-        mostrarCampos();
-        volverCampos();
-        eventoActualizarFuncionario();
-        dibujarFuncionario();
-
-        setTimeout(()=>{
-           selectTipoDocumento.focus();
-        }, 250)
-
-    } catch (error) {
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        
-        if(botonCerrarModal){
-            botonCerrarModal.click();
-        }
-
-        console.error('Hubo un error:', error);
-        alertaError({
-            titulo: 'Error Modal',
-            mensaje: 'Error al cargar modal actualización funcionario.'
-        });
-    }
 }
 export { modalActualizacionFuncionario };
 
@@ -122,6 +111,37 @@ function eventoCerrarModal(){
     botonCancelar.addEventListener('click', ()=>{
         botonCerrarModal.click();
     });
+}
+
+function mostrarSeccionIndividual(){
+    const seccionPrincipal = document.getElementsByClassName('seccion-principal');
+    const seccionIndividual = document.getElementsByClassName('seccion-individual');
+    const inputsSeccionIndividual = document.getElementsByClassName('campo-individual');
+
+    for(const caja of seccionPrincipal){
+        caja.style.display = 'none';
+    };
+
+    if(window.innerWidth >= 768){
+        for(const caja of seccionIndividual){
+            caja.style.display = 'block';
+        };
+
+        modal.style.width = 'clamp(550px, 50%, 980px)';
+        contenedorCajas.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+        botonSiguiente.style.display = 'none';
+        botonRegistrar.style.display = 'flex';
+
+    }else if(window.innerWidth <= 767){
+        for(const caja of seccionIndividual01){
+            caja.style.display = 'block';
+        };
+    }
+
+    for(const input of inputsSeccionIndividual){
+        input.required = true;
+    };
 }
 
 function dibujarFuncionario(){
@@ -159,6 +179,84 @@ function dibujarFuncionario(){
                 botonCerrarModal.click();
                 alertaError (respuesta);
             } 
+        }
+    })
+}
+
+function validarConfirmacionContrasena(){
+    inputConfirmacion.addEventListener('keyup', ()=>{
+        inputConfirmacion.setCustomValidity("");
+
+        if(inputConfirmacion.checkValidity()){
+            if (inputContrasena.value != inputConfirmacion.value){
+                inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
+                inputConfirmacion.reportValidity();
+                
+            }
+        }
+    })
+}
+
+function eventoInputContrasena(){
+    inputContrasena.addEventListener('keyup', ()=>{
+        if(inputContrasena.value.length > 7 && inputConfirmacion.required != true){
+            inputConfirmacion.required = true;
+
+        }else if(inputContrasena.value.length < 8 && inputContrasena.required != true){ 
+            inputConfirmacion.required = false;
+        }
+    })
+}
+
+function eventoSelectRol(){
+    const cajasContrasena = document.getElementsByClassName('input-caja-contrasena');
+
+    selectRol.addEventListener('change', ()=>{
+        if(selectRol.value == 'COORDINADOR' || selectRol.value == 'INSTRUCTOR'){
+            for(const caja of cajasContrasena){
+                if(window.innerWidth < 768){
+                    caja.classList.add('seccion-individual-03');
+
+                    if(caja.style.display == 'none'){
+                        caja.style.display = 'block';
+                    }
+
+                }else{
+                    caja.style.display = 'block';
+                }
+            };
+
+            if(rolActual != 'COORDINADOR' && rolActual != 'INSTRUCTOR'){
+                inputContrasena.required = true;
+                inputConfirmacion.required = true;
+            }
+
+        }else{
+            for(const caja of cajasContrasena){
+                caja.style.display = 'none';
+                caja.classList.remove('seccion-individual-03');
+            };
+            inputContrasena.required = false;
+            inputConfirmacion.required = false;
+        }
+    })
+}
+
+function eventoSelectContrato(){
+    const cajaFecha = document.getElementById('input_caja_fecha');
+
+    selectTipoContrato.addEventListener('change', ()=>{
+        if(selectTipoContrato.value == 'CONTRATISTA'){
+            inputFechaContrato.required = true;
+            inputFechaContrato.classList.add('campo-individual-02');
+            cajaFecha.style.display = 'block';
+            cajaFecha.classList.add('seccion-individual-02');
+
+        }else{
+            inputFechaContrato.required = false;
+            inputFechaContrato.classList.remove('campo-individual-02');
+            cajaFecha.style.display = 'none';
+            cajaFecha.classList.remove('seccion-individual-02');
         }
     })
 }
@@ -205,137 +303,59 @@ function eventoActualizarFuncionario(){
     })
 }
 
-function validarConfirmacionContrasena(){
-    inputConfirmacion.addEventListener('keyup', ()=>{
-        inputConfirmacion.setCustomValidity("");
-
-        if(inputConfirmacion.checkValidity()){
-            if (inputContrasena.value != inputConfirmacion.value){
-                inputConfirmacion.setCustomValidity("Las contraseña no coinciden");
-                inputConfirmacion.reportValidity();
-                
-            }
-        }
-    })
-}
-
-function eventoInputContrasena(){
-    inputContrasena.addEventListener('keyup', ()=>{
-        if(inputContrasena.value.length > 7 && inputConfirmacion.required != true){
-            inputConfirmacion.required = true;
-
-        }else if(inputContrasena.value.length < 8 && inputContrasena.required != true){ 
-            inputConfirmacion.required = false;
-        }
-    })
-}
-
-function eventoSelectRol(){
-    const cajasContrasena = document.getElementsByClassName('input-caja-contrasena');
-
-    selectRol.addEventListener('change', ()=>{
-        if(selectRol.value == 'COORDINADOR' || selectRol.value == 'INSTRUCTOR'){
-            for(const caja of cajasContrasena){
-                if(window.innerWidth < 768){
-                    caja.classList.add('seccion-03');
-
-                    if(caja.style.display == 'none'){
-                        caja.style.display = 'block';
-                    }
-
-                }else{
-                    caja.style.display = 'block';
-                }
-            };
-
-            if(rolActual != 'COORDINADOR' && rolActual != 'INSTRUCTOR'){
-                inputContrasena.required = true;
-                inputConfirmacion.required = true;
-            }
-
-        }else{
-            for(const caja of cajasContrasena){
-                caja.style.display = 'none';
-                caja.classList.remove('seccion-03');
-            };
-            inputContrasena.required = false;
-            inputConfirmacion.required = false;
-        }
-    })
-}
-
-function eventoSelectContrato(){
-    const cajaFecha = document.getElementById('input_caja_fecha');
-
-    selectTipoContrato.addEventListener('change', ()=>{
-        if(selectTipoContrato.value == 'CONTRATISTA'){
-            inputFechaContrato.required = true;
-            inputFechaContrato.classList.add('campo-seccion-02');
-            cajaFecha.style.display = 'block';
-            cajaFecha.classList.add('seccion-02');
-
-        }else{
-            inputFechaContrato.required = false;
-            inputFechaContrato.classList.remove('campo-seccion-02');
-            cajaFecha.style.display = 'none';
-            cajaFecha.classList.remove('seccion-02');
-        }
-    })
-}
-
 function mostrarCampos(){
-    const inputsSeccion01 = document.getElementsByClassName('campo-seccion-01');
-    const inputsSeccion02 = document.getElementsByClassName('campo-seccion-02');
+    const inputsSeccionIndividual01 = document.getElementsByClassName('campo-individual-01');
+    const inputsSeccionIndividual02 = document.getElementsByClassName('campo-individual-02');
 
     botonSiguiente.addEventListener('click', ()=>{
-        let validos = true;
+        let camposValidos = true;
 
-        if(seccion01[0].style.display != 'none'){
-            for(const input of inputsSeccion01) {
+        if(seccionIndividual01[0].style.display != 'none'){
+            for(const input of inputsSeccionIndividual01) {
                 if(!input.checkValidity()){
                     input.reportValidity();
-                    validos = false;
+                    camposValidos = false;
                     break;
                 }
             };
 
-            if(validos){
-                for(const caja of seccion01){
+            if(camposValidos){
+                for(const caja of seccionIndividual01){
                     caja.style.display = 'none';
                 }
             
-                for(const caja of seccion02){
+                for(const caja of seccionIndividual02){
                     caja.style.display = 'block';
                 }
-
-                inputCorreo.focus();
 
                 botonCancelar.style.display = 'none';
                 botonAtras.style.display = 'flex';
+
+                inputCorreo.focus();
             }
             
-        }else if(seccion02[0].style.display == 'block'){
-            for(const input of inputsSeccion02) {
+        }else if(seccionIndividual02[0].style.display == 'block'){
+            for(const input of inputsSeccionIndividual02) {
                 if(!input.checkValidity()){
                     input.reportValidity();
-                    validos = false;
+                    camposValidos = false;
                     break;
                 }
             };
 
-            if(validos){
-                for(const caja of seccion02){
+            if(camposValidos){
+                for(const caja of seccionIndividual02){
                     caja.style.display = 'none';
                 }
             
-                for(const caja of seccion03){
+                for(const caja of seccionIndividual03){
                     caja.style.display = 'block';
                 }
 
-                selectRol.focus();
-
                 botonSiguiente.style.display = 'none';
                 botonRegistrar.style.display = 'flex';
+
+                selectRol.focus();
             }
         }
     })
@@ -343,34 +363,34 @@ function mostrarCampos(){
 
 function volverCampos(){
     botonAtras.addEventListener('click', ()=>{
-        if(seccion02[0].style.display == 'block'){
+        if(seccionIndividual02[0].style.display == 'block'){
 
-            for(const caja of seccion02){
+            for(const caja of seccionIndividual02){
                 caja.style.display = 'none';
             }
            
-            for(const caja of seccion01){
+            for(const caja of seccionIndividual01){
                 caja.style.display = 'block';
             }
-
-            selectTipoDocumento.focus();
             
             botonAtras.style.display = 'none';
             botonCancelar.style.display = 'flex';
 
-        }else if(seccion03[0].style.display == 'block'){
-             for(const caja of seccion03){
+            selectTipoDocumento.focus();
+
+        }else if(seccionIndividual03[0].style.display == 'block'){
+            for(const caja of seccionIndividual03){
                 caja.style.display = 'none';
             }
            
-            for(const caja of seccion02){
+            for(const caja of seccionIndividual02){
                 caja.style.display = 'block';
             }
 
-            inputCorreo.focus();
-
             botonRegistrar.style.display = 'none';
             botonSiguiente.style.display = 'flex';
+
+            inputCorreo.focus();
         }
     })
 }

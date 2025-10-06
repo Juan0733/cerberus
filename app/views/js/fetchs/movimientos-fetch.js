@@ -21,18 +21,22 @@ async function registrarEntradaPeatonal(datos, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{registrarEntradaPeatonal}
@@ -58,18 +62,22 @@ async function registrarSalidaPeatonal(datos, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{registrarSalidaPeatonal}
@@ -95,18 +103,22 @@ async function registrarEntradaVehicular(datos, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{registrarEntradaVehicular}
@@ -132,18 +144,22 @@ async function registrarSalidaVehicular(datos, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{registrarSalidaVehicular}
@@ -168,18 +184,22 @@ async function validarUsuarioAptoEntrada(documento, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{validarUsuarioAptoEntrada}
@@ -204,18 +224,22 @@ async function validarUsuarioAptoSalida(documento, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{validarUsuarioAptoSalida}
@@ -240,18 +264,22 @@ async function consultarMovimientos(parametros, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
-       if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+       const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
+        if(!navigator.onLine){
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarMovimientos}
@@ -276,18 +304,22 @@ async function consultarMovimiento(codigoMovimiento, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarMovimiento}
@@ -312,18 +344,22 @@ async function consultarMovimientosUsuarios(parametros, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarMovimientosUsuarios}
@@ -348,32 +384,22 @@ async function consultarUltimoMovimientoUsuario(documento, urlBase) {
         contenedorSpinner.classList.remove("mostrar_spinner");
         console.error('Hubo un error:', error);
 
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
         if(!navigator.onLine){
-            alertaError({
-                titulo: 'Error Internet',
-                mensaje: 'Lo sentimos, pero parece que no tienes conexión a internet.'
-            });
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
 
         }else{
-            alertaError({
-                titulo: 'Error Petición',
-                mensaje: 'Lo sentimos, parece que se produjo un error con la petición.'
-            });
+            respuesta.titulo = 'Error Petición';
+            respuesta.mensaje = 'Lo sentimos, parece que se produjo un error con la petición.';
         }
+
+        return respuesta;
     }
 }
 export{consultarUltimoMovimientoUsuario}
-
-function alertaError(respuesta){
-    Swal.fire({
-        icon: "error",
-        iconColor: "#fe0c0c",
-        title: respuesta.titulo,
-        text: respuesta.mensaje,
-        confirmButtonText: 'Aceptar',
-        customClass: {
-            popup: 'alerta-contenedor',
-            confirmButton: 'btn-confirmar'
-        }
-    });
-}

@@ -18,7 +18,7 @@
                 <option value="INSTRUCTOR">Instructor</option>
                 <option value="PERSONAL ADMINISTRATIVO">Personal Administrativo</option>
                 <option value="PERSONAL ASEO">Personal Aseo</option>
-                <option value="SOPORTE TECNICO">Soporte Tecnico</option>
+                <option value="SOPORTE TÉCNICO">Soporte Técnico</option>
                 <option value="SUBDIRECTOR">Subdirector</option>
             </select>
         </div>

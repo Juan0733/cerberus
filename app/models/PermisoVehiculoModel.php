@@ -21,11 +21,12 @@ class PermisoVehiculoModel extends MainModel{
 
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $codigoPermiso = 'PV'.date('YmdHis');
 
         $sentenciaInsertar = "
-            INSERT INTO permisos_vehiculos(codigo_permiso, tipo_permiso, fk_vehiculo, fk_usuario, descripcion, fecha_fin_permiso, fecha_registro, fk_usuario_sistema) 
-            VALUES('$codigoPermiso', '{$datosPermiso['tipo_permiso']}', '{$datosPermiso['numero_placa']}', '{$datosPermiso['numero_documento']}', '{$datosPermiso['descripcion']}', '{$datosPermiso['fecha_fin_permiso']}', '$fechaRegistro', '$usuarioSistema')";
+            INSERT INTO permisos_vehiculos(codigo_permiso, tipo_permiso, fk_vehiculo, fk_usuario, descripcion, fecha_fin_permiso, fecha_registro, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES('$codigoPermiso', '{$datosPermiso['tipo_permiso']}', '{$datosPermiso['numero_placa']}', '{$datosPermiso['numero_documento']}', '{$datosPermiso['descripcion']}', '{$datosPermiso['fecha_fin_permiso']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -120,11 +121,12 @@ class PermisoVehiculoModel extends MainModel{
         }
 
         $fechaActual = date('Y-m-d H:i:s');
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
         $sentenciaActualizar = "
             UPDATE permisos_vehiculos 
-            SET estado_permiso = 'APROBADO', fecha_autorizacion = '$fechaActual', fk_usuario_autorizacion = '$usuarioSistema' 
+            SET estado_permiso = 'APROBADO', fecha_autorizacion = '$fechaActual', rol_usuario_autorizacion = '$rolSistema', fk_usuario_autorizacion = '$usuarioSistema' 
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -157,11 +159,12 @@ class PermisoVehiculoModel extends MainModel{
         }
 
         $fechaActual = date('Y-m-d H:i:s');
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
 
         $sentenciaActualizar = "
             UPDATE permisos_vehiculos 
-            SET estado_permiso = 'DESAPROBADO', fecha_autorizacion = '$fechaActual', fk_usuario_autorizacion = '$usuarioSistema'
+            SET estado_permiso = 'DESAPROBADO', fecha_autorizacion = '$fechaActual', rol_usuario_autorizacion = '$rolSistema', fk_usuario_autorizacion = '$usuarioSistema'
             WHERE codigo_permiso = '$codigoPermiso';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaActualizar);
@@ -250,7 +253,11 @@ class PermisoVehiculoModel extends MainModel{
             $sentenciaBuscar .= " AND pv.estado_permiso = '{$parametros['estado_permiso']}'";
         }
 
-        $sentenciaBuscar .= " ORDER BY pv.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY pv.fecha_registro DESC";
+
+        if(!isset($parametros['tipo_permiso'], $parametros['fecha'], $parametros['codigo_permiso'], $parametros['numero_placa'], $parametros['estado_permiso'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -292,13 +299,12 @@ class PermisoVehiculoModel extends MainModel{
                 COALESCE(fun1.nombres, apr1.nombres, vis1.nombres, vig1.nombres) AS nombres_propietario,
                 COALESCE(fun1.apellidos, apr1.apellidos, vis1.apellidos, vig1.apellidos) AS apellidos_propietario,
                 COALESCE(fun1.tipo_usuario, apr1.tipo_usuario, vis1.tipo_usuario, vig1.tipo_usuario) AS tipo_propietario,
-                COALESCE(fun2.nombres, vig2.nombres) AS nombres_registro,
-                COALESCE(fun2.apellidos, vig2.apellidos) AS apellidos_registro,
-                COALESCE(fun2.rol, vig2.rol) AS rol_registro,
-                COALESCE(fun3.nombres, 'N/A') AS nombres_autorizacion,
-                COALESCE(fun3.apellidos, 'N/A') AS apellidos_autorizacion,
-                COALESCE(fun3.rol, 'N/A') AS rol_autorizacion
-
+                COALESCE(fun2.nombres, apr2.nombres, vis2.nombres, vig2.nombres) AS nombres_registro,
+                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_registro,
+                pv.rol_usuario_sistema AS rol_registro,
+                COALESCE(fun3.nombres, apr3.nombres, vis3.nombres, vig3.nombres, 'N/A') AS nombres_autorizacion,
+                COALESCE(fun3.apellidos, apr3.apellidos, vis3.apellidos, vig3.apellidos, 'N/A') AS apellidos_autorizacion,
+                COALESCE(pv.rol_usuario_autorizacion, 'N/A') AS rol_autorizacion
             FROM permisos_vehiculos pv
             INNER JOIN (SELECT numero_placa, tipo_vehiculo FROM vehiculos GROUP BY numero_placa, tipo_vehiculo) veh ON pv.fk_vehiculo = veh.numero_placa
             LEFT JOIN funcionarios fun1 ON pv.fk_usuario = fun1.numero_documento
@@ -306,8 +312,13 @@ class PermisoVehiculoModel extends MainModel{
             LEFT JOIN vigilantes vig1 ON pv.fk_usuario = vig1.numero_documento
             LEFT JOIN aprendices apr1 ON pv.fk_usuario = apr1.numero_documento
             LEFT JOIN funcionarios fun2 ON pv.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN visitantes vis2 ON pv.fk_usuario_sistema = vis2.numero_documento
             LEFT JOIN vigilantes vig2 ON pv.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN aprendices apr2 ON pv.fk_usuario_sistema = apr2.numero_documento
             LEFT JOIN funcionarios fun3 ON pv.fk_usuario_autorizacion = fun3.numero_documento
+            LEFT JOIN visitantes vis3 ON pv.fk_usuario_autorizacion = vis3.numero_documento
+            LEFT JOIN vigilantes vig3 ON pv.fk_usuario_autorizacion = vig3.numero_documento
+            LEFT JOIN aprendices apr3 ON pv.fk_usuario_autorizacion = apr3.numero_documento
             WHERE pv.codigo_permiso = '$codigoPermiso'";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

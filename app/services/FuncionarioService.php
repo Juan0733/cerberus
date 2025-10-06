@@ -116,8 +116,8 @@ class FuncionarioService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
         $contrasena = $contrasena != 'NULL' ? md5($contrasena) : $contrasena;
@@ -272,14 +272,14 @@ class FuncionarioService extends MainService{
                     $respuesta = [
                         "tipo" => "ERROR",
                         'titulo' => "Formato Inválido",
-                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.".$dato['filtro'],
+                        'mensaje' => "Lo sentimos, los datos no cumplen con la estructura requerida.",
                     ];
                     return $respuesta;
                 }
             }
 
-            $funcionario['nombres'] = mb_convert_case(mb_strtolower(trim($funcionario['nombres']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-            $funcionario['apellidos'] = mb_convert_case(mb_strtolower(trim($funcionario['apellidos']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $funcionario['nombres'] = mb_convert_case(mb_strtolower($funcionario['nombres'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $funcionario['apellidos'] = mb_convert_case(mb_strtolower($funcionario['apellidos'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
             $funcionario['correo_electronico'] = mb_strtolower($funcionario['correo_electronico'], "UTF-8");
             $contrasena = $funcionario['contrasena'] != '' ? md5($funcionario['contrasena']) : 'NULL';
             $funcionario['contrasena'] = $contrasena != 'NULL' ? "'$contrasena'" : $contrasena;
@@ -405,8 +405,8 @@ class FuncionarioService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
         $fechaFinContrato = $fechaFinContrato != 'NULL' ? "'$fechaFinContrato'" : $fechaFinContrato;
 

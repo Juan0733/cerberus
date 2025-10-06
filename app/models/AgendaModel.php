@@ -37,11 +37,12 @@ class AgendaModel extends MainModel{
 
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $codigoAgenda = 'AI'.date('YmdHis');
 
         $sentenciaInsertar = "
-            INSERT INTO agendas(codigo_agenda, titulo, motivo, fk_usuario, fecha_agenda, fecha_registro, fk_usuario_sistema)
-            VALUES ('$codigoAgenda', '{$datosAgenda['titulo']}', '{$datosAgenda['motivo']}', '{$datosAgenda['numero_documento']}', '{$datosAgenda['fecha_agenda']}', '$fechaRegistro', '$usuarioSistema');";
+            INSERT INTO agendas(codigo_agenda, titulo, motivo, fk_usuario, fecha_agenda, fecha_registro, rol_usuario_sistema, fk_usuario_sistema)
+            VALUES ('$codigoAgenda', '{$datosAgenda['titulo']}', '{$datosAgenda['motivo']}', '{$datosAgenda['numero_documento']}', '{$datosAgenda['fecha_agenda']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema');";
 
         $respuesta= $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -69,12 +70,13 @@ class AgendaModel extends MainModel{
         
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $codigoAgenda = 'AG'.date('YmdHis');
 
         foreach ($datosAgenda['agendados'] as $agendado) {
             $sentenciaInsertar = "
-                INSERT INTO agendas(codigo_agenda, titulo, motivo, fk_usuario, fecha_agenda, fecha_registro, fk_usuario_sistema)
-                VALUES ('$codigoAgenda', '{$datosAgenda['titulo']}', '{$datosAgenda['motivo']}', '{$agendado['numero_documento']}', '{$datosAgenda['fecha_agenda']}', '$fechaRegistro', '$usuarioSistema');";
+                INSERT INTO agendas(codigo_agenda, titulo, motivo, fk_usuario, fecha_agenda, fecha_registro, rol_usuario_sistema, fk_usuario_sistema)
+                VALUES ('$codigoAgenda', '{$datosAgenda['titulo']}', '{$datosAgenda['motivo']}', '{$agendado['numero_documento']}', '{$datosAgenda['fecha_agenda']}', '$fechaRegistro', '$rolSistema', '$usuarioSistema');";
 
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -275,18 +277,21 @@ class AgendaModel extends MainModel{
                 age.titulo, 
                 age.motivo,
                 age.fecha_agenda,
-                fun1.nombres AS nombres_responsable,
-                fun1.apellidos AS apellidos_responsable,
-                fun1.rol AS rol_responsable,
-                COALESCE(fun2.numero_documento, apr.numero_documento, vis.numero_documento, vig.numero_documento) AS numero_documento,
-                COALESCE(fun2.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_agendado,
-                COALESCE(fun2.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_agendado
+                age.fk_usuario AS numero_documento,
+                COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres_agendado,
+                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos_agendado,
+                COALESCE(fun2.nombres, apr2.nombres, vis2.nombres, vig2.nombres) AS nombres_responsable,
+                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_responsable,
+                age.rol_usuario_sistema AS rol_responsable
             FROM agendas age
-            INNER JOIN funcionarios fun1 ON age.fk_usuario_sistema = fun1.numero_documento
-            LEFT JOIN funcionarios fun2 ON age.fk_usuario = fun2.numero_documento
+            LEFT JOIN funcionarios fun ON age.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON age.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON age.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON age.fk_usuario = apr.numero_documento
+            LEFT JOIN funcionarios fun2 ON age.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN visitantes vis2 ON age.fk_usuario_sistema = vis2.numero_documento
+            LEFT JOIN vigilantes vig2 ON age.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN aprendices apr2 ON age.fk_usuario_sistema = apr2.numero_documento
             WHERE age.codigo_agenda = '$codigoAgenda';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

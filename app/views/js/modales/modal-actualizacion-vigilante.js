@@ -64,9 +64,6 @@ function modalActualizacionVigilante(vigilante, callback, url) {
 
             document.getElementById('titulo_modal_vigilante').textContent = 'Actualizar Vigilante';
             botonRegistrar.textContent = 'Actualizar';
-
-            inputContrasena.required = false;
-            inputConfirmacion.required = false;
             
             documentoVigilante = vigilante;
             funcionCallback = callback;
@@ -135,6 +132,9 @@ function mostrarSeccionIndividual(){
     for(const input of inputsSeccionIndividual){
         input.required = true;
     };
+
+    inputContrasena.required = false;
+    inputConfirmacion.required = false;
 }
 
 function dibujarVigilante(){

@@ -53,11 +53,17 @@ function dibujarFuncionario() {
     consultarFuncionario(documentoFuncionario, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosFuncionario = respuesta.datos_funcionario;
-
             if(datosFuncionario.tipo_contrato == 'CONTRATISTA'){
                 document.getElementById('fecha_fin_contrato').textContent = formatearFecha(datosFuncionario.fecha_fin_contrato);
             }else{
                 document.getElementById('caja_fecha_fin_contrato').style.display='none';;
+            }
+
+            if(datosFuncionario.nombres_responsable != 'N/A'){
+                document.getElementById('responsable_registro').textContent = formatearString(datosFuncionario.rol_responsable)+' -  '+datosFuncionario.nombres_responsable+' '+datosFuncionario.apellidos_responsable;
+
+            }else{
+                document.getElementById('caja_responsable_registro').style.display = 'none';
             }
 
             document.getElementById('tipo_documento').textContent = datosFuncionario.tipo_documento;
@@ -69,7 +75,6 @@ function dibujarFuncionario() {
             document.getElementById('rol').textContent = formatearString(datosFuncionario.rol);
             document.getElementById('brigadista').textContent = formatearString(datosFuncionario.brigadista);
             document.getElementById('tipo_contrato').textContent = formatearString(datosFuncionario.tipo_contrato);
-            document.getElementById('responsable_registro').textContent = formatearString(datosFuncionario.rol_responsable)+' -  '+datosFuncionario.nombres_responsable+' '+datosFuncionario.apellidos_responsable;
             
             contenedorModales.classList.add('mostrar');
 

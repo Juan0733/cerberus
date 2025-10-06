@@ -25,10 +25,11 @@ class MovimientoModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         
         $sentenciaInsertar = "
-            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, tipo_usuario, observacion) 
-            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$tipoUsuario', {$datosEntrada['observacion']})";
+            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
+            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosEntrada['numero_documento']}', '$puertaActual', '$fechaRegistro', '$rolSistema', '$usuarioSistema', '$tipoUsuario', {$datosEntrada['observacion']})";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo']  == 'ERROR'){
@@ -88,10 +89,11 @@ class MovimientoModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
 
         $sentenciaInsertar = "
-            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, tipo_usuario, observacion) 
-            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'PROPIETARIO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosEntrada['tipo_propietario']}', {$datosEntrada['observacion']});";
+            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
+            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosEntrada['propietario']}', '{$datosEntrada['numero_placa']}', 'PROPIETARIO', '$puertaActual', '$fechaRegistro', '$rolSistema', '$usuarioSistema', '{$datosEntrada['tipo_propietario']}', {$datosEntrada['observacion']});";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -110,8 +112,8 @@ class MovimientoModel extends MainModel{
 
         foreach($datosEntrada['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
-                INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, tipo_usuario, observacion) 
-                VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'PASAJERO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['tipo_pasajero']}', {$datosEntrada['observacion']})";
+                INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
+                VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosEntrada['numero_placa']}', 'PASAJERO', '$puertaActual', '$fechaRegistro', '$rolSistema', '$usuarioSistema', '{$pasajero['tipo_pasajero']}', {$datosEntrada['observacion']})";
             
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -145,10 +147,11 @@ class MovimientoModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         
         $sentenciaInsertar = "
-            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, fk_usuario_sistema, tipo_usuario, observacion) 
-            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosSalida['numero_documento']}', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '$tipoUsuario', {$datosSalida['observacion']})";
+            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
+            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosSalida['numero_documento']}', '$puertaActual', '$fechaRegistro', '$rolSistema' '$usuarioSistema', '$tipoUsuario', {$datosSalida['observacion']})";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -231,10 +234,11 @@ class MovimientoModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $puertaActual = $_SESSION['datos_usuario']['puerta'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
 
         $sentenciaInsertar = "
-            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, tipo_usuario, observacion) 
-            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosSalida['propietario']}', '{$datosSalida['numero_placa']}', 'PROPIETARIO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$datosSalida['tipo_propietario']}', {$datosSalida['observacion']});";
+            INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
+            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosSalida['propietario']}', '{$datosSalida['numero_placa']}', 'PROPIETARIO', '$puertaActual', '$fechaRegistro', '$rolSistema', '$usuarioSistema', '{$datosSalida['tipo_propietario']}', {$datosSalida['observacion']});";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -253,8 +257,8 @@ class MovimientoModel extends MainModel{
 
         foreach($datosSalida['pasajeros'] as $pasajero){
             $sentenciaInsertar = "
-                INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, fk_usuario_sistema, tipo_usuario, observacion) 
-                VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosSalida['numero_placa']}', 'PASAJERO', '$puertaActual', '$fechaRegistro', '$usuarioSistema', '{$pasajero['tipo_pasajero']}', {$datosSalida['observacion']})";
+                INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, fk_vehiculo, relacion_vehiculo, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
+                VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$pasajero['documento_pasajero']}', '{$datosSalida['numero_placa']}', 'PASAJERO', '$puertaActual', '$fechaRegistro', '$rolSistema', '$usuarioSistema', '{$pasajero['tipo_pasajero']}', {$datosSalida['observacion']})";
             
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -537,22 +541,25 @@ class MovimientoModel extends MainModel{
                 mov.puerta_registro,
                 mov.fk_usuario,
                 mov.tipo_usuario,
-                vig2.nombres AS nombres_responsable,
-                vig2.apellidos AS apellidos_responsable,
-                vig2.rol AS rol_responsable,
                 COALESCE(fun.nombres, apr.nombres, vis.nombres, vig.nombres) AS nombres,
                 COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig.apellidos) AS apellidos,
                 COALESCE(veh.tipo_vehiculo, 'N/A') AS tipo_vehiculo,
                 COALESCE(mov.fk_vehiculo, 'N/A') AS fk_vehiculo,
                 COALESCE(mov.relacion_vehiculo, 'N/A') AS relacion_vehiculo,
-                COALESCE(mov.observacion, 'N/A') AS observacion
+                COALESCE(mov.observacion, 'N/A') AS observacion,
+                COALESCE(fun2.nombres, apr2.nombres, vis2.nombres, vig2.nombres) AS nombres_responsable,
+                COALESCE(fun2.apellidos, apr2.apellidos, vis2.apellidos, vig2.apellidos) AS apellidos_responsable,
+                mov.rol_usuario_sistema AS rol_responsable
             FROM movimientos mov
-            INNER JOIN vigilantes vig2 ON mov.fk_usuario_sistema = vig2.numero_documento
             LEFT JOIN (SELECT numero_placa, tipo_vehiculo FROM vehiculos GROUP BY numero_placa, tipo_vehiculo) veh ON mov.fk_vehiculo = veh.numero_placa
             LEFT JOIN funcionarios fun ON mov.fk_usuario = fun.numero_documento
             LEFT JOIN visitantes vis ON mov.fk_usuario = vis.numero_documento
             LEFT JOIN vigilantes vig ON mov.fk_usuario = vig.numero_documento
             LEFT JOIN aprendices apr ON mov.fk_usuario = apr.numero_documento
+            LEFT JOIN funcionarios fun2 ON mov.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN visitantes vis2 ON mov.fk_usuario_sistema = vis2.numero_documento
+            LEFT JOIN vigilantes vig2 ON mov.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN aprendices apr2 ON mov.fk_usuario_sistema = apr2.numero_documento
             WHERE mov.codigo_movimiento = '$codigoMovimiento';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

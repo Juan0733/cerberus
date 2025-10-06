@@ -20,7 +20,7 @@
 
         <div class="filtro">
             <ion-icon name="search-outline"></ion-icon>
-            <input type="text" name="buscador_placa" id="buscador_placa" placeholder="Buscar Placa" maxlength="6">
+            <input type="text" name="buscador_placa" id="buscador_placa" class="input-placa" placeholder="Buscar Placa" maxlength="6">
         </div> 
     </div>
 

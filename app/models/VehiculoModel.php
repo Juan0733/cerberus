@@ -50,14 +50,15 @@ class VehiculoModel extends MainModel {
         
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
 
         if(!isset($datosVehiculo['ubicacion'])){
             $datosVehiculo['ubicacion'] = 'FUERA';
         }
 
         $sentenciaInsertar = "
-            INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, ubicacion, fk_usuario_sistema) 
-            VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '{$datosVehiculo['ubicacion']}', '$usuarioSistema');";
+            INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, ubicacion, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES ('{$datosVehiculo['numero_placa']}', '{$datosVehiculo['tipo_vehiculo']}', '{$datosVehiculo['propietario']}', '$fechaRegistro', '{$datosVehiculo['ubicacion']}', '$rolSistema', '$usuarioSistema');";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if ($respuesta['tipo'] == 'ERROR') {
@@ -94,9 +95,11 @@ class VehiculoModel extends MainModel {
             $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
 
-        $sentenciaBuscar .= " 
-            GROUP BY numero_placa, tipo_vehiculo, ubicacion
-            LIMIT 10;";
+        $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion";
+
+        if(!isset($parametros['numero_placa'], $parametros['numero_documento'], $parametros['tipo_vehiculo'], $parametros['ubicacion'])){
+            $sentenciaBuscar .= " LIMIT 10;";
+        }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if ($respuesta['tipo'] == 'ERROR') {

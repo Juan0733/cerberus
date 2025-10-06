@@ -164,9 +164,6 @@ function eventoInputFicha(){
                     inputPrograma.value = respuesta.datos_ficha.nombre_programa;
                     inputFechaFicha.value = respuesta.datos_ficha.fecha_fin_ficha;
 
-                    inputPrograma.readOnly = true;
-                    inputFechaFicha.readOnly = true;
-
                 }else if(respuesta.tipo == 'ERROR'){
                     if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
@@ -174,9 +171,6 @@ function eventoInputFicha(){
                     }else if(respuesta.titulo == 'Ficha No Encontrada'){
                         inputPrograma.value = '';
                         inputFechaFicha.value = '';
-
-                        inputPrograma.readonly = false;
-                        inputFechaFicha.readOnly = false;
 
                     }else{
                         alertaError(respuesta);

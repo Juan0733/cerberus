@@ -78,7 +78,7 @@ function dibujarNotificaciones(){
                         eventoVerPermisoVehiculo();
 
                     }else if(notificacionesUsuario.length < 1 && notificacionesVehiculo.length < 1){
-                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones en este momento.</p>`;
+                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones actualmente.</p>`;
                     }
 
                 }else if(respuesta.tipo == 'ERROR'){

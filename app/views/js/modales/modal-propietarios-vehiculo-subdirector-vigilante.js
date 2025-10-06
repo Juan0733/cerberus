@@ -99,12 +99,6 @@ function dibujarTablaPropietarios(){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
-            }else if(respuesta.titulo == 'Datos No Encontrados'){
-                cuerpoTabla.innerHTML = `
-                    <tr>
-                        <td colspan="5">${respuesta.mensaje}</td>
-                    </tr>`;
-        
             }else{
                 botonCerrarModal.click();
                 alertaError(respuesta);
@@ -143,9 +137,6 @@ function dibujarCardsPropietarios(){
             if(respuesta.titulo == 'Sesión Expirada'){
                 window.location.replace(urlBase+'sesion-expirada');
 
-            }else if(respuesta.titulo == 'Datos No Encontrados'){
-                contenedorInformacion.innerHTML = `<p class="mensaje-respuesta">${respuesta.mensaje}</p>`;
-        
             }else{
                 botonCerrarModal.click();
                 alertaError(respuesta);

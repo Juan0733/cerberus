@@ -131,7 +131,7 @@ class MainService{
                     $valorCelda = $this->limpiarDatos($celda->getValue());
                     $valoresCeldas[] = $valorCelda;
 
-                    if (trim($valorCelda) == '') {
+                    if (!is_string($valorCelda) || $valorCelda == '') {
                         $celdasVacias += 1;
                     }
                 }
@@ -185,19 +185,17 @@ class MainService{
     }
 
     public function limpiarDatos($dato){
-		$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
+        if(!is_string($dato)){
+            return;
+        }
 
+		$palabras = ["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==",";","::"];
 
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
+		$dato = stripslashes(trim($dato));
 		foreach($palabras as $palabra){
-			$dato=str_ireplace($palabra, "", $dato);
+			$dato = str_ireplace($palabra, "", $dato);
 		}
 
-		$dato=trim($dato);
-		$dato=stripslashes($dato);
-
-		return $dato;
+		return trim($dato);
 	}
 }

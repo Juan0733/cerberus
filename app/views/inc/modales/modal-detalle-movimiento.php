@@ -41,10 +41,10 @@
                 <h3>Responsable:</h3>
                 <p id="responsable"></p>
             </div>
-        </div>
-        <div id="caja_observacion" class='caja'>
-            <h3>Observación:</h3>
-            <p id="observacion"></p>
+            <div id="caja_observacion" class='caja'>
+                <h3>Observación:</h3>
+                <p id="observacion"></p>
+            </div>
         </div>
     </div>
 </div>

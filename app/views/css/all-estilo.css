@@ -363,9 +363,11 @@ main#cuerpo{
         }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
-                left: 20%;
                 position: absolute;
                 top: 50%;
+                left: 50%;
+                width: max-content;
+                transform: translate(-50%, -50%);
             }
 
             #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal .contenedor-alerta {
@@ -1075,16 +1077,12 @@ main#cuerpo{
 
     /* --------------------------------------- Estilos modal notificaciones----------------------------------------------------------*/
     #contenedor_notificaciones .contenedor-ppal-modal{
-        width: clamp(300px, 100%, 500px);
+        width: clamp(300px, 100%, 600px);
     }
 
         #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal{
             height: 100vh;
         }
-
-            #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal #mensaje_respuesta{
-                left: 12%;
-            }
 
     /* --------------------------------------- Estilos generales para cada modal ----------------------------------------------------------*/
     #contenedor_modales .contenedor-titulo-modal h2{

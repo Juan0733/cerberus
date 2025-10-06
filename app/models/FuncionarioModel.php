@@ -32,8 +32,8 @@ class FuncionarioModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $sentenciaInsertar = "
-            INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, ubicacion, fecha_registro, estado_usuario, fk_usuario_sistema)
-            VALUES('{$datosFuncionario['tipo_documento']}', '{$datosFuncionario['numero_documento']}', '{$datosFuncionario['nombres']}', '{$datosFuncionario['apellidos']}', '{$datosFuncionario['telefono']}', '{$datosFuncionario['correo_electronico']}', '{$datosFuncionario['tipo_contrato']}', '{$datosFuncionario['brigadista']}', '{$datosFuncionario['rol']}', {$datosFuncionario['fecha_fin_contrato']}, {$datosFuncionario['contrasena']}, '{$datosFuncionario['ubicacion']}', '$fechaRegistro', {$datosFuncionario['estado_usuario']}, '$usuarioSistema');";
+            INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, ubicacion, fecha_registro, estado_usuario, rol_usuario_sistema, fk_usuario_sistema)
+            VALUES('{$datosFuncionario['tipo_documento']}', '{$datosFuncionario['numero_documento']}', '{$datosFuncionario['nombres']}', '{$datosFuncionario['apellidos']}', '{$datosFuncionario['telefono']}', '{$datosFuncionario['correo_electronico']}', '{$datosFuncionario['tipo_contrato']}', '{$datosFuncionario['brigadista']}', '{$datosFuncionario['rol']}', {$datosFuncionario['fecha_fin_contrato']}, {$datosFuncionario['contrasena']}, '{$datosFuncionario['ubicacion']}', '$fechaRegistro', {$datosFuncionario['estado_usuario']}, '$rolSistema', '$usuarioSistema');";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -77,8 +77,8 @@ class FuncionarioModel extends MainModel{
 
         foreach ($datosFuncionarios as $funcionario) {
             $sentenciaInsertar = "
-                INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, ubicacion, fecha_registro, estado_usuario, fk_usuario_sistema)
-                VALUES('{$funcionario['tipo_documento']}', '{$funcionario['numero_documento']}', '{$funcionario['nombres']}', '{$funcionario['apellidos']}', '{$funcionario['telefono']}', '{$funcionario['correo_electronico']}', '{$funcionario['tipo_contrato']}', '{$funcionario['brigadista']}', '{$funcionario['rol']}', {$funcionario['fecha_fin_contrato']}, {$funcionario['contrasena']}, '{$funcionario['ubicacion']}', '$fechaRegistro', {$funcionario['estado_usuario']}, '$usuarioSistema');";
+                INSERT INTO funcionarios(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, tipo_contrato, brigadista, rol, fecha_fin_contrato, contrasena, ubicacion, fecha_registro, estado_usuario, rol_usuario_sistema, fk_usuario_sistema)
+                VALUES('{$funcionario['tipo_documento']}', '{$funcionario['numero_documento']}', '{$funcionario['nombres']}', '{$funcionario['apellidos']}', '{$funcionario['telefono']}', '{$funcionario['correo_electronico']}', '{$funcionario['tipo_contrato']}', '{$funcionario['brigadista']}', '{$funcionario['rol']}', {$funcionario['fecha_fin_contrato']}, {$funcionario['contrasena']}, '{$funcionario['ubicacion']}', '$fechaRegistro', {$funcionario['estado_usuario']}, '$rolSistema', '$usuarioSistema');";
             
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -289,7 +289,7 @@ class FuncionarioModel extends MainModel{
         }else{
             $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
-            if(!isset($parametros['ubicacion']) || $parametros['ubicacion'] != 'DENTRO'){
+            if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion'])){
                 $sentenciaBuscar .= " LIMIT 10;";
             }
         }
@@ -322,18 +322,26 @@ class FuncionarioModel extends MainModel{
     public function consultarFuncionario($documento){
         $sentenciaBuscar = "
             SELECT 
-                tipo_documento, 
-                numero_documento, 
-                nombres, apellidos, 
-                telefono, 
-                correo_electronico, 
-                tipo_contrato, 
-                brigadista, 
-                rol,
-                estado_usuario,
-                COALESCE(fecha_fin_contrato, 'N/A') AS fecha_fin_contrato
-            FROM funcionarios
-            WHERE numero_documento = '$documento';";
+                fun.tipo_documento, 
+                fun.numero_documento, 
+                fun.nombres, 
+                fun.apellidos, 
+                fun.telefono, 
+                fun.correo_electronico, 
+                fun.tipo_contrato, 
+                fun.brigadista, 
+                fun.rol,
+                fun.estado_usuario,
+                COALESCE(fun.fecha_fin_contrato, 'N/A') AS fecha_fin_contrato,
+                COALESCE(fun2.nombres, apr.nombres, vis.nombres, vig.nombres, 'N/A') AS nombres_responsable,
+                COALESCE(fun2.apellidos, apr.apellidos, vis.apellidos, vig.apellidos, 'N/A') AS apellidos_responsable,
+                COALESCE(fun.rol_usuario_sistema, 'N/A') AS rol_responsable
+            FROM funcionarios fun
+            LEFT JOIN funcionarios fun2 ON fun.fk_usuario_sistema = fun2.numero_documento
+            LEFT JOIN aprendices apr ON fun.fk_usuario_sistema = apr.numero_documento
+            LEFT JOIN vigilantes vig ON fun.fk_usuario_sistema = vig.numero_documento
+            LEFT JOIN visitantes vis ON fun.fk_usuario_sistema = vis.numero_documento
+            WHERE fun.numero_documento = '$documento';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

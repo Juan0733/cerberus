@@ -53,6 +53,13 @@ function dibujarVisitante() {
     consultarVisitante(documentoVisitante, urlBase).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const datosVisitante = respuesta.datos_visitante;
+            if(datosVisitante.nombres_responsable != 'N/A'){
+                document.getElementById('responsable_registro').textContent = formatearString(datosVisitante.rol_responsable)+' -  '+datosVisitante.nombres_responsable+' '+datosVisitante.apellidos_responsable;
+
+            }else{
+                document.getElementById('caja_responsable_registro').style.display = 'none';
+            }
+
             document.getElementById('tipo_documento').textContent = datosVisitante.tipo_documento
             document.getElementById('numero_documento').textContent = datosVisitante.numero_documento;
             document.getElementById('nombres').textContent = datosVisitante.nombres;
@@ -60,13 +67,6 @@ function dibujarVisitante() {
             document.getElementById('telefono').textContent = formatearNumeroTelefono(datosVisitante.telefono);
             document.getElementById('correo_electronico').textContent = datosVisitante.correo_electronico;
             document.getElementById('motivo_ingreso').textContent = datosVisitante.motivo_ingreso;
-
-            if(datosVisitante.nombres_responsable != 'N/A'){
-                document.getElementById('responsable_registro').textContent = formatearString(datosVisitante.rol_responsable)+' -  '+datosVisitante.nombres_responsable+' '+datosVisitante.apellidos_responsable;
-
-            }else{
-                document.getElementById('caja_responsable_registro').style.display = 'none';
-            }
 
             contenedorModales.classList.add('mostrar');
 
@@ -81,6 +81,12 @@ function dibujarVisitante() {
             }
         }
     })
+}
+
+function formatearString(cadena) { 
+    cadena = cadena.toLowerCase();
+    cadena = cadena.charAt(0).toUpperCase() + cadena.slice(1);
+    return cadena; 
 }
 
 function formatearNumeroTelefono(numeroTelefono){

@@ -144,9 +144,9 @@ class ViewModel{
 								"URL" => 'aprendices',
 								"ICON" => 'person-outline'
 							],
-							"VISITANTES" => [
-								"TITULO" => 'Visitantes',
-								"URL" => 'visitantes',
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
 								"ICON" => 'person-outline'
 							],
 							"FUNCIONARIOS" => [
@@ -154,11 +154,12 @@ class ViewModel{
 								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
-							"VIGILANTES" => [
-								"TITULO" => 'Vigilantes',
-								"URL" => 'vigilantes',
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
 								"ICON" => 'person-outline'
 							]
+							
 						]
 					],
 					"VEHICULOS" => [
@@ -269,9 +270,9 @@ class ViewModel{
 								"URL" => 'aprendices',
 								"ICON" => 'person-outline'
 							],
-							"VISITANTES" => [
-								"TITULO" => 'Visitantes',
-								"URL" => 'visitantes',
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
 								"ICON" => 'person-outline'
 							],
 							"FUNCIONARIOS" => [
@@ -279,9 +280,9 @@ class ViewModel{
 								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
-							"VIGILANTES" => [
-								"TITULO" => 'Vigilantes',
-								"URL" => 'vigilantes',
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
 								"ICON" => 'person-outline'
 							]
 						]
@@ -339,9 +340,9 @@ class ViewModel{
 								"URL" => 'aprendices',
 								"ICON" => 'person-outline'
 							],
-							"VISITANTES" => [
-								"TITULO" => 'Visitantes',
-								"URL" => 'visitantes',
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
 								"ICON" => 'person-outline'
 							],
 							"FUNCIONARIOS" => [
@@ -349,9 +350,9 @@ class ViewModel{
 								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
-							"VIGILANTES" => [
-								"TITULO" => 'Vigilantes',
-								"URL" => 'vigilantes',
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
 								"ICON" => 'person-outline'
 							]
 						]
@@ -450,9 +451,9 @@ class ViewModel{
 								"URL" => 'aprendices',
 								"ICON" => 'person-outline'
 							],
-							"VISITANTES" => [
-								"TITULO" => 'Visitantes',
-								"URL" => 'visitantes',
+							"VIGILANTES" => [
+								"TITULO" => 'Vigilantes',
+								"URL" => 'vigilantes',
 								"ICON" => 'person-outline'
 							],
 							"FUNCIONARIOS" => [
@@ -460,9 +461,9 @@ class ViewModel{
 								"URL" => 'funcionarios',
 								"ICON" => 'person-outline'
 							],
-							"VIGILANTES" => [
-								"TITULO" => 'Vigilantes',
-								"URL" => 'vigilantes',
+							"VISITANTES" => [
+								"TITULO" => 'Visitantes',
+								"URL" => 'visitantes',
 								"ICON" => 'person-outline'
 							]
 						]

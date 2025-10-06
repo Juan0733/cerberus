@@ -33,10 +33,10 @@
                 <h3>Responsable Registro:</h3>
                 <p id="responsable_registro"></p>
             </div>
-        </div>
-        <div class="caja">
-            <h3>Motivo Ingreso:</h3>
-            <p id="motivo_ingreso"></p>
+            <div class="caja">
+                <h3>Motivo Ingreso:</h3>
+                <p id="motivo_ingreso"></p>
+            </div>
         </div>
     </div>
 </div>

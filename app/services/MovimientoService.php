@@ -41,7 +41,7 @@ class MovimientoService extends MainService{
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
         if($observacion != 'NULL'){
-            $observacion = trim($observacion);
+            $observacion = $observacion;
             $observacion = mb_strtoupper(mb_substr($observacion, 0, 2, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($observacion, 2, null, "UTF-8"), "UTF-8");
         }
 
@@ -139,8 +139,8 @@ class MovimientoService extends MainService{
 
         $observacion = empty($observacion) ? 'NULL' : "'$observacion'";
         if($observacion != 'NULL'){
-            $observacion = trim($observacion);
-            $observacion = mb_strtoupper(mb_substr(trim($observacion), 0, 2, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($observacion), 2, null, "UTF-8"), "UTF-8");
+            $observacion = $observacion;
+            $observacion = mb_strtoupper(mb_substr($observacion, 0, 2, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($observacion, 2, null, "UTF-8"), "UTF-8");
         }
 
         $placaVehiculo = strtoupper($placaVehiculo);

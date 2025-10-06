@@ -193,7 +193,11 @@ function eventoInputFicha(){
                     if(respuesta.titulo == 'Sesión Expirada'){
                         window.location.replace(urlBase+'sesion-expirada');
                         
-                    }else if(respuesta.titulo != 'Ficha No Encontrada'){
+                    }else if(respuesta.titulo == 'Ficha No Encontrada'){
+                        inputPrograma.value = '';
+                        inputFechaFicha.value = '';
+
+                    }else{
                         alertaError(respuesta);
                     }
                 }

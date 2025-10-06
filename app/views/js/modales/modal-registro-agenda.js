@@ -127,6 +127,8 @@ function eventoRegistrarAgenda(){
         registrarAgenda(formData, urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
                 alertaExito(respuesta);
+                console.log(formData.get('fecha_agenda'));
+                document.getElementById('fecha').value = formData.get('fecha_agenda').split('T')[0];
                 funcioCallback();
                 botonCerrarModal.click();
 

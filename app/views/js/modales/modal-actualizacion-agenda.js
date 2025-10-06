@@ -9,7 +9,7 @@ let inputTitulo;
 let inputFechAgenda;
 let textAreaMotivo;
 let checkIndividual;
-let checkGrupal;
+let checkCargaMasiva;
 let funcionCallback;
 let urlBase;
 
@@ -45,7 +45,7 @@ function modalActualizarAgenda(codigo, callback, url) {
             inputFechAgenda = document.getElementById('fecha_agenda');
             textAreaMotivo = document.getElementById('motivo');
             checkIndividual = document.getElementById('individual');
-            checkGrupal = document.getElementById('grupal');
+            checkCargaMasiva = document.getElementById('carga_masiva');
         
             codigoAgenda = codigo;
             funcionCallback = callback;
@@ -57,7 +57,7 @@ function modalActualizarAgenda(codigo, callback, url) {
             dibujarAgenda();
             
             setTimeout(()=>{
-            titulo.focus();
+                inputTitulo.focus();
             }, 250)
 
         }else if(respuesta.tipo == 'ERROR'){
@@ -88,10 +88,10 @@ function dibujarAgenda(){
             textAreaMotivo.value = respuesta.datos_agenda.motivo;
             inputFechAgenda.min = respuesta.datos_agenda.fecha_agenda;
             checkIndividual.disabled = true;
-            checkGrupal.disabled = true;
+            checkCargaMasiva.disabled = true;
 
             if(respuesta.datos_agenda.agendados.length > 1){
-                checkGrupal.checked = true;
+                checkCargaMasiva.checked = true;
             }else{
                 checkIndividual.checked = true;
             }

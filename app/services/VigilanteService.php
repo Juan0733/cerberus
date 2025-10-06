@@ -70,8 +70,8 @@ class VigilanteService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
         $contrasena = md5($contrasena);
         $estadoUsuario = 'ACTIVO';
@@ -189,8 +189,8 @@ class VigilanteService extends MainService{
                 }
             }
 
-            $vigilante['nombres'] = mb_convert_case(mb_strtolower(trim($vigilante['nombres']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-            $vigilante['apellidos'] = mb_convert_case(mb_strtolower(trim($vigilante['apellidos']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $vigilante['nombres'] = mb_convert_case(mb_strtolower($vigilante['nombres'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $vigilante['apellidos'] = mb_convert_case(mb_strtolower($vigilante['apellidos'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
             $vigilante['correo_electronico'] = mb_strtolower($vigilante['correo_electronico'], "UTF-8");
             $vigilante['contrasena'] = md5($vigilante['contrasena']);
             $vigilante['estado_usuario'] = 'ACTIVO';
@@ -266,8 +266,8 @@ class VigilanteService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
 
         $datosVigilante = [

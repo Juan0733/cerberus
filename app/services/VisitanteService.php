@@ -64,10 +64,10 @@ class VisitanteService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
-        $motivoIngreso = mb_strtoupper(mb_substr(trim($motivoIngreso), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($motivoIngreso), 1, null, "UTF-8"), "UTF-8");
+        $motivoIngreso = mb_strtoupper(mb_substr($motivoIngreso, 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($motivoIngreso, 1, null, "UTF-8"), "UTF-8");
 
         $datosVisitante = [
             'tipo_documento' => $tipoDocumento,

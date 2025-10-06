@@ -45,7 +45,7 @@
                 <h3>Fecha Fin Contrato:</h3>
                 <p id="fecha_fin_contrato"></p>
             </div>
-            <div class="caja">
+            <div id="caja_responsable_registro" class="caja">
                 <h3>Responsable Registro:</h3>
                 <p id="responsable_registro"></p>
             </div>

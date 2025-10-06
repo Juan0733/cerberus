@@ -73,10 +73,10 @@ class AprendizService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
-        $nombrePrograma = mb_convert_case(mb_strtolower(trim($nombrePrograma), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombrePrograma = mb_convert_case(mb_strtolower($nombrePrograma, "UTF-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosAprendiz = [
             'tipo_documento' => $tipoDocumento,
@@ -195,10 +195,10 @@ class AprendizService extends MainService{
                 }
             }
 
-            $aprendiz['nombres'] = mb_convert_case(mb_strtolower(trim($aprendiz['nombres']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-            $aprendiz['apellidos'] = mb_convert_case(mb_strtolower(trim($aprendiz['apellidos']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $aprendiz['nombres'] = mb_convert_case(mb_strtolower($aprendiz['nombres'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $aprendiz['apellidos'] = mb_convert_case(mb_strtolower($aprendiz['apellidos'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
             $aprendiz['correo_electronico'] = mb_strtolower($aprendiz['correo_electronico'], "UTF-8");
-            $aprendiz['nombre_programa'] = mb_convert_case(mb_strtolower(trim($aprendiz['nombre_programa']), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+            $aprendiz['nombre_programa'] = mb_convert_case(mb_strtolower($aprendiz['nombre_programa'], "UTF-8"), MB_CASE_TITLE, "UTF-8");
             
             $fechaFinFicha = explode('-', $aprendiz['fecha_fin_ficha']);
             $aprendiz['fecha_fin_ficha'] = $fechaFinFicha[2] . '-' . $fechaFinFicha[1] . '-' . $fechaFinFicha[0];
@@ -278,10 +278,10 @@ class AprendizService extends MainService{
 			}
         }
 
-        $nombres = mb_convert_case(mb_strtolower(trim($nombres), "UTF-8"), MB_CASE_TITLE, "UTF-8");
-        $apellidos = mb_convert_case(mb_strtolower(trim($apellidos), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombres = mb_convert_case(mb_strtolower($nombres, "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $apellidos = mb_convert_case(mb_strtolower($apellidos, "UTF-8"), MB_CASE_TITLE, "UTF-8");
         $correoElectronico = mb_strtolower($correoElectronico, "UTF-8");
-        $nombrePrograma = mb_convert_case(mb_strtolower(trim($nombrePrograma), "UTF-8"), MB_CASE_TITLE, "UTF-8");
+        $nombrePrograma = mb_convert_case(mb_strtolower($nombrePrograma, "UTF-8"), MB_CASE_TITLE, "UTF-8");
 
         $datosAprendiz = [
             'numero_documento' => $numeroDocumento,

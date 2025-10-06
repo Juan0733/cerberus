@@ -32,8 +32,8 @@ class VigilanteModel extends MainModel{
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $sentenciaInsertar = "
-            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario, fk_usuario_sistema) 
-            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '{$datosVigilante['ubicacion']}', '$fechaRegistro', '{$datosVigilante['estado_usuario']}', '$usuarioSistema')";
+            INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario, rol_usuario_sistema, fk_usuario_sistema) 
+            VALUES('{$datosVigilante['tipo_documento']}', '{$datosVigilante['numero_documento']}', '{$datosVigilante['nombres']}', '{$datosVigilante['apellidos']}', '{$datosVigilante['telefono']}', '{$datosVigilante['correo_electronico']}', '{$datosVigilante['rol']}', '{$datosVigilante['contrasena']}', '{$datosVigilante['ubicacion']}', '$fechaRegistro', '{$datosVigilante['estado_usuario']}', '$rolSistema', '$usuarioSistema')";
 
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -50,7 +50,6 @@ class VigilanteModel extends MainModel{
 
     public function registrarVigilanteCargaMasiva($datosVigilantes){
         $rolSistema = $_SESSION['datos_usuario']['rol'];
-
         foreach ($datosVigilantes as &$vigilante) {
             if($rolSistema == 'SUPERVISOR' && $vigilante['rol'] != 'VIGILANTE'){
                 $respuesta = [
@@ -78,8 +77,8 @@ class VigilanteModel extends MainModel{
 
         foreach ($datosVigilantes as $vigilante) {
             $sentenciaInsertar = "
-                INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario, fk_usuario_sistema)
-                VALUES('{$vigilante['tipo_documento']}', '{$vigilante['numero_documento']}', '{$vigilante['nombres']}', '{$vigilante['apellidos']}', '{$vigilante['telefono']}', '{$vigilante['correo_electronico']}', '{$vigilante['rol']}', '{$vigilante['contrasena']}', '{$vigilante['ubicacion']}', '$fechaRegistro', '{$vigilante['estado_usuario']}', '$usuarioSistema');";
+                INSERT INTO vigilantes(tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, contrasena, ubicacion, fecha_registro, estado_usuario, rol_usuario_sistema, fk_usuario_sistema)
+                VALUES('{$vigilante['tipo_documento']}', '{$vigilante['numero_documento']}', '{$vigilante['nombres']}', '{$vigilante['apellidos']}', '{$vigilante['telefono']}', '{$vigilante['correo_electronico']}', '{$vigilante['rol']}', '{$vigilante['contrasena']}', '{$vigilante['ubicacion']}', '$fechaRegistro', '{$vigilante['estado_usuario']}', '$rolSistema', '$usuarioSistema');";
             
             $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
             if($respuesta['tipo'] == 'ERROR'){
@@ -90,7 +89,7 @@ class VigilanteModel extends MainModel{
         $respuesta = [
             "tipo" => "OK",
             "titulo" => 'Registro Exitoso',
-            "mensaje"=> 'El vigilante fue registrado correctamente.'
+            "mensaje"=> 'Fueron registrados '.count($datosVigilantes).' vigilantes correctamente.'
         ];
         return $respuesta;
     }
@@ -242,7 +241,7 @@ class VigilanteModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
-        if(!isset($parametros['ubicacion']) || $parametros['ubicacion'] != 'DENTRO'){
+        if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion'])){
             $sentenciaBuscar .= " LIMIT 10;";
         }
 
@@ -273,9 +272,24 @@ class VigilanteModel extends MainModel{
 
     public function consultarVigilante($documento){
         $sentenciaBuscar = "
-            SELECT tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, rol, estado_usuario
-            FROM vigilantes
-            WHERE numero_documento = '$documento';";
+            SELECT 
+                vig.tipo_documento, 
+                vig.numero_documento, 
+                vig.nombres, 
+                vig.apellidos, 
+                vig.telefono, 
+                vig.correo_electronico, 
+                vig.rol, 
+                vig.estado_usuario,
+                COALESCE(fun.nombres, apr.nombres, vis.nombres, vig2.nombres) AS nombres_responsable,
+                COALESCE(fun.apellidos, apr.apellidos, vis.apellidos, vig2.apellidos) AS apellidos_responsable,
+                vig.rol_usuario_sistema AS rol_responsable
+            FROM vigilantes vig
+            LEFT JOIN funcionarios fun ON vig.fk_usuario_sistema = fun.numero_documento
+            LEFT JOIN aprendices apr ON vig.fk_usuario_sistema = apr.numero_documento
+            LEFT JOIN vigilantes vig2 ON vig.fk_usuario_sistema = vig2.numero_documento
+            LEFT JOIN visitantes vis ON vig.fk_usuario_sistema = vis.numero_documento
+            WHERE vig.numero_documento = '$documento';";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

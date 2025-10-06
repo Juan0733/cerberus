@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-09-2025 a las 04:38:27
+-- Tiempo de generación: 23-09-2025 a las 03:57:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,6 +35,7 @@ CREATE TABLE `agendas` (
   `fk_usuario` varchar(15) NOT NULL,
   `fecha_agenda` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
@@ -55,7 +56,9 @@ CREATE TABLE `aprendices` (
   `correo_electronico` varchar(64) NOT NULL,
   `fk_ficha` varchar(7) NOT NULL,
   `fecha_registro` datetime NOT NULL,
-  `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA'
+  `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA',
+  `rol_usuario_sistema` varchar(20) NOT NULL,
+  `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -69,7 +72,9 @@ CREATE TABLE `fichas` (
   `numero_ficha` varchar(7) NOT NULL,
   `nombre_programa` varchar(50) NOT NULL,
   `fecha_fin_ficha` date NOT NULL,
-  `fecha_registro` datetime NOT NULL
+  `fecha_registro` datetime NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
+  `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -95,15 +100,17 @@ CREATE TABLE `funcionarios` (
   `fecha_registro` datetime NOT NULL,
   `fecha_ultima_sesion` datetime DEFAULT NULL,
   `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA',
-  `estado_usuario` varchar(8) DEFAULT NULL
+  `estado_usuario` varchar(8) DEFAULT NULL,
+  `rol_usuario_sistema` varchar(20) DEFAULT NULL,
+  `fk_usuario_sistema` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `funcionarios`
 --
 
-INSERT INTO `funcionarios` (`contador`, `tipo_usuario`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`) VALUES
-(1, 'FUNCIONARIO', 'CC', '1234567892', 'Heberth Hernando ', 'Garcia Tamayo', '1234567890', 'hgarciat@sena.edu.co', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-07-20 02:51:05', '2025-08-31 06:42:48', 'FUERA', 'ACTIVO');
+INSERT INTO `funcionarios` (`contador`, `tipo_usuario`, `tipo_documento`, `numero_documento`, `nombres`, `apellidos`, `telefono`, `correo_electronico`, `rol`, `tipo_contrato`, `fecha_fin_contrato`, `contrasena`, `brigadista`, `fecha_registro`, `fecha_ultima_sesion`, `ubicacion`, `estado_usuario`, `rol_usuario_sistema`, `fk_usuario_sistema`) VALUES
+(1, 'FUNCIONARIO', 'CC', '1234567892', 'Heberth Hernando ', 'Garcia Tamayo', '1234567890', 'hgarciat@sena.edu.co', 'SUBDIRECTOR', 'PLANTA', NULL, '25d55ad283aa400af464c76d713c07ad', 'NO', '2025-09-23 03:55:28', NULL, 'FUERA', 'ACTIVO', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -133,6 +140,7 @@ CREATE TABLE `movimientos` (
   `puerta_registro` varchar(9) NOT NULL,
   `observacion` varchar(150) DEFAULT NULL,
   `fecha_registro` datetime NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL,
   `tipo_usuario` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
@@ -153,6 +161,7 @@ CREATE TABLE `novedades_usuarios` (
   `fk_usuario` varchar(15) NOT NULL,
   `fecha_suceso` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
@@ -172,6 +181,7 @@ CREATE TABLE `novedades_vehiculos` (
   `fk_usuario_involucrado` varchar(15) NOT NULL,
   `fk_usuario_autoriza` varchar(15) NOT NULL,
   `fecha_registro` datetime NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
@@ -190,8 +200,10 @@ CREATE TABLE `permisos_usuarios` (
   `fecha_fin_permiso` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fecha_autorizacion` datetime DEFAULT NULL,
+  `rol_usuario_autorizacion` varchar(20) DEFAULT NULL,
   `fk_usuario_autorizacion` varchar(15) DEFAULT NULL,
   `estado_permiso` varchar(11) NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
@@ -211,8 +223,10 @@ CREATE TABLE `permisos_vehiculos` (
   `fecha_fin_permiso` datetime NOT NULL,
   `fecha_registro` datetime NOT NULL,
   `fecha_autorizacion` datetime DEFAULT NULL,
+  `rol_usuario_autorizacion` varchar(20) DEFAULT NULL,
   `fk_usuario_autorizacion` datetime DEFAULT NULL,
   `estado_permiso` varchar(11) NOT NULL DEFAULT 'PENDIENTE',
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
@@ -233,7 +247,7 @@ CREATE TABLE `roles_operaciones` (
 --
 
 INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
-(1, 'actualizar_contrasena', 'SUPERVISOR'),
+(1, 'actualizar_contrasena_usuario', 'SUPERVISOR'),
 (2, 'actualizar_vigilante', 'SUPERVISOR'),
 (3, 'consultar_agendas', 'SUPERVISOR'),
 (4, 'consultar_agenda', 'SUPERVISOR'),
@@ -284,7 +298,7 @@ INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
 (49, 'registrar_vehiculo', 'SUPERVISOR'),
 (50, 'validar_usuario_apto_entrada', 'SUPERVISOR'),
 (51, 'validar_usuario_apto_salida', 'SUPERVISOR'),
-(52, 'actualizar_contrasena', 'VIGILANTE'),
+(52, 'actualizar_contrasena_usuario', 'VIGILANTE'),
 (53, 'consultar_agendas', 'VIGILANTE'),
 (54, 'consultar_agenda', 'VIGILANTE'),
 (55, 'consultar_aprendices', 'VIGILANTE'),
@@ -317,7 +331,7 @@ INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
 (82, 'registrar_salida_vehicular', 'VIGILANTE'),
 (83, 'validar_usuario_apto_entrada', 'VIGILANTE'),
 (84, 'validar_usuario_apto_salida', 'VIGILANTE'),
-(85, 'actualizar_contrasena', 'COORDINADOR'),
+(85, 'actualizar_contrasena_usuario', 'COORDINADOR'),
 (86, 'actualizar_agenda', 'COORDINADOR'),
 (87, 'actualizar_funcionario', 'COORDINADOR'),
 (88, 'actualizar_aprendiz', 'COORDINADOR'),
@@ -356,7 +370,7 @@ INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
 (121, 'aprobar_permiso_vehiculo', 'SUBDIRECTOR'),
 (122, 'actualizar_agenda', 'SUBDIRECTOR'),
 (123, 'actualizar_aprendiz', 'SUBDIRECTOR'),
-(124, 'actualizar_contrasena', 'SUBDIRECTOR'),
+(124, 'actualizar_contrasena_usuario', 'SUBDIRECTOR'),
 (125, 'actualizar_funcionario', 'SUBDIRECTOR'),
 (126, 'actualizar_vigilante', 'SUBDIRECTOR'),
 (127, 'consultar_permisos_usuarios', 'SUBDIRECTOR'),
@@ -404,12 +418,12 @@ INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
 (169, 'registrar_agenda_carga_masiva', 'SUBDIRECTOR'),
 (170, 'registrar_aprendiz_carga_masiva', 'SUBDIRECTOR'),
 (171, 'registrar_vehiculo', 'SUBDIRECTOR'),
-(172, 'registrar_vigilante', 'SUBDIRECTOR'),
+(172, 'registrar_vigilante_individual', 'SUBDIRECTOR'),
 (173, 'registrar_funcionario_carga_masiva', 'SUBDIRECTOR'),
 (174, 'registrar_funcionario_individual', 'SUBDIRECTOR'),
 (175, 'registrar_vigilante_carga_masiva', 'SUBDIRECTOR'),
 (176, 'registrar_agenda_individual', 'SUBDIRECTOR'),
-(177, 'actualizar_contrasena', 'INSTRUCTOR'),
+(177, 'actualizar_contrasena_usuario', 'INSTRUCTOR'),
 (178, 'actualizar_agenda', 'INSTRUCTOR'),
 (179, 'consultar_fichas', 'INSTRUCTOR'),
 (180, 'consultar_ficha', 'INSTRUCTOR'),
@@ -429,7 +443,9 @@ INSERT INTO `roles_operaciones` (`contador`, `operacion`, `rol`) VALUES
 (194, 'registrar_agenda_carga_masiva', 'INSTRUCTOR'),
 (195, 'registrar_vehiculo', 'INSTRUCTOR'),
 (196, 'registrar_aprendiz_individual', 'INSTRUCTOR'),
-(197, 'registrar_aprendiz_carga_masiva', 'INSTRUCTOR');
+(197, 'registrar_aprendiz_carga_masiva', 'INSTRUCTOR'),
+(198, 'consultar_aprendices', 'INSTRUCTOR'),
+(199, 'consultar_aprendiz', 'INSTRUCTOR');
 
 -- --------------------------------------------------------
 
@@ -443,6 +459,7 @@ CREATE TABLE `vehiculos` (
   `numero_placa` varchar(6) NOT NULL,
   `fk_usuario` varchar(15) NOT NULL,
   `fecha_registro` datetime NOT NULL,
+  `rol_usuario_sistema` varchar(20) NOT NULL,
   `fk_usuario_sistema` varchar(15) NOT NULL,
   `ubicacion` varchar(6) NOT NULL,
   `estado_propiedad` varchar(8) NOT NULL DEFAULT 'ACTIVA'
@@ -468,7 +485,9 @@ CREATE TABLE `vigilantes` (
   `fecha_registro` datetime NOT NULL,
   `fecha_ultima_sesion` datetime DEFAULT NULL,
   `ubicacion` varchar(6) NOT NULL DEFAULT 'FUERA',
-  `estado_usuario` varchar(8) NOT NULL DEFAULT 'ACTIVO'
+  `estado_usuario` varchar(8) NOT NULL DEFAULT 'ACTIVO',
+  `rol_usuario_sistema` varchar(20) NOT NULL,
+  `fk_usuario_sistema` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -488,7 +507,9 @@ CREATE TABLE `visitantes` (
   `correo_electronico` varchar(64) NOT NULL,
   `motivo_ingreso` varchar(150) NOT NULL,
   `fecha_registro` datetime NOT NULL,
-  `ubicacion` varchar(8) NOT NULL DEFAULT 'FUERA'
+  `ubicacion` varchar(8) NOT NULL DEFAULT 'FUERA',
+  `rol_usuario_sistema` varchar(20) DEFAULT NULL,
+  `fk_usuario_sistema` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
@@ -647,7 +668,7 @@ ALTER TABLE `permisos_vehiculos`
 -- AUTO_INCREMENT de la tabla `roles_operaciones`
 --
 ALTER TABLE `roles_operaciones`
-  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `contador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`

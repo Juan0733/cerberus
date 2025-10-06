@@ -53,7 +53,7 @@ class PermisoUsuarioService extends MainService{
             $estadoPermiso = 'APROBADO';
         }
 
-        $descripcion = mb_strtoupper(mb_substr(trim($descripcion), 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr(trim($descripcion), 1, null, "UTF-8"), "UTF-8");
+        $descripcion = mb_strtoupper(mb_substr($descripcion, 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($descripcion, 1, null, "UTF-8"), "UTF-8");
 
         $datosPermiso = [
             'numero_documento' => $numeroDocumento,

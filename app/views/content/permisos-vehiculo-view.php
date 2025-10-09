@@ -40,7 +40,7 @@
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-            <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo">
+            <button type="button" class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo">
                 <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
@@ -50,7 +50,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-        <button class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo_mobile">
+        <button type="button" class="btn-permiso-vehiculo" id="btn_crear_permiso_vehiculo_mobile">
             <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>

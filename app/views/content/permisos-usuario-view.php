@@ -55,7 +55,7 @@
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-            <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario">
+            <button type="button" class="btn-permiso-usuario" id="btn_crear_permiso_usuario">
                 <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
@@ -65,7 +65,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-        <button class="btn-permiso-usuario" id="btn_crear_permiso_usuario_mobile">
+        <button type="button" class="btn-permiso-usuario" id="btn_crear_permiso_usuario_mobile">
             <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>

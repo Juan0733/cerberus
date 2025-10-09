@@ -28,13 +28,13 @@ function dibujarNotificaciones(){
 
                             if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estadoPermiso == 'DESAPROBADO'){
                                 acciones = `
-                                    <button class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>
-                                    <button class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
+                                    <button type="button" class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>
+                                    <button type="button" class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
 
                             }else{
                                 acciones = `
-                                    <button class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}">Solicitar permiso</button>
-                                    <button class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
+                                    <button type="button" class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}">Solicitar permiso</button>
+                                    <button type="button" class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
                             }
 
                             cuerpoModal.innerHTML += `
@@ -53,10 +53,10 @@ function dibujarNotificaciones(){
                             let acciones;
 
                             if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estado_permiso == 'DESAPROBADO'){
-                                acciones = `<button class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>`;
+                                acciones = `<button type="button" class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>`;
 
                             }else{
-                                acciones = `<button class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}">Solicitar permiso</button>`;
+                                acciones = `<button type="button" class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}">Solicitar permiso</button>`;
                             }
 
                             cuerpoModal.innerHTML += `

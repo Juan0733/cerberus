@@ -45,10 +45,10 @@
                 <h3>Responsable Autorización:</h3>
                 <p id="responsable_autorizacion"></p>
             </div>
-        </div>
-        <div class="caja">
-            <h3>Descripción:</h3>
-            <p id="descripcion"></p>
+            <div class="caja">
+                <h3>Descripción:</h3>
+                <p id="descripcion"></p>
+            </div>
         </div>
     </div>
 </div>

@@ -29,7 +29,7 @@
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
-            <button class="btn-funcionario" id="btn_crear_funcionario">
+            <button type="button" class="btn-funcionario" id="btn_crear_funcionario">
                 <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
@@ -40,7 +40,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR'): ?>
-        <button class="btn-funcionario" id="btn_crear_funcionario_mobile">
+        <button type="button" class="btn-funcionario" id="btn_crear_funcionario_mobile">
             <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>

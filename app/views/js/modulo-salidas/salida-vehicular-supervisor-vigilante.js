@@ -21,7 +21,6 @@ let botonRegistrarSalida;
 let formularioPasajeros;
 let formularioPeatonal;
 let formularioVehicular;
-let contenedorBotonesFormularios;
 let cuerpoTablaPasajeros;
 let listaPropietarios;
 let puerta;
@@ -52,10 +51,6 @@ function abrirFormularioVehicular() {
 
     if(window.innerWidth <= 1023){
         botonPeatonal.style.display = "none";
-
-        if(window.innerWidth < 768){
-            contenedorBotonesFormularios.style.justifyContent = 'start';
-        }
     }
 
     botonVehicular.style.display = "none"
@@ -85,10 +80,6 @@ function cerrarFormularios(){
         if(botonPeatonal.style.display == 'none'){
             botonPeatonal.style.display = 'flex';
         }
-    }
-    
-    if(contenedorBotonesFormularios.style.justifyContent == 'start'){
-        contenedorBotonesFormularios.style.justifyContent = 'center';
     }
 }
 
@@ -546,7 +537,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     formularioPasajeros = document.getElementById('formulario_pasajeros');
     formularioPeatonal = document.getElementById("formulario_peatonal"); 
     formularioVehicular = document.getElementById("formulario_vehicular");
-    contenedorBotonesFormularios = document.getElementById('contenedor_btns_formularios');
     puerta = document.getElementById('puerta');
 
     eventoInputPlaca();

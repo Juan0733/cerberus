@@ -51,8 +51,6 @@
     cursor: pointer;
     background-color: var(--color-transparente);
     color: var(--color-boton-texto);
-    right: 15px;
-    top: 15px;
     z-index: 100;
 }
 
@@ -277,11 +275,14 @@
 }
 
 .menu .cont-menu-icon{
+    background: transparent;
+    border: none;
     display: flex;
     margin-right: 5px;
 }
 
     .menu .cont-menu-icon ion-icon{
+        color: white;
         font-size: 30px;
     }
 
@@ -294,6 +295,7 @@
 }
 
 .menu #cont_info_usuario-mobil ion-icon{
+    color: white;
     font-size: 30px;
 }
 
@@ -326,6 +328,7 @@
 .menu #cont_info_usuario-mobil #btn_notificaciones_mobile{
     border: 2px solid;
     border-color: white ;
+    background: transparent;
     width: 40px;
     height: 40px;
     display: flex;
@@ -349,6 +352,7 @@
     
 .menu #cont_info_usuario-mobil #btn_brigadistas_mobile{
     border: 2px solid;
+    border-color: white;
     width: 40px;
     height: 40px;
     display: flex;
@@ -376,6 +380,7 @@
 .menu #cont_info_usuario-mobil #btn_puerta_mobile{
     border: 2px solid;
     border-color: white;
+    background: transparent;
     width: 40px;
     height: 40px;
     display: flex;
@@ -436,6 +441,10 @@
             height: 35px;
             width: 35px;
         }
+
+    .max-barra-lateral{
+        margin-top: 55px;
+    }
 }
 
 
@@ -460,8 +469,7 @@
         display: flex;
         justify-content: space-between;
         padding: 0 10px;
-        position: sticky;
-        top: 0;
+        position: fixed;
         background: var(--main-color);
         z-index: 50;
     }
@@ -473,5 +481,11 @@
     }
     main.min-main{
         margin-left: 0;
+    }
+}
+
+@media(max-width: 767px){
+    .max-barra-lateral{
+        margin-top: 50px;
     }
 }

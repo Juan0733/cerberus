@@ -54,9 +54,9 @@
         #contenedor_principal #btn_crear_agenda_mobile{
             display: none;
             height: 60px;
-            left: 80%;
+            right: 18px;
             position: fixed;
-            top: 88.5%;
+            bottom: 18px;
             width: 60px;
             z-index: 20;
         }
@@ -463,71 +463,89 @@
 }
 
 #contenedor_modales #modal_detalle_agenda #cont_info_modales{
-    align-items: start;
-    padding: 1.5em 1.5em 1em;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 550px;
+    padding: 20px;
+    row-gap: 20px;
 }
 
-    #modal_detalle_agenda #cont_info_modales h3{
-        margin-bottom: 6px;
-    }
+#contenedor_modales #modal_detalle_agenda #cont_info_modales::-webkit-scrollbar{
+    background: transparent;
+    width: 6px;
+}
 
-    #modal_detalle_agenda #cont_info_modales p{
-        margin-bottom: 20px;
-    }
+#contenedor_modales #modal_detalle_agenda #cont_info_modales::-webkit-scrollbar-thumb{
+    border-radius: 20px;
+    background-color: rgb(180, 180, 180);
+}
 
     #modal_detalle_agenda #cont_info_modales #contenedor_agendados{
         display: flex;
-        justify-content: center;
-        max-height: 200px;
-        margin-bottom: 12px;
-        overflow-y: auto;
+        flex-direction: column;
         width: 100%;
+        row-gap: 6px;
     }
+
+        #modal_detalle_agenda #cont_info_modales #contenedor_agendados #contenedor_tabla{
+            max-height: 200px;
+            overflow-y: auto;
+        }
  
-    #contenedor_agendados #tabla_agendados {
-        border-collapse: collapse;
-        border-radius: 20px;
-        background: var(--color-primario);
-        text-align: center;
+            #cont_info_modales #contenedor_agendados #contenedor_tabla #tabla_agendados{
+                border-collapse: collapse;
+                border-radius: 20px;
+                background: var(--color-primario);
+                text-align: center;
+                width: 100%;
+            }
+
+                #contenedor_agendados #contenedor_tabla #tabla_agendados tr{
+                    border-bottom: 2px solid rgb(219, 219, 219);
+                }
+
+                #contenedor_agendados #contenedor_tabla #tabla_agendados thead {
+                    background-color: var(--color-secundario);
+                    color: white;
+                    cursor: pointer;
+                    left: 0;
+                    position: sticky;
+                    top: 0;
+                }
+
+                    #contenedor_tabla #tabla_agendados thead th{
+                        font-weight: normal;
+                        padding: 8px;
+                        text-transform: capitalize;
+                    }
+
+                    #contenedor_tabla #tabla_agendados thead th:first-child {
+                        border-radius: 20px 0 0 0;  
+                    }
+
+                    #contenedor_tabla #tabla_agendados thead th:last-child {
+                        border-radius: 0 20px 0 0;  
+                    }
+
+                    #contenedor_tabla #tabla_agendados tbody td{
+                        padding: 2.5px 8px;
+                    }
+
+    #modal_detalle_agenda #cont_info_modales #contenedor_cajas{
+        column-gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
         width: 100%;
     }
 
-    #contenedor_agendados #tabla_agendados tr{
-        border-bottom: 2px solid rgb(219, 219, 219);
-    }
-
-    #contenedor_agendados #tabla_agendados thead {
-        background-color: var(--color-secundario);
-        color: white;
-        cursor: pointer;
-        left: 0;
-        position: sticky;
-        top: 0;
-    }
-
-        #contenedor_agendados #tabla_agendados thead th{
-            font-weight: normal;
-            padding: 8px;
-            text-transform: capitalize;
+        #modal_detalle_agenda #cont_info_modales #contenedor_cajas .caja{
+            display: flex;
+            flex-direction: column;
+            row-gap: 6px;
+            width: 100%;
         }
-
-        #contenedor_agendados #tabla_agendados tbody td{
-            padding: 2.5px 8px;
-        }
-
-        #contenedor_agendados #tabla_agendados thead th:first-child {
-            border-radius: 20px 0 0 0;  
-        }
-
-        #contenedor_agendados #tabla_agendados thead th:last-child {
-            border-radius: 0 20px 0 0;  
-        }
-
-    #modal_detalle_agenda #cont_info_modales #contenedor_fecha_agenda{
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
 
 @media(min-width: 768px) and (max-width: 1023px){
 
@@ -542,9 +560,10 @@
 
     #contenedor_agendas #contenedor_cards{
         column-gap: 2em;
-        max-height: 76vh;
         margin: 0 auto;
         grid-template-columns: repeat(2, 1fr);
+        max-height: none;
+        overflow: hidden;
         width: 100%;
     }
 
@@ -566,7 +585,7 @@
 @media(max-width: 767px){
 
     #contenedor_principal{
-        width: clamp(260px, 100%, 600px);
+        width: clamp(300px, 100%, 450px);
     }
 
         #contenedor_principal #contenedor_filtros{
@@ -592,9 +611,10 @@
         }
 
             #contenedor_principal #contenedor_agendas #contenedor_cards{
-                max-height: 50vh;
                 grid-template-columns: 100%;
                 gap: 1em;
+                max-height: none;
+                overflow: hidden;
                 width: 100%;
             }
 
@@ -620,7 +640,7 @@
 
     /* --------------------------------------------------- Estilo Modal registrar agenda --------------------------------------*/
     #contenedor_modales #modal_agenda{
-        width: clamp(300px, 92.5%, 500px)!important;
+        width: clamp(300px, 92.5%, 450px)!important;
     }
 
         #modal_agenda #cont_info_modales #formulario_agenda #contenedor_cajas_agenda{
@@ -634,7 +654,7 @@
        
     /* ------------------------------------------------- Estilos Modal Vehículo ---------------------------------------*/
     #contenedor_modales #modal_vehiculo{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
         #modal_vehiculo #cont_info_modales #formulario_vehiculo #contenedor_cajas_vehiculo{
@@ -644,20 +664,18 @@
 
     /* -------------------------------------------------- Estilos Modal detalle agenda ----------------------------------------*/
     #contenedor_modales #modal_detalle_agenda{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
-        #modal_detalle_agenda #cont_info_modales p{
-            margin-bottom: 12px;
+        #contenedor_modales #modal_detalle_agenda #cont_info_modales{
+            padding: 12px;
+            row-gap: 12px;
         }
 
-        #modal_detalle_agenda #cont_info_modales #contenedor_agendados{
-            max-height: 150px;
-        }
-
-        #modal_detalle_agenda #cont_info_modales #contenedor_fecha_agenda{
-            flex-direction: column;
-        }
+            #modal_detalle_agenda #cont_info_modales #contenedor_cajas{
+                grid-template-columns: repeat(1, 1fr);
+                row-gap: 12px;
+            }
 }
 
 

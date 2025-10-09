@@ -21,7 +21,7 @@
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
-            <button class="btn-aprendiz" id="btn_crear_aprendiz">
+            <button type="button" class="btn-aprendiz" id="btn_crear_aprendiz">
                 <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
@@ -32,7 +32,7 @@
     </div>
 
      <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
-        <button class="btn-aprendiz" id="btn_crear_aprendiz_mobile">
+        <button type="button" class="btn-aprendiz" id="btn_crear_aprendiz_mobile">
             <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>

@@ -159,8 +159,9 @@
 
     #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
         column-gap: 4.2em;
-        max-height: 78vh;
+        max-height: none;
         margin: 0 auto;
+        overflow: hidden;
         grid-template-columns: repeat(2, 1fr);
         width: 100%;
     }
@@ -173,7 +174,7 @@
 
 @media(max-width: 767px){
     #contenedor_principal{
-        width: clamp(260px, 100%, 600px);
+        width: clamp(300px, 100%, 450px);
     }
         #contenedor_principal #contenedor_saludo{
             padding: 0;
@@ -185,9 +186,10 @@
         }
 
             #contenedor_principal #contenedor_cartas_multitudes #contenedor_cards{
-                max-height: 78vh;
+                max-height: none;
                 grid-template-columns: 100%;
                 gap: 1em;
+                overflow: hidden;
                 width: 100%;
             }
 

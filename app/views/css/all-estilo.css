@@ -172,6 +172,7 @@ main#cuerpo{
                     align-items: center;
                     border-radius: 50px;
                     background: #D9D9D9;
+                    border: none;
                     cursor: pointer;
                     display: flex;
                     height: 40px;
@@ -187,6 +188,7 @@ main#cuerpo{
 
                 #cont_info_usuario #btn_notificaciones{
                     background: #D9D9D9;
+                    border: none;
                     width: 40px;
                     cursor: pointer;
                     height: 40px;
@@ -303,7 +305,7 @@ main#cuerpo{
     left: 0;
     opacity: 0;
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     width: 100vw;
     transition: opacity 0.3s ease;
     top: 0;
@@ -318,10 +320,9 @@ main#cuerpo{
     #contenedor_notificaciones .contenedor-ppal-modal{
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        position: absolute;
+        height: 100vh;
+        position: fixed;
         right: 0;
-        overflow: hidden;
         width: clamp(500px, 30%, 650px);
         border-radius: 20px 0 20px 20px;
         background: var(--main-color);
@@ -355,10 +356,10 @@ main#cuerpo{
         }
 
         #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal{
-            height: 90.5vh;
+            height: 100%;
             background: var(--color-primario);
             border-radius: 20px;
-            padding: 20px 10px;
+            padding: 20px 10px 5px 10px;
             overflow-y: auto;
         }
 
@@ -437,51 +438,43 @@ main#cuerpo{
     z-index: 1000;
 }
 
+    #contenedor_modales .contenedor-ppal-modal .contenedor-titulo-modal{
+        color: var(--color-primario);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.7em;
+        animation: slideIn 0.5s ease-out;
+    }
+
+        #contenedor_modales .contenedor-ppal-modal .contenedor-titulo-modal h2{
+            font-size: 1.5em;
+            width: 100%;
+            text-align: center;
+            margin-left: 14px;
+        }
+
+        #contenedor_modales .contenedor-ppal-modal .contenedor-titulo-modal ion-icon{
+            font-size: 30px;
+            cursor: pointer;
+        }
+                
+    #contenedor_modales .contenedor-ppal-modal .contenedor-info-modal{
+        height: 100%;
+        background: var(--color-primario);
+        border-radius: 20px;    
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+.oculto{
+    display: none !important;
+}
+
 /*----------------------------------- Clase para mostrar el contenedor de fondo ------------------------------------------*/
 #contenedor_modales.mostrar {
     opacity: 1;
     pointer-events: auto;
-}
-
-#contenedor_modales .contenedor-titulo-modal{
-    color: var(--color-primario);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.7em;
-    animation: slideIn 0.5s ease-out;
-}
-
-#contenedor_modales .contenedor-titulo-modal h2{
-    font-size: 1.5em;
-    width: 100%;
-    text-align: center;
-    margin-left: 14px;
-}
-
-#contenedor_modales .contenedor-titulo-modal ion-icon{
-    font-size: 30px;
-    cursor: pointer;
-}
-                
-#contenedor_modales .contenedor-ppal-modal .contenedor-info-modal{
-    height: 100%;
-    background: var(--color-primario);
-    border-radius: 20px;    
-    overflow-y: auto;
-    scrollbar-width: none;
-}
-
-#contenedor_modales #cont_info_modales{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.oculto{
-    display: none !important;
 }
 
 /*---------------------------------------------- Estilos Modal Novedad Usuario ----------------------------------------------- */
@@ -1044,31 +1037,31 @@ main#cuerpo{
 @media(min-width: 768px) and (max-width: 1023px){
     main#cuerpo{
         display: block;
+        height: auto;
     }
 
     main#cuerpo section#contenedor_pagina{
-        height: 94vh;
+        min-height: 100vh;
+        height: auto;
+        padding-top: 73px;
     }
 
     section#contenedor_pagina #nav_menu{
         display: none;
     }
-
-     /*-------------------------------------------------- Estilos generales para cada modal ------------------------------------*/
-    #contenedor_modales .contenedor-titulo-modal h2{
-        font-size: 1.2em;
-    }
-
 }
 
 @media (max-width: 767px) {
     main#cuerpo{
         display: block;
+        height: auto;
     }
 
     main#cuerpo section#contenedor_pagina{
         align-items: center;
         min-height: 100vh;
+        height: auto;
+        padding-top: 68px;
     }    
     
     section#contenedor_pagina #nav_menu{
@@ -1080,19 +1073,15 @@ main#cuerpo{
         width: clamp(300px, 100%, 600px);
     }
 
-        #contenedor_notificaciones .contenedor-ppal-modal .contenedor-modal{
-            height: 100vh;
-        }
-
     /* --------------------------------------- Estilos generales para cada modal ----------------------------------------------------------*/
-    #contenedor_modales .contenedor-titulo-modal h2{
-        font-size: 1.2em;
+    #contenedor_modales .contenedor-ppal-modal .contenedor-titulo-modal h2{
+        font-size: 20px;
         text-align: left;
     }
 
     /* ------------------------------------------------- Estilos Modal Novedad Usuario ---------------------------------------*/
     #contenedor_modales #modal_novedad_usuario{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
         #modal_novedad_usuario #cont_info_modales #formulario_novedad_usuario #contenedor_cajas_novedad_usuario{
@@ -1102,7 +1091,7 @@ main#cuerpo{
 
     /* ------------------------------------------------- Estilos Permiso Usuario ---------------------------------------*/
     #contenedor_modales #modal_permiso_usuario{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
         #modal_permiso_usuario #cont_info_modales #formulario_permiso_usuario #contenedor_cajas_permiso_usuario{
@@ -1112,7 +1101,7 @@ main#cuerpo{
 
      /* ------------------------------------------------- Estilos Modal Permiso Vehiculo ---------------------------------------*/
     #contenedor_modales #modal_permiso_vehiculo{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
         #modal_permiso_vehiculo #cont_info_modales #formulario_permiso_vehiculo #contenedor_cajas_permiso_vehiculo{
@@ -1122,7 +1111,7 @@ main#cuerpo{
 
     /* ----------------------------------------- Estilos Modal registrar visitante ---------------------------------------------*/
     #contenedor_modales #modal_visitante{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
         #modal_visitante #cont_info_modales #formulario_visitante #contenedor_cajas_visitante{
             grid-template-columns: repeat(1, 1fr);
@@ -1144,7 +1133,7 @@ main#cuerpo{
 
     /* ------------------------------------------------- Estilos Modal Habilitar Usuario ---------------------------------------*/
     #contenedor_modales #modal_actualizar_contrasena{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
         #modal_actualizar_contrasena #cont_info_modales #formulario_actualizar_contrasena #contenedor_cajas_habilitar{
@@ -1154,7 +1143,7 @@ main#cuerpo{
 
     /* ------------------------------------------------- Estilos Modal Seleccionar Puerta ---------------------------------------*/
     #contenedor_modales #modal_puerta{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
         #modal_puerta #cont_info_modales #formulario_puerta #contenedor_cajas_puerta{
@@ -1164,7 +1153,7 @@ main#cuerpo{
 
     /* -------------------------------------------------- Estilos Modal Brigadistas ----------------------------------------*/
     #contenedor_modales #modal_brigadistas{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 }
 

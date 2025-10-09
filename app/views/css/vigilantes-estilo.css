@@ -53,9 +53,9 @@
     #contenedor_principal #btn_crear_vigilante_mobile{
         display: none;
         height: 60px;
-        left: 80%;
+        right: 18px;
         position: fixed;
-        top: 88.5%;
+        bottom: 18px;
         width: 60px;
         z-index: 20;
     }
@@ -249,14 +249,23 @@
 }
 
 #contenedor_modales #modal_detalle_vigilante #cont_info_modales{
-    align-items: start;
     overflow-y: auto;
     max-height: 550px;
-    padding: 1.5em 1.5em 1em;
+    padding: 20px;
+}
+
+#contenedor_modales #modal_detalle_vigilante #cont_info_modales::-webkit-scrollbar{
+    background: transparent;
+    width: 6px;
+}
+
+#contenedor_modales #modal_detalle_vigilante #cont_info_modales::-webkit-scrollbar-thumb{
+    border-radius: 20px;
+    background-color: rgb(180, 180, 180);
 }
 
     #modal_detalle_vigilante #cont_info_modales #contenedor_cajas{
-        column-gap: 15px;
+        column-gap: 20px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         row-gap: 20px;
@@ -264,7 +273,6 @@
     }
 
         #modal_detalle_vigilante #cont_info_modales #contenedor_cajas .caja{
-            align-items: start;
             display: flex;
             flex-direction: column;
             row-gap: 6px;
@@ -442,6 +450,8 @@
         column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        max-height: none;
+        overflow: hidden;
     }
 
         #contenedor_principal #contenedor_tabla_cards .document-card-vigilante{
@@ -457,7 +467,7 @@
     #contenedor_principal{
         flex-direction: column;
         row-gap: 10px;
-        width: clamp(260px, 100%, 600px);
+        width: clamp(300px, 100%, 450px);
     }
 
         #contenedor_principal #contenedor_filtros{
@@ -473,6 +483,10 @@
                 display: none;
             }
 
+        #contenedor_principal #contenedor_tabla_cards{
+            max-height: none;
+            overflow: hidden;
+        }
 
         #contenedor_principal #btn_crear_vigilante_mobile{
             display: flex;
@@ -480,7 +494,7 @@
 
 /* ----------------------------------------- Estilos Modal registrar Vigilante ---------------------------------------------*/
     #contenedor_modales #modal_vigilante{
-        width: clamp(300px, 92.5%, 500px)!important;
+        width: clamp(300px, 92.5%, 450px)!important;
     }
 
         #modal_vigilante #cont_info_modales #formulario_vigilante #contenedor_cajas_vigilante{
@@ -490,11 +504,15 @@
 
     /* -------------------------------------------------- Estilos Modal detalle vigilante ----------------------------------------*/
     #contenedor_modales #modal_detalle_vigilante{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
-        #modal_detalle_vigilante #cont_info_modales #contenedor_cajas{
-            grid-template-columns: repeat(1, 1fr);
-            row-gap: 12px;
+        #contenedor_modales #modal_detalle_vigilante #cont_info_modales{
+            padding: 12px;
         }
+
+            #modal_detalle_vigilante #cont_info_modales #contenedor_cajas{
+                grid-template-columns: repeat(1, 1fr);
+                row-gap: 12px;
+            }
 }

@@ -35,24 +35,24 @@
             <ion-icon name="people"></ion-icon>
             <p>Multitud: <span id="contador_multitud">0</span></p>
         </div>
-        <button id="btn_brigadistas">
+        <button type="button" id="btn_brigadistas">
             <ion-icon name="medkit"></ion-icon>
             <p>Brigadistas: <span id="contador_brigadistas">0</span></p>
         </button>
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
-            <div id="btn_puerta">
+            <button type="button" id="btn_puerta">
                 <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                 fill="#b64810" viewBox="0 0 24 24" >
                 <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
                 <path d="M2 20H22V22H2z"></path><path d="m20,4c0-1.1-.9-2-2-2H6c-1.1,0-2,.9-2,2v15h16V4Zm-3,8h-2v-2h2v2Z"></path>
                 </svg>
-            </div>
+            </button>
         <?php endif; ?>
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
-            <div id="btn_notificaciones">
+            <button type="button" id="btn_notificaciones">
                 <ion-icon name="notifications" ></ion-icon>
                 <span id="contador_notificaciones">0</span> 
-            </div>
+            </button>
         <?php endif; ?>
         
     </div>

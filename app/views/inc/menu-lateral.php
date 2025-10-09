@@ -9,10 +9,10 @@
 ?>
 
 <div class="menu">
-    <div class="cont-menu-icon">
+    <button type="button" class="cont-menu-icon">
         <ion-icon name="grid-outline" class="icon-menu"></ion-icon>
         <ion-icon name="close-outline" class="icon-close-menu"></ion-icon>
-    </div>
+    </button>
     
     <div id="cont_nombre_vista_menu">
         <h1><?php echo $titulo; ?></h1>
@@ -24,25 +24,25 @@
             <span id="contador_multitud_mobile">0</span>
         </div>
 
-        <div id="btn_brigadistas_mobile">
+        <button type="button" id="btn_brigadistas_mobile">
             <ion-icon name="medkit"></ion-icon>
             <span id="contador_brigadistas_mobile">0</span>
-        </div>
+        </button>
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'VIGILANTE'): ?>
-            <div id="btn_puerta_mobile">
+            <button type="button" id="btn_puerta_mobile">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
                 fill="#ffffff" viewBox="0 0 24 24" >
                 <path d="M2 20H22V22H2z"></path><path d="m20,4c0-1.1-.9-2-2-2H6c-1.1,0-2,.9-2,2v15h16V4Zm-3,8h-2v-2h2v2Z"></path>
                 </svg>   
-            </div>
+            </button>
         <?php endif; ?>
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUPERVISOR' || $_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
-            <div id="btn_notificaciones_mobile">
+            <button type="button" id="btn_notificaciones_mobile">
                 <ion-icon name="notifications" ></ion-icon>
                 <span id="contador_notificaciones_mobile">0</span> 
-            </div>
+            </button>
         <?php endif; ?>
     </div>
 </div>

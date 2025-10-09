@@ -18,7 +18,7 @@ class UsuarioModel extends MainModel{
                     SELECT tipo_usuario, tipo_documento, numero_documento, nombres, apellidos, telefono, correo_electronico, ubicacion, fecha_fin_ficha
                     FROM $tabla 
                     INNER JOIN fichas ON fk_ficha = numero_ficha 
-                    WHERE numero_documento = '$usuario';";;
+                    WHERE numero_documento = '$usuario';";
 
             }else if($tabla == 'funcionarios'){
                 $sentenciaBuscar = "

@@ -248,17 +248,24 @@ function eventoSelectContrato(){
     selectTipoContrato.addEventListener('change', ()=>{
         if(selectTipoContrato.value == 'CONTRATISTA'){
             inputFechaContrato.required = true;
-            inputFechaContrato.classList.add('campo-individual-02');
             cajaFecha.style.display = 'block';
             cajaFecha.classList.add('seccion-individual');
-            cajaFecha.classList.add('seccion-individual-02');
+
+            if(window.innerWidth < 768){
+                inputFechaContrato.classList.add('campo-individual-02');
+                cajaFecha.classList.add('seccion-individual-02');
+            }
+            
 
         }else{
             inputFechaContrato.required = false;
-            inputFechaContrato.classList.remove('campo-individual-02');
             cajaFecha.style.display = 'none';
             cajaFecha.classList.remove('seccion-individual');
-            cajaFecha.classList.remove('seccion-individual-02');
+
+            if(window.innerWidth < 768){
+                inputFechaContrato.classList.remove('campo-individual-02');
+                cajaFecha.classList.remove('seccion-individual-02');
+            }
         }
     })
 }

@@ -234,8 +234,12 @@ function eventoSelectRol(){
         }else{
             for(const caja of cajasContrasena){
                 caja.style.display = 'none';
-                caja.classList.remove('seccion-individual-03');
+
+                if(window.innerWidth < 768){
+                    caja.classList.remove('seccion-individual-03');
+                }
             };
+            
             inputContrasena.required = false;
             inputConfirmacion.required = false;
         }
@@ -248,15 +252,27 @@ function eventoSelectContrato(){
     selectTipoContrato.addEventListener('change', ()=>{
         if(selectTipoContrato.value == 'CONTRATISTA'){
             inputFechaContrato.required = true;
-            inputFechaContrato.classList.add('campo-individual-02');
-            cajaFecha.style.display = 'block';
-            cajaFecha.classList.add('seccion-individual-02');
+
+            if(window.innerWidth < 768){
+                inputFechaContrato.classList.add('campo-individual-02');
+                cajaFecha.classList.add('seccion-individual-02');
+
+                if(cajaFecha.style.display == 'none'){
+                    cajaFecha.style.display = 'block';
+                }
+
+            }else{
+                cajaFecha.style.display = 'block';
+            }
 
         }else{
             inputFechaContrato.required = false;
-            inputFechaContrato.classList.remove('campo-individual-02');
             cajaFecha.style.display = 'none';
-            cajaFecha.classList.remove('seccion-individual-02');
+            
+            if(window.innerWidth < 768){
+                inputFechaContrato.classList.remove('campo-individual-02');
+                cajaFecha.classList.remove('seccion-individual-02');
+            }
         }
     })
 }

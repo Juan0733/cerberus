@@ -1,7 +1,12 @@
 <?php
 
  /* -------------Nombre Sesion y APP---------------- */
- 	session_start();
+ 	if (session_status() === PHP_SESSION_NONE) {
+		ini_set('session.gc_maxlifetime', 2592000);
+		ini_set('session.gc_probability', 1);
+		ini_set('session.gc_divisor', 1000);
+		session_start();
+	}
 
 	const APP_NOMBRE = "Cerberus";
 

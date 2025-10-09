@@ -25,7 +25,7 @@
         </div> 
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-            <button class="btn-vigilante" id="btn_crear_vigilante">
+            <button type="button" class="btn-vigilante" id="btn_crear_vigilante">
                 <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
@@ -35,7 +35,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'SUPERVISOR'): ?>
-        <button class="btn-vigilante" id="btn_crear_vigilante_mobile">
+        <button type="button" class="btn-vigilante" id="btn_crear_vigilante_mobile">
             <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>

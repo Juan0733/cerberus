@@ -15,7 +15,7 @@
             <input type="text" name="buscador_documento" id="buscador_documento" placeholder="Buscar Documento" maxlength="15">
         </div> 
 
-        <button class="btn-visitante" id="btn_crear_visitante">
+        <button type="button" class="btn-visitante" id="btn_crear_visitante">
             <ion-icon name="add"></ion-icon>
         </button>
     </div>
@@ -23,7 +23,7 @@
     <div id="contenedor_tabla_cards">
     </div>
 
-    <button class="btn-visitante" id="btn_crear_visitante_mobile">
+    <button type="button" class="btn-visitante" id="btn_crear_visitante_mobile">
         <ion-icon name="add"></ion-icon>
     </button>
 </div>

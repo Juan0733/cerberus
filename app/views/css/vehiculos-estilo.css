@@ -186,6 +186,16 @@
         max-height: 450px;
         width: 100%;
     }
+
+    #contenedor_modales #modal_propietarios #cont_info_modales::-webkit-scrollbar{
+        background: transparent;
+        width: 6px;
+    }
+
+    #contenedor_modales #modal_propietarios #cont_info_modales::-webkit-scrollbar-thumb{
+        border-radius: 20px;
+        background-color: rgb(180, 180, 180);
+    }
     
         #contenedor_modales #modal_propietarios #tabla_propietarios {
             border-collapse: collapse;
@@ -326,6 +336,8 @@
         column-gap: 10px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        max-height: none;
+        overflow: hidden;
     }
 
         #contenedor_principal #contenedor_tabla_cards .document-card-vehiculo{
@@ -342,7 +354,7 @@
     #contenedor_principal{
         flex-direction: column;
         row-gap: 10px;
-        width: clamp(260px, 100%, 600px);
+        width: clamp(300px, 100%, 450px);
     }
 
         #contenedor_principal #contenedor_filtros{
@@ -353,9 +365,14 @@
                 width: 100%;
             }
 
+        #contenedor_principal #contenedor_tabla_cards{
+            max-height: none;
+            overflow: hidden;
+        }
+
     /* -------------------------------------------------- Estilos Modal propietario vehiculo ----------------------------------*/
     #contenedor_modales #modal_propietarios{
-        width: clamp(300px, 92.5%, 500px);
+        width: clamp(300px, 92.5%, 450px);
     }
 
 }

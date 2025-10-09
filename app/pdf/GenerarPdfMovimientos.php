@@ -90,7 +90,7 @@ class PDF extends tFPDF{
         $this->Cell(30, 60, 'Número telefóno: '.$this->usuario['telefono'], 0, 0);
 
          $this->setXY(157, 43);
-        $this->Cell(30, 60, 'Tipo usuario: '.ucfirst(strtolower($this->usuario['tipo_usuario'])), 0, 0);
+        $this->Cell(30, 60, 'Tipo usuario: '.mb_strtoupper(mb_substr($this->usuario['tipo_usuario'], 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($this->usuario['tipo_usuario'], 1, null, "UTF-8"), "UTF-8"), 0, 0);
     }
 
     function dibujarInformacionVehiculo(){
@@ -105,7 +105,7 @@ class PDF extends tFPDF{
         $this->Cell(30, 60, "Número placa: ".$this->vehiculo['numero_placa'], 0, 0);
 
         $this->setY(33);
-        $this->Cell(30, 60, "Tipo vehículo: ".ucfirst(strtolower($this->usuario['tipo_vehiculo'])), 0, 0);
+        $this->Cell(30, 60, "Tipo vehículo: ".mb_strtoupper(mb_substr($this->vehiculo['tipo_vehiculo'], 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($this->vehiculo['tipo_vehiculo'], 1, null, "UTF-8"), "UTF-8"), 0, 0);
     }
 
     function dibujarCabeceraTabla(){

@@ -39,7 +39,7 @@
             </div>
 
             <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
-                <button id="btn_informe" class="btn-informe">
+                <button type="button" id="btn_informe" class="btn-informe">
                     <ion-icon name="document-text"></ion-icon>
                 </button>
             <?php endif; ?>
@@ -50,7 +50,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR'): ?>
-        <button id="btn_informe_mobile" class="btn-informe">
+        <button type="button" id="btn_informe_mobile" class="btn-informe">
             <ion-icon name="document-text"></ion-icon>
         </button>        
     <?php endif; ?> 

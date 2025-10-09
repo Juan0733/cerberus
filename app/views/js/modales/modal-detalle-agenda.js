@@ -55,30 +55,19 @@ function dibujarAgenda() {
             const datosAgenda = respuesta.datos_agenda;
             document.getElementById('titulo').textContent = datosAgenda.titulo;
 
-            if(datosAgenda.agendados.length > 1){
-                const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
-        
-                datosAgenda.agendados.forEach((agendado, indice) => {
-                    cuerpoTablaAgendados.innerHTML += `
-                        <tr>
-                            <td>${indice+1}</td>
-                            <td>${agendado.nombres}</td>
-                            <td>${agendado.apellidos}</td>
-                        </tr>`
-                });
-
-                document.getElementById('agendado').style.display = 'none';
-
-            }else{
-                document.getElementById('agendado').textContent = datosAgenda.agendados[0].nombres+' '+datosAgenda.agendados[0].apellidos;
-                document.getElementById('contenedor_agendados').style.display = 'none';
-            }
+            const cuerpoTablaAgendados = document.getElementById('cuerpo_tabla_agendados');
+    
+            datosAgenda.agendados.forEach((agendado, indice) => {
+                cuerpoTablaAgendados.innerHTML += `
+                    <tr>
+                        <td>${indice+1}</td>
+                        <td>${agendado.nombres}</td>
+                        <td>${agendado.apellidos}</td>
+                    </tr>`
+            });
             
-            const fecha = formatearFecha(datosAgenda.fecha_agenda);
-
             document.getElementById('responsable_registro').textContent = formatearString(datosAgenda.rol_responsable)+' - '+datosAgenda.nombres_responsable+' '+datosAgenda.apellidos_responsable;
-            document.getElementById('fecha_agenda').textContent = fecha.fecha_español;
-            document.getElementById('hora').textContent = fecha.hora_español;
+            document.getElementById('fecha_agenda').textContent = formatearFecha(datosAgenda.fecha_agenda);
             document.getElementById('motivo').textContent = datosAgenda.motivo;
 
             contenedorModales.classList.add('mostrar');
@@ -105,13 +94,10 @@ function formatearString(cadena) {
 function formatearFecha(fecha){
     const objetoFecha = new Date(fecha);
 
-    let opciones = { day: 'numeric', month: 'long' }
-    const fechaEspañol = objetoFecha.toLocaleDateString('es-CO', opciones);
+    const opciones = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true };
+    const fechaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);
 
-    opciones = { hour: 'numeric', minute: '2-digit', hour12: true };
-    const horaEspañol = objetoFecha.toLocaleTimeString('es-CO', opciones);
-
-    return {fecha_español: fechaEspañol, hora_español: horaEspañol};
+    return fechaEspañol;
 }
 
 function alertaError(respuesta){

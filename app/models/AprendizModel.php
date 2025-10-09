@@ -186,6 +186,12 @@ class AprendizModel extends MainModel{
             $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
 
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+        if(!isset($parametros['numero_ficha'], $parametros['numero_documento'], $parametros['ubicacion']) && ($rolSistema == 'COORDINADOR' || $rolSistema == 'INSTRUCTOR')){
+            $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+            $sentenciaBuscar .= " AND fk_usuario_sistema = '$usuarioSistema'";
+        }
+
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
         if(!isset($parametros['numero_ficha'], $parametros['numero_documento'], $parametros['ubicacion'])){

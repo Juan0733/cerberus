@@ -27,7 +27,7 @@ function dibujarNotificaciones(){
                                         <h3>Solicitud Permiso Usuario</h3>
                                         <p>Se ha solicitado un permiso de tipo ${formatearString(notificacion.tipo_permiso)}, para el usuario con número de documento <strong>${notificacion.fk_usuario}</strong></p>
                                         <div id="contenedor_btns_notificacion">
-                                            <button class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver detalle</button>
+                                            <button type="button" class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver detalle</button>
                                         </div>
                                     </div>
                                 </div>`
@@ -40,7 +40,7 @@ function dibujarNotificaciones(){
                                         <h3>Solicitud Permiso Vehículo</h3>
                                         <p>Se ha solicitado un permiso de tipo ${formatearString(notificacion.tipo_permiso)}, para el vehículo con número de placa <strong>${notificacion.fk_vehiculo}</strong></p>
                                         <div id="contenedor_btns_notificacion">
-                                            <button class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}" >Ver detalle</button>
+                                            <button type="button" class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}" >Ver detalle</button>
                                         </div>
                                     </div>
                                 </div>`

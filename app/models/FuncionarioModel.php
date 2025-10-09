@@ -287,6 +287,12 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}' ORDER BY fecha_registro DESC LIMIT 8;";
 
         }else{
+            $rolSistema = $_SESSION['datos_usuario']['rol'];
+            if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion']) && $rolSistema == 'COORDINADOR'){
+                $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+                $sentenciaBuscar .= " AND fk_usuario_sistema = '$usuarioSistema'";
+            }
+
             $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
             if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion'])){

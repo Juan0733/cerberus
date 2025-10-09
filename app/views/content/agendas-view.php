@@ -29,7 +29,7 @@
         </div>
 
         <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
-            <button class="btn-agenda" id="btn_crear_agenda">
+            <button type="button" class="btn-agenda" id="btn_crear_agenda">
                 <ion-icon name="add"></ion-icon>
             </button>
         <?php endif; ?>
@@ -49,7 +49,7 @@
     </div>
 
     <?php if($_SESSION['datos_usuario']['rol'] == 'SUBDIRECTOR' || $_SESSION['datos_usuario']['rol'] == 'COORDINADOR' || $_SESSION['datos_usuario']['rol'] == 'INSTRUCTOR'): ?>
-        <button class="btn-agenda" id="btn_crear_agenda_mobile">
+        <button type="button" class="btn-agenda" id="btn_crear_agenda_mobile">
             <ion-icon name="add"></ion-icon>
         </button>
     <?php endif; ?>

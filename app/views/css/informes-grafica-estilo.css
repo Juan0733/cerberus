@@ -104,7 +104,9 @@
 
     #contenedor_principal #contenedor_graficas #contenedor_cards{
         column-gap: 4em;
-        max-height: 78.5vh;
+        max-height: none;
+        overflow: hidden;
+
     }
 
         #contenedor_principal #contenedor_graficas #contenedor_cards .card-grafica{
@@ -114,7 +116,7 @@
 
 @media(max-width: 767px){
     #contenedor_principal{
-        width: clamp(260px, 100%, 600px);
+        width: clamp(300px, 100%, 450px);
     }
 
         #contenedor_principal #contenedor_filtros {
@@ -128,8 +130,8 @@
 
         #contenedor_principal #contenedor_graficas #contenedor_cards{
             grid-template-columns: repeat(1, 1fr);
-            max-height: 65vh;
-            overflow-y: auto;
+            max-height: none;
+            overflow: hidden;
             row-gap: 1em;
         }
             

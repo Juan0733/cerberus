@@ -898,7 +898,7 @@ main#cuerpo{
     }
 
         #contenedor_modales #modal_brigadistas #cont_info_modales #mensaje_respuesta{
-            align-items: center;
+            text-align: center;
             padding: 100px 0;
         }
 
@@ -1043,7 +1043,7 @@ main#cuerpo{
     main#cuerpo section#contenedor_pagina{
         min-height: 100vh;
         height: auto;
-        padding-top: 73px;
+        margin-top: 55px;
     }
 
     section#contenedor_pagina #nav_menu{
@@ -1061,7 +1061,7 @@ main#cuerpo{
         align-items: center;
         min-height: 100vh;
         height: auto;
-        padding-top: 68px;
+        margin-top: 50px;
     }    
     
     section#contenedor_pagina #nav_menu{

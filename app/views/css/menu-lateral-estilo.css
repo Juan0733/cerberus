@@ -441,10 +441,6 @@
             height: 35px;
             width: 35px;
         }
-
-    .max-barra-lateral{
-        margin-top: 55px;
-    }
 }
 
 
@@ -469,6 +465,9 @@
         display: flex;
         justify-content: space-between;
         padding: 0 10px;
+        top: 0;
+        left: 0;
+        right: 0;
         position: fixed;
         background: var(--main-color);
         z-index: 50;
@@ -481,11 +480,5 @@
     }
     main.min-main{
         margin-left: 0;
-    }
-}
-
-@media(max-width: 767px){
-    .max-barra-lateral{
-        margin-top: 50px;
     }
 }

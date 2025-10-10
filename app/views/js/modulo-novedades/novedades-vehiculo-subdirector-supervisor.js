@@ -91,7 +91,7 @@ function dibujarCardsNovedades(){
                     <div class="document-card-novedad-vehiculo">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${novedad.tipo_vehiculo} ${novedad.fk_vehiculo}</p>
+                                <p class="document-title">${novedad.fk_vehiculo} | ${novedad.tipo_vehiculo}</p>
                                 <p class="document-meta">${novedad.tipo_documento}: ${novedad.fk_usuario_involucrado} | ${novedad.tipo_novedad}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

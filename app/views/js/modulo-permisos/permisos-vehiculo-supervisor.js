@@ -98,7 +98,7 @@ function dibujarCardsPermisos(){
                     <div class="document-card-permiso-vehiculo">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${permiso.tipo_vehiculo} ${permiso.fk_vehiculo}</p>
+                                <p class="document-title">${permiso.fk_vehiculo} | ${permiso.tipo_vehiculo}</p>
                                 <p class="document-meta">${permiso.tipo_documento}: ${permiso.fk_usuario} | ${permiso.tipo_permiso}</p>
                             </div>
                             <span class="toggle-icon"><ion-icon name="chevron-down-outline"></ion-icon></span> 

@@ -2,9 +2,6 @@
 
  /* -------------Nombre Sesion y APP---------------- */
  	if (session_status() === PHP_SESSION_NONE) {
-		ini_set('session.gc_maxlifetime', 2592000);
-		ini_set('session.gc_probability', 1);
-		ini_set('session.gc_divisor', 1000);
 		session_start();
 	}
 

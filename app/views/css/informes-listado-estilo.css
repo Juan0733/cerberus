@@ -251,7 +251,6 @@
         column-gap: 20px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        margin-bottom: 20px;
         row-gap: 20px;
         width: 100%;
     }

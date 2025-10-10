@@ -262,7 +262,7 @@ class UsuarioModel extends MainModel{
         $duracion = 30 * 24 * 60 * 60;
         $expira = $datosUsuario['hora_sesion'] + $duracion;
 
-        setcookie(session_name(), session_id(), $expira, "/");
+        setcookie(session_name(), session_id(), $expira, "/", "", false, true);
 
         $_SESSION['datos_usuario'] = $datosUsuario;
     }

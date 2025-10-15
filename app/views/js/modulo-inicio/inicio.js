@@ -1,5 +1,6 @@
 import {conteoTipoUsuario} from '../fetchs/usuarios-fetch.js'
 import {conteoTipoVehiculo} from '../fetchs/vehiculos-fetch.js'
+import { eventoManualCerraSesion } from '../general/menu-lateral.js';
 import { modalActualizacionContrasenaUsuario } from '../modales/modal-actualizacion-contrasena-usuario.js';
 import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
@@ -86,7 +87,7 @@ function dibujarConteoVehiculos(){
 
 function validarContrasenaActualizada(){
     if(contrasenaActualizada.value == 'NO'){
-       modalActualizacionContrasenaUsuario(urlBase);
+       modalActualizacionContrasenaUsuario(urlBase, eventoManualCerraSesion);
     }
 }
 
@@ -137,5 +138,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         dibujarConteoUsuarios();
         dibujarConteoVehiculos();
-    }, 60000);
+    }, 30000);
 });

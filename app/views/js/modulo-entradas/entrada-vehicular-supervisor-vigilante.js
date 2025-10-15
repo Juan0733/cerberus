@@ -5,6 +5,7 @@ import {modalRegistroNovedadUsuario} from '../modales/modal-registro-novedad-usu
 import { modalScanerQr } from '../modales/modal-scaner-qr.js';
 import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 import { modalActualizacionContrasenaUsuario } from '../modales/modal-actualizacion-contrasena-usuario.js';
+import { eventoManualCerraSesion } from '../general/menu-lateral.js';
 
 let documentoPeaton;
 let documentoPropietario;
@@ -392,7 +393,7 @@ function validarPuertaActual(){
 
 function validarContrasenaActualizada(){
     if(contrasenaActualizada.value == 'NO'){
-       modalActualizacionContrasenaUsuario(urlBase, validarContrasenaActualizada);
+       modalActualizacionContrasenaUsuario(urlBase, eventoManualCerraSesion);
 
     }else if(contrasenaActualizada.value == 'SI'){
         validarPuertaActual();

@@ -255,22 +255,22 @@ class PermisoUsuarioModel extends MainModel{
             LEFT JOIN aprendices apr ON pu.fk_usuario = apr.numero_documento
             WHERE 1 = 1";
 
-        $rol = $_SESSION['datos_usuario']['rol'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $fechaActual = date('Y-m-d H:i:s');
 
         if(isset($parametros['tipo_permiso'])){
             $sentenciaBuscar .= " AND pu.tipo_permiso = '{$parametros['tipo_permiso']}'";
 
-            if(($parametros['tipo_permiso'] == 'PERMANENCIA' && $rol == 'SUPERVISOR') || ($parametros['tipo_permiso'] == 'SALIDA' && ($rol == 'COORDINADOR' || $rol == 'INSTRUCTOR'))){
+            if($parametros['tipo_permiso'] == 'SALIDA' && ($rolSistema == 'COORDINADOR' || $rolSistema == 'INSTRUCTOR')){
                 $sentenciaBuscar .= " AND pu.fk_usuario_sistema = '$usuarioSistema'";
                 
-            }elseif($parametros['tipo_permiso'] == 'SALIDA' && ($rol == 'SUPERVISOR' || $rol == 'VIGILANTE')){
+            }elseif($parametros['tipo_permiso'] == 'SALIDA' && ($rolSistema == 'SUPERVISOR' || $rolSistema == 'VIGILANTE')){
                 $sentenciaBuscar .= " AND pu.fecha_fin_permiso >= '$fechaActual'";
             }
 
-        }elseif(!isset($parametros['tipo_permiso']) && $rol == 'SUPERVISOR'){
-            $sentenciaBuscar .= " AND ((pu.tipo_permiso = 'PERMANENCIA' AND pu.fk_usuario_sistema = '$usuarioSistema') OR (pu.tipo_permiso = 'SALIDA' AND pu.fecha_fin_permiso >= '$fechaActual'))";
+        }elseif(!isset($parametros['tipo_permiso']) && $rolSistema == 'SUPERVISOR'){
+            $sentenciaBuscar .= " AND (pu.tipo_permiso = 'PERMANENCIA' OR (pu.tipo_permiso = 'SALIDA' AND pu.fecha_fin_permiso >= '$fechaActual'))";
         }
 
         if(isset($parametros['fecha'])){

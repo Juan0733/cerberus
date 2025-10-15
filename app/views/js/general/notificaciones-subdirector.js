@@ -128,5 +128,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     setInterval(() => {
         dibujarNotificaciones();
-    }, 60000);
+    }, 300000);
 })

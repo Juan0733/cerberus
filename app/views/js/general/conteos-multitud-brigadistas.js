@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         dibujarConteoMultitud();
         dibujarConteoBrigadistas();
-    }, 60000);
+    }, 30000);
 })
 
 

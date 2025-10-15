@@ -11,50 +11,29 @@ class VehiculoModel extends MainModel {
     }
 
     public function registrarVehiculo($datosVehiculo){
-        $respuesta = $this->objetoUsuario->consultarUsuario($datosVehiculo['propietario']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
         $respuesta = $this->validarLimiteVehiculos($datosVehiculo['propietario']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
-        $respuesta = $this->consultarVehiculo($datosVehiculo['numero_placa']);
-        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        $respuesta = $this->validarVehiculoAptoRegistro($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] != 'Propiedad Inactiva'){
             return $respuesta;
 
-        }elseif($respuesta['tipo'] == 'OK'){
-            $datosVehiculo['ubicacion'] = $respuesta['datos_vehiculo']['ubicacion'];
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propiedad Inactiva'){
+            $respuesta = $this->restaurarPropiedadVehiculo($datosVehiculo['propietario'], $datosVehiculo['numero_placa']);
+            return $respuesta;
+        }
+
+        $datosVehiculo['ubicacion'] = 'FUERA';
+        if(isset($respuesta['datos_vehiculo'])){
             $datosVehiculo['tipo_vehiculo'] = $respuesta['datos_vehiculo']['tipo_vehiculo'];
-
-            $respuesta = $this->validarDuplicidadPropietarios($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
-            if($respuesta['tipo'] == 'ERROR' && ($respuesta['titulo'] == 'Error de Conexión' || $respuesta['titulo'] == 'Vehículo Existente')){
-                return $respuesta;
-
-            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propiedad Inactiva'){
-                $respuesta = $this->restaurarPropiedadVehiculo($datosVehiculo['propietario'], $datosVehiculo['numero_placa']);
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
-                $respuesta = [
-                    "tipo"=>"OK",
-                    "titulo" => 'Registro Exitoso',
-                    "mensaje"=> 'El vehículo fue registrado correctamente.'
-                ];
-                return $respuesta;
-            }
+            $datosVehiculo['ubicacion'] = $respuesta['datos_vehiculo']['ubicacion'];
         }
         
         $fechaRegistro = date('Y-m-d H:i:s');
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $rolSistema = $_SESSION['datos_usuario']['rol'];
-
-        if(!isset($datosVehiculo['ubicacion'])){
-            $datosVehiculo['ubicacion'] = 'FUERA';
-        }
 
         $sentenciaInsertar = "
             INSERT INTO vehiculos (numero_placa, tipo_vehiculo, fk_usuario, fecha_registro, ubicacion, rol_usuario_sistema, fk_usuario_sistema) 
@@ -95,7 +74,7 @@ class VehiculoModel extends MainModel {
             $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
 
-        $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion";
+        $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion ORDER BY fecha_registro DESC" ;
 
         if(!isset($parametros['numero_placa'], $parametros['numero_documento'], $parametros['tipo_vehiculo'], $parametros['ubicacion'])){
             $sentenciaBuscar .= " LIMIT 10;";
@@ -233,6 +212,66 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
+    public function validarPropiedadVehiculo($placa, $propietario){
+        $respuesta = $this->consultarPropietarioVehiculo($placa, $propietario);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif(($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados') || ($respuesta['tipo'] == 'OK' && $respuesta['datos_vehiculo']['estado_propiedad'] == 'INACTIVA')){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Propietario Incorrecto',
+                'mensaje' => 'El usuario con número de documento '.$propietario.', no le pertenece el vehículo de placas '.$placa.'.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Propietario Correcto',
+            'mensaje' => 'El usuario es propietario del vehiculo.'
+        ];
+        return $respuesta;
+    }
+
+    private function validarVehiculoAptoRegistro($placa, $propietario){
+        $respuesta = $this->objetoUsuario->consultarUsuario($propietario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->consultarVehiculo($placa);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $datosVehiculo = [
+                'tipo_vehiculo' => $respuesta['datos_vehiculo']['tipo_vehiculo'],
+                'ubicacion' => $respuesta['datos_vehiculo']['ubicacion']
+            ];
+
+            $respuesta = $this->validarDuplicidadPropietarios($placa, $propietario);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+            $respuesta = [
+                'tipo' => 'OK',
+                'titulo' => 'Vehículo Apto',
+                'mensaje' => 'El vehículo es apto para registrase.',
+                'datos_vehiculo' => $datosVehiculo
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Vehículo Apto',
+            'mensaje' => 'El vehículo es apto para registrase.'
+        ];
+        return $respuesta;
+    }
+
     private function validarDuplicidadPropietarios($placa, $propietario){
         $respuesta = $this->consultarPropietarioVehiculo($placa, $propietario);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
@@ -285,9 +324,8 @@ class VehiculoModel extends MainModel {
         $vehiculos = $respuesta['vehiculos'];
         $limiteVehiculos = 5;
         if(count($vehiculos) >= $limiteVehiculos){
-            shuffle($vehiculos);
-            foreach ($vehiculos as $vehiculo) {
-                $respuesta = $this->eliminarPropiedadVehiculo($propietario, $vehiculo['numero_placa']);
+            for ($i=count($vehiculos)-1; $i>=0; $i--) {
+                $respuesta = $this->eliminarPropiedadVehiculo($propietario, $vehiculos[$i]['numero_placa']);
                 if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
                     return $respuesta;
 
@@ -305,26 +343,34 @@ class VehiculoModel extends MainModel {
         return $respuesta;
     }
 
-    private function validarLimitePropietarios($placa){
-        $respuesta = $this->consultarPropietarios($placa);
+    private function validarVehiculoAptoEliminarPropiedad($placa){
+        $respuesta = $this->consultarVehiculo($placa);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
 
-        $propietarios = $respuesta['propietarios'];
-        if(count($propietarios) < 2){
-           $respuesta = [
-                "tipo"=>"ERROR",
-                "titulo" => 'Propietarios Insuficientes',
-                "mensaje"=> 'El vehículo solo tiene un propietario.'
-            ];
-            return $respuesta;
-        }
+        $vehiculo = $respuesta['datos_vehiculo'];
+        if($vehiculo['ubicacion'] == 'DENTRO'){
+            $respuesta = $this->consultarPropietarios($placa);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
 
+            $propietarios = $respuesta['propietarios'];
+            if(count($propietarios) < 2){
+                $respuesta = [
+                    "tipo"=>"ERROR",
+                    "titulo" => 'Error Propietarios',
+                    "mensaje"=> 'El vehículo no puede quedarse sin propietarios, mientras se encuentre dentro del CAB.'
+                ];
+                return $respuesta;
+            }
+        }
+        
         $respuesta = [
-            "tipo"=>"OK",
-            "titulo" => 'Propietarios Suficientes',
-            "mensaje"=> 'El vehículo tiene más de un propietario.'
+            "tipo" => "OK",
+            "titulo" => 'Vehículo Apto',
+            "mensaje"=> 'El vehículo es apto para eliminarle una propiedad.'
         ];
         return $respuesta;
     }
@@ -349,25 +395,9 @@ class VehiculoModel extends MainModel {
     }
 
     public function eliminarPropiedadVehiculo($propietario, $placa){
-        $respuesta = $this->validarLimitePropietarios($placa);
-        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        $respuesta = $this->validarVehiculoAptoEliminarPropiedad($placa);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
-
-        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietarios Insuficientes'){
-            $respuesta = $this->consultarVehiculo($placa);
-            if($respuesta['tipo'] == 'ERROR'){
-                return $respuesta;
-            }
-
-            $vehiculo = $respuesta['datos_vehiculo'];
-            if($vehiculo['ubicacion'] == 'DENTRO'){
-                $respuesta = [
-                    "tipo"=>"ERROR",
-                    "titulo" => 'Error Propietarios',
-                    "mensaje"=> 'El vehículo no puede quedarse sin propietarios, mientras se encuentre dentro del CAB.'
-                ];
-                return $respuesta;
-            }
         }
 
         $sentenciaEliminar = "

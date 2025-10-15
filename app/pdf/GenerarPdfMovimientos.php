@@ -9,22 +9,15 @@ require_once('tfpdf/tfpdf.php');
 use App\Models\MovimientoModel;
 use App\Models\UsuarioModel;
 use App\Models\RolOperacionModel;
-use App\Models\VehiculoModel;
 use App\Services\MovimientoService;
 
 class PDF extends tFPDF{
-    public $usuario;
-    public $vehiculo;
-    public $fechaInicio;
-    public $fechaFin;
+    public $filtros;
 
-    function __construct($fechaInicio, $fechaFin, $usuario='', $vehiculo='', $orientation = 'L', $unit = 'mm', $size = 'A4')
+    function __construct($filtros, $orientation = 'L', $unit = 'mm', $size = 'A4')
     {
         parent::__construct($orientation, $unit, $size);
-        $this->usuario = $usuario;
-        $this->vehiculo = $vehiculo;
-        $this->fechaInicio = $fechaInicio;
-        $this->fechaFin = $fechaFin;
+        $this->filtros = $filtros;
     }
 
     function Header()
@@ -32,6 +25,8 @@ class PDF extends tFPDF{
         $pageWidth = $this->GetPageWidth();
 
         if ($this->PageNo() == 1) {
+            $fecha = new DateTime();
+
             $this->Image('../views/img/imgPdf/3.jpg', 0, 0, $pageWidth);
 
             $this->SetFont('DejaVu', 'B', 50);
@@ -42,14 +37,10 @@ class PDF extends tFPDF{
             $this->SetFont('DejaVu', 'B', 13);
             $this->SetTextColor(255, 255, 255);
             $this->setXY(157,13);
-            $this->Cell(30, 60, 'PERIODO REPORTE: Desde '.date('d-m-Y', strtotime($this->fechaInicio))." hasta ".date('d-m-Y', strtotime($this->fechaFin)), 0, 0);
+            $this->Cell(30, 60, 'FECHA DEL REPORTE:  '.$fecha->format('d').' de '.ucfirst(MESES[$fecha->format('F')]).' de '.$fecha->format('Y').', '.$fecha->format('H:i'), 0, 0);
 
-            if($this->usuario){
-                $this->dibujarInformacionUsuario();
-            }else if($this->vehiculo){
-                $this->dibujarInformacionVehiculo();
-            }
-
+            $this->dibujarInformacionFiltros();
+            
             $this->SetFont('DejaVu', 'B', 18);
             $this->SetY(65);
             $this->SetTextColor(0, 22, 41);
@@ -66,46 +57,36 @@ class PDF extends tFPDF{
         }
     }
 
-    function dibujarInformacionUsuario(){
-
+    function dibujarInformacionFiltros(){
         $this->setY(13);
         $this->SetTextColor(0, 22, 41);
-        $this->Cell(30, 60, 'DATOS DEL USUARIO:', 0, 0);
+        $this->Cell(30, 60, 'FILTROS:', 0, 0);
 
         $this->SetFont('DejaVu', '', 14);
 
         $this->setY(23);
-        $this->Cell(30, 60, "Tipo documento: ".$this->usuario['tipo_documento'], 0, 0);
+        $this->Cell(30, 60, "Fecha Inicio: ".date('d-m-Y', strtotime($this->filtros['fecha_inicio'])), 0, 0);
 
-        $this->setXY(157, 23);
-        $this->Cell(30, 60, 'Número documento: '.$this->usuario['numero_documento'], 0, 0);
-    
+        $this->setX(80);
+        $this->Cell(30, 60, 'Fecha Fin: '.date('d-m-Y', strtotime($this->filtros['fecha_fin'])), 0, 0);
+
+        if(!isset($this->filtros['puerta'])){
+            $this->filtros['puerta'] = 'Todas';
+        }
         $this->setY(33);
-        $this->Cell(30, 60, "Nombres: ".$this->usuario['nombres'], 0, 0);
+        $this->Cell(30, 60, "Puerta: ".$this->filtros['puerta'], 0, 0);
 
-        $this->setXY(157, 33);
-        $this->Cell(30, 60, "Apellidos: ".$this->usuario['apellidos'], 0, 0);
-
+        if(!isset($this->filtros['numero_documento'])){
+            $this->filtros['numero_documento'] = '';
+        }
+        $this->setX(80);
+        $this->Cell(30, 60, "Número Documento: ".$this->filtros['numero_documento'], 0, 0);
+    
+        if(!isset($this->filtros['numero_placa'])){
+            $this->filtros['numero_placa'] = '';
+        }
         $this->setY(43);
-        $this->Cell(30, 60, 'Número telefóno: '.$this->usuario['telefono'], 0, 0);
-
-         $this->setXY(157, 43);
-        $this->Cell(30, 60, 'Tipo usuario: '.mb_strtoupper(mb_substr($this->usuario['tipo_usuario'], 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($this->usuario['tipo_usuario'], 1, null, "UTF-8"), "UTF-8"), 0, 0);
-    }
-
-    function dibujarInformacionVehiculo(){
-
-        $this->setY(13);
-        $this->SetTextColor(0, 22, 41);
-        $this->Cell(30, 60, 'DATOS DEL VEHÍCULO:', 0, 0);
-
-        $this->SetFont('DejaVu', '', 14);
-    
-        $this->setY(23);
-        $this->Cell(30, 60, "Número placa: ".$this->vehiculo['numero_placa'], 0, 0);
-
-        $this->setY(33);
-        $this->Cell(30, 60, "Tipo vehículo: ".mb_strtoupper(mb_substr($this->vehiculo['tipo_vehiculo'], 0, 1, "UTF-8"), "UTF-8").mb_strtolower(mb_substr($this->vehiculo['tipo_vehiculo'], 1, null, "UTF-8"), "UTF-8"), 0, 0);
+        $this->Cell(30, 60, "Número Placa: ".strtoupper($this->filtros['numero_placa']), 0, 0);
     }
 
     function dibujarCabeceraTabla(){
@@ -179,7 +160,6 @@ class PDF extends tFPDF{
 try {
     $objetoUsuario = new UsuarioModel();
     $objetoRolOperacion = new RolOperacionModel();
-    $objetoVehiculo = new VehiculoModel();
     $objetoMovimiento = new MovimientoModel();
     $objetoServicio = new MovimientoService();
 
@@ -202,27 +182,7 @@ try {
         exit();
     }
 
-    if(isset($parametros['numero_documento'])){
-        $respuesta = $objetoUsuario->consultarUsuario($parametros['numero_documento']);
-        if($respuesta['tipo'] == 'ERROR'){
-            header("Location: ../../informes-listado");
-            exit();
-        }
-
-        $pdf = new PDF($parametros['fecha_inicio'], $parametros['fecha_fin'], $respuesta['usuario']);
-
-    }elseif(isset($parametros['numero_placa'])){
-        $respuesta = $objetoVehiculo->consultarVehiculo($parametros['numero_placa']);
-        if($respuesta['tipo'] == 'ERROR'){
-            header("Location: ../../informes-listado");
-            exit();
-        }
-
-        $pdf = new PDF($parametros['fecha_inicio'], $parametros['fecha_fin'], '', $respuesta['datos_vehiculo']);
-
-    }else{
-        $pdf = new PDF($parametros['fecha_inicio'], $parametros['fecha_fin']);
-    }
+    $pdf = new PDF($parametros);
     
     $respuesta= $objetoMovimiento->consultarMovimientos($parametros);
     if($respuesta['tipo'] == 'ERROR'){

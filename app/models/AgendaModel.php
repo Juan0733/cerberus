@@ -211,8 +211,8 @@ class AgendaModel extends MainModel{
                 LEFT JOIN vigilantes vig ON a.fk_usuario = vig.numero_documento
                 WHERE DATE(a.fecha_agenda) = '{$parametros['fecha']}'";
 
-        $rol = $_SESSION['datos_usuario']['rol'];
-        if($rol != 'SUPERVISOR' && $rol != 'VIGILANTE'){
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+        if($rolSistema != 'SUPERVISOR' && $rolSistema != 'VIGILANTE'){
             $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
             $sentenciaBuscar .= " AND a.fk_usuario_sistema = '$usuarioSistema'";
         }
@@ -231,7 +231,7 @@ class AgendaModel extends MainModel{
             $sentenciaBuscar .= " AND a.titulo LIKE '{$parametros['titulo']}%'";
         }
 
-        $sentenciaBuscar .= " ORDER BY a.fecha_registro DESC LIMIT 10;";
+        $sentenciaBuscar .= " ORDER BY a.fecha_registro DESC;";
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
         if($respuesta['tipo'] == 'ERROR'){

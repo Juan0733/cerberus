@@ -1,6 +1,6 @@
 import {conteoTotalUsuarios} from '../fetchs/usuarios-fetch.js'
 import {conteoTotalBrigadistas} from '../fetchs/funcionarios-fetch.js'
-import {modalFuncionariosBrigadistas} from '../modales/modal-funcionarios-brigadistas.js'
+import {modalBrigadistas} from '../modales/modal-brigadistas.js'
 import { modalSeleccionPuerta } from '../modales/modal-seleccion-puerta.js';
 
 let urlBase;
@@ -9,45 +9,68 @@ let contadorMultitudMobile;
 let contadorBrigadistas;
 let contadorBrigadistasMobile;
 
-function dibujarConteoMultitud(){
-    conteoTotalUsuarios(urlBase).then(respuesta => {
-        if(respuesta.tipo == 'OK'){
-            contadorMultitud.innerText = respuesta.total_usuarios;
-            contadorMultitudMobile.innerText = respuesta.total_usuarios;
-            
-        }else if(respuesta.tipo == 'ERROR'){
-            if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-            }else{
-                alertaError(respuesta);
-            }
-        }
-    })
+function dibujarConteos(conteoMultitud, conteoBrigadistas){
+    contadorMultitud.innerText = conteoMultitud;
+    contadorMultitudMobile.innerText = conteoMultitud;
+
+    contadorBrigadistas.innerText = conteoBrigadistas;
+    contadorBrigadistasMobile.innerText = conteoBrigadistas;
 }
 
-function dibujarConteoBrigadistas(){
-    conteoTotalBrigadistas(urlBase).then(respuesta=>{
-        if(respuesta.tipo == 'OK'){
-            contadorBrigadistas.innerText = respuesta.total_brigadistas;
-            contadorBrigadistasMobile.innerText = respuesta.total_brigadistas;
+function dibujarConteosActuales(){
+    const ultimaActualizacion = sessionStorage.getItem('ultima_actualizacion_conteos');
+    const momentoActual = Date.now();
+    const intervalo = 30 * 1000;
 
-        }else if(respuesta.tipo == 'ERROR'){
-            if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
-            }else{
-                alertaError(respuesta);
+    if(!ultimaActualizacion || momentoActual - ultimaActualizacion > intervalo){
+        conteoTotalUsuarios(urlBase).then(respuesta => {
+            if(respuesta.tipo == 'OK'){
+                const conteoMultitud = respuesta.total_usuarios;
+                sessionStorage.setItem('conteo_multitud', conteoMultitud)
+
+                conteoTotalBrigadistas(urlBase).then(respuesta=>{
+                    if(respuesta.tipo == 'OK'){
+                        const conteoBrigadistas = respuesta.total_brigadistas;
+                        sessionStorage.setItem('conteo_brigadistas', conteoBrigadistas);
+
+                        dibujarConteos(conteoMultitud, conteoBrigadistas);
+                        sessionStorage.setItem('ultima_actualizacion_conteos', Date.now())
+
+                    }else if(respuesta.tipo == 'ERROR'){
+                        if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+                        }else{
+                            alertaError(respuesta);
+                        }
+                    }
+                })
+                
+            }else if(respuesta.tipo == 'ERROR'){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+                }else{
+                    alertaError(respuesta);
+                }
             }
-        }
-    })
+        })
+    }
+}
+
+function dibujarConteosGuardados(){
+    const conteoMultitud = sessionStorage.getItem('conteo_multitud');
+    const conteoBrigadistas = sessionStorage.getItem('conteo_brigadistas');
+    if(conteoMultitud && conteoBrigadistas){
+        dibujarConteos(conteoMultitud, conteoBrigadistas);
+    }
 }
 
 function eventoBrigadistas(){
     document.getElementById('btn_brigadistas').addEventListener('click', ()=>{
-        modalFuncionariosBrigadistas(urlBase);
+        modalBrigadistas(urlBase);
     })
 
     document.getElementById('btn_brigadistas_mobile').addEventListener('click', ()=>{
-        modalFuncionariosBrigadistas(urlBase);
+        modalBrigadistas(urlBase);
     })
 }
 
@@ -86,15 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
     contadorBrigadistas = document.getElementById('contador_brigadistas');
     contadorBrigadistasMobile = document.getElementById('contador_brigadistas_mobile');
 
-
-    dibujarConteoMultitud();
-    dibujarConteoBrigadistas();
+    dibujarConteosGuardados();
+    dibujarConteosActuales();
     eventoBrigadistas();
     eventoPuerta();
-    setInterval(() => {
-        dibujarConteoMultitud();
-        dibujarConteoBrigadistas();
-    }, 60000);
+    
+    setInterval(dibujarConteosActuales, 1000);
 })
 
 

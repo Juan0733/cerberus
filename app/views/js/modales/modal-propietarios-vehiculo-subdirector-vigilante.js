@@ -1,4 +1,4 @@
-import { consultarModalPropietariosVehiculo } from '../fetchs/modal-fetch.js';
+import { consultarModalPropietariosVehiculo } from '../fetchs/modales-fetch.js';
 import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js';
 
 let contenedorModales;

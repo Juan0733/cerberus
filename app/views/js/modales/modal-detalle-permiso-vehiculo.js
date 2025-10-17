@@ -1,4 +1,4 @@
-import { consultarModalDetallePermisoVehiculo } from '../fetchs/modal-fetch.js';
+import { consultarModalDetallePermisoVehiculo } from '../fetchs/modales-fetch.js';
 import { consultarPermisoVehiculo } from '../fetchs/permisos-vehiculos-fetch.js';
 
 let contenedorModales;

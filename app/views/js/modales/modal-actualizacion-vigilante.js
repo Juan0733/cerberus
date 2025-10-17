@@ -1,4 +1,4 @@
-import { consultarModalVigilante } from '../fetchs/modal-fetch.js';
+import { consultarModalVigilante } from '../fetchs/modales-fetch.js';
 import {actualizarVigilante, consultarVigilante} from '../fetchs/vigilantes-fetch.js';
 
 let contenedorModales;

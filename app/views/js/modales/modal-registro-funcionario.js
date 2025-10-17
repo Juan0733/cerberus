@@ -1,5 +1,5 @@
 import {registrarFuncionario} from '../fetchs/funcionarios-fetch.js';
-import { consultarModalFuncionario } from '../fetchs/modal-fetch.js';
+import { consultarModalFuncionario } from '../fetchs/modales-fetch.js';
 
 let tipoRegistro;
 let contenedorModales;

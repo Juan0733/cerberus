@@ -1,7 +1,7 @@
 import {modalRegistroAgenda} from '../modales/modal-registro-agenda.js'
 import {modalActualizarAgenda} from '../modales/modal-actualizacion-agenda.js'
 import {modalDetalleAgenda} from '../modales/modal-detalle-agenda.js'
-import {consultarAgendas, eliminarAgenda} from '../fetchs/agenda-fetch.js'
+import {consultarAgendas, eliminarAgenda} from '../fetchs/agendas-fetch.js'
 
 let urlBase;
 let contenedorCards;
@@ -107,9 +107,15 @@ function eventoEliminarAgenda(){
 function eventoFecha(){
     const nombreDia = document.getElementById('nombre_dia');
     const fechaFormateada = document.getElementById('fecha_formateada');
+    const fechaActual = inputFecha.value;
 
     inputFecha.addEventListener('change', ()=>{
+        if(!inputFecha.value){
+            inputFecha.value = fechaActual;
+        }
+
         const fecha = formatearFecha(inputFecha.value);
+
         nombreDia.textContent = fecha.dia_español;
         fechaFormateada.textContent = fecha.fecha_español;
 

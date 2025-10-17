@@ -45,7 +45,7 @@ export{registrarNovedadUsuario}
 async function consultarNovedadesUsuario(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedades_usuario')+'&documento='+encodeURI(parametros.documento)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha), {
+        const response = await fetch(urlBase+'app/controllers/NovedadUsuarioController.php?operacion='+encodeURI('consultar_novedades_usuario')+'&documento='+encodeURI(parametros.documento)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha)+'&cantidad='+encodeURI(parametros.cantidad), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

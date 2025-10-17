@@ -1,5 +1,5 @@
 import { aprobarPermisoUsuario, consultarPermisosUsuarios, desaprobarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
-import { dibujarNotificaciones } from '../general/notificaciones-subdirector.js';
+import { dibujarNotificacionesManualmente } from '../general/notificaciones-subdirector.js';
 import { modalDetallePermisoUsuario } from '../modales/modal-detalle-permiso-usuario.js';
 
 let urlBase;
@@ -9,13 +9,33 @@ let cuerpoTabla;
 
 const parametros = {
     codigo_permiso: '',
-    tipo_permiso: '',
+    tipo_permiso: 'PERMANENCIA',
     estado: '',
     fecha: '',
-    documento: ''
+    documento: '',
+    cantidad: ''
 };
 
+function validarCantidadRegistros(){
+    for(const clave of Object.keys(parametros)){
+        if(clave != 'cantidad' && 'tipo_permiso'){
+            if(parametros[clave]){
+                parametros.cantidad = '';
+                return;
+            }
+        }
+    }
+
+    if(window.innerWidth >= 768){
+        parametros.cantidad = 10;
+    }else{
+        parametros.cantidad = 5;
+    }
+}
+
 function validarResolucion(){
+    validarCantidadRegistros();
+
     if(window.innerWidth >= 1024){
         dibujarTablaPermisos();
     }else{
@@ -281,7 +301,7 @@ function alertaAdvertencia(datos){
                 aprobarPermisoUsuario(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
-                        dibujarNotificaciones();
+                        dibujarNotificacionesManualmente();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -296,7 +316,7 @@ function alertaAdvertencia(datos){
                 desaprobarPermisoUsuario(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
-                        dibujarNotificaciones();
+                        dibujarNotificacionesManualmente();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -336,9 +356,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         modalDetallePermisoUsuario(codigoPermiso.value, urlBase);
     }
 
-    const selectTipoPermiso = document.getElementById('tipo_permiso_filtro');
-    parametros.tipo_permiso = selectTipoPermiso.value;
-
     eventoBuscarDocumento();
     eventoFecha();
     eventoEstadoPermiso();
@@ -346,10 +363,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && !cuerpoTabla){
-                validarResolucion();
-
-            }else if(window.innerWidth < 1024 && cuerpoTabla){
+            if((window.innerWidth >= 1024 && !cuerpoTabla) || (window.innerWidth < 1024 && cuerpoTabla)){
                 validarResolucion();
             }
         }, 250)

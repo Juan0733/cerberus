@@ -67,21 +67,17 @@ class MovimientoModel extends MainModel{
         }
         unset($pasajero);
 
-        $respuesta = $this->validarPropiedadVehiculo($datosEntrada['numero_placa'], $datosEntrada['propietario']);
-        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        $datosVehiculo = [
+            'numero_placa' => $datosEntrada['numero_placa'],
+            'propietario' => $datosEntrada['propietario']
+        ];
+        if(isset($datosEntrada['tipo_vehiculo'])){
+            $datosVehiculo['tipo_vehiculo'] = $datosEntrada['tipo_vehiculo'];
+        }
+
+        $respuesta = $this->validarVehiculoAptoEntrada($datosVehiculo);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
-
-        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietario Incorrecto'){
-            $datosVehiculo = [
-                'numero_placa' => $datosEntrada['numero_placa'],
-                'tipo_vehiculo' => $datosEntrada['tipo_vehiculo'],
-                'propietario' => $datosEntrada['propietario']
-            ];
-
-            $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
-            if($respuesta['tipo'] == 'ERROR'){
-                return $respuesta;
-            }
         }
         
         $codigoMovimiento = 'EV'.date('YmdHis');
@@ -151,7 +147,7 @@ class MovimientoModel extends MainModel{
         
         $sentenciaInsertar = "
             INSERT INTO movimientos(codigo_movimiento, tipo_movimiento, fk_usuario, puerta_registro, fecha_registro, rol_usuario_sistema, fk_usuario_sistema, tipo_usuario, observacion) 
-            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosSalida['numero_documento']}', '$puertaActual', '$fechaRegistro', '$rolSistema' '$usuarioSistema', '$tipoUsuario', {$datosSalida['observacion']})";
+            VALUES ('$codigoMovimiento', '$tipoMovimiento', '{$datosSalida['numero_documento']}', '$puertaActual', '$fechaRegistro', '$rolSistema', '$usuarioSistema', '$tipoUsuario', {$datosSalida['observacion']})";
         
         $respuesta = $this->ejecutarConsulta($sentenciaInsertar);
         if($respuesta['tipo'] == 'ERROR'){
@@ -189,44 +185,17 @@ class MovimientoModel extends MainModel{
         }
         unset($pasajero);
 
-        $respuesta = $this->objetoVehiculo->consultarVehiculo($datosSalida['numero_placa']);
-        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        $datosVehiculo = [
+            'numero_placa' => $datosSalida['numero_placa'],
+            'propietario' => $datosSalida['propietario']
+        ];
+        if(isset($datosSalida['tipo_vehiculo'])){
+            $datosVehiculo['tipo_vehiculo'] = $datosSalida['tipo_vehiculo'];
+        }
+
+        $respuesta = $this->validarVehiculoAptoSalida($datosVehiculo);
+        if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
-
-        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Vehículo No Encontrado'){
-            $datosVehiculo = [
-                'numero_placa' => $datosSalida['numero_placa'],
-                'tipo_vehiculo' => $datosSalida['tipo_vehiculo'],
-                'propietario' => $datosSalida['propietario']
-            ];
-            
-            $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
-            if($respuesta['tipo'] == 'ERROR'){
-                return $respuesta;
-            }
-
-        }elseif($respuesta['tipo'] == 'OK'){
-            $respuesta = $this->objetoVehiculo->consultarPropietarios($datosSalida['numero_placa']);
-            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-                return $respuesta;
-
-            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
-                $datosVehiculo = [
-                    'numero_placa' => $datosSalida['numero_placa'],
-                    'propietario' => $datosSalida['propietario']
-                ];
-                
-                $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-
-            }elseif($respuesta['tipo'] == 'OK'){
-                $respuesta = $this->validarPropiedadVehiculo($datosSalida['numero_placa'], $datosSalida['propietario']);
-                if($respuesta['tipo'] == 'ERROR'){
-                    return $respuesta;
-                }
-            }
         }
 
         $codigoMovimiento = 'SV'.date('YmdHis');
@@ -376,37 +345,81 @@ class MovimientoModel extends MainModel{
         return $respuesta;
     }
 
-    public function validarPropiedadVehiculo($placa, $usuario){
-        $respuesta = $this->objetoVehiculo->consultarPropietarioVehiculo($placa, $usuario);
+    private function validarVehiculoAptoEntrada($datosVehiculo){
+        $respuesta = $this->objetoVehiculo->consultarVehiculo($datosVehiculo['numero_placa']);
         if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
             return $respuesta;
 
-        }else if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Datos No Encontrados'){
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Propietario Incorrecto',
-                'mensaje' => 'El usuario con número de documento '.$usuario.', no le pertenece el vehículo de placas '.$placa.', ¿Es un vehículo prestado?'
-            ];
-            return $respuesta;
-
-        }else if($respuesta['tipo'] == 'OK'){
-            $vehiculo = $respuesta['datos_vehiculo'];
-            if($vehiculo['estado_propiedad'] == 'INACTIVA'){
-                $respuesta = [
-                    'tipo' => 'ERROR',
-                    'titulo' => 'Propietario Incorrecto',
-                    'mensaje' => 'El usuario con número de documento '.$usuario.', no le pertenece el vehículo de placas '.$placa.', ¿Es un vehículo prestado?'
-                ];
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Vehículo No Encontrado'){
+            $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+            if($respuesta['tipo'] == 'ERROR'){
                 return $respuesta;
             }
 
-            $respuesta = [
-                'tipo' => 'OK',
-                'titulo' => 'Propietario Correcto',
-                'mensaje' => 'El propietario del vehículo coincide con el usuario que intenta realizar el movimiento.'
-            ];
-            return $respuesta;
+        }elseif($respuesta['tipo'] == 'OK'){
+            $respuesta = $this->objetoVehiculo->validarPropiedadVehiculo($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietario Incorrecto'){
+                $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+            }
         }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Vehículo Apto',
+            'mensaje' => 'El vehículo es apto para registrar su entrada.'
+        ];
+        return $respuesta;
+    }
+
+    private function validarVehiculoAptoSalida($datosVehiculo){
+        $respuesta = $this->objetoVehiculo->consultarVehiculo($datosVehiculo['numero_placa']);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Vehículo No Encontrado'){
+            $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+            if($respuesta['tipo'] == 'ERROR'){
+                return $respuesta;
+            }
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $respuesta = $this->objetoVehiculo->validarPropiedadVehiculo($datosVehiculo['numero_placa'], $datosVehiculo['propietario']);
+            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                return $respuesta;
+
+            }elseif($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Propietario Incorrecto'){
+                $respuesta = $this->objetoVehiculo->consultarPropietarios($datosVehiculo['numero_placa']);
+                if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+                    return $respuesta;
+
+                }elseif($respuesta['tipo'] == 'OK'){
+                    $respuesta = [
+                        'tipo' => 'ERROR',
+                        'titulo' => 'Propietario Incorrecto',
+                        'mensaje' => 'El usuario con número de documento '.$datosVehiculo['propietario'].', no le pertenece el vehículo de placas '.$datosVehiculo['numero_placa'].', ¿Es un vehículo prestado?'
+                    ];
+                    return $respuesta;
+                }
+
+                $respuesta = $this->objetoVehiculo->registrarVehiculo($datosVehiculo);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+            }
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Vehículo Apto',
+            'mensaje' => 'El vehículo es apto para registrar su salida.'
+        ];
+        return $respuesta;
     }
 
     public function consultarUltimoMovimientoUsuario($usuario){
@@ -590,8 +603,8 @@ class MovimientoModel extends MainModel{
     public function consultarMovimientosUsuarios($parametros){
         $jornadas = [
             'MAÑANA' => ['07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00'],
-            'TARDE' => ['12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
-            'NOCHE' => ['18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
+            'TARDE' => ['12:01:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00'],
+            'NOCHE' => ['18:01:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00']
         ];
 
         $jornada = $parametros['jornada'];

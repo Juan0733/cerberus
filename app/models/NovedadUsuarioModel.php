@@ -132,8 +132,8 @@ class NovedadUsuarioModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY nu.fecha_registro DESC";
 
-        if(!isset($parametros['fecha'], $parametros['numero_documento'], $parametros['tipo_novedad'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

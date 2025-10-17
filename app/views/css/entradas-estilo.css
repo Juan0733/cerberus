@@ -135,6 +135,7 @@
             }
 
                 #contenedor_vehicular #formulario_vehicular #contenedor_vehiculo_propietario #caja_tipo_vehiculo{
+                    animation: 0.5s ease-out 0s 1 normal none running slideIn3;
                     display: none;
                 }
 

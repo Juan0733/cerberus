@@ -7,13 +7,33 @@ let contenedorTabla;
 let cuerpoTabla;
 
 const parametros = {
-    tipo_permiso: '',
-    estado: '',
+    tipo_permiso: 'SALIDA',
+    estado: 'APROBADO',
     fecha: '',
-    documento: ''
+    documento: '',
+    cantidad: ''
 };
 
+function validarCantidadRegistros(){
+    for(const clave of Object.keys(parametros)){
+        if(clave != 'cantidad' && 'tipo_permiso'){
+            if(parametros[clave]){
+                parametros.cantidad = '';
+                return;
+            }
+        }
+    }
+
+    if(window.innerWidth >= 768){
+        parametros.cantidad = 10;
+    }else{
+        parametros.cantidad = 5;
+    }
+}
+
 function validarResolucion(){
+    validarCantidadRegistros();
+
     if(window.innerWidth >= 1024){
         dibujarTablaPermisos();
     }else{
@@ -209,13 +229,7 @@ function alertaError(respuesta){
 document.addEventListener('DOMContentLoaded', ()=>{
     urlBase = document.getElementById('url_base').value;
     contenedorTabla = document.getElementById('contenedor_tabla_cards');
-
-    const selectEstado = document.getElementById('estado_permiso_filtro');
-    const selectTipoPermiso = document.getElementById('tipo_permiso_filtro');
     
-    parametros.estado = selectEstado.value;
-    parametros.tipo_permiso = selectTipoPermiso.value;
-
     eventoFecha();
     eventoBuscarDocumento();
     eventoCrearPermisoUsuario();
@@ -223,10 +237,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && !cuerpoTabla){
-                validarResolucion();
-
-            }else if(window.innerWidth < 1024 && cuerpoTabla){
+            if((window.innerWidth >= 1024 && !cuerpoTabla) || (window.innerWidth < 1024 && cuerpoTabla)){
                 validarResolucion();
             }
         }, 250)

@@ -1,5 +1,5 @@
 import { consultarAprendiz } from '../fetchs/aprendices-fetch.js';
-import { consultarModalDetalleAprendiz } from '../fetchs/modal-fetch.js';
+import { consultarModalDetalleAprendiz } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;

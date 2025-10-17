@@ -1,4 +1,4 @@
-import { consultarModalDetalleMovimiento } from '../fetchs/modal-fetch.js';
+import { consultarModalDetalleMovimiento } from '../fetchs/modales-fetch.js';
 import { consultarMovimiento } from '../fetchs/movimientos-fetch.js';
 
 let contenedorModales;
@@ -72,7 +72,7 @@ function dibujarMovimiento() {
                 document.getElementById('caja_observacion').style.display = 'none';
             }
 
-            document.getElementById('tipo_movimiento').textContent = formatearString(datosMovimiento.tipo_movimiento);
+            document.getElementById('tipo_movimiento').textContent = datosMovimiento.tipo_movimiento;
             document.getElementById('fecha_registro').textContent = formatearFecha(datosMovimiento.fecha_registro);
             document.getElementById('usuario').textContent = datosMovimiento.nombres+' '+datosMovimiento.apellidos;
             document.getElementById('tipo_usuario').textContent = formatearString(datosMovimiento.tipo_usuario);

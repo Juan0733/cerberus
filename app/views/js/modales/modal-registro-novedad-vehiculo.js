@@ -1,4 +1,4 @@
-import { consultarModalNovedadVehiculo } from '../fetchs/modal-fetch.js';
+import { consultarModalNovedadVehiculo } from '../fetchs/modales-fetch.js';
 import {registrarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
 import {consultarPropietarios} from '../fetchs/vehiculos-fetch.js'
 

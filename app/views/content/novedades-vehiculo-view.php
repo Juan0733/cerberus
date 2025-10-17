@@ -8,7 +8,6 @@
         <div class="filtro">
             <label for="tipo_novedad_filtro">Tipo:</label>
             <select id="tipo_novedad_filtro" name="tipo_novedad_filtro">
-                <option value="">Todas</option>
                 <option value="VEHICULO PRESTADO">Vehículo Prestado</option>
             </select>
         </div>

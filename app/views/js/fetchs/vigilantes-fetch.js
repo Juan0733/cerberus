@@ -288,7 +288,12 @@ export{consultarPuerta}
 async function consultarVigilantes(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_vigilantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&rol='+encodeURI(parametros.rol));
+        const response = await fetch(urlBase+'app/controllers/VigilanteController.php?operacion='+encodeURI('consultar_vigilantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&rol='+encodeURI(parametros.rol)+'&cantidad='+encodeURI(parametros.cantidad), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
 
         if(!response.ok) throw new Error("Error en la solicitud");
 

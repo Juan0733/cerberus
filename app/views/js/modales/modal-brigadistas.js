@@ -1,13 +1,13 @@
-import {consultarFuncionarios} from '../fetchs/funcionarios-fetch.js';
-import { consultarModalFuncionariosBrigadistas } from '../fetchs/modal-fetch.js';
+import {consultarBrigadistas, consultarFuncionarios} from '../fetchs/funcionarios-fetch.js';
+import { consultarModalBrigadistas } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;
 let botonCerrarModal;
 let urlBase;
 
-async function modalFuncionariosBrigadistas(url) {
-   consultarModalFuncionariosBrigadistas(url).then(respuesta=>{
+async function modalBrigadistas(url) {
+   consultarModalBrigadistas(url).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const contenidoModal = respuesta.modal;
             const modal = document.createElement('div');
@@ -36,7 +36,7 @@ async function modalFuncionariosBrigadistas(url) {
         } 
     })
 }
-export { modalFuncionariosBrigadistas };
+export { modalBrigadistas };
 
 function eventoCerrarModal(){
     botonCerrarModal = document.getElementById('cerrar_modal_brigadista');
@@ -48,23 +48,16 @@ function eventoCerrarModal(){
 }
 
 function dibujarBrigadistas(){
-    const parametros = {
-        brigadista: 'SI',
-        ubicacion: 'DENTRO',
-        documento: '',
-        rol: ''
-    };
-
-    consultarFuncionarios(parametros, urlBase).then(respuesta=>{
+    consultarBrigadistas(urlBase).then(respuesta=>{
         const contenedor = document.getElementById('cont_info_modales');
         if(respuesta.tipo == 'OK'){
-            respuesta.funcionarios.forEach(funcionario => {
+            respuesta.brigadistas.forEach(brigadista => {
                 contenedor.innerHTML += `
                     <div class="document-card-brigadista">
                         <div class="card-header">
                             <div>
-                                <p class="document-title">${funcionario.nombres} ${funcionario.apellidos}</p>
-                                <p class="document-meta">${formatearNumeroTelefono(funcionario.telefono)}</p>
+                                <p class="document-title">${brigadista.nombres} ${brigadista.apellidos}</p>
+                                <p class="document-meta">${formatearNumeroTelefono(brigadista.telefono)}</p>
                             </div>
                         </div>
                     </div>`;

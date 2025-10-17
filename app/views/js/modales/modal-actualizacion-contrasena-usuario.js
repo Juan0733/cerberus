@@ -1,4 +1,4 @@
-import { consultarModalActualizarContrasena } from '../fetchs/modal-fetch.js';
+import { consultarModalActualizarContrasena } from '../fetchs/modales-fetch.js';
 import { actualizarContrasenaUsuario } from '../fetchs/usuarios-fetch.js';
 
 let contenedorModales;
@@ -7,7 +7,7 @@ let inputContrasena;
 let funcionCallback;
 let urlBase;
 
-function modalActualizacionContrasenaUsuario(url, callback=false) {
+function modalActualizacionContrasenaUsuario(url, callback) {
     consultarModalActualizarContrasena(url).then(respuesta=>{
         if(respuesta.tipo == 'OK'){
             const contenidoModal = respuesta.modal;
@@ -84,11 +84,7 @@ function eventoActualizarContrasena(){
             if(respuesta.tipo == "OK" ){
                 alertaExito(respuesta);
                 eventoCerrarModal();
-
-                if(funcionCallback){
-                    document.getElementById('contrasena_actualizada').value = 'SI';
-                    funcionCallback();
-                }
+                funcionCallback();
                 
             }else if(respuesta.tipo == "ERROR"){
                 if(respuesta.titulo == 'Sesión Expirada'){

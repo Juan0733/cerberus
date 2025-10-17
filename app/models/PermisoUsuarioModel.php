@@ -66,45 +66,48 @@ class PermisoUsuarioModel extends MainModel{
                 return $respuesta;
             }
 
-            $respuesta = $this->consultarUltimoPermisoUsuario($documento, $tipoPermiso);
-            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+        }elseif($tipoPermiso == 'SALIDA'){
+            if($usuario['tipo_usuario'] != 'APRENDIZ'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Usuario Incorrecto',
+                    'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el usuario no se encuentra registrado como aprendiz.'
+                ];
+                return $respuesta;
+            }
+        }
+
+        $respuesta = $this->consultarUltimoPermisoUsuario($documento, $tipoPermiso);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $permiso = $respuesta['datos_permiso'];
+            if($permiso['estado_permiso'] == 'PENDIENTE'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo'=> 'Permiso Pendiente',
+                    'mensaje' => 'Lo sentimos, pero este usuario tiene un permiso que se encuentra en estado pendiente.'
+                ];
                 return $respuesta;
 
-            }elseif($respuesta['tipo'] == 'OK'){
-                $permiso = $respuesta['datos_permiso'];
-                if($permiso['estado_permiso'] == 'PENDIENTE'){
+            }elseif($permiso['estado_permiso'] == 'DESAPROBADO'){
+                $respuesta = $this->objetoMovimiento->consultarUltimoMovimientoUsuario($documento);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $movimiento = $respuesta['datos_movimiento'];
+                if($permiso['fecha_registro'] > $movimiento['fecha_registro']){
                     $respuesta = [
                         'tipo' => 'ERROR',
-                        'titulo'=> 'Permiso Pendiente',
-                        'mensaje' => 'Lo sentimos, pero este usuario tiene un permiso de permanencia que se encuentra en estado pendiente.'
+                        'titulo'=> 'Permiso Desaprobado',
+                        'mensaje' => 'Lo sentimos, pero el permiso mas reciente de este usuario, ha sido desaprobado.'
                     ];
                     return $respuesta;
-
-                }elseif($permiso['estado_permiso'] == 'DESAPROBADO'){
-                    $respuesta = $this->objetoMovimiento->consultarUltimoMovimientoUsuario($documento);
-                    if($respuesta['tipo'] == 'ERROR'){
-                        return $respuesta;
-                    }
-
-                    $movimiento = $respuesta['datos_movimiento'];
-                    if($permiso['fecha_registro'] > $movimiento['fecha_registro']){
-                        $respuesta = [
-                            'tipo' => 'ERROR',
-                            'titulo'=> 'Permiso Desaprobado',
-                            'mensaje' => 'Lo sentimos, pero el permiso de permanencia mas reciente de este usuario, ha sido desaprobado.'
-                        ];
-                        return $respuesta;
-                    }
                 }
-            }
 
-        }elseif($tipoPermiso == 'SALIDA'){
-            $respuesta = $this->consultarUltimoPermisoUsuario($documento, $tipoPermiso);
-            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
-                return $respuesta;
-
-            }elseif($respuesta['tipo'] == 'OK'){
-                $permiso = $respuesta['datos_permiso'];
+            }elseif($permiso['estado_permiso'] == 'APROBADO'){
                 $fechaFinPermiso = strtotime($permiso['fecha_fin_permiso']);
                 $fechaActual = strtotime('now');
 
@@ -112,7 +115,7 @@ class PermisoUsuarioModel extends MainModel{
                     $respuesta = [
                         'tipo' => 'ERROR',
                         'titulo'=> 'Permiso Vigente',
-                        'mensaje' => 'Lo sentimos, pero este usuario ya tiene un permiso de salida vigente.'
+                        'mensaje' => 'Lo sentimos, pero este usuario ya tiene un permiso vigente.'
                     ];
                     return $respuesta;
                 }
@@ -255,21 +258,21 @@ class PermisoUsuarioModel extends MainModel{
             LEFT JOIN aprendices apr ON pu.fk_usuario = apr.numero_documento
             WHERE 1 = 1";
 
-        $rol = $_SESSION['datos_usuario']['rol'];
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
         $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
         $fechaActual = date('Y-m-d H:i:s');
 
         if(isset($parametros['tipo_permiso'])){
             $sentenciaBuscar .= " AND pu.tipo_permiso = '{$parametros['tipo_permiso']}'";
 
-            if(($parametros['tipo_permiso'] == 'PERMANENCIA' && $rol == 'SUPERVISOR') || ($parametros['tipo_permiso'] == 'SALIDA' && ($rol == 'COORDINADOR' || $rol == 'INSTRUCTOR'))){
+            if(($parametros['tipo_permiso'] == 'PERMANENCIA' && $rolSistema == 'SUPERVISOR') || ($parametros['tipo_permiso'] == 'SALIDA' && ($rolSistema == 'COORDINADOR' || $rolSistema == 'INSTRUCTOR'))){
                 $sentenciaBuscar .= " AND pu.fk_usuario_sistema = '$usuarioSistema'";
                 
-            }elseif($parametros['tipo_permiso'] == 'SALIDA' && ($rol == 'SUPERVISOR' || $rol == 'VIGILANTE')){
+            }elseif($parametros['tipo_permiso'] == 'SALIDA' && ($rolSistema == 'SUPERVISOR' || $rolSistema == 'VIGILANTE')){
                 $sentenciaBuscar .= " AND pu.fecha_fin_permiso >= '$fechaActual'";
             }
 
-        }elseif(!isset($parametros['tipo_permiso']) && $rol == 'SUPERVISOR'){
+        }elseif(!isset($parametros['tipo_permiso']) && $rolSistema == 'SUPERVISOR'){
             $sentenciaBuscar .= " AND ((pu.tipo_permiso = 'PERMANENCIA' AND pu.fk_usuario_sistema = '$usuarioSistema') OR (pu.tipo_permiso = 'SALIDA' AND pu.fecha_fin_permiso >= '$fechaActual'))";
         }
 
@@ -291,8 +294,8 @@ class PermisoUsuarioModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY pu.fecha_registro DESC";
 
-        if(!isset($parametros['tipo_permiso'], $parametros['fecha'], $parametros['codigo_permiso'], $parametros['numero_documento'], $parametros['estado_permiso'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

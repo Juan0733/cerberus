@@ -1,18 +1,18 @@
 import {validarUsuarioLogin, validarContrasenaLogin} from '../fetchs/usuarios-fetch.js'
 
 let urlBase;
+let usuario;
 
 function eventoFormulario(){
     const formularioLogin = document.getElementById('forma_acceso');
+    const contrasena = document.getElementById('psw_usuario');
+    const caja01 = document.getElementById('caja_01');
+    const caja02 = document.getElementById('caja_02');
 
     formularioLogin.addEventListener('submit', (e)=>{
         e.preventDefault();
         
         let data = new FormData();
-        const usuario = document.getElementById('num_id_usuario');
-        const contrasena = document.getElementById('psw_usuario');
-        const caja01 = document.getElementById('caja_01');
-        const caja02 = document.getElementById('caja_02');
 
         if(caja01.style.display != 'none' && caja02.style.display != 'block'){
 
@@ -63,5 +63,9 @@ function alertaError(respuesta){
 
 document.addEventListener('DOMContentLoaded', () => {
     urlBase = document.getElementById('url_base').value;
+    usuario = document.getElementById('num_id_usuario');
+
+    usuario.focus();
+
     eventoFormulario();
 });

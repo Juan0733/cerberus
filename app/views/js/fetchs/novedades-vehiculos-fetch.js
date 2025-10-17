@@ -45,7 +45,7 @@ export{registrarNovedadVehiculo}
 async function consultarNovedadesVehiculo(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/NovedadVehiculoController.php?operacion='+encodeURI('consultar_novedades_vehiculo')+'&placa='+encodeURI(parametros.placa)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha), {
+        const response = await fetch(urlBase+'app/controllers/NovedadVehiculoController.php?operacion='+encodeURI('consultar_novedades_vehiculo')+'&placa='+encodeURI(parametros.placa)+'&tipo_novedad='+encodeURI(parametros.tipo_novedad)+'&fecha='+encodeURI(parametros.fecha)+'&cantidad='+encodeURI(parametros.cantidad), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

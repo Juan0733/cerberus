@@ -85,7 +85,7 @@ export{actualizarAprendiz}
 async function consultarAprendices(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/AprendizController.php?operacion='+encodeURI('consultar_aprendices')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&ficha='+encodeURI(parametros.ficha), {
+        const response = await fetch(urlBase+'app/controllers/AprendizController.php?operacion='+encodeURI('consultar_aprendices')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&ficha='+encodeURI(parametros.ficha)+'&cantidad='+encodeURI(parametros.cantidad), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

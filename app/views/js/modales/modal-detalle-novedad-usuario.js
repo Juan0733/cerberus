@@ -1,4 +1,4 @@
-import { consultarModalDetalleNovedadUsuario } from '../fetchs/modal-fetch.js';
+import { consultarModalDetalleNovedadUsuario } from '../fetchs/modales-fetch.js';
 import { consultarNovedadUsuario } from '../fetchs/novedades-usuarios-fetch.js';
 
 let contenedorModales;

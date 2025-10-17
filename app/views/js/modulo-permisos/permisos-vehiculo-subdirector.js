@@ -1,5 +1,5 @@
 import { aprobarPermisoVehiculo, consultarPermisosVehiculos, desaprobarPermisoVehiculo} from '../fetchs/permisos-vehiculos-fetch.js';
-import { dibujarNotificaciones } from '../general/notificaciones-subdirector.js';
+import { dibujarNotificacionesManualmente } from '../general/notificaciones-subdirector.js';
 import { modalDetallePermisoVehiculo } from '../modales/modal-detalle-permiso-vehiculo.js';
 
 let urlBase;
@@ -9,13 +9,33 @@ let cuerpoTabla;
 
 const parametros = {
     codigo_permiso: '',
-    tipo_permiso: '',
+    tipo_permiso: 'PERMANENCIA',
     estado: '',
     fecha: '',
-    placa: ''
+    placa: '',
+    cantidad: ''
 };
 
+function validarCantidadRegistros(){
+    for(const clave of Object.keys(parametros)){
+        if(clave != 'cantidad' && 'tipo_permiso'){
+            if(parametros[clave]){
+                parametros.cantidad = '';
+                return;
+            }
+        }
+    }
+
+    if(window.innerWidth >= 768){
+        parametros.cantidad = 10;
+    }else{
+        parametros.cantidad = 5;
+    }
+}
+
 function validarResolucion(){
+    validarCantidadRegistros();
+
     if(window.innerWidth >= 1024){
         dibujarTablaPermisos();
     }else{
@@ -207,15 +227,6 @@ function eventoFecha(){
     })
 }
 
-function eventoTipoPermiso(){
-    const selectTipoPermiso = document.getElementById('tipo_permiso_filtro');
-
-    selectTipoPermiso.addEventListener('change', ()=>{
-        parametros.tipo_permiso = selectTipoPermiso.value;
-        validarResolucion();
-    })
-}
-
 function eventoBuscarPlaca(){
     const inputPlaca = document.getElementById('buscador_placa');
     
@@ -299,7 +310,7 @@ function alertaAdvertencia(datos){
                 aprobarPermisoVehiculo(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
-                        dibujarNotificaciones();
+                        dibujarNotificacionesManualmente();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -314,7 +325,7 @@ function alertaAdvertencia(datos){
                 desaprobarPermisoVehiculo(datos.codigo_permiso, urlBase).then(respuesta=>{
                     if(respuesta.tipo == 'OK'){
                         alertaExito(respuesta);
-                        dibujarNotificaciones();
+                        dibujarNotificacionesManualmente();
                         validarResolucion();
 
                     }else if(respuesta.tipo == 'ERROR'){
@@ -341,17 +352,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     eventoBuscarPlaca();
-    eventoTipoPermiso();
     eventoFecha();
     eventoEstadoPermiso();
     validarResolucion();
 
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && !cuerpoTabla){
-                validarResolucion();
-
-            }else if(window.innerWidth < 1024 && cuerpoTabla){
+            if((window.innerWidth >= 1024 && !cuerpoTabla) || (window.innerWidth < 1024 && cuerpoTabla)){
                 validarResolucion();
             }
         }, 250)

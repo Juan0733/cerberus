@@ -118,6 +118,15 @@ class PermisoVehiculoService extends MainService{
             }
         }
 
+        if(isset($_GET['cantidad'])){
+            $cantidadRegistros = $this->limpiarDatos($_GET['cantidad']);
+            unset($_GET['cantidad']);
+
+            if(preg_match('/^(5|10)$/', $cantidadRegistros)){
+                $parametros['cantidad_registros'] = $cantidadRegistros;
+            }
+        }
+
         return [
             'tipo' => 'OK',
             'parametros' => $parametros

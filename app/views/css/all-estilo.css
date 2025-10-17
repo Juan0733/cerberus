@@ -883,11 +883,6 @@ main#cuerpo{
     background-color: #EC8103;
 }
 
-    #contenedor_modales #modal_brigadistas .contenedor-titulo-modal{
-        justify-content: end;
-        padding: 5px 8px;
-    }
-
     #contenedor_modales #modal_brigadistas #cont_info_modales{
         display:  flex;
         flex-direction: column;

@@ -4,6 +4,7 @@ let urlBase;
 let opciones;
 let subMenus;
 let barraLateral;
+let botonCerrarSesion;
 let spans;
 
 function eventoAbrirMenu(){
@@ -120,9 +121,10 @@ function eventoDesplegarSubMenu(){
 }
 
 function eventoCerrarSesion(){
-    document.getElementById('cerrar_sesion').addEventListener('click', ()=>{
+    botonCerrarSesion.addEventListener('click', ()=>{
         cerrarSesion(urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
+                sessionStorage.clear();
                 window.location.replace(urlBase+'login');
 
             }else if(respuesta.tipo == 'ERROR'){
@@ -131,6 +133,11 @@ function eventoCerrarSesion(){
         })
     })
 }
+
+function eventoManualCerraSesion(){
+    botonCerrarSesion.click();
+}
+export{eventoManualCerraSesion}
 
 function eventoAutor(){
     const botonAutor = document.getElementById('btn_autor');
@@ -166,6 +173,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     opciones = document.getElementsByClassName("sub-menu-link");
     subMenus = document.getElementsByClassName('sub-menu-list');
     barraLateral = document.querySelector(".barra-lateral");
+    botonCerrarSesion = document.getElementById('cerrar_sesion');
     spans = barraLateral.querySelectorAll("span");
 
     if(window.innerWidth < 1024){

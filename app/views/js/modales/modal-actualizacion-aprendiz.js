@@ -1,6 +1,6 @@
 import {actualizarAprendiz, consultarAprendiz} from '../fetchs/aprendices-fetch.js';
 import {consultarFicha, consultarFichas} from '../fetchs/fichas-fetch.js';
-import { consultarModalAprendiz } from '../fetchs/modal-fetch.js';
+import { consultarModalAprendiz } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;

@@ -11,12 +11,7 @@ class NovedadVehiculoModel extends MainModel{
     }
 
     public function registrarNovedadVehiculo($datosNovedad){
-        $respuesta = $this->objetoUsuario->consultarUsuario($datosNovedad['documento_involucrado']);
-        if($respuesta['tipo'] == 'ERROR'){
-            return $respuesta;
-        }
-
-        $respuesta = $this->objetoVehiculo->consultarVehiculo($datosNovedad['numero_placa']);
+        $respuesta = $this->validarVehiculoAptoNovedad($datosNovedad['numero_placa'], $datosNovedad['propietario'], $datosNovedad['documento_involucrado']);
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
@@ -50,6 +45,48 @@ class NovedadVehiculoModel extends MainModel{
             'tipo' => 'OK',
             'titulo' => 'Registro Exitoso',
             'mensaje' => 'La novedad fue registrada correctamente',
+        ];
+        return $respuesta;
+    }
+
+    private function validarVehiculoAptoNovedad($vehiculo, $propietario, $autorizado){
+        $respuesta = $this->objetoUsuario->consultarUsuario($propietario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoUsuario->consultarUsuario($autorizado);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoVehiculo->consultarVehiculo($vehiculo);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoVehiculo->validarPropiedadVehiculo($vehiculo, $propietario);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuesta = $this->objetoVehiculo->validarPropiedadVehiculo($vehiculo, $autorizado);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }elseif($respuesta['tipo'] == 'OK'){
+            $respuesta = [
+                'tipo' => 'ERROR',
+                'titulo' => 'Error Propietario',
+                'mensaje' => 'El usuario con número de documento '.$autorizado.', ya es propietario del vehículo con número de placa '.$vehiculo.'.'
+            ];
+            return $respuesta;
+        }
+
+        $respuesta = [
+            'tipo' => 'OK',
+            'titulo' => 'Vehículo Apto',
+            'mensaje' => 'El vehículo es apto para registrarle una novedad.'
         ];
         return $respuesta;
     }
@@ -88,8 +125,8 @@ class NovedadVehiculoModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY nv.fecha_registro DESC";
 
-        if(!isset($parametros['fecha'], $parametros['numero_placa'], $parametros['tipo_novedad'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

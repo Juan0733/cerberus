@@ -1,6 +1,6 @@
 import {registrarVisitante} from '../fetchs/visitantes-fetch.js';
 import { consultarMotivosIngreso } from '../fetchs/motivos-ingreso.js';
-import { consultarModalVisitante } from '../fetchs/modal-fetch.js';
+import { consultarModalVisitante } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;

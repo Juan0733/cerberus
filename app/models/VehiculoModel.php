@@ -76,8 +76,8 @@ class VehiculoModel extends MainModel {
 
         $sentenciaBuscar .= " GROUP BY numero_placa, tipo_vehiculo, ubicacion ORDER BY fecha_registro DESC" ;
 
-        if(!isset($parametros['numero_placa'], $parametros['numero_documento'], $parametros['tipo_vehiculo'], $parametros['ubicacion'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

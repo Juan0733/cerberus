@@ -12,10 +12,30 @@ const parametros = {
     documento: '',
     brigadista: '',
     ubicacion: '',
-    rol: ''
+    rol: '',
+    cantidad: ''
 };
 
+function validarCantidadRegistros(){
+    for(const clave of Object.keys(parametros)){
+        if(clave != 'cantidad'){
+            if(parametros[clave]){
+                parametros.cantidad = '';
+                return;
+            }
+        }
+    }
+
+    if(window.innerWidth >= 768){
+        parametros.cantidad = 10;
+    }else{
+        parametros.cantidad = 5;
+    }
+}
+
 function validarResolucion(){
+    validarCantidadRegistros();
+
     if(window.innerWidth >= 1024){
         dibujarTablaFuncionarios();
     }else{
@@ -352,10 +372,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && !cuerpoTabla){
-                validarResolucion();
-
-            }else if(window.innerWidth < 1024 && cuerpoTabla){
+            if((window.innerWidth >= 1024 && !cuerpoTabla) || (window.innerWidth < 1024 && cuerpoTabla)){
                 validarResolucion();
             }
         }, 250)

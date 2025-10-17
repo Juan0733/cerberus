@@ -252,10 +252,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
     window.addEventListener('resize', ()=>{
         setTimeout(()=>{
-            if(window.innerWidth >= 1024 && !cuerpoTabla){
-                validarResolucion();
-
-            }else if(window.innerWidth < 1024 && cuerpoTabla){
+            if((window.innerWidth >= 1024 && !cuerpoTabla) || (window.innerWidth < 1024 && cuerpoTabla)){
                 validarResolucion();
             }
         }, 250)

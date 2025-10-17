@@ -45,7 +45,7 @@ export{registrarPermisoVehiculo}
 async function consultarPermisosVehiculos(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_permisos_vehiculos')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha), {
+        const response = await fetch(urlBase+'app/controllers/PermisoVehiculoController.php?operacion='+encodeURI('consultar_permisos_vehiculos')+'&codigo_permiso='+encodeURI(parametros.codigo_permiso)+'&tipo_permiso='+encodeURI(parametros.tipo_permiso)+'&documento='+encodeURI(parametros.documento)+'&estado='+encodeURI(parametros.estado)+'&fecha='+encodeURI(parametros.fecha)+'&cantidad='+encodeURI(parametros.cantidad), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

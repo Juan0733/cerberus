@@ -14,7 +14,6 @@
         <div class="filtro">
             <label for="tipo_permiso_filtro">Tipo:</label>
             <select id="tipo_permiso_filtro" name="tipo_permiso_filtro">
-                <option value="">Todos</option>
                 <option value="PERMANENCIA">Permanencia</option>
             </select>
         </div>

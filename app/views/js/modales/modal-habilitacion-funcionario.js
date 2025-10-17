@@ -1,5 +1,5 @@
 import {habilitarFuncionario} from '../fetchs/funcionarios-fetch.js';
-import { consultarModalActualizarContrasena } from '../fetchs/modal-fetch.js';
+import { consultarModalActualizarContrasena } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;

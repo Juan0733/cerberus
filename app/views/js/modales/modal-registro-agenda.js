@@ -1,5 +1,5 @@
-import {registrarAgenda} from '../fetchs/agenda-fetch.js'
-import { consultarModalAgenda } from '../fetchs/modal-fetch.js';
+import {registrarAgenda} from '../fetchs/agendas-fetch.js'
+import { consultarModalAgenda } from '../fetchs/modales-fetch.js';
 import {modalRegistroVehiculo} from './modal-registro-vehiculo.js'
 
 let tipoAgenda;

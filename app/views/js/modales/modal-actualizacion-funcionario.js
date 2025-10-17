@@ -1,5 +1,5 @@
 import {actualizarFuncionario, consultarFuncionario} from '../fetchs/funcionarios-fetch.js';
-import { consultarModalFuncionario } from '../fetchs/modal-fetch.js';
+import { consultarModalFuncionario } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;

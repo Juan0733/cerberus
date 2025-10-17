@@ -1,4 +1,4 @@
-import { consultarModalVehiculo } from '../fetchs/modal-fetch.js';
+import { consultarModalVehiculo } from '../fetchs/modales-fetch.js';
 import {registrarVehiculo} from '../fetchs/vehiculos-fetch.js';
 import {modalRegistroVisitante} from './modal-registro-visitante.js'
 

@@ -1,5 +1,5 @@
-import {consultarAgenda, actualizarAgenda} from '../fetchs/agenda-fetch.js';
-import { consultarModalAgenda } from '../fetchs/modal-fetch.js';
+import {consultarAgenda, actualizarAgenda} from '../fetchs/agendas-fetch.js';
+import { consultarModalAgenda } from '../fetchs/modales-fetch.js';
 
 let contenedorModales;
 let modalesExistentes;

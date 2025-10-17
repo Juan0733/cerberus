@@ -1,4 +1,4 @@
-import { consultarModalNovedadUsuario } from '../fetchs/modal-fetch.js';
+import { consultarModalNovedadUsuario } from '../fetchs/modales-fetch.js';
 import { consultarUltimoMovimientoUsuario } from '../fetchs/movimientos-fetch.js';
 import {registrarNovedadUsuario} from '../fetchs/novedades-usuarios-fetch.js';
 import { modalSeleccionPuerta } from './modal-seleccion-puerta.js';

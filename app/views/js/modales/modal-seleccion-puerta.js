@@ -1,4 +1,4 @@
-import { consultarModalSeleccionPuerta } from "../fetchs/modal-fetch.js";
+import { consultarModalSeleccionPuerta } from "../fetchs/modales-fetch.js";
 import { consultarPuerta, guardarPuerta } from "../fetchs/vigilantes-fetch.js";
 
 let contenedorModales;

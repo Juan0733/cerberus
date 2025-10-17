@@ -117,6 +117,45 @@ async function consultarModalAprendiz(urlBase){
 }
 export{consultarModalAprendiz}
 
+async function consultarModalBrigadistas(urlBase){
+    try {
+        contenedorSpinner.classList.add("mostrar_spinner");
+        const response = await fetch(urlBase+'app/views/inc/modales/modal-brigadistas.php', {
+            method: 'GET'
+        });
+
+        if(!response.ok) throw new Error('Hubo un error en la solicitud');
+
+        const data = await response.text();
+        const respuesta = {
+            tipo: 'OK',
+            modal: data
+        };
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        return respuesta;
+
+    }catch(error){
+        contenedorSpinner.classList.remove("mostrar_spinner");
+        console.error('Hubo un error:', error);
+
+        const respuesta = {
+            tipo: 'ERROR',
+            titulo: '',
+            mensaje: ''
+        };
+
+        if(!navigator.onLine){
+            respuesta.titulo = 'Error Internet';
+            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
+
+        }else{
+            respuesta.titulo = 'Error Modal';
+            respuesta.mensaje = 'Error al cargar modal funcionarios brigadistas.';
+        }
+    }
+}
+export{consultarModalBrigadistas}
+
 async function consultarModalDetalleAgenda(urlBase){
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
@@ -545,45 +584,6 @@ async function consultarModalFuncionario(urlBase){
     }
 }
 export{consultarModalFuncionario}
-
-async function consultarModalFuncionariosBrigadistas(urlBase){
-    try {
-        contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/views/inc/modales/modal-funcionarios-brigadistas.php', {
-            method: 'GET'
-        });
-
-        if(!response.ok) throw new Error('Hubo un error en la solicitud');
-
-        const data = await response.text();
-        const respuesta = {
-            tipo: 'OK',
-            modal: data
-        };
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        return respuesta;
-
-    }catch(error){
-        contenedorSpinner.classList.remove("mostrar_spinner");
-        console.error('Hubo un error:', error);
-
-        const respuesta = {
-            tipo: 'ERROR',
-            titulo: '',
-            mensaje: ''
-        };
-
-        if(!navigator.onLine){
-            respuesta.titulo = 'Error Internet';
-            respuesta.mensaje = 'Lo sentimos, pero parece que no tienes conexión a internet.';
-
-        }else{
-            respuesta.titulo = 'Error Modal';
-            respuesta.mensaje = 'Error al cargar modal funcionarios brigadistas.';
-        }
-    }
-}
-export{consultarModalFuncionariosBrigadistas}
 
 async function consultarModalNovedadUsuario(urlBase){
     try {

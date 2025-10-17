@@ -265,11 +265,49 @@ class FuncionarioModel extends MainModel{
         return $respuesta;
     }
 
+    public function consultarBrigadistas(){
+        $sentenciaBuscar = "
+            SELECT nombres, apellidos, telefono 
+            FROM funcionarios 
+            WHERE brigadista = 'SI' AND ubicacion = 'DENTRO'
+            LIMIT 8;";
+
+        $respuesta = $this->ejecutarConsulta($sentenciaBuscar);
+        if($respuesta['tipo'] == 'ERROR'){
+            return $respuesta;
+        }
+
+        $respuestaSentencia = $respuesta['respuesta_sentencia'];
+        if($respuestaSentencia->num_rows < 1){
+            $this->cerrarConexion();
+            $respuesta = [
+                "tipo"=>"ERROR",
+                "titulo" => 'Datos No Encontrados',
+                "mensaje"=> 'No se encontraron resultados.'
+            ];
+            return $respuesta;
+        }
+
+        $brigadistas = $respuestaSentencia->fetch_all(MYSQLI_ASSOC);
+        $this->cerrarConexion();
+        $respuesta = [
+            'tipo' => 'OK',
+            'brigadistas' => $brigadistas
+        ];
+        return $respuesta;
+    }
+
     public function consultarFuncionarios($parametros){
         $sentenciaBuscar = "
             SELECT tipo_documento, numero_documento, nombres, apellidos, rol, telefono, correo_electronico, ubicacion, estado_usuario 
             FROM funcionarios 
             WHERE 1=1";
+
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+        if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion']) && ($rolSistema == 'SUBDIRECTOR' || $rolSistema == 'COORDINADOR')){
+            $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+            $sentenciaBuscar .= " AND fk_usuario_sistema = '$usuarioSistema'";
+        }
     
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
@@ -283,21 +321,10 @@ class FuncionarioModel extends MainModel{
             $sentenciaBuscar .= " AND ubicacion = '{$parametros['ubicacion']}'";
         }
 
-        if(isset($parametros['brigadista'])){
-            $sentenciaBuscar .= " AND brigadista = '{$parametros['brigadista']}' ORDER BY fecha_registro DESC LIMIT 8;";
+        $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
-        }else{
-            $rolSistema = $_SESSION['datos_usuario']['rol'];
-            if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion']) && $rolSistema == 'COORDINADOR'){
-                $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
-                $sentenciaBuscar .= " AND fk_usuario_sistema = '$usuarioSistema'";
-            }
-
-            $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
-
-            if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion'])){
-                $sentenciaBuscar .= " LIMIT 10;";
-            }
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

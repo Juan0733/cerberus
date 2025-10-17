@@ -1,4 +1,4 @@
-import { consultarModalPermisoUsuario } from '../fetchs/modal-fetch.js';
+import { consultarModalPermisoUsuario } from '../fetchs/modales-fetch.js';
 import {registrarPermisoUsuario} from '../fetchs/permisos-usuarios-fetch.js';
 
 let contenedorModales;

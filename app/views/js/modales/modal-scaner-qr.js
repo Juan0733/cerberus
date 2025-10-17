@@ -1,4 +1,4 @@
-import { consultarModalScanerQr } from "../fetchs/modal-fetch.js";
+import { consultarModalScanerQr } from "../fetchs/modales-fetch.js";
 
 let contenedorModales;
 let modalesExistentes;

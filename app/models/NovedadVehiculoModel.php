@@ -125,8 +125,8 @@ class NovedadVehiculoModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY nv.fecha_registro DESC";
 
-        if(!isset($parametros['fecha'], $parametros['numero_placa'], $parametros['tipo_novedad'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

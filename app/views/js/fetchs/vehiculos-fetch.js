@@ -82,7 +82,7 @@ export{conteoTipoVehiculo}
 async function consultarVehiculos(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento)+'&tipo='+encodeURI(parametros.tipo)+'&ubicacion='+encodeURI(parametros.ubicacion), {
+        const response = await fetch(urlBase+'app/controllers/VehiculoController.php?operacion='+encodeURI('consultar_vehiculos')+'&placa='+encodeURI(parametros.placa)+'&documento='+encodeURI(parametros.documento)+'&tipo='+encodeURI(parametros.tipo)+'&ubicacion='+encodeURI(parametros.ubicacion)+'&cantidad='+encodeURI(parametros.cantidad), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

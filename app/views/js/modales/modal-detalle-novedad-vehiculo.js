@@ -1,4 +1,4 @@
-import { consultarModalDetalleNovedadVehiculo } from '../fetchs/modal-fetch.js';
+import { consultarModalDetalleNovedadVehiculo } from '../fetchs/modales-fetch.js';
 import { consultarNovedadVehiculo} from '../fetchs/novedades-vehiculos-fetch.js';
 
 let contenedorModales;

@@ -1,4 +1,4 @@
-import { consultarModalDetalleVisitante } from '../fetchs/modal-fetch.js';
+import { consultarModalDetalleVisitante } from '../fetchs/modales-fetch.js';
 import { consultarVisitante } from '../fetchs/visitantes-fetch.js';
 
 let contenedorModales;

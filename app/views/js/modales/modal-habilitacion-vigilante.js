@@ -1,4 +1,4 @@
-import { consultarModalActualizarContrasena } from '../fetchs/modal-fetch.js';
+import { consultarModalActualizarContrasena } from '../fetchs/modales-fetch.js';
 import {habilitarVigilante} from '../fetchs/vigilantes-fetch.js';
 
 let contenedorModales;

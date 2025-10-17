@@ -227,6 +227,12 @@ class VigilanteModel extends MainModel{
             FROM vigilantes
             WHERE 1=1";
 
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+        if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion']) && ($rolSistema == 'SUBDIRECTOR' || $rolSistema == 'SUPERVISOR' || $rolSistema == 'INSTRUCTOR')){
+            $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+            $sentenciaBuscar .= " AND fk_usuario_sistema = '$usuarioSistema'";
+        }
+
         if(isset($parametros['numero_documento'])){
             $sentenciaBuscar .= " AND numero_documento LIKE '{$parametros['numero_documento']}%'";
         }
@@ -241,8 +247,8 @@ class VigilanteModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY fecha_registro DESC";
 
-        if(!isset($parametros['numero_documento'], $parametros['rol'], $parametros['ubicacion'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(!isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

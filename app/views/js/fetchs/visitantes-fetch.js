@@ -44,7 +44,7 @@ export{registrarVisitante}
 async function consultarVisitantes(parametros, urlBase) {
     try {
         contenedorSpinner.classList.add("mostrar_spinner");
-        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento), {
+        const response = await fetch(urlBase+'app/controllers/VisitanteController.php?operacion='+encodeURI('consultar_visitantes')+'&ubicacion='+encodeURI(parametros.ubicacion)+'&documento='+encodeURI(parametros.documento)+'&cantidad='+encodeURI(parametros.cantidad), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

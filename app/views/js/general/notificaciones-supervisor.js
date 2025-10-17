@@ -10,94 +10,122 @@ let cuerpoModal;
 let contadorNotificaciones;
 let contadorNotificacionesMobile;
 
-function dibujarNotificaciones(){
-    consultarNotificacionesUsuario(urlBase).then(respuesta=>{
-        if(respuesta.tipo == 'OK'){
-            const notificacionesUsuario = respuesta.notificaciones_usuario;
-            consultarNotificacionesVehiculo(urlBase).then(respuesta=>{
-                if(respuesta.tipo == 'OK'){
-                    const notificacionesVehiculo = respuesta.notificaciones_vehiculo;
-                    contadorNotificaciones.textContent = notificacionesUsuario.length + notificacionesVehiculo.length;
-                    contadorNotificacionesMobile.textContent = notificacionesUsuario.length + notificacionesVehiculo.length;
+function dibujarNotificaciones(notificacionesUsuario, notificacionesVehiculo){
+    contadorNotificaciones.textContent = notificacionesUsuario.length + notificacionesVehiculo.length;
+    contadorNotificacionesMobile.textContent = notificacionesUsuario.length + notificacionesVehiculo.length;
 
-                    if(notificacionesUsuario.length > 0 || notificacionesVehiculo.length > 0){
-                        cuerpoModal.innerHTML = '';
+    if(notificacionesUsuario.length > 0 || notificacionesVehiculo.length > 0){
+        cuerpoModal.innerHTML = '';
 
-                        notificacionesUsuario.forEach(notificacion => {
-                            let acciones;
+        notificacionesUsuario.forEach(notificacion => {
+            let acciones;
 
-                            if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estadoPermiso == 'DESAPROBADO'){
-                                acciones = `
-                                    <button type="button" class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>
-                                    <button type="button" class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
+            if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estadoPermiso == 'DESAPROBADO'){
+                acciones = `
+                    <button type="button" class="btn-ver-permiso-usuario" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>
+                    <button type="button" class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
 
-                            }else{
-                                acciones = `
-                                    <button type="button" class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}">Solicitar permiso</button>
-                                    <button type="button" class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
-                            }
-
-                            cuerpoModal.innerHTML += `
-                                <div class="contenedor-alerta">
-                                    <div class="contenedor-mensaje-alerta">
-                                        <h3>Permanencia Usuario</h3>
-                                        <p>El ${formatearString(notificacion.tipo_usuario)} con número de documento <strong>${notificacion.numero_documento}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
-                                        <div id="contenedor_btns_notificacion">
-                                            ${acciones}
-                                        </div>
-                                    </div>
-                                </div>`
-                        });
-
-                        notificacionesVehiculo.forEach(notificacion => {
-                            let acciones;
-
-                            if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estado_permiso == 'DESAPROBADO'){
-                                acciones = `<button type="button" class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>`;
-
-                            }else{
-                                acciones = `<button type="button" class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}">Solicitar permiso</button>`;
-                            }
-
-                            cuerpoModal.innerHTML += `
-                                <div class="contenedor-alerta">
-                                    <div class="contenedor-mensaje-alerta">
-                                        <h3>Permanencia Vehículo</h3>
-                                        <p>El vehículo con número de placa <strong>${notificacion.numero_placa}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
-                                       <div id="contenedor_btns_notificacion">
-                                            ${acciones}
-                                        </div>
-                                    </div>
-                                </div>`
-                        });
-
-                        eventoRegistrarNovedadUsuario();
-                        eventoSolicitarPermisoPermanenciaUsuario();
-                        eventoSolicitarPermisoPermanenciaVehiculo();
-                        eventoVerPermisoUsuario();
-                        eventoVerPermisoVehiculo();
-
-                    }else if(notificacionesUsuario.length < 1 && notificacionesVehiculo.length < 1){
-                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones actualmente.</p>`;
-                    }
-
-                }else if(respuesta.tipo == 'ERROR'){
-                    if(respuesta.titulo == 'Sesión Expirada'){
-                        window.location.replace(urlBase+'sesion-expirada');
-                    }else{
-                        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
-                    }
-                }
-            })
-            
-        }else if(respuesta.tipo == 'ERROR'){
-            if(respuesta.titulo == 'Sesión Expirada'){
-                window.location.replace(urlBase+'sesion-expirada');
             }else{
-                cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                acciones = `
+                    <button type="button" class="btn-permiso-usuario" data-usuario="${notificacion.numero_documento}">Solicitar permiso</button>
+                    <button type="button" class="btn-novedad" data-usuario="${notificacion.numero_documento}">Registrar novedad</button>`;
             }
-        }
-    })
+
+            cuerpoModal.innerHTML += `
+                <div class="contenedor-alerta">
+                    <div class="contenedor-mensaje-alerta">
+                        <h3>Permanencia Usuario</h3>
+                        <p>El ${formatearString(notificacion.tipo_usuario)} con número de documento <strong>${notificacion.numero_documento}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
+                        <div id="contenedor_btns_notificacion">
+                            ${acciones}
+                        </div>
+                    </div>
+                </div>`
+        });
+
+        notificacionesVehiculo.forEach(notificacion => {
+            let acciones;
+
+            if(notificacion.estado_permiso == 'PENDIENTE' || notificacion.estado_permiso == 'DESAPROBADO'){
+                acciones = `<button type="button" class="btn-ver-permiso-vehiculo" data-permiso="${notificacion.codigo_permiso}">Ver solicitud permiso</button>`;
+
+            }else{
+                acciones = `<button type="button" class="btn-permiso-vehiculo" data-vehiculo="${notificacion.numero_placa}">Solicitar permiso</button>`;
+            }
+
+            cuerpoModal.innerHTML += `
+                <div class="contenedor-alerta">
+                    <div class="contenedor-mensaje-alerta">
+                        <h3>Permanencia Vehículo</h3>
+                        <p>El vehículo con número de placa <strong>${notificacion.numero_placa}</strong> lleva ${notificacion.horas_permanencia} horas dentro del CAB</p>
+                        <div id="contenedor_btns_notificacion">
+                            ${acciones}
+                        </div>
+                    </div>
+                </div>`
+        });
+
+        eventoRegistrarNovedadUsuario();
+        eventoSolicitarPermisoPermanenciaUsuario();
+        eventoSolicitarPermisoPermanenciaVehiculo();
+        eventoVerPermisoUsuario();
+        eventoVerPermisoVehiculo();
+
+    }else if(notificacionesUsuario.length < 1 && notificacionesVehiculo.length < 1){
+        cuerpoModal.innerHTML = `<p id="mensaje_respuesta">No hay notificaciones actualmente.</p>`;
+    }
+}
+
+function dibujarNotificacionesActuales(){
+    const ultimaActualizacion = sessionStorage.getItem('ultima_actualizacion_notificaciones');
+    const momentoActual = Date.now();
+    const intervalo = 5 * 60 * 1000;
+
+    if(!ultimaActualizacion || momentoActual - ultimaActualizacion > intervalo){
+        consultarNotificacionesUsuario(urlBase).then(respuesta=>{
+            if(respuesta.tipo == 'OK'){
+                const notificacionesUsuario = respuesta.notificaciones_usuario;
+                sessionStorage.setItem('notificaciones_usuario', JSON.stringify(notificacionesUsuario));
+
+                consultarNotificacionesVehiculo(urlBase).then(respuesta=>{
+                    if(respuesta.tipo == 'OK'){
+                        const notificacionesVehiculo = respuesta.notificaciones_vehiculo;
+                        sessionStorage.setItem('notificaciones_vehiculo', JSON.stringify(notificacionesVehiculo));
+
+                        dibujarNotificaciones(notificacionesUsuario, notificacionesVehiculo);
+                        sessionStorage.setItem('ultima_actualizacion_notificaciones', Date.now());
+
+                    }else if(respuesta.tipo == 'ERROR'){
+                        if(respuesta.titulo == 'Sesión Expirada'){
+                            window.location.replace(urlBase+'sesion-expirada');
+                        }else{
+                            cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                        }
+                    }
+                })
+            }else if(respuesta.tipo == 'ERROR'){
+                if(respuesta.titulo == 'Sesión Expirada'){
+                    window.location.replace(urlBase+'sesion-expirada');
+                }else{
+                    cuerpoModal.innerHTML = `<p id="mensaje_respuesta">${respuesta.mensaje}</p>`;
+                }
+            }
+        })     
+    }
+}
+
+function dibujarNotificacionesGuardadas(){
+    const notificacionesUsuario = JSON.parse(sessionStorage.getItem('notificaciones_usuario'));
+    const notificacionesVehiculo = JSON.parse(sessionStorage.getItem('notificaciones_vehiculo'));
+
+    if(notificacionesUsuario && notificacionesVehiculo){
+        dibujarNotificaciones(notificacionesUsuario, notificacionesVehiculo);
+    }
+}
+
+function dibujarNotificacionesManualmente(){
+    sessionStorage.removeItem('ultima_actualizacion_notificaciones');
+    dibujarNotificacionesActuales();
 }
 
 function eventoAbrirModal(){
@@ -122,7 +150,7 @@ function eventoRegistrarNovedadUsuario(){
     botonesNovedad.forEach(boton => {
         let usuario = boton.getAttribute('data-usuario');
         boton.addEventListener('click', ()=>{
-            modalRegistroNovedadUsuario(urlBase, 'SALIDA NO REGISTRADA', usuario, dibujarNotificaciones);
+            modalRegistroNovedadUsuario(urlBase, 'SALIDA NO REGISTRADA', usuario, dibujarNotificacionesManualmente);
         })
     });
 }
@@ -133,7 +161,7 @@ function eventoSolicitarPermisoPermanenciaUsuario(){
     botonesPermiso.forEach(boton => {
         let usuario = boton.getAttribute('data-usuario');
         boton.addEventListener('click', ()=>{
-            modalRegistroPermisoUsuario(urlBase, 'PERMANENCIA', usuario, dibujarNotificaciones);
+            modalRegistroPermisoUsuario(urlBase, 'PERMANENCIA', usuario, dibujarNotificacionesManualmente);
         })
     });
 }
@@ -144,7 +172,7 @@ function eventoSolicitarPermisoPermanenciaVehiculo(){
     botonesPermiso.forEach(boton => {
         let vehiculo = boton.getAttribute('data-vehiculo');
         boton.addEventListener('click', ()=>{
-            modalRegistroPermisoVehiculo(urlBase, 'PERMANENCIA', vehiculo, dibujarNotificaciones);
+            modalRegistroPermisoVehiculo(urlBase, 'PERMANENCIA', vehiculo, dibujarNotificacionesManualmente);
         })
     });
 }
@@ -184,11 +212,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
     contadorNotificaciones = document.getElementById('contador_notificaciones');
     contadorNotificacionesMobile = document.getElementById('contador_notificaciones_mobile');
      
+    dibujarNotificacionesGuardadas();
+    dibujarNotificacionesActuales();
     eventoAbrirModal();
     eventoCerrarModal();
-    dibujarNotificaciones();
 
-    setInterval(() => {
-        dibujarNotificaciones();
-    }, 300000);
+    setInterval(dibujarNotificacionesActuales, 30 * 1000);
 })

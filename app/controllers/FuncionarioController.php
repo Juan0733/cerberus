@@ -141,8 +141,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['operacion'])) {
             exit();
         }
     }
-    
-    if($operacion == 'consultar_funcionarios'){
+
+    if($operacion == 'consultar_brigadistas'){
+        echo json_encode($objetoFuncionario->consultarBrigadistas());
+
+    }elseif($operacion == 'consultar_funcionarios'){
         $respuesta = $objetoServicio->sanitizarParametros();
         echo json_encode($objetoFuncionario->consultarFuncionarios($respuesta['parametros']));
 

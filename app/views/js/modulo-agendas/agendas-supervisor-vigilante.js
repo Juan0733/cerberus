@@ -1,5 +1,5 @@
 import {modalDetalleAgenda} from '../modales/modal-detalle-agenda.js'
-import {consultarAgendas} from '../fetchs/agenda-fetch.js'
+import {consultarAgendas} from '../fetchs/agendas-fetch.js'
 
 let urlBase;
 let contenedorCards;

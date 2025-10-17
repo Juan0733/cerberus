@@ -124,6 +124,7 @@ function eventoCerrarSesion(){
     botonCerrarSesion.addEventListener('click', ()=>{
         cerrarSesion(urlBase).then(respuesta=>{
             if(respuesta.tipo == 'OK'){
+                sessionStorage.clear();
                 window.location.replace(urlBase+'login');
 
             }else if(respuesta.tipo == 'ERROR'){

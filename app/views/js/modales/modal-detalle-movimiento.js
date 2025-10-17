@@ -1,4 +1,4 @@
-import { consultarModalDetalleMovimiento } from '../fetchs/modal-fetch.js';
+import { consultarModalDetalleMovimiento } from '../fetchs/modales-fetch.js';
 import { consultarMovimiento } from '../fetchs/movimientos-fetch.js';
 
 let contenedorModales;

@@ -51,47 +51,60 @@ class PermisoVehiculoModel extends MainModel{
         if($respuesta['tipo'] == 'ERROR'){
             return $respuesta;
         }
-
         $vehiculo = $respuesta['datos_vehiculo'];
-        if($vehiculo['ubicacion'] == 'FUERA'){
-            $respuesta = [
-                'tipo' => 'ERROR',
-                'titulo' => 'Ubicación Incorrecta',
-                'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el vehículo no se encuentra dentro del CAB.'
-            ];
-            return $respuesta;
-        }
 
         if($tipoPermiso == 'PERMANENCIA'){
-            $respuesta = $this->consultarUltimoPermisoVehiculo($placa, $tipoPermiso);
-            if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            if($vehiculo['ubicacion'] == 'FUERA'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo' => 'Ubicación Incorrecta',
+                    'mensaje' => 'Lo sentimos, pero no es posible registrar el permiso, el vehículo no se encuentra dentro del CAB.'
+                ];
+                return $respuesta;
+            }
+        }
+
+        $respuesta = $this->consultarUltimoPermisoVehiculo($placa, $tipoPermiso);
+        if($respuesta['tipo'] == 'ERROR' && $respuesta['titulo'] == 'Error de Conexión'){
+            return $respuesta;
+
+        }else if($respuesta['tipo'] == 'OK'){
+            $permiso = $respuesta['datos_permiso'];
+            if($permiso['estado_permiso'] == 'PENDIENTE'){
+                $respuesta = [
+                    'tipo' => 'ERROR',
+                    'titulo'=> 'Permiso Pendiente',
+                    'mensaje' => 'Lo sentimos, pero este vehículo tiene un permiso que se encuentra en estado pendiente.'
+                ];
                 return $respuesta;
 
-            }else if($respuesta['tipo'] == 'OK'){
-                $permiso = $respuesta['datos_permiso'];
-                if($permiso['estado_permiso'] == 'PENDIENTE'){
+            }elseif($permiso['estado_permiso'] == 'DESAPROBADO'){
+                $respuesta = $this->objetoMovimiento->consultarUltimoMovimientoVehiculo($placa);
+                if($respuesta['tipo'] == 'ERROR'){
+                    return $respuesta;
+                }
+
+                $moviento = $respuesta['datos_movimiento'];
+                if($permiso['fecha_registro'] > $moviento['fecha_registro']){
                     $respuesta = [
                         'tipo' => 'ERROR',
-                        'titulo'=> 'Permiso Pendiente',
-                        'mensaje' => 'Lo sentimos, pero este vehículo tiene un permiso de permanencia que se encuentra en estado pendiente.'
+                        'titulo'=> 'Permiso Desaprobado',
+                        'mensaje' => 'Lo sentimos, pero el permiso mas reciente de este vehículo, ha sido desaprobado.'
                     ];
                     return $respuesta;
+                }
 
-                }elseif($permiso['estado_permiso'] == 'DESAPROBADO'){
-                    $respuesta = $this->objetoMovimiento->consultarUltimoMovimientoVehiculo($placa);
-                    if($respuesta['tipo'] == 'ERROR'){
-                        return $respuesta;
-                    }
+            }elseif($permiso['estado_permiso'] == 'APROBADO'){
+                $fechaFinPermiso = strtotime($permiso['fecha_fin_permiso']);
+                $fechaActual = strtotime('now');
 
-                    $moviento = $respuesta['datos_movimiento'];
-                    if($permiso['fecha_registro'] > $moviento['fecha_registro']){
-                        $respuesta = [
-                            'tipo' => 'ERROR',
-                            'titulo'=> 'Permiso Desaprobado',
-                            'mensaje' => 'Lo sentimos, pero el permiso de permanencia mas reciente de este vehículo, ha sido desaprobado.'
-                        ];
-                        return $respuesta;
-                    }
+                if($fechaFinPermiso >= $fechaActual){
+                    $respuesta = [
+                        'tipo' => 'ERROR',
+                        'titulo'=> 'Permiso Vigente',
+                        'mensaje' => 'Lo sentimos, pero este vehículo ya tiene un permiso vigente.'
+                    ];
+                    return $respuesta;
                 }
             }
         }
@@ -233,6 +246,12 @@ class PermisoVehiculoModel extends MainModel{
             LEFT JOIN aprendices apr ON pv.fk_usuario = apr.numero_documento
             WHERE 1= 1";
 
+        $rolSistema = $_SESSION['datos_usuario']['rol'];
+        if($rolSistema == 'SUPERVISOR'){
+            $usuarioSistema = $_SESSION['datos_usuario']['numero_documento'];
+            $sentenciaBuscar .= " AND pv.fk_usuario_sistema = '$usuarioSistema'";
+        }
+
         if(isset($parametros['fecha'])){
             $sentenciaBuscar .= " AND DATE(pv.fecha_registro) = '{$parametros['fecha']}'";
         }
@@ -255,8 +274,8 @@ class PermisoVehiculoModel extends MainModel{
 
         $sentenciaBuscar .= " ORDER BY pv.fecha_registro DESC";
 
-        if(!isset($parametros['tipo_permiso'], $parametros['fecha'], $parametros['codigo_permiso'], $parametros['numero_placa'], $parametros['estado_permiso'])){
-            $sentenciaBuscar .= " LIMIT 10;";
+        if(isset($parametros['cantidad_registros'])){
+            $sentenciaBuscar .= " LIMIT {$parametros['cantidad_registros']};";
         }
 
         $respuesta = $this->ejecutarConsulta($sentenciaBuscar);

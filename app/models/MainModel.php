@@ -67,7 +67,7 @@ class MainModel{
 			$respuesta = [
 				"tipo" => "ERROR",
 				"titulo" => 'Error de Conexión',
-				"mensaje"=> 'Lo sentimos, parece que ocurrio un error al ejecutar la operación, intentalo más tarde.'.$e
+				"mensaje"=> 'Lo sentimos, parece que ocurrio un error al ejecutar la operación, intentalo más tarde.'
 			];
 			return $respuesta;
 		}
